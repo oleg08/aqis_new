@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  serverUrl: 'http://fenix:3000',
+  token_auth_config: {
+    apiBase: 'http://fenix:3000'
+  }
 };
 
 /*
