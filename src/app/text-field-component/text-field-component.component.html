@@ -1,0 +1,41 @@
+<div bind-class="!modelValid(model) ?
+                 'form-group has-warning' : 'form-group'">
+  <label class="sr-only" attr.for="{{field_name}}">
+    {{label}}
+  </label>
+  <div bind-class="addon || addon_button || image_button ? 'input-group' : ''">
+    <div *ngIf="addon" class="input-group-prepend">
+      {{image ? null : addon}}
+      <a target="{{target}}" class="input-group-text"
+         [attr.href]="object[field_name] ? sanitize(addon + object[field_name]) : return"
+         *ngIf="image">
+        <img src="{{image}}" width="30">
+      </a>
+    </div>
+    <input type="text" class="form-control" attr.name="{{field_name}}"
+           placeholder="{{placeholder}}"
+           (focus)="focus()"
+           (focusout)="focusOut()"
+           on-blur="blur(model)"
+           bind-pattern="validationPattern()"
+           bindon-ngModel="object[field_name]"
+           [disabled]="disabled"
+           [readonly]="readonly"
+           ref-model="ngModel">
+    <span *ngIf="addon_button || image_button"
+          class="input-group-addon cursor-pointer p-1 color-whitesmoke"
+          [ngClass]="{'cursor-pointer' : modelValid(model), 'cursor-disabled' : !modelValid(model) }"
+          (click)="addonButton(model, $event)">
+            {{image_button ? null : addon_button}}
+            <img *ngIf="image_button" src="{{image_button}}" width="30">
+        </span>
+  </div>
+  <aside *ngIf="!modelValid(model)"
+         class="alert alert-danger">
+    <small>
+      <span *ngIf="pattern">Must be as {{pattern_name}}</span>
+      <span *ngIf="max_value && model.value > max_value">Must be less than {{max_value}}</span>
+      <span *ngIf="min_value && model.value < min_value">Must be more than {{min_value}}</span>
+    </small>
+  </aside>
+</div>

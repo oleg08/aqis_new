@@ -1,6 +1,7 @@
-import { Component, enableProdMode } from '@angular/core';
+import { Component, enableProdMode, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AngularTokenService } from 'angular-token';
+import { AuthService } from './services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 enableProdMode();
 
@@ -12,15 +13,19 @@ enableProdMode();
 export class AppComponent {
   title = 'aqis-new';
   constructor (private http: HttpClient,
-               private authToken: AngularTokenService) {
-
-    // this.authToken.signIn({ login: 'super@admin.org', password: 'super-password' }).subscribe(
-    //   res => {
-    //     console.log('auth-response - ', res);
-    //   },
-    //   err => {
-    //     console.error('auth-error - ', err);
-    //   }
-    // );
+               public authToken: AuthService,
+               public cookieService: CookieService) {
+  }
+  ngOnInit() {
+    if (this.cookieService.get('login')) {
+      const val: string = this.cookieService.get('login');
+      this.authToken.logInUser({ login: val.split(';')[0], password: val.split(';')[1] }).subscribe(
+        res => {},
+        err => {
+          console.error('auth-error - ', err);
+        }
+      );
+    }
+    document.body.classList.add('bg-img');
   }
 }

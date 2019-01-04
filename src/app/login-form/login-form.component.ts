@@ -14,13 +14,13 @@ export class LoginFormComponent implements OnInit {
   };
 
   @Output() onFormResult = new EventEmitter<any>();
-  constructor(public authSerivce: AuthService) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {}
 
   onSignInSubmit() {
 
-    this.authSerivce.logInUser(this.signInUser).subscribe(
+    this.authService.logInUser(this.signInUser).subscribe(
 
       res => {
         if (res.status === 200) {

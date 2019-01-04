@@ -1,9 +1,9 @@
 <form (ngSubmit)="onSignInSubmit()" #f="ngForm" >
 
 
-  <div class="row">
+  <div class="ui-g">
 
-    <div class="input-field col s12">
+    <div class="input-field ui-g-12">
       <input id="login"
              type="email"
              required
@@ -15,7 +15,7 @@
     </div>
 
 
-    <div class="input-field col s12">
+    <div class="input-field ui-g-12">
       <input id="password"
              type="password"
              required
@@ -26,7 +26,7 @@
       <label for="password">Password</label>
     </div>
 
-    <div class="col s12 ">
+    <div class="ui-g-12">
       <button type="submit"
               [disabled]="!(f.valid)"
               [ngClass]="{'disabled': !(f.valid)}"

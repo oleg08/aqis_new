@@ -3,22 +3,24 @@
 
   <div class="modal-content">
 
-    <div class="row">
+    <div class="ui-g">
 
-      <div class="row">
+      <div class="ui-g-12">
 
         <span class="modal-close right">
           <i class="fa fa-times" aria-hidden="true"></i>
         </span>
       </div>
 
-      <div class="row">
+      <div class="ui-g-12">
         <h3 class="grey-text text-darken-2">{{authMode}}</h3>
 
         <app-login-form (onFormResult)="onLoginFormResult($event)"
                         *ngIf="isLoginMode()">
 
         </app-login-form>
+      </div>
+      <div class="ui-g-12">
         <app-register-form (onFormResult)="onRegisterFormResult($event)"
                            *ngIf="isRegisterMode()">
 
@@ -26,7 +28,7 @@
       </div>
 
 
-      <div class="row">
+      <div class="ui-g-12">
         <span class="grey-text text-darken-2" *ngIf="isLoginMode()">
           Need an account? <a (click)="authMode='register'">Click here to register.</a>
         </span>

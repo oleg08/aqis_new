@@ -1,41 +1,60 @@
-<div class="row">
+<app-alert-closeable on-alertFalse="alert = false"
+                       bind-type="alertType"
+                       bind-message="alertMessage"
+                       *ngIf="alert">
+</app-alert-closeable>
 
-  <div class="col l8 s12 offset-l2">
+<p-growl [value]="msgs"></p-growl>
 
-    <div class="card blue-grey lighten-5 z-depth-4" style="margin-top: 5em">
-
-      <div class="card-content">
-
-        <div style="margin-bottom: 0" class="row ">
-
-          <div class="col l4 s12 center" style="margin-bottom: 1em">
-            <i class="fa fa-user-circle-o blue-grey-text darken-2" style="font-size: 8em" aria-hidden="true"></i>
-          </div>
-
-          <div *ngIf="authTokenService.currentUserData" class="col l8 s12" >
-
-            <ul class="collection grey-text text-darken-2">
-              <li class="collection-item">Email:  <b>{{authTokenService.currentUserData.email}}</b></li>
-              <li class="collection-item">Name:  <b>{{authTokenService.currentUserData.name}}</b></li>
-              <li class="collection-item">Username: <b>@{{authTokenService.currentUserData.nickname}}</b></li>
-
-            </ul>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="card-action clearfix">
-
-        <button (click)="logOut()"
-                class="btn btn-block deep-orange darken-1 white-text waves-effect waves-light right"
-        >
-          LOGOUT
-        </button>
-
-      </div>
-
+<section *ngIf="user"
+         #userProfile>
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <blockquote class="blockquote">
+        <p class="mb-0">{{user.email}}</p>
+      </blockquote>
     </div>
-
+    <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+    <div id="time_zone{{user['id']}}" class="ui-g-6 pb-2">
+      <label class="mr-2"><b>Time Zone</b></label>
+      <app-dropdown [object]="user"
+                                [value]="time_zones"
+                                [disabled]="disable_time_zone"
+                                field_name="time_zone"
+                                option_label="name"
+                                (valueChanged)="save($event)">
+      </app-dropdown>
+    </div>
+    <div id="half_time_zone{{user['id']}}" class="ui-g-6 pb-2">
+      <label class="mr-2"><b>Half Time Zone</b></label>
+      <app-dropdown [object]="user"
+                                [value]="half_time_zones"
+                                [disabled]="disable_half_zone"
+                                field_name="half_time_zone"
+                                option_label="name"
+                                (valueChanged)="save($event)">
+      </app-dropdown>
+    </div>
   </div>
-</div>
+
+  <p-carousel headerText="PROJECTS" [value]="projects">
+    <ng-template let-project pTemplate="item">
+      <div class="ui-grid ui-grid-responsive">
+        <div class="ui-grid-row">
+          <div class="ui-grid-col-12 text-center"><img src="assets/showcase/images/project-icon.png"></div>
+        </div>
+        <dl class="row">
+          <dt class="col-6 text-center">Name</dt>
+          <dd class="col-6 text-center">{{project.name}}</dd>
+
+          <dt class="col-6 text-center">Zip From</dt>
+          <dd class="col-6 text-center">{{project.zip_from}}</dd>
+
+          <dt class="col-6 text-center">Zip To</dt>
+          <dd class="col-6 text-center">{{project.zip_to}}</dd>
+        </dl>
+      </div>
+    </ng-template>
+  </p-carousel>
+  <p-confirmDialog></p-confirmDialog>
+</section>

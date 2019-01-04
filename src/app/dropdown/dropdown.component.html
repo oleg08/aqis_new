@@ -1,0 +1,8 @@
+<p-dropdown [options]="value"
+            [style]="{'width':'70%'}"
+            [(ngModel)]="selectedTimeZone"
+            placeholder="Select Time Zone"
+            [disabled]="disabled"
+            [optionLabel]="option_label"
+            (onChange)="changeZone($event)">
+</p-dropdown>
