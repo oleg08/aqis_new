@@ -11,10 +11,24 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterializeModule } from 'angular2-materialize';
 import { AngularTokenService } from 'angular-token';
+import { HomeComponent } from './home/home.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
+
+import { AuthService } from './services/auth.service';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    ToolbarComponent,
+    AuthDialogComponent,
+    LoginFormComponent,
+    RegisterFormComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +38,7 @@ import { AngularTokenService } from 'angular-token';
     FormsModule,
     HttpClientModule
   ],
-  providers: [AngularTokenService],
+  providers: [AngularTokenService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

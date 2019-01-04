@@ -14,13 +14,13 @@ export class AppComponent {
   constructor (private http: HttpClient,
                private authToken: AngularTokenService) {
 
-    this.authToken.signIn({ login: 'super@admin.org', password: 'super-password' }).subscribe(
-      res => {
-        console.log('auth-response - ', res);
-      },
-      err => {
-        console.error('auth-error - ', err);
-      }
-    );
+    // this.authToken.signIn({ login: 'super@admin.org', password: 'super-password' }).subscribe(
+    //   res => {
+    //     console.log('auth-response - ', res);
+    //   },
+    //   err => {
+    //     console.error('auth-error - ', err);
+    //   }
+    // );
   }
 }
