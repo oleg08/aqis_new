@@ -1,0 +1,20 @@
+<p-overlayPanel #steps_list [showCloseIcon]="true"  appendTo="body" [dismissable]="true" [style]="{'width': '60%', 'z-index': '100000'}">
+  <app-aqis-steps-list-selected *ngIf="top_steps" [steps]="top_steps" (addTopSteps)="addGeneralSteps($event, steps_list)"></app-aqis-steps-list-selected>
+</p-overlayPanel>
+
+<section #StepsList>
+
+  <app-aqis-steps-crud [steps]="steps"
+                    (submitForm)="createStep($event)"
+                    (deleteItem)="deleteStep($event)"
+                    (showItem)="showStep($event)"
+                    (reorder)="reorderSteps($event)"
+                    (addGeneralSteps)="showGeneralSteps($event, steps_list)"
+                    [super_admin]="super_admin"
+                    [model_roles]="model_roles"
+                    [active]="active"
+                    (updateStep)="updateStep($event)">
+  </app-aqis-steps-crud>
+</section>
+
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>

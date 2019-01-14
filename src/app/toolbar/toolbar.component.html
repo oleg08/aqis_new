@@ -4,10 +4,19 @@
 
     <div class="nav-wrapper blue ">
       <a [routerLink]="['']" id="logo-container" class="brand-logo">
-        <img src="../../assets/showcase/images/aQis_Logo_L01.png" style="width: 3%; height: 3%">
+        <img src="../../assets/showcase/images/aQis_Logo_L01.png" class="logo-keil">
       </a>
 
       <ul class="right hide-on-med-and-down">
+
+        <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="dropdown" dropdown >
+          <a dropdownToggle role="button">Steps Properties<i class="fa fa-angle-down ml-1"></i></a>
+          <div *dropdownMenu class="dropdown-menu">
+            <a class="dropdown-item" [routerLink]="['/steps']">Steps</a>
+            <a class="dropdown-item" href="#">Questions</a>
+            <a class="dropdown-item" [routerLink]="['/main_email_templates']">Email Templates</a>
+          </div>
+        </li>
 
         <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog()" >LOGIN</a></li>
         <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog('register')">REGISTER</a></li>
@@ -18,7 +27,6 @@
       </ul>
 
     </div>
-
   </nav>
 
 </div>

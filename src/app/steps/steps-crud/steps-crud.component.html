@@ -1,0 +1,96 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<p-confirmDialog></p-confirmDialog>
+
+<app-aqis-step-new *ngIf="model_roles"
+                [step]="step"
+                header="Create Step"
+                [model_roles]="model_roles"
+                submit_button="Create"
+                (submitForm)="onSubmit($event)">
+</app-aqis-step-new>
+
+<br>
+
+<div *ngIf="!super_admin" class="ui-g alert-secondary">
+  <div class="ui-g-12">
+    <button pButton
+            class="float-right"
+            (click)="addSteps($event)"
+            label="Import Steps">
+    </button>
+  </div>
+</div>
+
+<br>
+
+<p-orderList [value]="steps"
+             [responsive]="true"
+             header="Steps"
+             dragdrop="true"
+             [listStyle]="{'height':'100%'}"
+             dragdropScope="steps"
+             (onReorder)="reorderList(steps)">
+  <ng-template let-step pTemplate="item">
+    <div class="ui-helper-clearfix">
+      <div class="ui-grid-row row-step">
+        <div class="ui-grid-col-1">
+          <h2 class="float-left">{{step.order}}</h2>
+        </div>
+        <div class="ui-grid-col-9">
+          <div *ngIf="active"
+               id="step-active-section-{{step.id}}"
+               class="ui-g step-active-group">
+            <div class="ui-g-2">
+              <label class="float-right mb-0">Active</label>
+            </div>
+            <div class="ui-g-1 pt-1">
+              <input type="checkbox"
+                     class="form-control float-left"
+                     name="active_step"
+                     [(ngModel)]="step.active"
+                     (change)="setActive(step.active, step.id)"
+                     value="step.active">
+            </div>
+            <div class="ui-g-offset-5 ui-g-4 pt-0">
+              <section *ngIf="step.role === 'Machine'" class="machine-weight-section">
+                <u><b>Weight {{step.percent_weight}}</b></u>
+              </section>
+              <section *ngIf="step.role !== 'Machine'" class="agent-weight-section">
+                <u><small>Weight {{step.weight}}</small></u>
+                <p-slider [(ngModel)]="step.weight"
+                          [style]="{'width':'8em'}"
+                          (onSlideEnd)="setWeight(step.weight, step.id)"
+                          [animate]="true"></p-slider>
+              </section>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12">
+              <h5 class="float-left">{{step.name}}</h5>
+            </div>
+          </div>
+        </div>
+        <div class="ui-grid-col-2">
+          <div class="btn-group float-right">
+            <button pButton type="button"
+                    pTooltip="Edit Step"
+                    class="ui-button-raised ui-button-rounded btn-edit-step"
+                    (click)="showDetails(step)">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button pButton
+                    pTooltip="Delete Step"
+                    (click)="deleteClick(step)"
+                    class="ui-button-raised ui-button-rounded ui-button-danger btn-edit-step"
+                    type="button">
+              <i class="fa fa-window-close"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-orderList>
+
+<br>

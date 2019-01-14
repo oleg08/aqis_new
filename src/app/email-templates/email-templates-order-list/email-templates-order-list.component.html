@@ -1,0 +1,76 @@
+<p-dialog header="Create new Template"
+          [(visible)]="displayNew"
+          [style]="{'margin-top':'3%'}"
+          [modal]="true"
+          [responsive]="true"
+          [width]="500"
+          [minWidth]="200"
+          [minY]="70">
+  <app-aqis-new-email-template (submitForm)="createOne($event)" (closeDialog)="closeNewDialog()"></app-aqis-new-email-template>
+</p-dialog>
+
+<p-overlayPanel #general_email_templates styleClass="questions-list-panel" [showCloseIcon]="true">
+  <app-aqis-select-email-templates-list *ngIf="g_templates"
+                                     #select_list
+                                     [email_templates]="g_templates"
+                                     (sendItems)="addItems($event, general_email_templates)">
+  </app-aqis-select-email-templates-list>
+  <br>
+</p-overlayPanel>
+
+
+<div class="ui-widget-header questions-table-header">
+
+  <div class="ui-g">
+    <div class="ui-g-6">
+      <p-button label="Add New Email Template"
+                (click)="displayNew = true; getGeneralEmailTemplates()">
+        <i class="fa fa-check float-left mt-2 ml-2"></i>
+      </p-button>
+    </div>
+    <div class="ui-g-6">
+      <p-button label="Add General Email Templates"
+                class="float-right"
+                (click)="general_email_templates.show($event, getGeneralEmailTemplates())">
+        <i class="fa fa-check float-left mt-2 ml-2"></i>
+      </p-button>
+    </div>
+  </div>
+</div>
+<br>
+<p-orderList [value]="email_templates" [listStyle]="{'height':'100%'}" (onReorder)="reorder(email_templates)" [responsive]="true" header="Email Templates"
+             dragdrop="true" dragdropScope="step.main_email_templates">
+  <ng-template let-email_template pTemplate="item">
+    <div class="ui-helper-clearfix">
+      <div class="ui-g">
+        <div class="ui-g-4">
+          <h5 class="float-left">
+            <b>
+              <u>
+                <div class="float-left email-template-order">{{email_template.order}}</div>
+                {{email_template.name}}
+              </u>
+            </b>
+          </h5>
+        </div>
+        <div class="ui-g-8">
+          <div class="ui-g">
+            <div [ngClass]="{'ui-g-10' : email_template.new_label,
+                                         'ui-g-11' : !email_template.new_label}">
+              <div [innerHTML]="email_template.body"></div>
+            </div>
+            <div *ngIf="email_template.new_label" class="ui-g-1 text-top-right">
+              <small [@newLabel]="label_state" class="new-label">New</small>
+              <br>
+            </div>
+            <div class="ui-g-1 text-top-right">
+              <i class="fa fa-remove float-right"
+                 (click)="remove(email_template)"
+                 pTooltip="Remove from Step"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-orderList>

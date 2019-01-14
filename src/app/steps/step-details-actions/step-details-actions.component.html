@@ -1,0 +1,67 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<section #stepDetails>
+  <section class="step-details">
+    <app-aqis-step-new *ngIf="step"
+                    header="Edit Step"
+                    submit_button="Save"
+                    [step]="step"
+                    [model_roles]="model_roles"
+                    [back_to_parent_path]="back_to_parent_path"
+                    (onBlur)="editStep($event)">
+    </app-aqis-step-new>
+  </section>
+
+  <br>
+
+  <section *ngIf="step && (step.step_role === 'Agent' || step.step_role === 'Assistant' || step.step_role === 'Assistance')" class="step-questions">
+
+    <p-overlayPanel #question_list styleClass="questions-list-panel" [showCloseIcon]="true">
+      <app-select-question-list #q_list
+                                  [for_step]="step.id"
+                                  (addQuestions)="addQuestions($event, question_list)"
+                                  [questions_path]="questions_path"
+                                  [q_prop1]="q_prop1">
+      </app-select-question-list>
+    </p-overlayPanel>
+
+    <app-aqis-customer-tenant-questions-order-list *ngIf="questions_path.split('/')[0] === 'customer_tenant_questions'"
+                                                [questions]="step[questions_key]"
+                                                header_label="Add Questions"
+                                                [q_prop1]="q_prop1"
+                                                (addObject)="addQuestion($event)"
+                                                (addAnswer)="addAnswer($event)"
+                                                (updateAnswer)="updateAnswer($event)"
+                                                (deleteAnswer)="deleteAnswer($event)"
+                                                (removeObject)="removeQuestion($event)"
+                                                (reorderQuestions)="reorderQuestions($event)"
+                                                [generalQuestions]="true"
+                                                (addGeneralQuestions)="showQuestions($event, question_list); getGeneralQuestions()">
+    </app-aqis-customer-tenant-questions-order-list>
+
+    <app-aqis-questions-order-list *ngIf="questions_path.split('/')[0] !== 'customer_tenant_questions'"
+                                [questions]="step[questions_key]"
+                                header_label="Add Questions"
+                                [questions]="step[questions_key]"
+                                [q_prop1]="q_prop1"
+                                (addObject)="addQuestion($event)"
+                                (removeObject)="removeQuestion($event)"
+                                (reorderQuestions)="reorderQuestions($event)"
+                                [generalQuestions]="true"
+                                (addGeneralQuestions)="showQuestions($event, question_list); getGeneralQuestions()">
+    </app-aqis-questions-order-list>
+  </section>
+
+  <section *ngIf="step && (step.step_role === 'Machine')" class="step-email-templates">
+    <app-aqis-email-templates-order-list #templates_order_list
+                                      [email_templates]="step[email_templates_key]"
+                                      [g_templates]="g_templates"
+                                      [path]="templates_path"
+                                      (addOne)="addEmailTemplate($event)"
+                                      (addTemplates)="addEmailTemplates($event)"
+                                      (removeTemplate)="removeTemplate($event)"
+                                      (reorderTemplates)="reorderEmailTemplates($event)"
+                                      (getEmailTemplates)="getGTemplates()"
+    ></app-aqis-email-templates-order-list>
+  </section>
+</section>

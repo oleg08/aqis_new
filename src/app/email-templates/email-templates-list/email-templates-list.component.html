@@ -1,0 +1,196 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [style]="{'margin-top':'5%'}" [(value)]="msgs"></p-growl>
+
+<p-dialog *ngIf="template"
+          header="Editing {{template.name}}"
+          [(visible)]="displayEdit"
+          [style]="{'margin-top':'3%'}"
+          [modal]="true"
+          [responsive]="true"
+          [width]="500"
+          [minWidth]="200"
+          [minY]="70">
+  <form #edit_template_values="ngForm">
+    <div bind-class="edited_subject.invalid && edited_subject.touched ?
+                     'form-group has-warning' : 'form-group'">
+      <label><u>Subject</u></label>
+      <input type="text" class="form-control text-center font-weight-bold"
+             [(ngModel)]="template.subject"
+             name="edited_subject_input"
+             ref-edited_subject="ngModel"
+             placeholder="Subject"
+             required>
+      <aside *ngIf="edited_subject.invalid && edited_subject.dirty"
+             class="alert alert-danger">
+        <small>
+          <span *ngIf="edited_subject.invalid">Required</span>
+        </small>
+      </aside>
+    </div>
+    <br>
+    <div bind-class="edited_name.invalid && edited_name.touched ?
+                     'form-group has-warning' : 'form-group'">
+      <label><u>Name</u></label>
+      <input type="text" class="form-control text-center font-weight-bold"
+             [(ngModel)]="template.name"
+             name="edited_name_input"
+             ref-edited_name="ngModel"
+             placeholder="Name"
+             required>
+      <aside *ngIf="edited_name.invalid && edited_name.dirty"
+             class="alert alert-danger">
+        <small>
+          <span *ngIf="edited_name.invalid">Required</span>
+        </small>
+      </aside>
+    </div>
+    <br>
+    <div>
+      <h5 class="text-center">Greeting</h5>
+    </div>
+    <br>
+    <div bind-class="edited_body.invalid && edited_body.touched ? 'form-group has-warning' : 'form-group'">
+      <div class="input-group">
+        <p-editor [style]="{'height':'250px'}"
+                  name="edited_body_input"
+                  placeholder="Body"
+                  [(ngModel)]="template.body"
+                  ref-edited_body="ngModel"
+                  required>
+        </p-editor>
+      </div>
+      <aside *ngIf="edited_body.invalid && edited_body.dirty" class="alert alert-danger">
+        <small>
+          <span *ngIf="edited_body.invalid">Required</span>
+        </small>
+      </aside>
+    </div>
+    <br>
+    <h5 *ngIf="super_admin" class="text-center">Footer</h5>
+    <div *ngIf="!super_admin" bind-class="edited_footer.invalid && edited_footer.touched ?
+                     'form-group has-warning' : 'form-group'">
+      <label><u>Footer</u></label>
+      <input type="text" class="form-control text-center font-weight-bold"
+             [(ngModel)]="template.footer"
+             name="edited_footer_input"
+             ref-edited_footer="ngModel"
+             placeholder="Footer"
+             required>
+      <aside *ngIf="edited_footer.invalid && edited_footer.dirty"
+             class="alert alert-danger">
+        <small>
+          <span *ngIf="edited_footer.invalid">Required</span>
+        </small>
+      </aside>
+    </div>
+    <p-footer>
+      <button type="button"
+              pButton
+              icon="fa fa-check"
+              (click)="save(); displayEdit=false"
+              [disabled]="edit_template_values.invalid"
+              label="Save">
+      </button>
+      <button type="button" pButton icon="fa fa-close" (click)="cancelEdit(); displayEdit=false" label="Cancel"></button>
+    </p-footer>
+  </form>
+</p-dialog>
+
+<p-dialog header="Create new Template"
+          [(visible)]="displayNew"
+          [style]="{'margin-top':'3%'}"
+          [modal]="true"
+          [responsive]="true"
+          [width]="500"
+          [minWidth]="200"
+          [minY]="70">
+  <app-aqis-new-email-template (submitForm)="create($event)" [super_admin]="super_admin" (closeDialog)="closeNewDialog()"></app-aqis-new-email-template>
+</p-dialog>
+
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+    <h4>Templates</h4>
+  </div>
+  <div class="ui-toolbar-group-right">
+    <p-button *ngIf="return_button" type="button" label="{{return_label}}" (click)="returnTo()">
+      <i class="fa fa-angle-double-left float-left mt-2 ml-2"></i>
+    </p-button>
+    <p-button type="button" label="Create new Template" (click)="displayNew = true">
+      <i class="fa fa-plus float-left mt-2 ml-2"></i>
+    </p-button>
+    <p-button *ngIf="!super_admin"
+              type="button"
+              label="Add General Templates"
+              (click)="addGeneral($event)">
+      <i class="fa fa-plus float-left mt-2 ml-2"></i>
+    </p-button>
+  </div>
+</p-toolbar>
+
+<div class="ui-g" *ngIf="email_templates">
+  <div class="ui-g-6" *ngFor="let template of email_templates; let i = index">
+    <p-card title="Greeting"
+            styleClass="ui-card-shadow email-template-card">
+      <p-header>
+        <small><b><u>Subject</u>: {{template.subject}}</b></small>
+        <h4>{{template.name}}</h4>
+
+        <span class="ui-fluid">
+                    <label>Keywords</label>
+                    <p-autoComplete [(ngModel)]="template.keywords"
+                                    [suggestions]="filteredKeywords"
+                                    (completeMethod)="getKeywords($event)"
+                                    (onFocus)="focusKeywords($event, template.keywords, 'keywords')"
+                                    (onSelect)="addKeyword($event, template, 'keywords')"
+                                    (onUnselect)="addKeyword($event, template, 'keywords', true)"
+                                    (onKeyUp)="keyUp($event, i, template.id, 'keywords')"
+                                    [style]="{'text-align':'left'}"
+                                    [minLength]="1"
+                                    placeholder="keywords"
+                                    field="label"
+                                    [multiple]="true">
+                    </p-autoComplete>
+                </span>
+        <hr>
+        <label>Forbidden Keywords</label>
+        <span class="ui-fluid">
+                    <p-autoComplete [(ngModel)]="template.hot_keywords"
+                                    [suggestions]="filteredHotKeywords"
+                                    (completeMethod)="getHotKeywords($event)"
+                                    (onFocus)="focusKeywords($event, template.hot_keywords, 'hot_keywords')"
+                                    (onSelect)="addKeyword($event, template, 'hot_keywords')"
+                                    (onUnselect)="addKeyword($event, template, 'hot_keywords', true)"
+                                    (onKeyUp)="keyUp($event, i, template.id, 'hot_keywords')"
+                                    [style]="{'text-align':'left'}"
+                                    [minLength]="1"
+                                    placeholder="Forbidden keywords"
+                                    field="label"
+                                    [multiple]="true">
+                    </p-autoComplete>
+                </span>
+        <hr>
+      </p-header>
+      <div [innerHTML]="template.body_html"></div>
+      <hr>
+      <b *ngIf="!super_admin">{{template.footer}}</b>
+      <b *ngIf="super_admin">Footer</b>
+      <hr>
+      <p-footer>
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <div class="btn-group float-right">
+              <button pButton type="button"
+                      ngbTooltip="Edit template"
+                      (click)="showEdit(template)"
+                      icon="fa fa-search"></button>
+              <button pButton type="button"
+                      ngbTooltip="Delete template"
+                      (click)="remove(template)"
+                      icon="fa fa-close"
+                      class="ui-button-danger"></button>
+            </div>
+          </div>
+        </div>
+      </p-footer>
+    </p-card>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<p-overlayPanel #new_answer [showCloseIcon]="true" [dismissable]="true">
+  <app-aqis-new-customer-tenant-question *ngIf="!super_admin"
+                                         placeholder="Content..."
+                                         [object]="selectedQuestion"
+                                         property1="content"
+                                         (addCTenantQuestion)="createAnswer($event, new_answer)">
+  </app-aqis-new-customer-tenant-question>
+</p-overlayPanel>
+
+<app-aqis-step-new (submitForm)="addItem($event)"></app-aqis-step-new>
+
+<br>
+
+<div class="ui-widget-header questions-table-header text-right">
+  <p-button *ngIf="generalQuestions"
+            label="Add General Questions"
+            icon="pi pi-check"
+            iconPos="right"
+            (click)="addGeneralObjects($event)">
+  </p-button>
+</div>
+
+<br>
+
+<p-orderList [value]="questions" [listStyle]="{'height':'250px'}" (onReorder)="reorder(questions)" [responsive]="true" header="Questions"
+             dragdrop="true" dragdropScope="step.questions">
+  <ng-template let-question pTemplate="item">
+    <div class="ui-helper-clearfix customer-tenant-question-item">
+      <div class="ui-g">
+        <div class="ui-g-2">
+          <h5 class="float-left">
+            <b>
+              <u>
+                <div class="float-left email-template-order">{{question.order}}</div>
+              </u>
+            </b>
+          </h5>
+        </div>
+        <div class="ui-g-10">
+          <div class="ui-g">
+            <div [ngClass]="{'ui-g-10' : question.new_label,
+                                         'ui-g-11' : !question.new_label}">
+              <p>{{question[q_prop1]}}</p>
+            </div>
+            <div *ngIf="question.new_label" class="ui-g-1 text-top-right">
+              <small [@newLabel]="label_state" class="new-label">New</small>
+              <br>
+            </div>
+            <div class="ui-g-1 text-top-right">
+              <div class="ui-g-12">
+                <i class="fa fa-remove float-right"
+                   (click)="removeItem(question)"
+                   pTooltip="Remove from Step"></i>
+              </div>
+              <div *ngIf="question.answers.length < 1" class="ui-g-12">
+                <i class="fa fa-plus float-right"
+                   (click)="new_answer.show($event); setCurrentQuestion(question.id)"
+                   pTooltip="Add answer"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="question.answers.length > 0" class="ui-g answer-item">
+        <div class="ui-g-2">Answer</div>
+        <div id="answer_{{question.answers[0].id}}" class="ui-g-10">
+          <p>
+            <i class="fa fa-remove float-right"
+               (click)="removeAnswer(question.answers[0], question.id)"
+               pTooltip="Remove Answer from Step"></i>
+            <p-inplace (onActivate)="setCurrentQuestion(question.id); activateAnswer(question.answers[0].content)"
+                       [active]="active_answer && active_answer[question.id]">
+                            <span style="color: #23272b" pInplaceDisplay>
+                               {{question.answers[0].content}}
+                            </span>
+              <span pInplaceContent>
+                                <textarea id="answer-input-{{question.id}}"
+                                          pInputTextarea
+                                          [(ngModel)]="question.answers[0].content"
+                                          ref-answer_content="ngModel"
+                                          name="editableAnswerContent"
+                                          (keyup.enter)="saveAnswer(answer_content, question.answers[0].id, question.id)"
+                                          cols="50"
+                                          rows="5"
+                                          placeholder="Answer Content">
+                                </textarea>
+                            </span>
+            </p-inplace>
+          </p>
+        </div>
+      </div>
+      <br>
+    </div>
+  </ng-template>
+</p-orderList>

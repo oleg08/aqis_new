@@ -1,0 +1,143 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<p-fieldset [toggleable]="true" [collapsed]="true">
+  <p-header>
+    {{header}}
+    <small *ngIf="step.id > 0">
+      <button  pButton type="button" class="float-right" styleClass="btn-sm" label="<< Return to Steps" (click)="returnToSteps()"></button>
+    </small>
+  </p-header>
+
+  <form [formGroup]="createForm" (ngSubmit)="onSubmit(createForm.value)">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+
+      <div id="step-name-{{step.id}}" class="ui-grid-row">
+        <div class="ui-grid-col-2">
+          <u><b>Name *:</b></u>
+        </div>
+        <div class="ui-grid-col-6">
+          <input pInputText type="text"
+                 formControlName="name"
+                 [(ngModel)]="step.name"
+                 (blur)="blurRequired(step.name, 'name')"
+                 placeholder="Required"/>
+        </div>
+        <div class="ui-grid-col-4">
+          <p-message severity="error"
+                     text="Name is required"
+                     *ngIf="!createForm.controls['name'].valid&&createForm.controls['name'].dirty">
+          </p-message>
+        </div>
+      </div>
+
+      <div id="step-goal-{{step.id}}" class="ui-grid-row">
+        <div class="ui-grid-col-2">
+          <u><b>Goal :</b></u>
+        </div>
+        <div class="ui-grid-col-9">
+                    <textarea pInputTextarea
+                              type="text"
+                              [(ngModel)]="step.goal"
+                              (blur)="blur(step.goal, 'goal')"
+                              formControlName="goal">
+                    </textarea>
+        </div>
+        <div class="ui-grid-col-1"></div>
+      </div>
+
+      <div id="step-description-{{step.id}}" class="ui-grid-row">
+        <div class="ui-grid-col-2">
+          <u><b>Description :</b></u>
+        </div>
+        <div class="ui-grid-col-9">
+                    <textarea pInputTextarea
+                              [rows]="10"
+                              type="text"
+                              [(ngModel)]="step.description"
+                              (blur)="blur(step.description, 'description')"
+                              formControlName="description">
+                    </textarea>
+        </div>
+        <div class="ui-grid-col-1"></div>
+      </div>
+
+      <div id="step-step_role-{{step.id}}" class="ui-grid-row">
+        <div class="ui-grid-col-2">
+          <u><b>Role *:</b></u>
+        </div>
+        <div class="ui-grid-col-9">
+          <p-dropdown [options]="roles"
+                      [(ngModel)]="step.step_role"
+                      (onChange)="blurRequired(step.step_role, 'step_role')"
+                      formControlName="step_role"
+                      [autoWidth]="false">
+          </p-dropdown>
+        </div>
+        <div class="ui-grid-col-1">
+          <p-message severity="error" text="Role is required"
+                     *ngIf="!createForm.controls['step_role'].valid&&createForm.controls['step_role'].dirty">
+          </p-message>
+        </div>
+      </div>
+
+      <div id="step-time-{{step.id}}" class="ui-grid-row">
+        <div class="ui-grid-col-2">
+          <u>
+            <b *ngIf="step.step_role === 'Machine'">Interval :</b>
+            <b *ngIf="step.step_role === 'Agent' || step.step_role === 'Assistant'">Working Time :</b>
+          </u>
+        </div>
+        <div class="ui-grid-col-3">
+          <input pInputText type="text"
+                 formControlName="time"
+                 [(ngModel)]="step.time"
+                 (blur)="blur(step.time, 'time')"
+                 placeholder="Set interval or working time in days">
+        </div>
+        <div class="ui-grid-col-2">
+          <h6>{{days_int ? 'Days' : 'Hours'}}</h6>
+        </div>
+        <div class="ui-grid-col-2">
+          <p-inputSwitch onLabel="Days"
+                         offLabel="Hours"
+                         [(ngModel)]="days_int"
+                         (onChange)="changeDaysInt()"
+                         formControlName="days_interval">
+          </p-inputSwitch>
+        </div>
+        <div class="ui-grid-col-3">
+          <p-message severity="error" text="Time must be Integer less than 10000"
+                     *ngIf="!createForm.controls['time'].valid&&createForm.controls['time'].dirty">
+          </p-message>
+        </div>
+      </div>
+
+      <div id="step-budget-{{step.id}}" class="ui-grid-row">
+        <div class="ui-grid-col-2">
+          <u><b>Budget :</b></u>
+        </div>
+        <div class="ui-grid-col-9">
+          <input pInputText
+                 type="text"
+                 [(ngModel)]="step.budget"
+                 (blur)="blur(step.budget, 'budget')"
+                 formControlName="budget"
+                 pattern="^\d{1,6}$"/>
+        </div>
+        <div class="ui-grid-col-1">
+          <p-message severity="error" [text]="createForm.controls['budget'].errors['pattern'] ? 'Must be integer less than 1 million' : ''"
+                     *ngIf="!createForm.controls['budget'].valid&&createForm.controls['budget'].dirty"></p-message>
+        </div>
+      </div>
+
+      <div *ngIf="step.id < 1" class="ui-grid-row">
+        <div class="ui-grid-col-2"></div>
+        <div class="ui-grid-col-9">
+          <button pButton type="submit" label="{{submit_button}}" [disabled]="!createForm.valid"></button>
+        </div>
+        <div class="ui-grid-col-1"></div>
+      </div>
+    </div>
+  </form>
+
+</p-fieldset>

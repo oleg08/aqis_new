@@ -1,0 +1,64 @@
+<form #question_values="ngForm" (ngSubmit)="createQuestion(question_values)">
+  <div class="row">
+    <div class="col-12">
+      <div bind-class="content_model.invalid && content_model.dirty ?
+                 'form-group has-warning' : 'form-group'">
+        <label>
+          <b>Content:</b>
+        </label>
+        <textarea type="text" class="form-control"
+                  [(ngModel)]="object[property1]"
+                  name="content_input"
+                  ref-content_model="ngModel"
+                  on-blur="setPristine(content_model)"
+                  required>
+
+                </textarea>
+        <aside *ngIf="content_model.invalid && content_model.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="content_model.invalid">Must be not empty</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="property2" class="row">
+    <div class="col-12">
+      <div bind-class="value_model.invalid && value_model.dirty ?
+                 'form-group has-warning' : 'form-group'">
+        <label>
+          <b>Value:</b>
+        </label>
+        <input type="text" class="form-control"
+               pattern="^100$|^\d{1,2}$"
+               min="0"
+               max="100"
+               [(ngModel)]="object[property2]"
+               name="value_input"
+               ref-value_model="ngModel"
+               on-blur="setPristine(value_model)"
+               required>
+        <aside *ngIf="value_model.invalid && value_model.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="value_model.invalid">Must be integer between 0 and 100</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <button pButton
+              class="float-right"
+              type="submit"
+              icon="fa fa-check"
+              iconPos="right"
+              [disabled]="question_values.invalid"
+              label="Save">
+      </button>
+    </div>
+  </div>
+</form>

@@ -2,24 +2,22 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss']
+  styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent implements OnInit {
+  options: any;
 
   @ViewChild('authDialog') authDialog: AuthDialogComponent;
 
-  constructor(public authService: AuthService, private router: Router, private cookieService: CookieService) {}
+  constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit() {}
 
   logOut() {
-    this.cookieService.delete('login');
     this.authService.logOutUser().subscribe(() => this.router.navigate(['/']));
   }
 

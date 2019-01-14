@@ -1,0 +1,60 @@
+<section class="panel panel-default project-question">
+  <form #new_values="ngForm" (ngSubmit)="submit(new_question, new_values)">
+    <div class="panel-body">
+      <div class="ui-g">
+        <div class="ui-g-3">
+          <h4>{{header_label || 'Create new Question'}}</h4>
+          <hr/>
+        </div>
+        <div class="ui-g-6">
+          <div bind-class="new_question.invalid && new_question.dirty ?
+                                    'form-group has-warning' : 'form-group'">
+                        <textarea [rows]="5" [cols]="50"
+                                  name="newValue1"
+                                  [(ngModel)]="newValue1"
+                                  ref-new_question="ngModel"
+                                  (blur)="setPristine(new_question)"
+                                  pInputTextarea
+                                  placeholder="Question's content"
+                                  autoResize="autoResize"
+                                  required>
+                        </textarea>
+            <aside *ngIf="new_question.invalid && new_question.dirty"
+                   class="alert alert-danger">
+              <small>
+                <span *ngIf="new_question.invalid">Required</span>
+              </small>
+            </aside>
+          </div>
+        </div>
+        <div class="ui-g-3">
+          <div *ngIf="q_prop2" bind-class="new_weight.invalid && new_weight.dirty ?
+                                                     'form-group has-warning' : 'form-group'">
+            <input type="text"
+                   name="newValue2"
+                   [(ngModel)]="newValue2"
+                   ref-new_weight="ngModel"
+                   (blur)="setPristine(new_weight)"
+                   pattern="^100$|^\d{1,2}$"
+                   placeholder="Weight"
+                   pInputText>
+            <aside *ngIf="new_weight.invalid && new_weight.dirty"
+                   class="alert alert-danger">
+              <small>
+                <span *ngIf="new_weight.invalid">Must be integer between 0 and 100</span>
+              </small>
+            </aside>
+          </div>
+          <hr/>
+          <button type="submit"
+                  class="btn btn-info float-right"
+                  icon="fa fa-check"
+                  [disabled]="new_values.invalid">
+            <i class="fa fa-check"></i>
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

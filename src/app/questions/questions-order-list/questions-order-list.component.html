@@ -1,0 +1,52 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<app-aqis-new-question (submitForm)="addItem($event)"></app-aqis-new-question>
+
+<br>
+
+<div class="ui-widget-header questions-table-header text-right">
+  <p-button *ngIf="generalQuestions"
+            label="Add General Questions"
+            icon="pi pi-check"
+            iconPos="right"
+            (click)="addGeneralObjects($event)">
+  </p-button>
+</div>
+
+<br>
+
+<p-orderList [value]="questions" [listStyle]="{'height':'250px'}" (onReorder)="reorder(questions)" [responsive]="true" header="Questions"
+             dragdrop="true" dragdropScope="step.questions">
+  <ng-template let-question pTemplate="item">
+    <div class="ui-helper-clearfix">
+      <div class="ui-g">
+        <div class="ui-g-2">
+          <h5 class="float-left">
+            <b>
+              <u>
+                <div class="float-left email-template-order">{{question.order}}</div>
+              </u>
+            </b>
+          </h5>
+        </div>
+        <div class="ui-g-10">
+          <div class="ui-g">
+            <div [ngClass]="{'ui-g-10' : question.new_label,
+                                         'ui-g-11' : !question.new_label}">
+              <p>{{question[q_prop1]}}</p>
+            </div>
+            <div *ngIf="question.new_label" class="ui-g-1 text-top-right">
+              <small [@newLabel]="label_state" class="new-label">New</small>
+              <br>
+            </div>
+            <div class="ui-g-1 text-top-right">
+              <i class="fa fa-remove float-right"
+                 (click)="removeItem(question)"
+                 pTooltip="Remove from Step"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-orderList>

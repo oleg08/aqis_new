@@ -5,7 +5,6 @@ import { environment } from '../../environments/environment';
 
 import { Router } from '@angular/router';
 import { AuthService} from '../services/auth.service';
-import { AngularTokenService } from 'angular-token';
 import { CallAlertService } from '../services/call-alert.service';
 import { FlashHighlightsService } from '../services/flash-highlights.service';
 import { TimeZonesDataService } from '../services/time-zones-data.service';
@@ -17,6 +16,7 @@ import { HalfTimeZones } from '../interfaces/half-time-zones';
 import { Message } from 'primeng/primeng';
 import { MessageService } from 'primeng/primeng';
 import { ConfirmationService } from 'primeng/primeng';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-profile',
@@ -25,19 +25,19 @@ import { ConfirmationService } from 'primeng/primeng';
 })
 export class ProfileComponent implements OnInit {
 
-  user:                object;
+  user:                User;
+  current_user:        User;
   projects:            Project[];
   time_zones:          TimeZones[];
   half_time_zones:     HalfTimeZones[];
   disable_time_zone:   boolean;
   disable_half_zone:   boolean;
-  msgs: Message[] = [];
-  resubmissionDate:   Date;
+  msgs:                Message[] = [];
+  alert:               boolean = false;
 
   @ViewChild('userProfile') el: ElementRef;
 
-  constructor(public authTokenService: AngularTokenService,
-              public authService: AuthService,
+  constructor(public authService: AuthService,
               private router: Router,
               private http: HttpClient,
               private callAlert: CallAlertService,
@@ -55,10 +55,17 @@ export class ProfileComponent implements OnInit {
     const self = this;
     self.http.get(environment.serverUrl + '/user_profile.json').subscribe(
       res => {
-        self.user     = res['user'];
-        self.projects = res['projects'];
+        if (res['user']) {
+          self.current_user = res['user'];
+          self.user         = res['user'];
+          self.projects     = res['projects'];
+        }
       },
       err => {
+        if (err['statusText'] === 'Unauthorized') {
+          self.msgs = [{severity: 'warning', summary: 'Warning', detail: `You are unauthorized`}];
+          this.router.navigate(['/']);
+        }
         console.log('err - ', err);
       }
     );

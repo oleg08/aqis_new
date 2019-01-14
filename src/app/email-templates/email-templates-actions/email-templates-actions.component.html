@@ -1,0 +1,24 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [style]="{'margin-top':'5%'}" [(value)]="msgs"></p-growl>
+
+<p-overlayPanel #select_email_template_list [dismissable]="true" [showCloseIcon]="true" [style]="{'width' : '75%', 'z-index' : '1000'}">
+  <app-aqis-select-email-templates-list [email_templates]="top_email_templates"
+                                        (sendItems)="addGeneralTemplates($event, select_email_template_list)">
+  </app-aqis-select-email-templates-list>
+</p-overlayPanel>
+
+<app-aqis-email-templates-list *ngIf="email_templates"
+                               [email_templates]="email_templates"
+                               [return_button]="return_button"
+                               [return_label]="return_label"
+                               [keywords]="keywords"
+                               [hot_keywords]="hot_keywords"
+                               [super_admin]="super_admin"
+                               (addItem)="createTemplate($event)"
+                               (cancelUpdate)="cancelEdit()"
+                               (saveItem)="saveTemplate($event)"
+                               (removeItem)="deleteTemplate($event)"
+                               (enterAutoComplete)="pressEnter($event)"
+                               (focusAutoComplete)="focusKeywords($event)"
+                               (addToAutoComplete)="addKeyword($event)"
+                               (addGeneralTemplates)="showTemplatesList($event, select_email_template_list)"
+></app-aqis-email-templates-list>

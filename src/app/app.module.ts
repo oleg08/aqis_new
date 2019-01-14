@@ -1,10 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // , FormControl, FormGroup
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { CommonModule } from '@angular/common';
+import { BsDropdownModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap';
 
 import 'materialize-css';
 
@@ -23,6 +27,8 @@ import { AlertCloseableComponent } from './alert-closeable/alert-closeable.compo
 import { ProfileComponent } from './profile/profile.component';
 import { TextFieldComponentComponent } from './text-field-component/text-field-component.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
+import { StepComponent } from './steps/step/step.component';
+import { StepsListComponent } from './steps/steps-list/steps-list.component';
 
 // services
 import { AuthService } from './services/auth.service';
@@ -33,22 +39,65 @@ import { FlashHighlightsService } from './services/flash-highlights.service';
 import { TimeZonesDataService } from './services/time-zones-data.service';
 import { AngularTokenService } from 'angular-token';
 import { CookieService } from 'ngx-cookie-service';
+import { GetStepsService } from './services/get-steps.service';
+import { OpenStepsService } from './services/open-steps.service';
+import { GetEmailTemplatesService } from './services/get-email-templates.service';
+import { CapitalizeService } from './services/capitalize.service';
+import { KeywordsService } from './services/keywords.service';
 
 // primeng
 import {
   CarouselModule,
-  InputTextModule,
   ButtonModule,
-  CalendarModule,
   DialogModule,
   PanelModule,
-  DropdownModule,
   GrowlModule,
   ConfirmDialogModule
 } from 'primeng/primeng';
 
-import { MessageService } from 'primeng/primeng';
+import { MessageService      } from 'primeng/primeng';
 import { ConfirmationService } from 'primeng/primeng';
+import { TooltipModule       } from 'primeng/tooltip';
+import { DataTableModule     } from 'primeng/datatable';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { DropdownModule      } from 'primeng/dropdown';
+import { FieldsetModule      } from 'primeng/fieldset';
+import { InputTextModule     } from 'primeng/inputtext';
+import { MessagesModule      } from 'primeng/messages';
+import { MessageModule       } from 'primeng/message';
+import { CalendarModule      } from 'primeng/calendar';
+import { OrderListModule     } from 'primeng/orderlist';
+import { SliderModule        } from 'primeng/slider';
+import { AutoCompleteModule  } from 'primeng/autocomplete';
+import { InputSwitchModule   } from 'primeng/primeng';
+import { OverlayPanelModule  } from 'primeng/overlaypanel';
+import { TableModule         } from 'primeng/table';
+import { EditorModule        } from 'primeng/editor';
+import { InplaceModule       } from 'primeng/inplace';
+import { CardModule          } from 'primeng/card';
+import { ToolbarModule       } from 'primeng/toolbar';
+import { StepsListSelectedComponent } from './steps/steps-list-selected/steps-list-selected.component';
+import { StepsCrudComponent } from './steps/steps-crud/steps-crud.component';
+import { StepNewComponent } from './steps/step-new/step-new.component';
+import { StepDetailsComponent } from './steps/step-details/step-details.component';
+import { StepDetailsActionsComponent } from './steps/step-details-actions/step-details-actions.component';
+import { SelectQuestionListComponent } from './questions/select-question-list/select-question-list.component';
+import { EmailTemplatesOrderListComponent } from './email-templates/email-templates-order-list/email-templates-order-list.component';
+import { SelectEmailTemplatesListComponent } from './email-templates/select-email-templates-list/select-email-templates-list.component';
+import { NewEmailTemplateComponent } from './email-templates/new-email-template/new-email-template.component';
+import { QuestionsOrderListComponent } from './questions/questions-order-list/questions-order-list.component';
+import { CustomerTenantQuestionsOrderListComponent
+} from './questions/customer-tenant-questions-order-list/customer-tenant-questions-order-list.component';
+import { NewCustomerTenantQuestionComponent } from './questions/new-customer-tenant-question/new-customer-tenant-question.component';
+import { NewQuestionComponent } from './questions/new-question/new-question.component';
+import { MainEmailTemplatesComponent } from './email-templates/main-email-templates/main-email-templates.component';
+import { EmailTemplatesActionsComponent } from './email-templates/email-templates-actions/email-templates-actions.component';
+import { EmailTemplatesListComponent } from './email-templates/email-templates-list/email-templates-list.component';
+import { TenantEmailTemplatesComponent } from './email-templates/tenant-email-templates/tenant-email-templates.component';
+import { ProjectEmailTemplatesComponent } from './email-templates/project-email-templates/project-email-templates.component';
+import { CustomerTenantEmailTemplatesComponent
+} from './email-templates/customer-tenant-email-templates/customer-tenant-email-templates.component';
+import { EmailTemplatesComponent } from './email-templates/email-templates/email-templates.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +111,28 @@ import { ConfirmationService } from 'primeng/primeng';
     TextFieldComponentComponent,
     DropdownComponent,
     AlertCloseableComponent,
+    StepComponent,
+    StepsListComponent,
+    StepsListSelectedComponent,
+    StepsCrudComponent,
+    StepNewComponent,
+    StepDetailsComponent,
+    StepDetailsActionsComponent,
+    SelectQuestionListComponent,
+    EmailTemplatesOrderListComponent,
+    SelectEmailTemplatesListComponent,
+    NewEmailTemplateComponent,
+    QuestionsOrderListComponent,
+    CustomerTenantQuestionsOrderListComponent,
+    NewCustomerTenantQuestionComponent,
+    NewQuestionComponent,
+    MainEmailTemplatesComponent,
+    EmailTemplatesActionsComponent,
+    EmailTemplatesListComponent,
+    TenantEmailTemplatesComponent,
+    ProjectEmailTemplatesComponent,
+    CustomerTenantEmailTemplatesComponent,
+    EmailTemplatesComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,9 +140,14 @@ import { ConfirmationService } from 'primeng/primeng';
     AngularTokenModule.forRoot({apiBase: environment.token_auth_config.apiBase}),
     MaterializeModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     AngularFontAwesomeModule,
+    CommonModule,
+    BsDropdownModule.forRoot(),
+    TooltipModule,
+    ModalModule.forRoot(),
     NgbModule,
     CarouselModule,
     InputTextModule,
@@ -81,7 +157,22 @@ import { ConfirmationService } from 'primeng/primeng';
     PanelModule,
     DropdownModule,
     GrowlModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    DataTableModule,
+    InputTextareaModule,
+    FieldsetModule,
+    MessagesModule,
+    MessageModule,
+    OrderListModule,
+    SliderModule,
+    AutoCompleteModule,
+    InputSwitchModule,
+    OverlayPanelModule,
+    TableModule,
+    EditorModule,
+    InplaceModule,
+    CardModule,
+    ToolbarModule
   ],
   providers: [
     AngularTokenService,
@@ -93,8 +184,15 @@ import { ConfirmationService } from 'primeng/primeng';
     TimeZonesDataService,
     MessageService,
     ConfirmationService,
-    CookieService
+    CookieService,
+    GetStepsService,
+    OpenStepsService,
+    GetEmailTemplatesService,
+    CapitalizeService,
+    KeywordsService
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+platformBrowserDynamic().bootstrapModule(AppModule);

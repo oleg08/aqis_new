@@ -1,0 +1,140 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [style]="{'margin-top':'5%'}" [(value)]="msgs"></p-growl>
+
+<form #new_template_values="ngForm">
+  <h3>{{header}}</h3>
+  <div bind-class="new_subject.invalid && new_subject.touched ?
+                     'form-group has-warning' : 'form-group'">
+    <input type="text" class="form-control font-weight-bold"
+           [(ngModel)]="newSubject"
+           name="new_subject_input"
+           ref-new_subject="ngModel"
+           placeholder="Subject"
+           required>
+    <aside *ngIf="new_subject.invalid && new_subject.dirty"
+           class="alert alert-danger">
+      <small>
+        <span *ngIf="new_subject.invalid">Required</span>
+      </small>
+    </aside>
+  </div>
+  <br *ngIf="!not_template">
+  <div *ngIf="!not_template" bind-class="new_name.invalid && new_name.touched ?
+                                          'form-group has-warning' : 'form-group'">
+    <input type="text" class="form-control font-weight-bold"
+           [(ngModel)]="newName"
+           name="new_name_input"
+           ref-new_name="ngModel"
+           placeholder="Name"
+           required>
+    <aside *ngIf="new_name.invalid && new_name.dirty"
+           class="alert alert-danger">
+      <small>
+        <span *ngIf="new_name.invalid">Required</span>
+      </small>
+    </aside>
+  </div>
+  <br>
+  <section *ngIf="!not_template" class="template-keywords">
+        <span class="ui-fluid">
+            <label>Keywords</label>
+            <p-autoComplete name="keywords"
+                            [(ngModel)]="selectedKeywords"
+                            [suggestions]="filteredKeywords"
+                            (completeMethod)="getKeywords($event)"
+                            (onKeyUp)="keyUp($event, 'keywords')"
+                            [style]="{'text-align':'left'}"
+                            [minLength]="1"
+                            placeholder="keywords"
+                            field="label"
+                            [multiple]="true">
+            </p-autoComplete>
+        </span>
+    <hr>
+    <span class="ui-fluid">
+            <label>Forbidden Keywords</label>
+            <p-autoComplete name="hot_keywords"
+                            [(ngModel)]="selectedHotKeywords"
+                            [suggestions]="filteredHotKeywords"
+                            (completeMethod)="getHotKeywords($event)"
+                            (onKeyUp)="keyUp($event, 'hot_keywords')"
+                            [style]="{'text-align':'left'}"
+                            [minLength]="1"
+                            placeholder="Forbidden keywords"
+                            field="label"
+                            [multiple]="true">
+            </p-autoComplete>
+        </span>
+    <hr>
+  </section>
+  <div *ngIf="not_template" bind-class="new_greeting.invalid && new_greeting.touched ?
+                                         'form-group has-warning' : 'form-group'">
+    <input type="text" class="form-control font-weight-bold"
+           [(ngModel)]="newGreeting"
+           name="new_greeting_input"
+           ref-new_greeting="ngModel"
+           placeholder="Greeting"
+           required>
+    <aside *ngIf="new_greeting.invalid && new_greeting.dirty"
+           class="alert alert-danger">
+      <small>
+        <span *ngIf="new_greeting.invalid">Required</span>
+      </small>
+    </aside>
+  </div>
+  <div *ngIf="!not_template" class="h5">Greeting</div>
+  <br>
+  <div bind-class="new_body.invalid && new_body.touched ? 'form-group has-warning' : 'form-group'">
+    <div class="input-group">
+      <p-editor [style]="{'height':'250px'}"
+                name="new_body_input"
+                placeholder="Body"
+                [(ngModel)]="newBody"
+                ref-new_body="ngModel"
+                required>
+      </p-editor>
+    </div>
+    <aside *ngIf="new_body.invalid && new_body.dirty" class="alert alert-danger">
+      <small>
+        <span *ngIf="new_body.invalid">Required</span>
+      </small>
+    </aside>
+  </div>
+  <br *ngIf="!not_template">
+  <div *ngIf="!super_admin" bind-class="new_footer.invalid && new_footer.dirty ?
+                                         'form-group has-warning' : 'form-group'">
+    <div class="input-group">
+      <input class="form-control font-weight-bold"
+             name="new_footer_input"
+             type="text"
+             placeholder="Footer"
+             [(ngModel)]="newFooter"
+             required
+             ref-new_footer="ngModel">
+    </div>
+    <aside *ngIf="new_footer.invalid && new_footer.dirty"
+           class="alert alert-danger">
+      <small>
+        <span *ngIf="new_footer.invalid">Required</span>
+      </small>
+    </aside>
+  </div>
+  <div *ngIf="!not_template" class="h5">Footer</div>
+  <hr>
+  <p-footer>
+    <button type="button"
+            pButton
+            (click)="submit(new_template_values)"
+            icon="pi pi-check"
+            iconPos="right"
+            label="{{not_template ? 'Send' : 'Create' }}"
+            [disabled]="new_template_values.invalid">
+    </button>
+    <button *ngIf="!not_template"
+            pButton
+            type="button"
+            icon="pi pi-times"
+            iconPos="right"
+            (click)="close()" label="Cancel">
+    </button>
+  </p-footer>
+</form>
