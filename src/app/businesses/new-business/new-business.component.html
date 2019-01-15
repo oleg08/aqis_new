@@ -1,0 +1,32 @@
+<form #new_values="ngForm" (ngSubmit)="submit(new_values)">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div bind-class="newValue.invalid && newValue.dirty ?
+                                 'form-group has-warning' : 'form-group'">
+        <label><b>{{label}}</b></label>
+        <div class="input-group">
+          <input type="text"
+                 name="{{input_name}}"
+                 [(ngModel)]="new_value"
+                 on-blur="setPristine(newValue)"
+                 class="form-control"
+                 ref-newValue="ngModel"
+                 required>
+          <div class="input-group-addon">
+            <button class="btn btn-info"
+                    type="submit"
+                    [disabled]="new_values.invalid">
+              <i class="fa fa-check"></i>
+            </button>
+          </div>
+        </div>
+        <aside *ngIf="newValue.invalid && newValue.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="newValue.invalid">Required</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+</form>

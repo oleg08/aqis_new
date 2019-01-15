@@ -1,0 +1,122 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<section class="panel panel-default project-question">
+  <form #new_values="ngForm" (ngSubmit)="addItem(new_question)">
+    <div class="panel-body">
+      <div class="ui-g">
+        <div class="ui-g-3">
+          <h4>{{header_label || 'Create new Question'}}</h4>
+          <hr/>
+        </div>
+        <div class="ui-g-6">
+          <div bind-class="new_question.invalid && new_question.dirty ?
+                                    'form-group has-warning' : 'form-group'">
+                        <textarea [rows]="5" [cols]="50"
+                                  name="newValue1"
+                                  [(ngModel)]="newValue1"
+                                  ref-new_question="ngModel"
+                                  pInputTextarea
+                                  (blur)="setPristine(new_question)"
+                                  placeholder="Question's content"
+                                  autoResize="autoResize"
+                                  required>
+                        </textarea>
+            <aside *ngIf="new_question.invalid && new_question.dirty"
+                   class="alert alert-danger">
+              <small>
+                <span *ngIf="new_question.invalid">Required</span>
+              </small>
+            </aside>
+          </div>
+        </div>
+        <div class="ui-g-3">
+          <div *ngIf="q_prop2" bind-class="new_weight.invalid && new_weight.dirty ?
+                                                     'form-group has-warning' : 'form-group'">
+            <input type="text"
+                   name="newValue2"
+                   [(ngModel)]="newValue2"
+                   ref-new_weight="ngModel"
+                   (blur)="setPristine(new_weight)"
+                   pattern="^100$|^\d{1,2}$"
+                   placeholder="Weight"
+                   pInputText>
+            <aside *ngIf="new_weight.invalid && new_weight.dirty"
+                   class="alert alert-danger">
+              <small>
+                <span *ngIf="new_weight.invalid">Must be integer between 0 and 100</span>
+              </small>
+            </aside>
+          </div>
+          <hr/>
+          <p-button label="Create"
+                    type="submit"
+                    styleClass="float-right"
+                    icon="pi pi-check"
+                    iconPos="right"
+                    [disabled]="new_values.invalid">
+          </p-button>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+<hr/>
+
+<section #ProjectQuestionList class="project-question-list project-question">
+
+  <div class="ui-widget-header questions-table-header">
+    <input #searchQuestion type="text" pInputText size="50" placeholder="Search...">
+    <div class="ui-toolbar-group-right mb-2">
+      <p-button *ngIf="return_button"
+                label="{{return_label}}"
+                icon="pi pi-angle-double-left"
+                iconPos="right"
+                (click)="returnTo()">
+      </p-button>
+      <p-button *ngIf="generalQuestions"
+                label="Add General Questions"
+                icon="pi pi-check"
+                iconPos="right"
+                (click)="addGeneralObjects($event)">
+      </p-button>
+    </div>
+  </div>
+
+  <p-dataTable [value]="questions"
+               [globalFilter]="searchQuestion" #dataQuestions
+               (onEditInit)="initEdit($event, questions)"
+               (onEditComplete)="save($event, 'blur')"
+               (onEditCancel)="quitUpdate($event)"
+               (keydown.enter)="save($event)"
+               (keydown.esc)="esc($event)"
+               [editable]="editable">
+    <p-column field="{{q_prop1}}" header="Questions" [editable]="true">
+      <ng-template let-question="rowData" pTemplate="body">
+        <div id="contentCell-{{question.id}}" class="question-row">
+          <div class="ui-g">
+            <div class="ui-g-11"><span>{{question[q_prop1]}}</span></div>
+            <div *ngIf="question.new_label" class="ui-g-1 text-top-right">
+              <small [@newLabel]="label_state" class="new-label">New</small>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-column>
+    <p-column *ngIf="q_prop2" field="{{q_prop2}}" header="Weight" [style]="{'width':'10%','text-align':'right'}" [editable]="editable">
+      <ng-template let-question="rowData" pTemplate="body">
+        <div id="weightCell-{{question.id}}" class="question-row">
+          {{question[q_prop2]}}
+        </div>
+      </ng-template>
+    </p-column>
+    <p-column [style]="{'width':'8%','text-align':'center'}" header="">
+      <ng-template let-question="rowData" pTemplate="body">
+        <button type="button" pButton
+                (click)="removeItem($event, question);"
+                class="ui-button-danger"
+                icon="fa fa-remove"></button>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+</section>

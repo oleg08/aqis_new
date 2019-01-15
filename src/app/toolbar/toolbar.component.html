@@ -8,14 +8,16 @@
       </a>
 
       <ul class="right hide-on-med-and-down">
-
         <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="dropdown" dropdown >
           <a dropdownToggle role="button">Steps Properties<i class="fa fa-angle-down ml-1"></i></a>
           <div *dropdownMenu class="dropdown-menu">
             <a class="dropdown-item" [routerLink]="['/steps']">Steps</a>
-            <a class="dropdown-item" href="#">Questions</a>
+            <a class="dropdown-item" [routerLink]="['/questions']">Questions</a>
             <a class="dropdown-item" [routerLink]="['/main_email_templates']">Email Templates</a>
           </div>
+        </li>
+        <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)">
+          <a [routerLink]="['/businesses']">Businesses</a>
         </li>
 
         <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog()" >LOGIN</a></li>
@@ -29,6 +31,12 @@
     </div>
   </nav>
 
+</div>
+
+<div class="ui-g">
+  <div class="ui-g-8">
+    <img src="../../assets/showcase/images/Logo-Keil.png" class="logo-keil">
+  </div>
 </div>
 
 <app-auth-dialog #authDialog ></app-auth-dialog>

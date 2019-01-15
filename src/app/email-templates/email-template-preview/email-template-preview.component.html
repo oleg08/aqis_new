@@ -1,0 +1,12 @@
+<small><b><u>Subject: </u>{{template.subject}}</b></small>
+<h1 class="text-center">{{template.name}}</h1>
+<h3 class="text-center">{{template.greeting ? template.greeting : 'Greeting'}}</h3>
+<div [innerHTML]="template.body"></div>
+<hr>
+<p><b>{{template.footer}}</b></p>
+<hr>
+<div *ngIf="send_button" class="ui-g">
+  <div class="ui-g-12">
+    <button pButton type="button" class="float-right" label="Send" (click)="clickSend()"></button>
+  </div>
+</div>

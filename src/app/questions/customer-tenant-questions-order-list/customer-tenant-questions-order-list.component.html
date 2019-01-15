@@ -1,8 +1,8 @@
 <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
 
 <p-overlayPanel #new_answer [showCloseIcon]="true" [dismissable]="true">
-  <app-aqis-new-customer-tenant-question *ngIf="!super_admin"
-                                         placeholder="Content..."
+  <!--*ngIf="!super_admin"-->
+  <app-aqis-new-customer-tenant-question placeholder="Content..."
                                          [object]="selectedQuestion"
                                          property1="content"
                                          (addCTenantQuestion)="createAnswer($event, new_answer)">

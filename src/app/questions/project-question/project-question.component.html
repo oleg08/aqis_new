@@ -1,0 +1,24 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<p-overlayPanel #general_questions_list [showCloseIcon]="true" [dismissable]="true" [style]="{'z-index': '10000', 'width' : '75%'}">
+  <app-aqis-select-question-list #q_list
+                                 (addQuestions)="addGeneralQuestions($event, general_questions_list)"
+                                 [questions_path]="top_questions_path"
+                                 q_prop1="content">
+  </app-aqis-select-question-list>
+</p-overlayPanel>
+
+<section #ProjectQuestionList>
+  <app-aqis-questions-crud [questions]="questions"
+                           [editable]="true"
+                           [return_button]="return_path"
+                           [return_label]="return_label"
+                           q_prop1="question"
+                           q_prop3="category_label"
+                           (addObject)="createQuestion($event)"
+                           (saveObject)="saveProjectQuestion($event)"
+                           (removeObject)="removeQuestion($event)"
+                           [generalQuestions]="true"
+                           (addGeneralQuestions)="showQuestions($event, general_questions_list)">
+  </app-aqis-questions-crud>
+</section>

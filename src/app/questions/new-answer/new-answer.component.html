@@ -1,0 +1,62 @@
+<form #answer_values="ngForm" (ngSubmit)="createAnswer(answer_values)">
+  <div class="row">
+    <div class="col-12">
+      <div bind-class="content_model.invalid && content_model.dirty ?
+                 'form-group has-warning' : 'form-group'">
+        <label>
+          <b>Content:</b>
+        </label>
+        <input type="text" class="form-control"
+               [(ngModel)]="content"
+               name="content_input"
+               ref-content_model="ngModel"
+               on-blur="setPristine(content_model)"
+               required>
+        <aside *ngIf="content_model.invalid && content_model.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="content_model.invalid">Must be not empty</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div bind-class="value_model.invalid && value_model.dirty ?
+                 'form-group has-warning' : 'form-group'">
+        <label>
+          <b>Value:</b>
+        </label>
+        <input type="number" class="form-control"
+               pattern="^\d{1,2}$"
+               min="0"
+               max="100"
+               [(ngModel)]="value"
+               name="value_input"
+               ref-value_model="ngModel"
+               on-blur="setPristine(value_model)"
+               required>
+        <aside *ngIf="value_model.invalid && value_model.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="value_model.invalid">Must be integer between 0 and 100</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <button pButton
+              class="float-right"
+              type="submit"
+              icon="fa fa-check"
+              iconPos="right"
+              [disabled]="answer_values.invalid"
+              label="Create">
+      </button>
+    </div>
+  </div>
+</form>

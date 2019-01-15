@@ -29,6 +29,16 @@
   cursor: grabbing;
 }
 
+.ui-picklist-filter {
+  padding-right: 0px !important;
+}
+
+.ui-inputtext {
+  margin: 0px !important;
+  padding-left: 10px !important;
+  background-color: white !important;
+}
+
 .textarea-container {
   position: relative;
 }
@@ -65,6 +75,17 @@
 
 .msgs-growl {
   top: 10% !important;
+}
+
+.ui-panel {
+  overflow: auto !important;
+}
+
+.btn-group-xs > .btn, .btn-xs {
+  padding  : .25rem .25rem;
+  font-size  : .275rem;
+  line-height  : .5;
+  border-radius : .2rem;
 }
 
 .ui-dropdown-clear-icon {
@@ -566,6 +587,7 @@ button.c-inline-editor {
 .project-question {
   border: 1px solid;
   padding: 10px;
+  background-color: white;
   box-shadow: 5px 10px #888888;
 }
 

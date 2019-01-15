@@ -8,6 +8,8 @@ import { MainEmailTemplatesComponent } from './email-templates/main-email-templa
 import { TenantEmailTemplatesComponent } from './email-templates/tenant-email-templates/tenant-email-templates.component';
 import { ProjectEmailTemplatesComponent } from './email-templates/project-email-templates/project-email-templates.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates/email-templates.component';
+import { QuestionListComponent } from './questions/question-list/question-list.component';
+import {BusinessAllComponent} from './businesses/business-all/business-all.component';
 
 const routes: Routes = [
   {
@@ -46,6 +48,14 @@ const routes: Routes = [
   {
     path: 'project_email_templates/:id',
     component: ProjectEmailTemplatesComponent
+  },
+  {
+    path: 'questions',
+    component: QuestionListComponent
+  },
+  {
+    path: 'businesses',
+    component: BusinessAllComponent
   }
 ];
 

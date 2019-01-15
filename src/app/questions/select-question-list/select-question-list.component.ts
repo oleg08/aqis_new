@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 
 
 @Component({
-  selector: 'app-select-question-list',
+  selector: 'app-aqis-select-question-list',
   templateUrl: './select-question-list.component.html',
   styleUrls: ['./select-question-list.component.scss']
 })
@@ -36,10 +36,10 @@ export class SelectQuestionListComponent implements OnInit {
         url = '/' + self.questions_path.split('/')[0] + '_for_step/' + self.for_step + '.json';
       } else url = '/' +  self.questions_path + '_for_step/' + self.for_step + '.json';
     } else {
-      url = environment.serverUrl + '/sliced_' + self.questions_path + '.json';
+      url = '/sliced_' + self.questions_path + '.json';
     }
 
-    self.http.get(url
+    self.http.get(environment.serverUrl + url
     ).subscribe(
       response => {
         if (response[questions_key]) {

@@ -9,26 +9,9 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { CommonModule } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap';
+import { DragulaModule } from 'ng2-dragula';
 
 import 'materialize-css';
-
-// components
-import { AngularTokenModule } from 'angular-token';
-import { environment } from '../environments/environment';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { MaterializeModule } from 'angular2-materialize';
-import { HomeComponent } from './home/home.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
-import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
-import { LoginFormComponent } from './login-form/login-form.component';
-import { RegisterFormComponent } from './register-form/register-form.component';
-import { AlertCloseableComponent } from './alert-closeable/alert-closeable.component';
-import { ProfileComponent } from './profile/profile.component';
-import { TextFieldComponentComponent } from './text-field-component/text-field-component.component';
-import { DropdownComponent } from './dropdown/dropdown.component';
-import { StepComponent } from './steps/step/step.component';
-import { StepsListComponent } from './steps/steps-list/steps-list.component';
 
 // services
 import { AuthService } from './services/auth.service';
@@ -44,13 +27,13 @@ import { OpenStepsService } from './services/open-steps.service';
 import { GetEmailTemplatesService } from './services/get-email-templates.service';
 import { CapitalizeService } from './services/capitalize.service';
 import { KeywordsService } from './services/keywords.service';
+import { PassBusinessService } from './services/pass-business.service';
 
 // primeng
 import {
   CarouselModule,
   ButtonModule,
   DialogModule,
-  PanelModule,
   GrowlModule,
   ConfirmDialogModule
 } from 'primeng/primeng';
@@ -76,6 +59,27 @@ import { EditorModule        } from 'primeng/editor';
 import { InplaceModule       } from 'primeng/inplace';
 import { CardModule          } from 'primeng/card';
 import { ToolbarModule       } from 'primeng/toolbar';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { PickListModule        } from 'primeng/picklist';
+import { PanelModule           } from 'primeng/panel';
+
+// components
+import { AngularTokenModule } from 'angular-token';
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { MaterializeModule } from 'angular2-materialize';
+import { HomeComponent } from './home/home.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
+import { AlertCloseableComponent } from './alert-closeable/alert-closeable.component';
+import { ProfileComponent } from './profile/profile.component';
+import { TextFieldComponentComponent } from './text-field-component/text-field-component.component';
+import { DropdownComponent } from './dropdown/dropdown.component';
+import { StepComponent } from './steps/step/step.component';
+import { StepsListComponent } from './steps/steps-list/steps-list.component';
 import { StepsListSelectedComponent } from './steps/steps-list-selected/steps-list-selected.component';
 import { StepsCrudComponent } from './steps/steps-crud/steps-crud.component';
 import { StepNewComponent } from './steps/step-new/step-new.component';
@@ -98,6 +102,14 @@ import { ProjectEmailTemplatesComponent } from './email-templates/project-email-
 import { CustomerTenantEmailTemplatesComponent
 } from './email-templates/customer-tenant-email-templates/customer-tenant-email-templates.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates/email-templates.component';
+import { QuestionListComponent } from './questions/question-list/question-list.component';
+import { QuestionsCrudComponent } from './questions/questions-crud/questions-crud.component';
+import { ProjectQuestionComponent } from './questions/project-question/project-question.component';
+import { NewAnswerComponent } from './questions/new-answer/new-answer.component';
+import { EmailTemplatePreviewComponent } from './email-templates/email-template-preview/email-template-preview.component';
+import { BusinessAllComponent } from './businesses/business-all/business-all.component';
+import { EditBusinessComponent } from './businesses/edit-business/edit-business.component';
+import { NewBusinessComponent } from './businesses/new-business/new-business.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +145,14 @@ import { EmailTemplatesComponent } from './email-templates/email-templates/email
     ProjectEmailTemplatesComponent,
     CustomerTenantEmailTemplatesComponent,
     EmailTemplatesComponent,
+    QuestionListComponent,
+    QuestionsCrudComponent,
+    ProjectQuestionComponent,
+    NewAnswerComponent,
+    EmailTemplatePreviewComponent,
+    BusinessAllComponent,
+    EditBusinessComponent,
+    NewBusinessComponent,
   ],
   imports: [
     BrowserModule,
@@ -149,6 +169,7 @@ import { EmailTemplatesComponent } from './email-templates/email-templates/email
     TooltipModule,
     ModalModule.forRoot(),
     NgbModule,
+    DragulaModule.forRoot(),
     CarouselModule,
     InputTextModule,
     ButtonModule,
@@ -172,7 +193,9 @@ import { EmailTemplatesComponent } from './email-templates/email-templates/email
     EditorModule,
     InplaceModule,
     CardModule,
-    ToolbarModule
+    ToolbarModule,
+    ProgressSpinnerModule,
+    PickListModule
   ],
   providers: [
     AngularTokenService,
@@ -189,7 +212,8 @@ import { EmailTemplatesComponent } from './email-templates/email-templates/email
     OpenStepsService,
     GetEmailTemplatesService,
     CapitalizeService,
-    KeywordsService
+    KeywordsService,
+    PassBusinessService
   ],
   bootstrap: [AppComponent]
 })

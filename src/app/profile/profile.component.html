@@ -6,7 +6,7 @@
 
 <p-growl [value]="msgs"></p-growl>
 
-<section *ngIf="user"
+<section *ngIf="user && !current_user.super_admin"
          #userProfile>
   <div class="ui-g">
     <div class="ui-g-12">

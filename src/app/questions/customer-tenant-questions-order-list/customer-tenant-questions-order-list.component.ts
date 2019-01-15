@@ -1,7 +1,4 @@
 import { Component, OnInit, EventEmitter, Input, Output, HostListener } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CallAlertService } from '../../services/call-alert.service';
-import { FlashHighlightsService } from '../../services/flash-highlights.service';
 import { Message, OverlayPanel } from 'primeng/primeng';
 import { MessageService  } from 'primeng/components/common/messageservice';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -28,8 +25,6 @@ import { Answer } from '../../interfaces/answer';
   ],
 
   providers: [
-    CallAlertService,
-    FlashHighlightsService,
     MessageService
   ]
 })
@@ -61,9 +56,7 @@ export class CustomerTenantQuestionsOrderListComponent implements OnInit {
   @Output() updateAnswer: EventEmitter<object> = new EventEmitter<object>();
   @Output() deleteAnswer: EventEmitter<object> = new EventEmitter<object>();
 
-  constructor(private http: HttpClient,
-              private flashHighlights: FlashHighlightsService,
-              private callAlert: CallAlertService) {
+  constructor() {
     this.initializeSelectedQuestion();
   }
 

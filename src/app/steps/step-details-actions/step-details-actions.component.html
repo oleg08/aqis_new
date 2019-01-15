@@ -17,12 +17,12 @@
   <section *ngIf="step && (step.step_role === 'Agent' || step.step_role === 'Assistant' || step.step_role === 'Assistance')" class="step-questions">
 
     <p-overlayPanel #question_list styleClass="questions-list-panel" [showCloseIcon]="true">
-      <app-select-question-list #q_list
+      <app-aqis-select-question-list #q_list
                                   [for_step]="step.id"
                                   (addQuestions)="addQuestions($event, question_list)"
                                   [questions_path]="questions_path"
                                   [q_prop1]="q_prop1">
-      </app-select-question-list>
+      </app-aqis-select-question-list>
     </p-overlayPanel>
 
     <app-aqis-customer-tenant-questions-order-list *ngIf="questions_path.split('/')[0] === 'customer_tenant_questions'"
