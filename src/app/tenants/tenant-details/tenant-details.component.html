@@ -1,0 +1,182 @@
+<section #tenantsUserList *ngIf="tenant" class="tenant-details">
+  <p-dataView #dv [value]="tenant.users"
+              [paginator]="true"
+              [rows]="20"
+              paginatorPosition="both"
+              filterBy="email"
+              [sortField]="sortField"
+              [sortOrder]="sortOrder">
+    <p-header>
+      <div class="ui-helper-clearfix">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-4">
+            <p-dropdown [options]="sortOptions"
+                        [(ngModel)]="sortKey"
+                        placeholder="Sort By"
+                        (onChange)="onSortChange($event)"
+                        [autoWidth]="false"
+                        [style]="{'min-width':'15em'}">
+            </p-dropdown>
+          </div>
+          <div class="ui-g-4 ui-md-4 filter-container">
+            <div style="position:relative">
+              <input type="search"
+                     pInputText
+                     placeholder="Search by email"
+                     (keyup)="dv.filter($event.target.value)">
+            </div>
+          </div>
+          <div class="ui-g-4 ui-md-3">
+            <p-dataViewLayoutOptions class="float-right"></p-dataViewLayoutOptions>
+          </div>
+          <div class="ui-g-4 ui-md-1">
+            <button pButton
+                    type="button"
+                    class="float-right"
+                    (click)="add_user.show($event)"
+                    icon="fa fa-plus"></button>
+          </div>
+        </div>
+      </div>
+    </p-header>
+    <ng-template let-user pTemplate="listItem">
+      <div id="tenants_user-{{user.id}}" class="ui-g tenants-user tenants_user">
+        <div class="ui-g-12 ui-md-3" style="text-align:center">
+          <img src="/unknown-user-symbol.png">
+        </div>
+        <div class="ui-g-12 ui-md-8 car-details">
+          <div class="ui-g">
+
+            <div class="ui-g-2 ui-sm-6">Name: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{user.name || 'Not Stated'}}</b></div>
+
+            <div class="ui-g-2 ui-sm-6">email: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{user.email}}</b></div>
+
+            <div class="ui-g-2 ui-sm-6">Joined: </div>
+            <div class="ui-g-10 ui-sm-6"><b>{{user.created_at | date}}</b></div>
+
+            <div id="user_roles-{{user.id}}" class="ui-g-12">
+              <p-selectButton [options]="roles"
+                              [(ngModel)]="user.selectedRoles"
+                              ref-selected_roles="ngModel"
+                              (onChange)="selectRoles(user, user.selectedRoles, selected_roles)"
+                              multiple="multiple">
+              </p-selectButton>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-1 search-icon">
+          <div class="btn-group float-right">
+            <button pButton
+                    type="button"
+                    ngbTooltip="Details..."
+                    icon="fa fa-search"
+                    (click)="selectUser($event, user)">
+            </button>
+            <button pButton
+                    type="button"
+                    ngbTooltip="Delete user"
+                    class="ui-button-danger"
+                    (click)="deleteUser(user)"
+                    icon="fa fa-remove">
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template let-user pTemplate="gridItem">
+      <div style="padding:.5em" class="ui-g-12 ui-md-3 tenants_user">
+        <p-panel [header]="user.name" [style]="{'text-align':'center'}">
+          <img src="/unknown-user-symbol.png" width="60">
+          <div class="car-detail">{{user.email}}</div>
+          <hr class="ui-widget-content" style="border-top:0">
+          <div class="btn-group" style="margin-top: 0;">
+            <button pButton
+                    type="button"
+                    icon="fa fa-search"
+                    (click)="selectUser($event, user)">
+            </button>
+            <button pButton
+                    type="button"
+                    ngbTooltip="Delete user"
+                    class="ui-button-danger"
+                    (click)="deleteUser(user)"
+                    icon="fa fa-remove">
+            </button>
+          </div>
+        </p-panel>
+      </div>
+    </ng-template>
+  </p-dataView>
+
+  <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+  <p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedUser">
+      <div class="ui-g-12" style="text-align:center">
+        <img src="/unknown-user-symbol.png">
+      </div>
+
+      <div class="ui-g-4">Name: </div>
+      <div id="user_name" class="ui-g-offset-2 ui-g-6">
+        <input type="text" class="form-control"
+               [(ngModel)]="selectedUser.name"
+               name="user_name_input"
+               ref-name_model="ngModel"
+               (keyup.enter)="editEmail(selectedUser.id, selectedUser.name, 'name', name_model)"
+               (blur)="editEmail(selectedUser.id, selectedUser.name, 'name', name_model)">
+      </div>
+
+      <div class="ui-g-4">Email: </div>
+      <div id="user_email" class="ui-g-offset-2 ui-g-6">
+        <div bind-class="email_model.invalid && email_model.dirty ?
+                                 'form-group has-warning' : 'form-group'">
+          <input type="text" class="form-control"
+                 pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
+                 [(ngModel)]="selectedUser.email"
+                 name="user_email_input"
+                 ref-email_model="ngModel"
+                 (keyup.enter)="editEmail(selectedUser.id, selectedUser.email, 'email', email_model)"
+                 (blur)="editEmail(selectedUser.id, selectedUser.email, 'email', email_model)"
+                 required>
+          <aside *ngIf="email_model.invalid && email_model.dirty"
+                 class="alert alert-danger">
+            <small>
+              <span *ngIf="email_model.invalid">Must be as email</span>
+            </small>
+          </aside>
+        </div>
+      </div>
+
+      <div class="ui-g-4">Password: </div>
+      <div id="user_password" class="ui-g-offset-2 ui-g-6">
+        <input type="password"
+               class="form-control"
+               pPassword
+               name="password"
+               [(ngModel)]="editedPassword"
+               ref-Password="ngModel"/>
+      </div>
+
+      <div class="ui-g-4">Password Confirmation: </div>
+      <div class="ui-g-offset-2 ui-g-6">
+        <input type="password"
+               class="form-control"
+               pPassword
+               name="password_confirmation"
+               [(ngModel)]="editedPasswordConfirmation"
+               ref-PasswordConfirmation="ngModel"
+               (keyup.enter)="editPassword(selectedUser.id); setPristine(PasswordConfirmation)"
+               (blur)="editPassword(selectedUser.id); setPristine(PasswordConfirmation)"/>
+      </div>
+
+    </div>
+  </p-dialog>
+
+  <p-confirmDialog></p-confirmDialog>
+
+  <p-overlayPanel #add_user [showCloseIcon]="true" [style]="{'margin-top': '10%'}" [dismissable]="true">
+    <app-aqis-add-user-to-tenant (submitForm)="addUser($event)"></app-aqis-add-user-to-tenant>
+  </p-overlayPanel>
+</section>

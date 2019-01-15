@@ -9,7 +9,10 @@ import { TenantEmailTemplatesComponent } from './email-templates/tenant-email-te
 import { ProjectEmailTemplatesComponent } from './email-templates/project-email-templates/project-email-templates.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates/email-templates.component';
 import { QuestionListComponent } from './questions/question-list/question-list.component';
-import {BusinessAllComponent} from './businesses/business-all/business-all.component';
+import { BusinessAllComponent } from './businesses/business-all/business-all.component';
+import { TenantsListComponent } from './tenants/tenants-list/tenants-list.component';
+import { TenantDetailsComponent } from './tenants/tenant-details/tenant-details.component';
+import { TenantsDsvgoComponent } from './tenants/tenants-dsvgo/tenants-dsvgo.component';
 
 const routes: Routes = [
   {
@@ -56,6 +59,18 @@ const routes: Routes = [
   {
     path: 'businesses',
     component: BusinessAllComponent
+  },
+  {
+    path: 'tenants',
+    component: TenantsListComponent
+  },
+  {
+    path: 'tenants/dsvgo_list',
+    component: TenantsDsvgoComponent
+  },
+  {
+    path: 'tenants/:id',
+    component: TenantDetailsComponent
   }
 ];
 

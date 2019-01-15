@@ -1,0 +1,75 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<p-overlayPanel #add_tenant_admin [showCloseIcon]="true" [dismissable]="true">
+  <app-aqis-add-user-to-tenant (submitForm)="createTenantAdmin($event)"></app-aqis-add-user-to-tenant>
+</p-overlayPanel>
+
+<section *ngIf="tenants" #tenantsList class="tenants-list background-white">
+
+  <p-overlayPanel #new_tenant [showCloseIcon]="true" [dismissable]="true">
+    <app-aqis-new-business label="New Tenant"
+                           input_name="name"
+                           (submitForm)="createTenant($event)">
+    </app-aqis-new-business>
+  </p-overlayPanel>
+
+  <section class="create-tenant" style="background-color: lightcyan">
+    <div class="ui-g">
+      <div class="ui-g-offset-11 ui-g-1">
+        <button class="btn btn-info float-right cursor-pointer"
+                (click)="new_tenant.show($event)"
+                ngbTooltip="Create new Tenant">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+  <p-dataTable [value]="tenants"
+               (onEditInit)="setOriginalValue($event)"
+               (onEditComplete)="editTenant($event)"
+               [editable]="true">
+    <p-column field="name" header="Name" [editable]="true">
+      <ng-template let-col let-tenant="rowData" pTemplate="body">
+        <div id="tenantRow-{{tenant.id}}" class="tenant-row">
+          {{tenant[col.field]}}
+        </div>
+      </ng-template>
+    </p-column>
+    <p-column field="tenant_admins" header="Tenant-Admin">
+      <ng-template let-col let-tenant="rowData" pTemplate="body">
+        <div id="tenant-admin-{{tenant.id}}" class="tenant-row">
+          <ul class="list-group" *ngFor="let user of tenant[col.field]; let i = index" [attr.data-index]="i">
+            <li class="list-group-item">
+              <i class="fa fa-remove float-right cursor-pointer"
+                 (click)="deleteTenantAdmin(tenant, user.id, i)">
+                <small>Remove admin's rights</small>
+              </i>
+              <div class="ui-g">
+                <div *ngIf="user.name" class="ui-g-12"><b>{{user.name}}</b></div>
+                <div class="ui-g-12"><b>{{user.email}}</b></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </ng-template>
+    </p-column>
+    <p-column field="name" header="" [style]="{'width':'10%','text-align':'center'}">
+      <ng-template let-col let-tenant="rowData" pTemplate="body">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Show Delete">
+          <button type="button"
+                  ngbTooltip="Create Tenant-Admin"
+                  class="btn btn-sm btn-info cursor-pointer"
+                  (click)="add_tenant_admin.show($event); passTenantId(tenant.id)">
+            <i class="fa fa-plus-circle"></i>
+          </button>
+          <button type="button"
+                  ngbTooltip="Delete tenant"
+                  class="btn btn-sm btn-danger cursor-pointer"
+                  (click)="removeTenant($event, tenant)">
+            <i class="fa fa-remove"></i>
+          </button>
+        </div>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
+</section>

@@ -1,0 +1,77 @@
+<form #edit_person_values="ngForm" (ngSubmit)="editPerson(edit_person_values)" *ngIf="selectedPerson">
+  <div class="row">
+    <div class="col-12">
+      <div bind-class="name_model.invalid && name_model.dirty ?
+                             'form-group has-warning' : 'form-group'">
+        <label>
+          <b>Name:</b>
+        </label>
+        <input type="text" class="form-control"
+               [(ngModel)]="selectedPerson.name"
+               name="name_input"
+               ref-name_model="ngModel"
+               required>
+        <aside *ngIf="name_model.invalid && name_model.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="name_model.invalid">Must be not empty</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div bind-class="email_model.invalid && email_model.dirty ?
+                             'form-group has-warning' : 'form-group'">
+        <label>
+          <b>Email:</b>
+        </label>
+        <input type="text" class="form-control"
+               pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
+               [(ngModel)]="selectedPerson.email"
+               name="email_input"
+               ref-email_model="ngModel">
+        <aside *ngIf="email_model.invalid && email_model.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="email_model.invalid">Must be as email</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div bind-class="phone_model.invalid && phone_model.dirty ?
+                                 'form-group has-warning' : 'form-group'">
+        <label>
+          <b>Phone:</b>
+        </label>
+        <input type="text" class="form-control"
+               [(ngModel)]="selectedPerson.phone"
+               name="phone_input"
+               ref-phone_model="ngModel">
+        <aside *ngIf="phone_model.invalid && phone_model.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="phone_model.invalid">Must be as phone number</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <button pButton
+              class="float-right"
+              type="submit"
+              icon="fa-check"
+              iconPos="right"
+              [disabled]="edit_person_values.invalid"
+              label="Save">
+      </button>
+    </div>
+  </div>
+</form>

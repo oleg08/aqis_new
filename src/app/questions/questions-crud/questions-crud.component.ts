@@ -84,7 +84,7 @@ export class QuestionsCrudComponent implements OnInit {
     self.questions = JSON.parse(JSON.stringify(self.originalQuestions));
   }
 
-  save(event, blur) {
+  save(event, blur?) {
     const self = this;
 
     const val = blur ? event.data.content : event.originalTarget.value;

@@ -89,7 +89,7 @@
                (onEditComplete)="save($event, 'blur')"
                (onEditCancel)="quitUpdate($event)"
                (keydown.enter)="save($event)"
-               (keydown.esc)="esc($event)"
+               (keydown.esc)="esc()"
                [editable]="editable">
     <p-column field="{{q_prop1}}" header="Questions" [editable]="true">
       <ng-template let-question="rowData" pTemplate="body">

@@ -4,6 +4,6 @@
        name="edited_label"
        [(ngModel)]="item[field]">
 <hr>
-<button type="button" class="btn btn-info" [disabled]="initial_value && item[field] === initial_value.value" (click)="save(item[field])">
+<button type="button" class="btn btn-info" [disabled]="initial_value && item[field] === initial_value['value']" (click)="save(item[field])">
   Save
 </button>

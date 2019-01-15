@@ -28,6 +28,7 @@ import { GetEmailTemplatesService } from './services/get-email-templates.service
 import { CapitalizeService } from './services/capitalize.service';
 import { KeywordsService } from './services/keywords.service';
 import { PassBusinessService } from './services/pass-business.service';
+import { PassProjectIdService } from './services/pass-project-id.service';
 
 // primeng
 import {
@@ -62,6 +63,9 @@ import { ToolbarModule       } from 'primeng/toolbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { PickListModule        } from 'primeng/picklist';
 import { PanelModule           } from 'primeng/panel';
+import { PasswordModule        } from 'primeng/password';
+import { DataViewModule        } from 'primeng/dataview';
+import { SelectButtonModule    } from 'primeng/selectbutton';
 
 // components
 import { AngularTokenModule } from 'angular-token';
@@ -110,6 +114,11 @@ import { EmailTemplatePreviewComponent } from './email-templates/email-template-
 import { BusinessAllComponent } from './businesses/business-all/business-all.component';
 import { EditBusinessComponent } from './businesses/edit-business/edit-business.component';
 import { NewBusinessComponent } from './businesses/new-business/new-business.component';
+import { TenantsListComponent } from './tenants/tenants-list/tenants-list.component';
+import { TenantDetailsComponent } from './tenants/tenant-details/tenant-details.component';
+import { TenantsDsvgoComponent } from './tenants/tenants-dsvgo/tenants-dsvgo.component';
+import { AddUserToTenantComponent } from './tenants/add-user-to-tenant/add-user-to-tenant.component';
+import { TrippleFieldComponent } from './tripple-field/tripple-field.component';
 
 @NgModule({
   declarations: [
@@ -153,6 +162,11 @@ import { NewBusinessComponent } from './businesses/new-business/new-business.com
     BusinessAllComponent,
     EditBusinessComponent,
     NewBusinessComponent,
+    TenantsListComponent,
+    TenantDetailsComponent,
+    TenantsDsvgoComponent,
+    AddUserToTenantComponent,
+    TrippleFieldComponent,
   ],
   imports: [
     BrowserModule,
@@ -195,7 +209,10 @@ import { NewBusinessComponent } from './businesses/new-business/new-business.com
     CardModule,
     ToolbarModule,
     ProgressSpinnerModule,
-    PickListModule
+    PickListModule,
+    PasswordModule,
+    DataViewModule,
+    SelectButtonModule
   ],
   providers: [
     AngularTokenService,
@@ -213,7 +230,8 @@ import { NewBusinessComponent } from './businesses/new-business/new-business.com
     GetEmailTemplatesService,
     CapitalizeService,
     KeywordsService,
-    PassBusinessService
+    PassBusinessService,
+    PassProjectIdService
   ],
   bootstrap: [AppComponent]
 })

@@ -19,6 +19,9 @@
         <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)">
           <a [routerLink]="['/businesses']">Businesses</a>
         </li>
+        <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)">
+          <a [routerLink]="['/tenants']">Tenants</a>
+        </li>
 
         <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog()" >LOGIN</a></li>
         <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog('register')">REGISTER</a></li>

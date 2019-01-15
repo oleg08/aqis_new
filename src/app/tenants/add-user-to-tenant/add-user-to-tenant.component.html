@@ -1,0 +1,84 @@
+<form #new_user_values="ngForm" (ngSubmit)="submit(new_user_values); setPristine(new_email_model)">
+  <div class="row">
+    <div class="col-12">
+
+      <label>
+        <b>Name:</b>
+      </label>
+
+      <input type="text" class="form-control"
+             [(ngModel)]="new_user_name"
+             name="new_user_name_input"
+             ref-new_name_model="ngModel">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div bind-class="new_email_model.invalid && new_email_model.dirty ?
+                 'form-group has-warning' : 'form-group'">
+        <label>
+          <b>Email:</b>
+        </label>
+        <input type="text" class="form-control"
+               pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
+               [(ngModel)]="new_user_email"
+               name="new_user_email_input"
+               ref-new_email_model="ngModel"
+               required>
+        <aside *ngIf="new_email_model.invalid && new_email_model.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="new_email_model.invalid">Must be as email</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <label>
+        <b>Password</b>
+      </label>
+      <input type="password"
+             class="form-control"
+             pPassword
+             (blur)="setPristine(newPassword)"
+             name="new_password"
+             [(ngModel)]="password"
+             ref-newPassword="ngModel"
+             required/>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <label>
+        <b>Password Confirmation</b>
+      </label>
+      <input type="password"
+             class="form-control"
+             pPassword
+             name="new_password_confirmation"
+             [(ngModel)]="password_confirmation"
+             ref-newPasswordConfirmation="ngModel"
+             (blur)="setPristine(newPasswordConfirmation)"
+             required/>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <button pButton
+              class="float-right"
+              type="submit"
+              icon="fa fa-check"
+              iconPos="right"
+              [disabled]="new_user_values.invalid"
+              label="Create">
+      </button>
+    </div>
+  </div>
+
+  <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+</form>
