@@ -1,0 +1,34 @@
+<form #new_address_values="ngForm" (ngSubmit)="createAddress(new_address_values)">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div bind-class="new_cityAddress.invalid && new_cityAddress.dirty ?
+                                 'form-group has-warning' : 'form-group'">
+        <label><b>Address</b></label>
+        <div class="input-group">
+          <input type="text"
+                 name="city_address"
+                 [(ngModel)]="new_city_address"
+                 on-blur="setPristine(new_cityAddress)"
+                 class="form-control"
+                 placeholder="{{placeholder}}"
+                 ref-new_cityAddress="ngModel"
+                 required>
+          <div class="input-group-addon">
+            <button pButton
+                    type="submit"
+                    icon="fa fa-check"
+                    iconPos="right"
+                    [disabled]="new_address_values.invalid">
+            </button>
+          </div>
+        </div>
+        <aside *ngIf="new_cityAddress.invalid && new_cityAddress.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="new_cityAddress.invalid">Required</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+</form>

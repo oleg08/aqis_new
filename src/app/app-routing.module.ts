@@ -13,6 +13,12 @@ import { BusinessAllComponent } from './businesses/business-all/business-all.com
 import { TenantsListComponent } from './tenants/tenants-list/tenants-list.component';
 import { TenantDetailsComponent } from './tenants/tenant-details/tenant-details.component';
 import { TenantsDsvgoComponent } from './tenants/tenants-dsvgo/tenants-dsvgo.component';
+import { CustomerSearchComponent } from './customers/customer-search/customer-search.component';
+import { CustomerExportComponent } from './customers/customer-export/customer-export.component';
+import { CustomerDetailsComponent } from './customers/customer-details/customer-details.component';
+import { CustomerTenantStepDetailsComponent } from './steps/customer-tenant-step-details/customer-tenant-step-details.component';
+import { PreCustomersListComponent } from './pre-customers/pre-customers-list/pre-customers-list.component';
+import { PreCustomersDetailsComponent } from './pre-customers/pre-customers-details/pre-customers-details.component';
 
 const routes: Routes = [
   {
@@ -71,6 +77,30 @@ const routes: Routes = [
   {
     path: 'tenants/:id',
     component: TenantDetailsComponent
+  },
+  {
+    path: 'customers',
+    component: CustomerSearchComponent
+  },
+  {
+    path: 'export_customers',
+    component: CustomerExportComponent
+  },
+  {
+    path: 'customers/:id',
+    component: CustomerDetailsComponent
+  },
+  {
+    path: 'c_tenant_steps/:id',
+    component: CustomerTenantStepDetailsComponent
+  },
+  {
+    path: 'pre_customers',
+    component: PreCustomersListComponent
+  },
+  {
+    path: 'pre_customers/:id',
+    component: PreCustomersDetailsComponent
   }
 ];
 

@@ -1,0 +1,21 @@
+<label attr.for="{{field_name}}">
+  <b>{{label}}</b>
+</label>
+<p-dropdown [options]="array"
+            [(ngModel)]="selectedObject"
+            [style]="{'width':'100%'}"
+            [autoDisplayFirst]="false"
+            (onChange)="selectObject($event)"
+            [resetFilterOnHide]="true"
+            placeholder="{{placeholder}}"
+            filterPlaceholder="{{filter_placeholder}}"
+            filter="true"
+            filterBy="{{filter_by}}">
+  <ng-template let-item pTemplate="item">
+    <div class="ui-helper-clearfix customer-search-template">
+      <div class="customers-search-item">
+        <small>{{item[field_name]}}</small>
+      </div>
+    </div>
+  </ng-template>
+</p-dropdown>

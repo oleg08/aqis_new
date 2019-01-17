@@ -1,0 +1,212 @@
+<form #new_pre_customer_values="ngForm" (ngSubmit)="createPreCustomer(new_pre_customer_values)">
+  <div class="ui-g">
+    <h4><u>{{selectedPreCustomer.id ? 'Edit Contact' : 'Fill the form to create First Contact'}}</u></h4>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-6">
+      <input type="text"
+             name="uid"
+             [(ngModel)]="selectedPreCustomer.uid"
+             class="form-control"
+             placeholder="UID">
+    </div>
+    <div class="ui-g-6">
+      <div bind-class="name.invalid && name.dirty ?
+                             'form-group has-warning' : 'form-group'">
+        <div class="input-group">
+          <input type="text"
+                 name="name"
+                 ref-name="ngModel"
+                 [(ngModel)]="selectedPreCustomer.name"
+                 on-blur="setPristine(name)"
+                 class="form-control"
+                 placeholder="Name"
+                 required>
+        </div>
+        <aside *ngIf="name.invalid && name.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="name.invalid">Required</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-dropdown [options]="dropdown_items"
+                  [style]="{'width' : '100%'}"
+                  name="project_object"
+                  [(ngModel)]="selectedPreCustomer.project_object"
+                  optionLabel="label"></p-dropdown>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-4">
+      <div bind-class="zip.invalid && zip.dirty ?
+                             'form-group has-warning' : 'form-group'">
+        <div class="input-group">
+          <input type="text"
+                 name="zip"
+                 pattern="^\d{1,6}$"
+                 ref-zip="ngModel"
+                 [(ngModel)]="selectedPreCustomer.zip"
+                 on-blur="setPristine(zip)"
+                 class="form-control"
+                 placeholder="Zip">
+        </div>
+        <aside *ngIf="zip.invalid && zip.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="zip.invalid">Must be numeric less then 7 digits</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+    <div class="ui-g-8">
+      <input type="text"
+             name="city"
+             [(ngModel)]="selectedPreCustomer.city"
+             class="form-control"
+             placeholder="City">
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <input type="text"
+             name="address"
+             [(ngModel)]="selectedPreCustomer.address"
+             class="form-control"
+             placeholder="Address">
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-6">
+      <div bind-class="email.invalid && email.dirty ?
+                             'form-group has-warning' : 'form-group'">
+        <div class="input-group">
+          <input type="text"
+                 name="email"
+                 pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
+                 ref-email="ngModel"
+                 [(ngModel)]="selectedPreCustomer.email"
+                 on-blur="setPristine(email)"
+                 class="form-control"
+                 placeholder="Email"
+                 required>
+        </div>
+        <aside *ngIf="email.invalid && email.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="email.invalid">Must be as email</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+    <div class="ui-g-6">
+      <input type="text"
+             name="phone"
+             [(ngModel)]="selectedPreCustomer.phone"
+             class="form-control"
+             placeholder="Phone">
+    </div>
+  </div>
+  <hr>
+  <div class="ui-g">
+    <div class="ui-g-6">
+      <input type="text"
+             name="person"
+             [(ngModel)]="selectedPreCustomer.person"
+             class="form-control"
+             placeholder="First Person">
+    </div>
+    <div class="ui-g-6">
+      <div bind-class="email_1.invalid && email_1.dirty ?
+                             'form-group has-warning' : 'form-group'">
+        <div class="input-group">
+          <input type="text"
+                 name="email_1"
+                 pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
+                 ref-email_1="ngModel"
+                 [(ngModel)]="selectedPreCustomer.email_1"
+                 on-blur="setPristine(email_1)"
+                 class="form-control"
+                 placeholder="Email">
+        </div>
+        <aside *ngIf="email_1.invalid && email_1.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="email_1.invalid">Must be as email</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+    <div class="ui-g-offset-6 ui-g-6">
+      <input type="text"
+             name="phone_1"
+             [(ngModel)]="selectedPreCustomer.phone_1"
+             class="form-control"
+             placeholder="Phone">
+    </div>
+  </div>
+  <hr>
+  <div class="ui-g">
+    <div class="ui-g-6">
+      <input type="text"
+             name="person_2"
+             [(ngModel)]="selectedPreCustomer.person_2"
+             class="form-control"
+             placeholder="Second Person">
+    </div>
+    <div class="ui-g-6">
+      <div bind-class="email_2.invalid && email_2.dirty ?
+                             'form-group has-warning' : 'form-group'">
+        <div class="input-group">
+          <input type="text"
+                 name="email_2"
+                 pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
+                 ref-email_2="ngModel"
+                 [(ngModel)]="selectedPreCustomer.email_2"
+                 on-blur="setPristine(email_2)"
+                 class="form-control"
+                 placeholder="Email">
+        </div>
+        <aside *ngIf="email_2.invalid && email_2.dirty"
+               class="alert alert-danger">
+          <small>
+            <span *ngIf="email_2.invalid">Must be as email</span>
+          </small>
+        </aside>
+      </div>
+    </div>
+    <div class="ui-g-offset-6 ui-g-6">
+      <input type="text"
+             name="phone_2"
+             [(ngModel)]="selectedPreCustomer.phone_2"
+             class="form-control"
+             placeholder="Phone">
+    </div>
+  </div>
+  <hr>
+  <div class="ui-g">
+    <div class="ui-g-12">
+            <textarea type="text"
+                      name="message"
+                      [(ngModel)]="selectedPreCustomer.message"
+                      class="form-control"
+                      placeholder="Message">
+            </textarea>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <button pButton
+              class="float-right"
+              pTooltip="{{selectedPreCustomer.id ? 'Save Changes' : 'Create'}}"
+              type="submit"
+              icon="fa fa-check"
+              [disabled]="new_pre_customer_values.invalid">
+      </button>
+    </div>
+  </div>
+</form>

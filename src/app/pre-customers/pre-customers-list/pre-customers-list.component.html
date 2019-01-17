@@ -1,0 +1,110 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<p-overlayPanel #new_pre_customer [showCloseIcon]="true" (onBeforeHide)="setPrevState()">
+  <app-aqis-new-pre-customer *ngIf="projects"
+                             [selectedPreCustomer]="current_pre_customer"
+                             (addPreCustomer)="addPreCustomer($event, new_pre_customer)"
+                             [projects]="projects">
+  </app-aqis-new-pre-customer>
+</p-overlayPanel>
+
+<section #preCustomersList class="pre-customers-list">
+  <p-dataView [value]="pre_customers" [paginator]="true" [rows]="20">
+    <p-header>
+      <div class="ui-helper-clearfix">
+        <div class="ui-g">
+          <div class="ui-g-6">
+            <h4 class="float-left">List of First Contacts</h4>
+          </div>
+          <div class="ui-g-6">
+            <div class="float-right" style="position:relative">
+              <p-button icon="fa fa-plus"
+                        pTooltip="Add new First Contact"
+                        (click)="new_pre_customer.toggle($event)">
+              </p-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-header>
+
+    <ng-template let-pre_customer pTemplate="listItem">
+      <div id="pre-customer-{{pre_customer.id}}" style="padding:3px" class="col-4">
+        <p-panel>
+          <p-header>
+            <div class="ui-helper-clearfix">
+              <span class="ui-panel-title pre-customer-header">{{pre_customer.name}}</span>
+              <div *ngIf="super_admin && pre_customer.new"
+                   class="text-top-right float-right mr-2 cursor-pointer"
+                   pTooltip="Hide label"
+                   (click)="hideNew(pre_customer)">
+                <small [@newLabel]="label_state" class="new-label">New</small>
+                <br>
+              </div>
+            </div>
+          </p-header>
+          <div class="pre_customer-detail">UID - <u>{{pre_customer.uid}}</u></div>
+          <br>
+          <div class="pre_customer-detail">Project - {{pre_customer.project_object.label}}</div>
+          <br/>
+          <div class="pre_customer-detail">
+            {{pre_customer.zip}} - {{pre_customer.city}}
+            <br>
+            {{pre_customer.address}}
+            <br>
+            <small>Email: {{pre_customer.email}}</small>
+            <br>
+            <small>Phone: {{pre_customer.phone}}</small>
+          </div>
+          <br/>
+          <small><b>Contacted Person</b></small>
+          <div class="ui-g pre_customer-detail">
+            <div class="ui-g-12">
+              <label class="float-left">{{pre_customer.person}}</label>
+            </div>
+            <div class="ui-g-12">
+              <small class="float-left">Email: </small><small class="float-right">{{pre_customer.email_1}}</small>
+            </div>
+            <div class="ui-g-12">
+              <small class="float-left">Phone: </small><small class="float-right">{{pre_customer.phone_1}}</small>
+            </div>
+          </div>
+          <br/>
+          <small><b>Person II</b></small>
+          <div class="ui-g pre_customer-detail">
+            <div class="ui-g-12">
+              <label class="float-left">{{pre_customer.person_2}}</label>
+            </div>
+            <div class="ui-g-12">
+              <small class="float-left">Email: </small><small class="float-right">{{pre_customer.email_2}}</small>
+            </div>
+            <div class="ui-g-12">
+              <small class="float-left">Phone: </small><small class="float-right">{{pre_customer.phone_2}}</small>
+            </div>
+          </div>
+          <hr/>
+          <div><u>Message</u></div>
+          <div class="pre_customer-detail"><p>{{pre_customer.message}}</p></div>
+          <br>
+          <div *ngIf="pre_customer.created_by" class="ui-g">
+            <div class="ui-g-12">
+              <u class="float-right">Created By <b>{{pre_customer.created_by}}</b></u>
+            </div>
+          </div>
+          <hr class="ui-widget-content" style="border-top:0">
+          <div class="text-center">
+            <i class="fa fa-search cursor-pointer"
+               pTooltip="Go to approving the contact"
+               (click)="selectPreCustomer(pre_customer)"></i> |
+            <i class="fa fa-edit cursor-pointer"
+               pTooltip="Edit Contact"
+               (click)="setPreCustomer($event, pre_customer, new_pre_customer); setOriginalPreCustomers()"></i> |
+            <i class="fa fa-remove cursor-pointer"
+               pTooltip="Delete Contact"
+               (click)="deleteContact(pre_customer)"></i>
+          </div>
+        </p-panel>
+      </div>
+    </ng-template>
+  </p-dataView>
+</section>

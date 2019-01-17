@@ -33,7 +33,9 @@ export class ProfileComponent implements OnInit {
   disable_time_zone:   boolean;
   disable_half_zone:   boolean;
   msgs:                Message[] = [];
-  alert                = false;
+  alert = false;
+  alertType:           string;
+  alertMessage:        string;
 
   @ViewChild('userProfile') el: ElementRef;
 

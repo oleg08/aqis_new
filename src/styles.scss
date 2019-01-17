@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
 
 .bg-img
 {
@@ -272,8 +274,8 @@ div.ui-radiobutton-box.ui-state-active {
 
 // customers
 
-.customer-double-angle {
-  font-size: 48px !important;
+.ui-dropdown-filter {
+  padding-right: 0 !important;
 }
 
 .customer-address {
@@ -443,10 +445,6 @@ button.c-inline-editor {
   padding: 0;
   margin: 0;
   list-style: none;
-}
-
-.customer-info-header {
-  background-color: #66757F !important;
 }
 
 .car-item {
@@ -722,4 +720,8 @@ section.step-email-templates {
 .no-spinners::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.pre-customers-table {
+  background-color: white !important;
 }

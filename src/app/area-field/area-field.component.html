@@ -1,0 +1,17 @@
+<div>
+  <label class="sr-only" attr.for="{{field_name}}">
+    {{label}}
+  </label>
+  <div bind-class="addon ? 'input-group' : ''">
+    <div *ngIf="addon" class="input-group-addon">{{addon}}</div>
+    <textarea type="text" class="form-control" attr.name="{{field_name}}"
+              placeholder="{{placeholder}}"
+              on-blur="blur(model)"
+              rows="{{rows}}"
+              (focus)="focus()"
+              (focusout)="focusOut()"
+              bind-pattern="validationPattern()"
+              bindon-ngModel="object[field_name]"
+              ref-model="ngModel"></textarea>
+  </div>
+</div>

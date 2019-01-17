@@ -1,0 +1,13 @@
+<div>
+  <label class="sr-only" attr.for="{{field_name}}">
+    {{label}}
+  </label>
+  <select class="form-control"
+          [(ngModel)]="object[field_name]"
+          ref-model="ngModel"
+          (ngModelChange)="save(model)">
+    <option [value]="state" *ngFor="let state of states">
+      {{state}}
+    </option>
+  </select>
+</div>

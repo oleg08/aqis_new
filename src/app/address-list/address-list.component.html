@@ -1,0 +1,14 @@
+<p-growl styleClass="message-growl" [(value)]="msgs"></p-growl>
+
+{{message}}
+<p-dataTable [value]="addresses"
+             (onEditInit)="initEdit($event)"
+             (onEditComplete)="editAddress($event)"
+             [editable]="true">
+  <p-column field="city_address" header="Address" [editable]="true"></p-column>
+  <p-column [style]="{'width':'20%','text-align':'center'}" header="">
+    <ng-template let-address="rowData" pTemplate="body">
+      <button type="button" pButton (click)="removeAddress($event, address);" icon="fa-remove"></button>
+    </ng-template>
+  </p-column>
+</p-dataTable>

@@ -43,6 +43,11 @@ export class TextFieldComponentComponent implements OnInit {
   }
 
   sanitize (url) {
+    if (this.label === 'Web') {
+      if (url.indexOf(' http') !== 0) {
+        url = 'https:\\' + this.object[this.field_name];
+      }
+    }
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 

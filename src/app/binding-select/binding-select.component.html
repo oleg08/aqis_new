@@ -1,0 +1,22 @@
+<div>
+  <label class="sr-only" attr.for="{{field_name}}">
+    {{label}}
+  </label>
+
+  <select class="form-control"
+          [(ngModel)]="selectedCategory"
+          (ngModelChange)="changeStatus(selectedCategory)">
+    <option [ngValue]="item" *ngFor="let item of items">
+      {{item['label']}}
+    </option>
+  </select>
+  <br>
+  <select class="form-control"
+          [(ngModel)]="selectedStatus"
+          ref-model="ngModel"
+          (ngModelChange)="save(model)">
+    <option [ngValue]="status" *ngFor="let status of selectedCategory['statuses']">
+      {{status.label}}
+    </option>
+  </select>
+</div>

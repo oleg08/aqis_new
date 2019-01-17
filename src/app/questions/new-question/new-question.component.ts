@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-aqis-new-question',
@@ -9,6 +9,8 @@ export class NewQuestionComponent implements OnInit {
 
   newValue1: string;
 
+  @Input() q_prop2: string;
+  @Input() header_label: string;
   @Output() submitForm: EventEmitter<object> = new EventEmitter<object>();
 
   constructor() { }

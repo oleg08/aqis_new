@@ -1,0 +1,17 @@
+<p-growl styleClass="message-growl" [(value)]="msgs"></p-growl>
+<p-dataTable [value]="participants"
+             (onEditInit)="initEdit()"
+             (onEditComplete)="editParticipant($event)"
+             [editable]="true">
+  <p-column field="name"
+            header="Name"
+            [editable]="true">
+  </p-column>
+  <p-column field="email" header="Email" [editable]="true"></p-column>
+  <p-column field="phone" header="Phone" [editable]="true"></p-column>
+  <p-column [style]="{'width':'10%','text-align':'center'}" header="">
+    <ng-template let-participant="rowData" pTemplate="body">
+      <button type="button" pButton (click)="removeParticipant($event, participant);" icon="fa-remove"></button>
+    </ng-template>
+  </p-column>
+</p-dataTable>

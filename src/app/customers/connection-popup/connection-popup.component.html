@@ -1,0 +1,19 @@
+<form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control"
+             placeholder="yyyy-mm-dd"
+             name="dp"
+             (focus)="focus()"
+             (focusout)="focusOut()"
+             [(ngModel)]="object[field_name]"
+             (ngModelChange)="saveConnection(object[field_name])"
+             ngbDatepicker #d="ngbDatepicker">
+      <button class="input-group-addon" (click)="d.toggle()" type="button">
+        <img src="../../../assets/showcase/images/icons8-schedule-50.png" class="connection-datepicker cursor-pointer"/>
+      </button>
+    </div>
+  </div>
+</form>
+
+<hr/>

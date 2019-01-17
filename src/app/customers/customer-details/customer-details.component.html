@@ -1,0 +1,24 @@
+<br>
+<section class="customer-details" *ngIf="customer">
+  <form #detailsForm>
+    <app-alert-closeable on-alertFalse="alert = false"
+                         bind-type="alertType"
+                         bind-message="alertMessage"
+                         *ngIf="alert">
+    </app-alert-closeable>
+    <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+    <app-aqis-customer-info #customerInfo
+                            bind-customer="customer"
+                            bind-customer_tenant="customer_tenant"
+                            bind-google_task_saved="google_task_saved"
+                            bind-states="states"
+                            bind-current_user="current_user"
+                            bind-contacted_user="contacted_user"
+                            bind-super_admin="super_admin"
+                            bind-questions="project_questions"
+                            on-customerInfoChanged="saveCustomer($event)"
+                            on-customerSubArrayChanged="saveCustomerSubArray($event)"
+                            on-eventInfoChanged="saveEvent($event)">
+    </app-aqis-customer-info>
+  </form>
+</section>

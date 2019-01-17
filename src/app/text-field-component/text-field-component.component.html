@@ -7,7 +7,7 @@
     <div *ngIf="addon" class="input-group-prepend">
       {{image ? null : addon}}
       <a target="{{target}}" class="input-group-text"
-         [attr.href]="object[field_name] ? sanitize(addon + object[field_name]) : return"
+         [href]="object[field_name] ? sanitize(addon + object[field_name]) : return"
          *ngIf="image">
         <img src="{{image}}" width="30">
       </a>

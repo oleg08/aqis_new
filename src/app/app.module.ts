@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap';
 import { DragulaModule } from 'ng2-dragula';
+import { ClickOutsideModule } from 'ng-click-outside';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import 'materialize-css';
 
@@ -29,6 +31,28 @@ import { CapitalizeService } from './services/capitalize.service';
 import { KeywordsService } from './services/keywords.service';
 import { PassBusinessService } from './services/pass-business.service';
 import { PassProjectIdService } from './services/pass-project-id.service';
+import { SortMultipleService } from './services/sort-multiple.service';
+import { SortArrayService } from './services/sort-array.service';
+import { PassCustomersIdsService } from './services/pass-customers-ids.service';
+import { CustomersWithTenantsService } from './services/customers-with-tenants.service';
+import { TransformStatesService } from './services/transform-states.service';
+import { CustomersSortDataService } from './services/customers-sort-data.service';
+import { ShareCustomersIdsService } from './services/share-customers-ids.service';
+import { IterateCustomersService } from './services/iterate-customers.service';
+import { PassStateService } from './services/pass-state.service';
+import { SetGoogleParamsService } from './services/set-google-params.service';
+import { ChangeTemplateGreetingService } from './services/change-template-greeting.service';
+import { ShareAddressService } from './services/share-address.service';
+import { RemoveDuplicatesService } from './services/remove-duplicates.service';
+import { BuildCustomerAddressesService } from './services/build-customer-addresses.service';
+import { ShareBusinessesService } from './services/share-businesses.service';
+import { ShareEmailTemplatesService } from './services/share-email-templates.service';
+import { GendersService } from './services/genders.service';
+import { PreCustomersService } from './services/pre-customers.service';
+import { CheckModelService } from './services/check-model.service';
+import { IfHourOrMinService } from './services/if-hour-or-min.service';
+import { FilterByPipeService } from './services/filter-by-pipe.service';
+import { ShareCategoriesService } from './services/share-categories.service';
 
 // primeng
 import {
@@ -36,7 +60,10 @@ import {
   ButtonModule,
   DialogModule,
   GrowlModule,
-  ConfirmDialogModule
+  ConfirmDialogModule,
+  InputMaskModule,
+  SidebarModule,
+  MultiSelectModule,
 } from 'primeng/primeng';
 
 import { MessageService      } from 'primeng/primeng';
@@ -60,12 +87,19 @@ import { EditorModule        } from 'primeng/editor';
 import { InplaceModule       } from 'primeng/inplace';
 import { CardModule          } from 'primeng/card';
 import { ToolbarModule       } from 'primeng/toolbar';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { PickListModule        } from 'primeng/picklist';
-import { PanelModule           } from 'primeng/panel';
-import { PasswordModule        } from 'primeng/password';
-import { DataViewModule        } from 'primeng/dataview';
-import { SelectButtonModule    } from 'primeng/selectbutton';
+import { ProgressSpinnerModule  } from 'primeng/progressspinner';
+import { PickListModule         } from 'primeng/picklist';
+import { PanelModule            } from 'primeng/panel';
+import { PasswordModule         } from 'primeng/password';
+import { DataViewModule         } from 'primeng/dataview';
+import { SelectButtonModule     } from 'primeng/selectbutton';
+import { AccordionModule        } from 'primeng/accordion';
+import { ProgressBarModule      } from 'primeng/progressbar';
+import { TabViewModule          } from 'primeng/tabview';
+import { CheckboxModule         } from 'primeng/checkbox';
+import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { RadioButtonModule      } from 'primeng/radiobutton';
+import { VirtualScrollerModule  } from 'primeng/virtualscroller';
 
 // components
 import { AngularTokenModule } from 'angular-token';
@@ -119,6 +153,28 @@ import { TenantDetailsComponent } from './tenants/tenant-details/tenant-details.
 import { TenantsDsvgoComponent } from './tenants/tenants-dsvgo/tenants-dsvgo.component';
 import { AddUserToTenantComponent } from './tenants/add-user-to-tenant/add-user-to-tenant.component';
 import { TrippleFieldComponent } from './tripple-field/tripple-field.component';
+import { CustomerSearchComponent } from './customers/customer-search/customer-search.component';
+import { CustomerExportComponent } from './customers/customer-export/customer-export.component';
+import { BindingSelectComponent } from './binding-select/binding-select.component';
+import { ConnectionPopupComponent } from './customers/connection-popup/connection-popup.component';
+import { ConnectionTimeComponent } from './customers/connection-time/connection-time.component';
+import { ConnectionDurationComponent } from './customers/connection-duration/connection-duration.component';
+import { CustomerDetailsComponent } from './customers/customer-details/customer-details.component';
+import { CustomerInfoComponent } from './customers/customer-info/customer-info.component';
+import { GroupedMultiselectComponent } from './grouped-multiselect/grouped-multiselect.component';
+import { NewAddressComponent } from './new-address/new-address.component';
+import { ParticipantsListComponent } from './participants-list/participants-list.component';
+import { PreCustomersListComponent } from './pre-customers/pre-customers-list/pre-customers-list.component';
+import { NewPreCustomerComponent } from './pre-customers/new-pre-customer/new-pre-customer.component';
+import { PreCustomersDetailsComponent } from './pre-customers/pre-customers-details/pre-customers-details.component';
+import { AreaFieldComponent } from './area-field/area-field.component';
+import { CustomerTenantStepsComponent } from './steps/customer-tenant-steps/customer-tenant-steps.component';
+import { CustomerTenantStepDetailsComponent } from './steps/customer-tenant-step-details/customer-tenant-step-details.component';
+import { SelectAutoCompleteComponent } from './select-auto-complete/select-auto-complete.component';
+import { AddressListComponent } from './address-list/address-list.component';
+import { SelectSearchComponent } from './select-search/select-search.component';
+import { BindSelectComponent } from './bind-select/bind-select.component';
+import { SelectFieldComponent } from './select-field/select-field.component';
 
 @NgModule({
   declarations: [
@@ -167,6 +223,28 @@ import { TrippleFieldComponent } from './tripple-field/tripple-field.component';
     TenantsDsvgoComponent,
     AddUserToTenantComponent,
     TrippleFieldComponent,
+    CustomerSearchComponent,
+    CustomerExportComponent,
+    BindingSelectComponent,
+    ConnectionPopupComponent,
+    ConnectionTimeComponent,
+    ConnectionDurationComponent,
+    CustomerDetailsComponent,
+    CustomerInfoComponent,
+    GroupedMultiselectComponent,
+    NewAddressComponent,
+    ParticipantsListComponent,
+    PreCustomersListComponent,
+    NewPreCustomerComponent,
+    PreCustomersDetailsComponent,
+    AreaFieldComponent,
+    CustomerTenantStepsComponent,
+    CustomerTenantStepDetailsComponent,
+    SelectAutoCompleteComponent,
+    AddressListComponent,
+    SelectSearchComponent,
+    BindSelectComponent,
+    SelectFieldComponent,
   ],
   imports: [
     BrowserModule,
@@ -179,6 +257,8 @@ import { TrippleFieldComponent } from './tripple-field/tripple-field.component';
     BrowserAnimationsModule,
     AngularFontAwesomeModule,
     CommonModule,
+    ClickOutsideModule,
+    NgSelectModule,
     BsDropdownModule.forRoot(),
     TooltipModule,
     ModalModule.forRoot(),
@@ -212,7 +292,17 @@ import { TrippleFieldComponent } from './tripple-field/tripple-field.component';
     PickListModule,
     PasswordModule,
     DataViewModule,
-    SelectButtonModule
+    SelectButtonModule,
+    InputMaskModule,
+    SidebarModule,
+    MultiSelectModule,
+    AccordionModule,
+    ProgressBarModule,
+    TabViewModule,
+    CheckboxModule,
+    TriStateCheckboxModule,
+    RadioButtonModule,
+    VirtualScrollerModule
   ],
   providers: [
     AngularTokenService,
@@ -231,7 +321,29 @@ import { TrippleFieldComponent } from './tripple-field/tripple-field.component';
     CapitalizeService,
     KeywordsService,
     PassBusinessService,
-    PassProjectIdService
+    PassProjectIdService,
+    SortMultipleService,
+    SortArrayService,
+    PassCustomersIdsService,
+    CustomersWithTenantsService,
+    TransformStatesService,
+    CustomersSortDataService,
+    ShareCustomersIdsService,
+    IterateCustomersService,
+    PassStateService,
+    SetGoogleParamsService,
+    ChangeTemplateGreetingService,
+    ShareAddressService,
+    RemoveDuplicatesService,
+    BuildCustomerAddressesService,
+    ShareBusinessesService,
+    ShareEmailTemplatesService,
+    GendersService,
+    PreCustomersService,
+    CheckModelService,
+    IfHourOrMinService,
+    FilterByPipeService,
+    ShareCategoriesService
   ],
   bootstrap: [AppComponent]
 })

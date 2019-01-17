@@ -1,0 +1,24 @@
+<label *ngIf="label" class="float-left"><b>{{label}}</b></label>
+<button type="button"
+        ngbTooltip="Clear address field"
+        class="btn btn-sm button-clear float-right cursor-pointer"
+        style="margin-bottom: 3px"
+        (click)="selectAddress(); address = null">
+  <i class="fa fa-remove"></i>
+</button>
+<p-autoComplete [(ngModel)]="address"
+                [suggestions]="filteredAddresses"
+                (completeMethod)="filterAddresses($event)"
+                (onSelect)="selectAddress($event)"
+                [size]="15"
+                (onFocus)="focus()"
+                (onBlur)="focusOut()"
+                [minLength]="1"
+                placeholder="Accessible Addresses"
+                [dropdown]="true">
+  <ng-template let-address pTemplate="item">
+    <div class="ui-helper-clearfix autocomplete-cell">
+      <div class="autocomplete-item">{{address}}</div>
+    </div>
+  </ng-template>
+</p-autoComplete>

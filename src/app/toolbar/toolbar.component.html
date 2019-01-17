@@ -22,6 +22,16 @@
         <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)">
           <a [routerLink]="['/tenants']">Tenants</a>
         </li>
+        <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)">
+          <a [routerLink]="['/customers']">Customers</a>
+        </li>
+
+        <li *ngIf="(authService.userSignedIn$ | async)" class="dropdown" dropdown >
+          <a dropdownToggle role="button">Communications<i class="fa fa-angle-down ml-1"></i></a>
+          <div *dropdownMenu class="dropdown-menu">
+            <a class="dropdown-item" [routerLink]="['/pre_customers']">First Contacts</a>
+          </div>
+        </li>
 
         <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog()" >LOGIN</a></li>
         <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog('register')">REGISTER</a></li>

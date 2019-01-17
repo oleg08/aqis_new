@@ -1,0 +1,24 @@
+<section *ngIf="accounts">
+  <ng-select [items]="accounts"
+             [addTag]="addTag"
+             bindLabel="description"
+             groupBy="business_domain"
+             [multiple]="true"
+             [closeOnSelect]="false"
+             [selectableGroup]="true"
+             [compareWith]="selectedAccountsFn"
+             [(ngModel)]="selectedBusinesses"
+             (add)="add($event)"
+             (remove)="remove($event)"
+             (focus)="focus()"
+             (blur)="focusOut()"
+             (clear)="clear()"
+             [clearSearchOnAdd]="true"
+  >
+    <ng-template ng-optgroup-tmp let-item="item">
+      <div>
+        {{item.business_domain || 'Unnamed group'}}
+      </div>
+    </ng-template>
+  </ng-select>
+</section>

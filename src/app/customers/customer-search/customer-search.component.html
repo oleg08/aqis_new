@@ -1,0 +1,454 @@
+<app-alert-closeable on-alertFalse="alert = false"
+                     bind-type="alertType"
+                     bind-message="alertMessage"
+                     *ngIf="alert">
+</app-alert-closeable>
+
+<p-overlayPanel [style]="{'width':'20%','margin-top':'20%','margin-left':'5%'}" [showCloseIcon]="true" #selectEmailTemplate>
+  <section *ngIf="selectedTemplate">
+    <app-aqis-email-template-preview [template]="selectedTemplate"></app-aqis-email-template-preview>
+  </section>
+</p-overlayPanel>
+
+<p-growl [(value)]="msgs" [baseZIndex]="50"></p-growl>
+
+<div class="ui-g" [ngClass]="{'cursor-progress' : upload_customers}">
+  <div class="ui-g-8">
+    <div class="ui-g">
+
+      <div class="ui-g-8 send-email">
+        <div class="ui-g">
+          <div  *ngIf="email_templates && email_templates.length > 0" class="ui-g-12 customers-select-template">
+            <p-dropdown [options]="email_templates"
+                        [(ngModel)]="selectedTemplate"
+                        [style]="{'width':'100%'}"
+                        placeholder="Select a Template"
+                        optionLabel="name"
+                        (onChange)="selectTemplate($event,selectedTemplate,selectEmailTemplate)"
+                        [showClear]="true">
+            </p-dropdown>
+            <button class="btn btn-sm btn-primary float-right cursor-pointer" (click)="sendEmail()">
+              Send Email
+            </button>
+          </div>
+          <div class="ui-g-12 text-center" [ngClass]="{'text-center':!super_admin}">
+            <p-dropdown [options]="customers_options_select"
+                        [style]="{'width':'100%'}"
+                        [(ngModel)]="selectedOption"
+                        (onChange)="selectCustomers()"></p-dropdown>
+          </div>
+          <div class="ui-g-4">
+            <button pButton type="button"
+                    label="Export to Excel"
+                    [routerLink]="['export_customers']"
+                    class="ui-button-info"></button>
+          </div>
+          <div *ngIf="!super_admin" class="ui-g-8">
+            <button type="button"
+                    class="btn btn-primary cursor-pointer float-right"
+                    (click)="loadSteps()">
+              Load Steps From Project
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g-4">
+        <div *ngIf="!super_admin && filter_states" class="ui-g">
+          <div class="ui-g-12">
+            <ng-select
+              [items]="filter_states"
+              [multiple]="true"
+              bindLabel="label"
+              groupBy="stated"
+              [selectableGroup]="true"
+              [closeOnSelect]="false"
+              bindValue="value"
+              [(ngModel)]="selectedStates"
+              (add)="selectState($event)"
+              (close)="changeStates()"
+              (clear)="changeStates()"
+              placeholder="Filter by States">
+              <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.stated | uppercase}}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.label}}
+              </ng-template>
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-4">
+    <div *ngIf="!super_admin" class="ui-g">
+      <div class="ui-g-12">
+        <p-multiSelect [options]="filter_roles"
+                       [style]="{'width':'100%'}"
+                       defaultLabel="Choose active Step's role"
+                       [filter]="false"
+                       [(ngModel)]="selectedRoles"
+                       (onPanelHide)="changeRoles(selectedRoles)">
+        </p-multiSelect>
+      </div>
+    </div>
+    <div *ngIf="!super_admin" class="ui-g">
+      <div class="ui-g-10 pr-0">
+        <p-autoComplete pTooltip="Select User to which belongs Customers"
+                        [(ngModel)]="tenant_user"
+                        [suggestions]="filteredUsers"
+                        (completeMethod)="filterUsers($event)"
+                        (onSelect)="changeTenantUsers(tenant_user)"
+                        placeholder="Select User"
+                        [dropdown]="true">
+          <ng-template let-tenant_user pTemplate="item">
+            <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+              <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{tenant_user}}</div>
+            </div>
+          </ng-template>
+        </p-autoComplete>
+        <p-button *ngIf="tenant_user" (click)="clearTenantUsers()" icon="fa fa-close"></p-button>
+      </div>
+      <div class="ui-g-2 pl-0">
+        <button *ngIf="!super_admin" type="button"
+                class="btn btn-primary btn-sm float-right cursor-pointer"
+                (click)="getMyLeads()">
+          My Leads
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<aside class="progress" *ngIf="!lazyCustomers">
+  <div class="progress-bar progress-bar-info progress-bar-striped active"
+       role="progressbar" style="width: 100%">
+    Loading...
+  </div>
+</aside>
+
+<section *ngIf="super_admin" class="add-customer alert-secondary p-2"
+         [ngClass]="{'cursor-progress' : upload_customers}">
+  <form name="add_customer">
+    <div class="row">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <div bind-class="( newIdentifier.invalid && newIdentifier.dirty ) ?
+                                           'form-group has-warning' : 'form-group'">
+              <input class="form-control"
+                     type="text"
+                     ref-newIdentifier="ngModel"
+                     (blur)="setInputToPristine(newIdentifier)"
+                     name="new_identifier"
+                     [disabled]="upload_customers"
+                     bindon-ngModel="new_identifier"
+                     placeholder="New UID-Number"
+                     required>
+              <aside *ngIf="newIdentifier.invalid && newIdentifier.dirty"
+                     class="alert alert-danger">
+                <small>
+                  <span *ngIf="newIdentifier.pattern">This required</span>
+                  <span *ngIf="!newIdentifier.pattern">Must be as UID-Number</span>
+                </small>
+              </aside>
+            </div>
+          </div>
+          <div class="col-6">
+            <div bind-class="( newName.invalid && newName.dirty ) ?
+                                   'form-group has-warning' : 'form-group'">
+              <input class="form-control"
+                     type="text"
+                     ref-newName="ngModel"
+                     [disabled]="upload_customers"
+                     (blur)="setInputToPristine(newName)"
+                     name="new_name"
+                     bindon-ngModel="new_name"
+                     placeholder="New Name">
+              <aside *ngIf="newName.invalid && newName.dirty"
+                     class="alert alert-danger">
+                <small>
+                  <span *ngIf="newName.pattern">This required</span>
+                  <span *ngIf="!newName.pattern">Must be as name</span>
+                </small>
+              </aside>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-9">
+            <div bind-class="( newEmail.invalid && newEmail.dirty ) ?
+                                   'form-group has-warning' : 'form-group'">
+              <input class="form-control"
+                     type="text"
+                     ref-newEmail="ngModel"
+                     [disabled]="upload_customers"
+                     name="new_email"
+                     (blur)="setInputToPristine(newEmail)"
+                     bindon-ngModel="new_email"
+                     pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
+                     placeholder="New Email">
+              <aside *ngIf="newEmail.invalid && newEmail.dirty && !newEmail['pattern']"
+                     class="alert alert-danger">
+                <small>
+                  <span *ngIf="newEmail['pattern']">This required</span>
+                  <span *ngIf="!newEmail['pattern']">Must be as email</span>
+                </small>
+              </aside>
+            </div>
+          </div>
+          <div class="ui-g-3">
+            <button pButton type="button" label="Add Customer"
+                    class="ui-button-success"
+                    [disabled]="newEmail.invalid || newName.invalid || newIdentifier.invalid || upload_customers"
+                    on-click="addCustomer(new_name, new_email, new_identifier)">
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-12">
+            <input type="file"
+                   [disabled]="upload_customers"
+                   name="upload_file"
+                   class="form-control"
+                   (change)="fileChange($event)"
+                   [(ngModel)]="upload_file"
+                   placeholder="Upload file"
+                   accept=".csv,.xlsx,.ods">
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-12">
+            <p>
+              <ngb-progressbar
+                *ngIf="upload_customers"
+                type="success"
+                [value]="progressValue"
+                showValue="true"
+                [animated]="true"
+                [striped]="true">
+              </ngb-progressbar>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+<br>
+
+<div class="text-center">
+  <p-progressSpinner *ngIf="init" [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration="1.5s"></p-progressSpinner>
+</div>
+
+<section #customersList  class="customers-scroll">
+  <p-virtualScroller [value]="lazyCustomers" scrollHeight="500px" [itemSize]="super_admin ? 200 : 300" [rows]="customers_count <= 100 ? customers_count : 100" [cache]="false"
+                     [lazy]="true" (onLazyLoad)="loadCustomersLazy($event)" [totalRecords]="customers_count">
+    <p-header>
+      <div class="ui-g">
+        <div class="ui-g-2 text-left">
+          <div class="ui-g">
+            <div class="ui-g-12">
+              <b>Companies</b>
+              <span>
+                    <small *ngIf="lazyCustomers">: {{customers_count || 0}}</small>
+                </span>
+            </div>
+            <div class="ui-g-8 text-center">
+              <small *ngIf="short_customers_list">Short List</small>
+              <small *ngIf="!short_customers_list">Long List</small>
+            </div>
+            <div class="ui-g-4">
+              <p-inputSwitch onLabel="Short list"
+                             offLabel="Long list"
+                             class="float-right"
+                             [(ngModel)]="short_customers_list">
+              </p-inputSwitch>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-6 mr-2">
+          <div class="ui-inputgroup m-2">
+            <input type="text" pInputText
+                   id="keywords" name="keywords"
+                   [disabled]="upload_customers"
+                   placeholder="Searching by Name, UID-Number or City"
+                   bind-ngModel="keywords"
+                   ref-model="ngModel">
+            <button pButton type="button"
+                    label="Find"
+                    class="ui-button-success"
+                    [disabled]="upload_customers"
+                    (click)="searchCustomers(model)"></button>
+          </div>
+        </div>
+        <div class="ui-2">
+          <label class="float-right"><small><b>Sorted by</b></small></label>
+        </div>
+        <div class="ui-g-2">
+          <!--[(ngModel)]="selectedSorting"-->
+          <p-dropdown styleClass="pr-2 float-left"
+                      [options]="sort_properties"
+                      [style]="{'width':'100%'}"
+                      (onChange)="sortCustomersBy($event)">
+          </p-dropdown>
+        </div>
+      </div>
+    </p-header>
+    <ng-template let-customer pTemplate="item" let-i="index">
+      <section [ngClass]="{'cursor-progress' : upload_customers}">
+        <div class="p-2 car-item customer-row"
+             [@fadeInOut]
+             id="customer_row_{{customer['id']}}">
+          <small class="float-right">
+            <small class="text-uppercase">Joined</small>
+            {{customer.created_at | date}}
+          </small>
+          <h2 class="h3">
+            <p-checkbox name="group1"
+                        pTooltip="Check for importing to Excel"
+                        tooltipPosition="top"
+                        value="{{customer.id}}"
+                        [(ngModel)]="customers_ids"
+                        inputId="{{customer.id}}"
+                        (onChange)="selectCustomer(customers_ids)">
+            </p-checkbox>
+            <small>{{customer.zip}}</small>
+            {{customer.name}}
+          </h2>
+          <div class="btn-group-sm float-right">
+            <button class="ui-button-info"
+                    pButton
+                    label="View Details"
+                    [disabled]="upload_customers"
+                    (click)="viewDetails(customer)"
+                    value="view_details_{{customer.id}}">
+            </button>
+            <button class="ui-button-danger"
+                    pButton
+                    label="Delete"
+                    [disabled]="upload_customers"
+                    on-click="removeCustomer(i, customer)">
+            </button>
+          </div>
+          <br>
+          <h6>
+            <h5 *ngIf="!super_admin && customer.state">
+              <small>
+                state - {{customer.state}}
+              </small>
+            </h5>
+            <div *ngIf="super_admin" class="ui-g">
+              <div class="ui-g-10" [ngClass]="{'empty-car-item-text' : !customer.email}">{{customer.email}}</div>
+            </div>
+            <small *ngIf="!super_admin && customer.email_addresses.length > 0">
+              <p-selectButton [options]="customer.email_addresses"
+                              [(ngModel)]="email_addresses"
+                              optionLabel="email"
+                              multiple="multiple">
+                <ng-template let-item>
+                  <span ngbTooltip="Select to send email to {{item.name || 'Company'}}">{{item.email}}</span>
+                </ng-template>
+              </p-selectButton>
+            </small>
+          </h6>
+          <div *ngIf="!super_admin" id="customer_assign_{{customer.id}}" class="ui-g customers-select-template">
+            <div class="ui-g-6 p-0">
+              <div class="ui-g">
+                <div class="ui-g-12 p-0">
+                  <div class="ui-g-1 pb-0 pr-0">
+                    <input type="checkbox"
+                           [disabled]="!is_agent"
+                           class="form-control float-right"
+                           pTooltip="{{is_agent ? 'You can assign customer' : 'To assign customer you should have role Agent'}}"
+                           [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
+                           [(ngModel)]="customer.assigned_as_agent"
+                           (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_agent', 'agent_user')"/>
+                  </div>
+                  <div class="ui-g-11 pb-0 pl-0">
+                    <label>Assign to me as Agent</label>
+                  </div>
+                </div>
+                <div class="ui-g-12 p-0">
+                  <p-autoComplete
+                    pTooltip="Select User to which belongs Customers"
+                    [suggestions]="filteredAgentUsers"
+                    [(ngModel)]="customer.agent_user.email"
+                    (completeMethod)="filterAgentUsers($event)"
+                    (onSelect)="assignSelectedCustomer(customer.id, customer.agent_user.email, 'agent')"
+                    placeholder="Select User"
+                    [dropdown]="true"
+                    [disabled]="!is_admin">
+                    <ng-template let-agent_user pTemplate="item">
+                      <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                        <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{agent_user}}</div>
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-6 p-0">
+              <div class="ui-g">
+                <div class="ui-g-12 p-0">
+                  <div class="ui-g-1 pb-0 pr-0">
+                    <input type="checkbox"
+                           [disabled]="!is_assistant"
+                           class="form-control float-right"
+                           pTooltip="{{is_assistant ? 'You can assign customer' : 'To assign customer you should have role Assistant'}}"
+                           [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
+                           [(ngModel)]="customer.assigned_as_assistant"
+                           (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_assistant', 'assistant_user')"/>
+                  </div>
+                  <div class="ui-g-11 pb-0 pl-0">
+                    <label>Assign to me as Assistant</label>
+                  </div>
+                </div>
+                <div class="ui-g-12 p-0">
+                  <p-autoComplete
+                    pTooltip="Select User to which belongs Customers"
+                    [suggestions]="filteredAssistantUsers"
+                    [(ngModel)]="customer.assistant_user.email"
+                    (completeMethod)="filterAssistantUsers($event)"
+                    (onSelect)="assignSelectedCustomer(customer.id, customer.assistant_user.email, 'assistant')"
+                    placeholder="Select User"
+                    [dropdown]="true"
+                    [disabled]="!is_admin">
+                    <ng-template let-assistant_user pTemplate="item">
+                      <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                        <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{assistant_user}}</div>
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </ng-template>
+    <ng-template let-car pTemplate="loadingItem">
+      <div class="ui-g car-item empty-car-item">
+        <div class="ui-g-12 ui-md-2">
+          <div class="empty-car-item-index"></div>
+        </div>
+        <div class="ui-g-12 ui-md-2">
+          <div class="empty-car-item-image"></div>
+        </div>
+        <div class="ui-g-12 ui-md-8">
+          <div class="ui-g">
+            <div class="ui-g-12"><div class="empty-car-item-text"></div></div>
+            <div class="ui-g-12"><div class="empty-car-item-text"></div></div>
+            <div class="ui-g-12"><div class="empty-car-item-text"></div></div>
+            <div class="ui-g-12"><div class="empty-car-item-text"></div></div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-virtualScroller>
+</section>
