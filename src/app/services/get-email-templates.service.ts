@@ -23,13 +23,15 @@ export class GetEmailTemplatesService {
     return self.email_templates || {};
   }
 
-  get(path): Observable<any> {
+  get(path, project_id?): Observable<any> {
     const self = this;
     let url: string;
     if (path.split('?').length > 1) {
       url = '/' + path.split('?')[0] + '.json?' + path.split('?')[1];
+      if (project_id) url += `&project_id=${project_id}`;
     } else {
       url = '/' + path + '.json';
+      if (project_id) url += `?project_id=${project_id}`;
     }
     return self.http.get(environment.serverUrl + url).pipe(map(self.extractData));
   }

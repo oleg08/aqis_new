@@ -1,0 +1,239 @@
+<app-alert-closeable on-alertFalse="alert = false"
+                     bind-type="alertType"
+                     bind-message="alertMessage"
+                     *ngIf="alert">
+</app-alert-closeable>
+
+<p-dialog header="Warning"
+          [(visible)]="warning"
+          modal="modal"
+          width="300"
+          [responsive]="true">
+  <p>{{warning_text}}</p>
+</p-dialog>
+
+<section #projectDetails>
+  <p-dataGrid [value]="projects" [paginator]="false" [rows]="20">
+    <p-header>
+      List of Projects
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <div class="ui-inputgroup">
+            <input type="text"
+                   [(ngModel)]="new_project"
+                   maxlength="30"
+                   pInputText placeholder="Add new Project">
+            <button pButton
+                    type="button"
+                    icon="fa fa-check"
+                    (click)="addProject(new_project)"
+                    [disabled]="!new_project || isEmptyString.handler(new_project)"
+                    class="ui-button-success">
+            </button>
+          </div>
+        </div>
+      </div>
+    </p-header>
+    <ng-template let-project pTemplate="item">
+      <div style="padding:3px" class="ui-g-12 ui-md-3">
+        <p-panel [header]="project.name"
+                 [style]="{'text-align':'center'}">
+          <img src="../../../assets/showcase/images/project-icon.png">
+          <div class="project-detail">
+            <b>{{project.name}}</b>
+          </div>
+
+          <br>
+
+          <div class="btn-group">
+            <button pButton type="button"
+                    pTooltip="Project's steps"
+                    (click)="goToSteps(project)"
+                    icon="fa fa-list-ol"></button>
+            <button pButton type="button"
+                    pTooltip="Project's questions"
+                    (click)="goToQuestions(project)"
+                    icon="fa fa-question"></button>
+            <button pButton type="button"
+                    pTooltip="Project's email-templates"
+                    (click)="goToEmailTemplates(project)"
+                    icon="fa fa-envelope-open"></button>
+          </div>
+
+          <hr class="ui-widget-content" style="border-top:0">
+          <i class="fa fa-search cursor-pointer"
+             pTooltip="Project's details"
+             (click)="selectProject(project)"></i> |
+          <i class="fa fa-close cursor-pointer"
+             pTooltip="Remove Project"
+             (click)="deleteProject(project)">
+          </i>
+        </p-panel>
+      </div>
+    </ng-template>
+  </p-dataGrid>
+
+  <p-dialog header="Project Details"
+            [(visible)]="displayDialog"
+            (onHide)="hideDetails()"
+            [responsive]="true"
+            showEffect="fade"
+            [style]="{'margin-top':'2%', 'max-width': '800px'}"
+            [modal]="true"
+            (onAfterHide)="onDialogHide()">
+    <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedProject" style="font-size:16px;text-align:center;padding:20px">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-3">
+          <div class="ui-g">
+            <div class="ui-g-12">
+              <img class="pull-left" src="../../../assets/showcase/images/project-icon.png">
+            </div>
+            <div class="ui-g-12" id="active_{{selectedProject.id}}">
+              <p class="pull-left mb-0">
+                <b>Active - </b>
+                <p-checkbox styleClass="mt-0"
+                            [(ngModel)]="selectedProject.active"
+                            (onChange)="editProject(selectedProject, 'active')"
+                            binary="true">
+                </p-checkbox>
+              </p>
+
+            </div>
+          </div>
+        </div>
+        <div class="ui-grid-col-9">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+              <div class="ui-inputgroup pull-right">
+                <input type="text"
+                       id="name_{{selectedProject.id}}"
+                       [(ngModel)]="selectedProject.name"
+                       maxlength="30"
+                       pInputText
+                       placeholder="Project's name">
+                <button pButton
+                        type="button"
+                        icon="fa fa-check"
+                        (click)="editProject(selectedProject, 'name')">
+                </button>
+                <button pButton
+                        type="button"
+                        icon="fa fa-close"
+                        (click)="escEditProject()">
+                </button>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="ui-grid-row alert-secondary mb-1">
+            <div class="ui-grid-col-12">
+              <div class="ui-inputgroup pull-right">
+                <label><b>Email &nbsp;</b></label>
+                <input type="text"
+                       id="email_{{selectedProject.id}}"
+                       [(ngModel)]="selectedProject.email"
+                       maxlength="80"
+                       pInputText
+                       placeholder="Project's email">
+                <button pButton
+                        type="button"
+                        icon="fa fa-check"
+                        (click)="editProject(selectedProject, 'email')">
+                </button>
+                <button pButton
+                        type="button"
+                        icon="fa fa-close"
+                        (click)="escEditProject()">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="ui-grid-row alert-secondary mb-2">
+            <div class="ui-grid-col-12">
+              <div class="ui-inputgroup pull-right">
+                <label><b>Password &nbsp;</b></label>
+                <input type="password"
+                       id="email_password_{{selectedProject.id}}"
+                       [(ngModel)]="selectedProject.email_password"
+                       (click)="selectedProject.email_password = null"
+                       maxlength="80"
+                       pInputText
+                       placeholder="Email's password">
+                <button pButton
+                        type="button"
+                        icon="fa fa-check"
+                        (click)="editProject(selectedProject, 'email_password')">
+                </button>
+                <button pButton
+                        type="button"
+                        icon="fa fa-close"
+                        (click)="escEditProject()">
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+              <div class="ui-inputgroup pull-right">
+                <label><b>Token &nbsp;</b></label>
+                <input type="text"
+                       id="external_token_{{selectedProject.id}}"
+                       [(ngModel)]="selectedProject.external_token"
+                       maxlength="80"
+                       pInputText
+                       placeholder="External token">
+                <button pButton
+                        type="button"
+                        icon="fa fa-check"
+                        (click)="editProject(selectedProject, 'external_token')">
+                </button>
+                <button pButton
+                        type="button"
+                        icon="fa fa-close"
+                        (click)="escEditProject()">
+                </button>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+      <br>
+      <div id="TurnoverId_{{selectedProject.id}}" class="alert-secondary mb-1">
+        <app-aqis-select-slide label="Turnover"
+                               bind-hide_label="true"
+                               bind-slider="false"
+                               bind-object="selectedProject"
+                               field_from="turnover_min"
+                               field_to="turnover_max"
+                               on-slideChanged="setRange($event)">
+        </app-aqis-select-slide>
+      </div>
+      <div id="EmployeesId_{{selectedProject.id}}" class="alert-secondary">
+        <app-aqis-select-slide label="Employees"
+                               bind-hide_label="true"
+                               bind-slider="false"
+                               bind-object="selectedProject"
+                               field_from="employees_min"
+                               field_to="employees_max"
+                               on-slideChanged="setRange($event)">
+        </app-aqis-select-slide>
+      </div>
+      <div *ngIf="!businesses || businesses.length < 1">
+        <br>
+        <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+      </div>
+      <div *ngIf="businesses && businesses.length > 0" id="business_list_{{selectedProject.id}}" class="ui-g">
+        <div class="ui-g-12">
+          <label><b><u>Business list</u></b></label>
+          <app-grouped-multiselect [businesses]="businesses"
+                                   [selectedBusinesses]="selectedProject.project_businesses"
+                                   (addBusiness)="addBusiness($event, selectedProject)"
+                                   (subtractBusiness)="subtractBusiness($event, selectedProject)"
+                                   (clearBusinesses)="clearBusinesses(selectedProject)">
+          </app-grouped-multiselect>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+</section>

@@ -165,6 +165,7 @@ export class CustomerInfoComponent implements OnInit {
   @Input () contacted_user:          object;
   @Input () super_admin:             boolean;
   @Input () questions:               Array<object>;
+  @Input () current_project_id:      number|string;
   @Output() customerInfoChanged:     EventEmitter<object> = new EventEmitter<object>();
   @Output() customerSubArrayChanged: EventEmitter<object> = new EventEmitter<object>();
   @Output() eventInfoChanged:        EventEmitter<object> = new EventEmitter<object>();
@@ -274,7 +275,8 @@ export class CustomerInfoComponent implements OnInit {
       self.customers = self.customers_ids['customers'];
 
     } else {
-      const path: string = self.super_admin ? '/customers_for_super_admin.json' : '/customers_by_project_props.json';
+      const path: string = self.super_admin ? '/customers_for_super_admin.json' :
+        `/customers_by_project_props.json?project_id=${self.current_project_id}`;
 
       self.http.get(environment.serverUrl + path
       ).subscribe(
@@ -368,7 +370,7 @@ export class CustomerInfoComponent implements OnInit {
   onTabOpen (event) {
     const self = this;
     if (event.index === 1) {
-      self.getEmailTemplates.get('c_tenant_email_templates/' + self.customer['id']).subscribe(
+      self.getEmailTemplates.get(`c_tenant_email_templates/${self.customer['id']}`, self.current_project_id).subscribe(
         data => {
           if (data['c_tenant_email_templates']) {
             self.email_templates = data['c_tenant_email_templates'];
@@ -502,6 +504,8 @@ export class CustomerInfoComponent implements OnInit {
     }
 
     const params = {};
+
+    params['project_id'] = self.current_project_id;
 
     params['event'] = {};
     params['event']['date']             = stringDate;

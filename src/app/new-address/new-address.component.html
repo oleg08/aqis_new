@@ -9,15 +9,14 @@
                  name="city_address"
                  [(ngModel)]="new_city_address"
                  on-blur="setPristine(new_cityAddress)"
-                 class="form-control"
+                 class="form-control text-field"
                  placeholder="{{placeholder}}"
                  ref-new_cityAddress="ngModel"
                  required>
           <div class="input-group-addon">
             <button pButton
                     type="submit"
-                    icon="fa fa-check"
-                    iconPos="right"
+                    icon="pi pi-check"
                     [disabled]="new_address_values.invalid">
             </button>
           </div>

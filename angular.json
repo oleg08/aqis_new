@@ -28,17 +28,21 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./node_modules/materialize-css/dist/css/materialize.css",
-              "./node_modules/font-awesome/css/font-awesome.css",
+              "./node_modules/primeng/resources/primeng.min.css",
               "./node_modules/primeicons/primeicons.css",
               "./node_modules/primeng/resources/themes/nova-light/theme.css",
-              "./node_modules/primeng/resources/primeng.min.css",
               "./node_modules/quill/dist/quill.core.css",
-              "./node_modules/quill/dist/quill.snow.css"
+              "./node_modules/quill/dist/quill.snow.css",
+              "./node_modules/materialize-css/dist/css/materialize.css",
+              "./node_modules/font-awesome/css/font-awesome.css",
+              {
+                "input": "./node_modules/bootstrap/dist/css/bootstrap.css"
+              }
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/tether/dist/js/tether.js",
+              "./node_modules/popper.js/dist/umd/popper.js",
               "./node_modules/bootstrap/dist/js/bootstrap.js",
               "./node_modules/hammerjs/hammer.js",
               "./node_modules/materialize-css/dist/js/materialize.js",

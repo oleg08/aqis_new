@@ -13,6 +13,8 @@ import { TransformStatesService } from '../../services/transform-states.service'
 import { OpenStepsService } from '../../services/open-steps.service';
 import { SortCustomers } from '../../interfaces/sort-customers';
 import { CustomersSortDataService } from '../../services/customers-sort-data.service';
+import { PassProjectIdService } from '../../services/pass-project-id.service';
+import { CookieService } from 'ngx-cookie-service';
 import { Message, OverlayPanel } from 'primeng/primeng';
 import { MessageService        } from 'primeng/components/common/messageservice';
 import { ShareCustomersIdsService } from '../../services/share-customers-ids.service';
@@ -65,6 +67,7 @@ export class CustomerSearchComponent implements OnInit {
   filteredAssistantUsers: any[];
   user_id:              number;
   current_project:      object;
+  current_project_id:   number|string;
   current_user:         object;
   is_admin:             boolean;
   is_agent:             boolean;
@@ -130,7 +133,9 @@ export class CustomerSearchComponent implements OnInit {
               private customersSortData: CustomersSortDataService,
               private shareCustomersIds: ShareCustomersIdsService,
               private iterateCustomers: IterateCustomersService,
-              private flashHighlights: FlashHighlightsService) {
+              private flashHighlights: FlashHighlightsService,
+              private passProjectId: PassProjectIdService,
+              private cookieService: CookieService) {
     this.copy_customers    = null;
     this.projects          = null;
     this.keywords          = '';
@@ -195,9 +200,21 @@ export class CustomerSearchComponent implements OnInit {
 
   getCustomers(page): string {
     const self = this;
+
+    if (!self.current_project_id) {
+      self.passProjectId.currentProjectID.subscribe(project_id => self.current_project_id = project_id);
+      if (!self.current_project_id) {
+        self.current_project_id = self.cookieService.get('project_id');
+        if (self.current_project_id) { self.passProjectId.changeProjectID(self.current_project_id); }
+      }
+    }
+
     const timeZoneOffset = (-1) * new Date().getTimezoneOffset() / 60;
     let request: string;
     request = '/customers.json?page=' + page + '&timeOffset=' + timeZoneOffset;
+
+    if (self.current_project_id) request += `&project_id=${self.current_project_id}`;
+
     if (self.keywords) {
       request += '&keywords=' + self.keywords;
     }
@@ -218,12 +235,8 @@ export class CustomerSearchComponent implements OnInit {
       request += '&order=' + self.order;
     }
 
-    if (self.current_request_url === request) {
-      return null;
-    } else {
-      self.current_request_url = request;
-      return request;
-    }
+    self.current_request_url = request;
+    return request;
     // return self.http.get(request).pipe(map(response => response));
   }
 
@@ -420,7 +433,7 @@ export class CustomerSearchComponent implements OnInit {
 
     let customers;
     customers = self.iterateCustomers.handle(self[prop]);
-
+    //
     self.openSteps.changeOpenStepsState(false);        // to close Lead Qualification on customer-details
     self.next_customers_ids.changeCustomers({ customers: customers['customers'], ids: customers['customer_ids'], self_id: customer.id });
     self.router.navigate(['/customers', customer['id']]);
@@ -664,6 +677,7 @@ export class CustomerSearchComponent implements OnInit {
 
   assigningRequest (id, params) {
     const self = this;
+    params['project_id'] = self.current_project_id
     self.http.post(environment.serverUrl + '/assign_customer_to_user/' + id + '.json', params
     ).subscribe(
       response => {

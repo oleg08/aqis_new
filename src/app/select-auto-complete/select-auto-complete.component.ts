@@ -52,7 +52,7 @@ export class SelectAutoCompleteComponent implements OnInit {
     }
   }
 
-  selectAddress (address) {
+  selectAddress (address?) {
     const self = this;
     let selected_address: object;
     if (address) {

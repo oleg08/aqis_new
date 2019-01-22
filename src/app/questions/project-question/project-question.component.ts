@@ -24,7 +24,7 @@ export class ProjectQuestionComponent implements OnInit {
   originalValue: string;
   project_id: string;
   msgs: Message[] = [];
-  return_path = '/';
+  return_path = '/projects';
   return_label = 'Return to Steps';
 
   @ViewChild('ProjectQuestionList') el: ElementRef;

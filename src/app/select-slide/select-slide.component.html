@@ -1,0 +1,41 @@
+<small><u>{{label}}: {{rangeValues[0] + ' - ' + rangeValues[1]}}</u></small>
+<div class="ui-g">
+  <div *ngIf="!hide_label" class="ui-g-3">
+    <label><b>{{label}}</b></label>
+  </div>
+  <div *ngIf="!hide_label" class="ui-g-offset-1 ui-g-1">
+    <small>from</small>
+  </div>
+  <div bind-class="hide_label ? 'ui-g-6' : 'ui-g-3'">
+    <input type="number"
+           name="vlaue_from"
+           class="form-control no-spinners"
+           [(ngModel)]="rangeValues[0]"
+           ref-valueFrom="ngModel"
+           (blur)="setFrom(valueFrom)"
+           min="0"
+           max="rangeValues[1]"
+           size="4">
+  </div>
+  <div *ngIf="!hide_label" class="ui-g-1">
+    <small class="float-right">to</small>
+  </div>
+  <div bind-class="hide_label ? 'ui-g-6' : 'ui-g-3'">
+    <input type="number"
+           class="form-control no-spinners"
+           [(ngModel)]="rangeValues[1]"
+           ref-valueTo="ngModel"
+           (blur)="setTo(valueTo)"
+           min="rangeValues[0]"
+           max="10000"
+           size="4">
+  </div>
+</div>
+<p-slider *ngIf="slider"
+          [(ngModel)]="rangeValues"
+          [min]="0"
+          [max]="10000"
+          [step]="10"
+          (onSlideEnd)="changeRange($event)"
+          [range]="true">
+</p-slider>

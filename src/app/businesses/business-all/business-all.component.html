@@ -70,7 +70,7 @@
               </div>
             </div>
           <!--</p-header>-->
-          <p-panel header="Businesses"  [toggleable]="true" [collapsed]="true">
+          <p-panel header="Businesses"  [toggleable]="true" [collapsed]="true" [style]="{'min-height' : '500px !important'}">
             <nav class="add-business">
               <div *ngIf="super_admin" class="ui-g">
                 <div class="ui-g-12">
@@ -140,22 +140,21 @@
                 <li class="business-ordered-item" @fadeIn @fadeOut
                     *ngFor="let business of business_domain.businesses">
                   <div class="ui-g">
-                    <div class="ui-g-11">
+                    <div class="ui-g-10">
                       <div class="ui-g">
                         <div class="ui-g-12">{{business.description}}</div>
                         <div class="ui-g-12">
-                                                    <span *ngFor="let domain_name of business.domain_names">
-                                                        <small><i>{{domain_name}}</i></small>
-                                                    </span>
+                          <small *ngFor="let domain_name of business.domain_names">
+                            <i class="domain-name">{{domain_name}}</i>
+                          </small>
                         </div>
                       </div>
                     </div>
-                    <div class="ui-g-1">
-                                            <span *ngIf="business.customers_number > 0"
-                                                  pTooltip="has companies"
-                                                  class="badge badge-secondary float-left">
-                                                {{business.customers_number}}
-                                            </span>
+                    <div *ngIf="business.customers_number > 0" class="ui-g-2">
+                      <span pTooltip="has companies"
+                            class="badge badge-secondary float-left">
+                        <small style="color: white">{{business.customers_number}}</small>
+                      </span>
                     </div>
                   </div>
                 </li>

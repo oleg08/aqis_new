@@ -3,8 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { GetStepsService } from '../../services/get-steps.service';
 import { FlashHighlightsService } from '../../services/flash-highlights.service';
+import { PassProjectIdService } from '../../services/pass-project-id.service';
+import { CookieService } from 'ngx-cookie-service';
 import { Message, OverlayPanel } from 'primeng/primeng';
 import { MessageService } from 'primeng/primeng';
+
 import { Step } from '../../interfaces/step';
 import { environment } from '../../../environments/environment';
 
@@ -23,6 +26,7 @@ export class StepsListComponent implements OnInit {
   originalSteps: Step[];
   originalValue: string;
   msgs: Message[] = [];
+  current_project_id: number|string;
 
   displayDialog: boolean;
   step: Step = new PrimeStep();
@@ -44,7 +48,9 @@ export class StepsListComponent implements OnInit {
               private rd:              Renderer2,
               private messageService:  MessageService,
               private stepsService:    GetStepsService,
-              private flashHighlights: FlashHighlightsService) {
+              private flashHighlights: FlashHighlightsService,
+              private passProjectId:   PassProjectIdService,
+              private cookieService:   CookieService) {
     this.router = router;
     this.activatedRoute = activatedRoute;
   }
@@ -53,9 +59,20 @@ export class StepsListComponent implements OnInit {
     const self = this;
 
     self.data_key = self.path.split('/')[0];
-    self.data_key_sliced = self.data_key === 'c_tenant_step' ? self.data_key : self.data_key.slice(0, -1);
-    self.http.get(environment.serverUrl + '/' + self.path + '.json'
-    ).subscribe(
+    let url = `${environment.serverUrl}/${self.path}.json`;
+
+    if (self.data_key === 'c_tenant_step') {
+      self.data_key_sliced = self.data_key;
+      self.passProjectId.currentProjectID.subscribe(project_id => self.current_project_id = project_id);
+      if (!self.current_project_id) {
+        self.current_project_id = self.cookieService.get('project_id');
+      }
+      if (self.current_project_id) { url += `?project_id=${self.current_project_id}`; }
+    } else {
+      self.data_key_sliced = self.data_key.slice(0, -1);
+    }
+
+    self.http.get(url).subscribe(
       response => {
         if (response[self.data_key]) {
           self.model_roles = response['roles'];

@@ -12,6 +12,8 @@ import { RemoveDuplicatesService } from '../../services/remove-duplicates.servic
 import { ShareAddressService } from '../../services/share-address.service';
 import { TransformStatesService } from '../../services/transform-states.service';
 import { PassStateService } from '../../services/pass-state.service';
+import { PassProjectIdService } from '../../services/pass-project-id.service';
+import { CookieService } from 'ngx-cookie-service';
 
 import { Message              } from 'primeng/primeng';
 import { MessageService       } from 'primeng/components/common/messageservice';
@@ -37,6 +39,7 @@ export class CustomerDetailsComponent implements OnInit {
   id:                any;
   customer:          any;
   current_user:      object;
+  current_project_id: number|string;
   contacted_user:    object;
   customer_tenant:   object;
   project_questions: Array<object>;
@@ -65,10 +68,18 @@ export class CustomerDetailsComponent implements OnInit {
               private addresses_data:              ShareAddressService,
               private messageService:              MessageService,
               private passStateService:            PassStateService,
-              public rd:                           Renderer2) { }
+              public rd:                           Renderer2,
+              private passProjectId:               PassProjectIdService,
+              private cookieService:               CookieService) { }
 
   ngOnInit() {
     const self = this;
+
+    self.passProjectId.currentProjectID.subscribe(project_id => self.current_project_id = project_id);
+    if (!self.current_project_id) {
+      self.current_project_id = self.cookieService.get('project_id');
+      if (self.current_project_id) { self.passProjectId.changeProjectID(self.current_project_id); }
+    }
 
     const observableFailed = function (response) {
       alert(response);
@@ -94,7 +105,7 @@ export class CustomerDetailsComponent implements OnInit {
     };
 
     const routeSuccess =  (params) => {
-      self.http.get(environment.serverUrl + '/customers/' + params['id'] + '.json'
+      self.http.get(environment.serverUrl + '/customers/' + params['id'] + '.json?project_id=' + self.current_project_id
       ).subscribe(
         customerGetSuccess,
         observableFailed
@@ -284,6 +295,7 @@ export class CustomerDetailsComponent implements OnInit {
     params['participants_ids'] = self.setGoogleParams.setParticipantsIds(event);
 
     params['timeOffset']   = timeZoneOffset / 60;
+    params['project_id'] = self.current_project_id;
 
     let message: string;
     let type: string;

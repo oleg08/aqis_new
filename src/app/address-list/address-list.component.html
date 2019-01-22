@@ -1,6 +1,5 @@
 <p-growl styleClass="message-growl" [(value)]="msgs"></p-growl>
 
-{{message}}
 <p-dataTable [value]="addresses"
              (onEditInit)="initEdit($event)"
              (onEditComplete)="editAddress($event)"

@@ -90,8 +90,8 @@ export class QuestionListComponent implements OnInit {
   }
 
   showQuestions (event, overlaypanel: OverlayPanel) {
+    overlaypanel.toggle(event.event);
     this.question_list_component.getQuestions();
-    overlaypanel.toggle(event);
   }
 
   addGeneralQuestions(event, overlaypanel: OverlayPanel) {
@@ -100,7 +100,7 @@ export class QuestionListComponent implements OnInit {
     const ids: number[] = [];
     event.questions.forEach(q => ids.push(q.id));
 
-    self.http.post('/add_general_questions.json', { question_ids: ids }
+    self.http.post(environment.serverUrl + '/add_general_questions.json', { question_ids: ids }
     ).subscribe(
       response => {
         if (response['questions'].length > 0) {
@@ -133,7 +133,7 @@ export class QuestionListComponent implements OnInit {
     const questions = [...self.questions];
     const question: Question = questions.find(q => q.id === object.id);
 
-    self.http.patch('/questions/' + object.id + '.json', object.params
+    self.http.patch(environment.serverUrl + '/questions/' + object.id + '.json', object.params
     ).subscribe(
       response => {
         if (response['question']) {

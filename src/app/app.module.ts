@@ -51,8 +51,8 @@ import { GendersService } from './services/genders.service';
 import { PreCustomersService } from './services/pre-customers.service';
 import { CheckModelService } from './services/check-model.service';
 import { IfHourOrMinService } from './services/if-hour-or-min.service';
-import { FilterByPipeService } from './services/filter-by-pipe.service';
 import { ShareCategoriesService } from './services/share-categories.service';
+import { IsEmptyStringService } from './services/is-empty-string.service';
 
 // primeng
 import {
@@ -64,6 +64,9 @@ import {
   InputMaskModule,
   SidebarModule,
   MultiSelectModule,
+  DataGridModule,
+  DataListModule,
+  DragDropModule,
 } from 'primeng/primeng';
 
 import { MessageService      } from 'primeng/primeng';
@@ -175,6 +178,15 @@ import { AddressListComponent } from './address-list/address-list.component';
 import { SelectSearchComponent } from './select-search/select-search.component';
 import { BindSelectComponent } from './bind-select/bind-select.component';
 import { SelectFieldComponent } from './select-field/select-field.component';
+import { ProjectsAllComponent } from './projects/projects-all/projects-all.component';
+import { ProjectStepComponent } from './steps/project-step/project-step.component';
+import { SelectSlideComponent } from './select-slide/select-slide.component';
+import { ProjectStepDetailsComponent } from './steps/project-step-details/project-step-details.component';
+import { TenantStepComponent } from './steps/tenant-step/tenant-step.component';
+import { TenantStepDetailsComponent } from './steps/tenant-step-details/tenant-step-details.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
+import { StatusesComponent } from './statuses/statuses/statuses.component';
 
 @NgModule({
   declarations: [
@@ -245,6 +257,15 @@ import { SelectFieldComponent } from './select-field/select-field.component';
     SelectSearchComponent,
     BindSelectComponent,
     SelectFieldComponent,
+    ProjectsAllComponent,
+    ProjectStepComponent,
+    SelectSlideComponent,
+    ProjectStepDetailsComponent,
+    TenantStepComponent,
+    TenantStepDetailsComponent,
+    UsersListComponent,
+    UserDetailsComponent,
+    StatusesComponent,
   ],
   imports: [
     BrowserModule,
@@ -262,7 +283,7 @@ import { SelectFieldComponent } from './select-field/select-field.component';
     BsDropdownModule.forRoot(),
     TooltipModule,
     ModalModule.forRoot(),
-    NgbModule,
+    NgbModule.forRoot(),
     DragulaModule.forRoot(),
     CarouselModule,
     InputTextModule,
@@ -302,7 +323,10 @@ import { SelectFieldComponent } from './select-field/select-field.component';
     CheckboxModule,
     TriStateCheckboxModule,
     RadioButtonModule,
-    VirtualScrollerModule
+    VirtualScrollerModule,
+    DataGridModule,
+    DataListModule,
+    DragDropModule
   ],
   providers: [
     AngularTokenService,
@@ -342,8 +366,8 @@ import { SelectFieldComponent } from './select-field/select-field.component';
     PreCustomersService,
     CheckModelService,
     IfHourOrMinService,
-    FilterByPipeService,
-    ShareCategoriesService
+    ShareCategoriesService,
+    IsEmptyStringService
   ],
   bootstrap: [AppComponent]
 })

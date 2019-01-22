@@ -44,10 +44,10 @@
                     class="ui-button-info"></button>
           </div>
           <div *ngIf="!super_admin" class="ui-g-8">
-            <button type="button"
-                    class="btn btn-primary cursor-pointer float-right"
+            <button pButton type="button"
+                    class="ui-button-info float-right"
+                    label="Load Steps From Project"
                     (click)="loadSteps()">
-              Load Steps From Project
             </button>
           </div>
         </div>
@@ -111,10 +111,10 @@
         <p-button *ngIf="tenant_user" (click)="clearTenantUsers()" icon="fa fa-close"></p-button>
       </div>
       <div class="ui-g-2 pl-0">
-        <button *ngIf="!super_admin" type="button"
-                class="btn btn-primary btn-sm float-right cursor-pointer"
+        <button *ngIf="!super_admin" pButton type="button"
+                label="My Leads"
+                class="ui-button-primary float-right"
                 (click)="getMyLeads()">
-          My Leads
         </button>
       </div>
     </div>
@@ -131,10 +131,10 @@
 <section *ngIf="super_admin" class="add-customer alert-secondary p-2"
          [ngClass]="{'cursor-progress' : upload_customers}">
   <form name="add_customer">
-    <div class="row">
-      <div class="col-6">
-        <div class="row">
-          <div class="col-6">
+    <div class="ui-g">
+      <div class="ui-g-6">
+        <div class="ui-g">
+          <div class="ui-g-6">
             <div bind-class="( newIdentifier.invalid && newIdentifier.dirty ) ?
                                            'form-group has-warning' : 'form-group'">
               <input class="form-control"
@@ -155,7 +155,7 @@
               </aside>
             </div>
           </div>
-          <div class="col-6">
+          <div class="ui-g-6">
             <div bind-class="( newName.invalid && newName.dirty ) ?
                                    'form-group has-warning' : 'form-group'">
               <input class="form-control"
@@ -207,9 +207,9 @@
           </div>
         </div>
       </div>
-      <div class="col-6">
-        <div class="row">
-          <div class="col-12">
+      <div class="ui-g-6">
+        <div class="ui-g">
+          <div class="ui-g-12">
             <input type="file"
                    [disabled]="upload_customers"
                    name="upload_file"
@@ -221,8 +221,8 @@
           </div>
         </div>
         <hr>
-        <div class="row">
-          <div class="col-12">
+        <div class="ui-g">
+          <div class="ui-g-12">
             <p>
               <ngb-progressbar
                 *ngIf="upload_customers"
@@ -323,6 +323,7 @@
           </h2>
           <div class="btn-group-sm float-right">
             <button class="ui-button-info"
+                    type="button"
                     pButton
                     label="View Details"
                     [disabled]="upload_customers"
@@ -360,19 +361,18 @@
           <div *ngIf="!super_admin" id="customer_assign_{{customer.id}}" class="ui-g customers-select-template">
             <div class="ui-g-6 p-0">
               <div class="ui-g">
-                <div class="ui-g-12 p-0">
-                  <div class="ui-g-1 pb-0 pr-0">
-                    <input type="checkbox"
-                           [disabled]="!is_agent"
-                           class="form-control float-right"
-                           pTooltip="{{is_agent ? 'You can assign customer' : 'To assign customer you should have role Agent'}}"
-                           [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
-                           [(ngModel)]="customer.assigned_as_agent"
-                           (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_agent', 'agent_user')"/>
-                  </div>
-                  <div class="ui-g-11 pb-0 pl-0">
-                    <label>Assign to me as Agent</label>
-                  </div>
+                <div class="ui-g-1 pb-0 pr-0">
+                  <p-checkbox [disabled]="!is_agent"
+                              class="float-right customer-assign pr-1"
+                              pTooltip="{{is_agent ? 'You can assign customer' : 'To assign customer you should have role Agent'}}"
+                              [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
+                              binary="true"
+                              [(ngModel)]="customer.assigned_as_agent"
+                              (onChange)="assignCustomerToMe(customer, 'assigned_as_agent', 'agent_user')">
+                  </p-checkbox>
+                </div>
+                <div class="ui-g-11 pb-0 pl-0">
+                  <label>Assign to me as Agent</label>
                 </div>
                 <div class="ui-g-12 p-0">
                   <p-autoComplete
@@ -395,19 +395,18 @@
             </div>
             <div class="ui-g-6 p-0">
               <div class="ui-g">
-                <div class="ui-g-12 p-0">
-                  <div class="ui-g-1 pb-0 pr-0">
-                    <input type="checkbox"
-                           [disabled]="!is_assistant"
-                           class="form-control float-right"
-                           pTooltip="{{is_assistant ? 'You can assign customer' : 'To assign customer you should have role Assistant'}}"
-                           [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
-                           [(ngModel)]="customer.assigned_as_assistant"
-                           (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_assistant', 'assistant_user')"/>
-                  </div>
-                  <div class="ui-g-11 pb-0 pl-0">
-                    <label>Assign to me as Assistant</label>
-                  </div>
+                <div class="ui-g-1 pb-0 pr-0">
+                  <p-checkbox [disabled]="!is_assistant"
+                              class="float-right customer-assign pr-1"
+                              pTooltip="{{is_assistant ? 'You can assign customer' : 'To assign customer you should have role Assistant'}}"
+                              [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
+                              binary="true"
+                              [(ngModel)]="customer.assigned_as_assistant"
+                              (onChange)="assignCustomerToMe(customer, 'assigned_as_assistant', 'assistant_user')">
+                  </p-checkbox>
+                </div>
+                <div class="ui-g-11 pb-0 pl-0">
+                  <label>Assign to me as Assistant</label>
                 </div>
                 <div class="ui-g-12 p-0">
                   <p-autoComplete

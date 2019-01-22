@@ -1,7 +1,7 @@
 <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
 
 <div class="ui-widget-header datatable-filter">
-  <i class="fa fa-search datatable-filter-icon"></i>
+  <!--<i class="fa fa-search datatable-filter-icon"></i>-->
   <input #gb type="text" pInputText size="50" placeholder="Search persons by name, email or phone">
 </div>
 
@@ -18,13 +18,14 @@
              [globalFilter]="gb"
              [(selection)]="selectedPersons"
              selectionMode="multiple"
+             [style]="{'background-color':'white'}"
              [rows]="30"
              [paginator]="true"
              [metaKeySelection]="false">
   <p-header>
     <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-      <button type="button" pButton icon="fa fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
+      <button type="button" pButton icon="fa fa-file-o" iconPos="right" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
+      <button type="button" pButton icon="fa fa-file" iconPos="right" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
     </div>
   </p-header>
   <p-column field="name" header="Name" [style]="{'width':'14%', 'text-align':'center'}">

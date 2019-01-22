@@ -29,6 +29,11 @@ export class AddressListComponent implements OnInit {
     self.addresses_data.currentAddresses.subscribe(addresses => self.addresses = addresses);
   }
 
+  initEdit(event) {
+    const self = this;
+    self.init_value = JSON.parse(JSON.stringify(event.data.city_address));
+  }
+
   editAddress (event) {
     const self = this;
 

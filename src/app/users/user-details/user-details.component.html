@@ -1,0 +1,64 @@
+<form #projectsForm>
+  <p-fieldset *ngIf="user" legend="{{user['email']}}">
+    <div class="ui-g">
+      <div class="ui-g-8">
+        <h5>Drag a Project to assign to user {{user['email']}}</h5>
+      </div>
+      <div class="ui-g-4">
+        <p-button label="Return to Users" class="float-right"
+                  [routerLink]="['/users']">
+          <i class="fa fa-angle-double-left float-left mt-2 ml-2"></i>
+        </p-button>
+      </div>
+    </div>
+    <div class="ui-grid ui-grid-pad ui-grid-responsive">
+      <div class="ui-grid-row">
+        <div class="ui-grid-col-6 ui-widget-content" style="border-right:0 none"
+             pDroppable="{{projects_1}}"
+             (onDrop)="dropUserProject($event)"
+             [ngClass]="{'ui-state-highlight':draggedUserProject}">
+          <ul style="margin:0;padding:0">
+            <li *ngFor="let project of projects"
+                class="ui-state-default ui-helper-clearfix"
+                pDraggable="{{users_projects_1}}"
+                (onDragStart)="dragProjectStart($event, project)"
+                (onDragEnd)="dragProjectEnd($event)">
+              <i class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
+              <div style="margin:8px 0 0 8px;float:left">
+                <h5><b>{{project.name}}</b></h5>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="ui-grid-col-6 ui-widget-content" style="border-right:0 none"
+             pDroppable="{{users_projects_1}}"
+             (onDrop)="dropProject($event)"
+             [ngClass]="{'ui-state-highlight':draggedProject}">
+          <ul style="margin:0;padding:0">
+            <li *ngFor="let project of users_projects"
+                class="ui-state-default ui-helper-clearfix"
+                pDraggable="{{projects_1}}"
+                (onDragStart)="dragUserProjectStart($event,project)"
+                (onDragEnd)="dragUserProjectEnd($event)">
+              <i class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
+              <div style="margin:8px 0 0 8px">
+                <h5><b>{{project.name}}</b></h5>
+                <div id="ZipId_{{project.id}}" class="ui-g alert-secondary">
+                  <div class="ui-g-offset-1 ui-g-10">
+                    <app-aqis-select-slide label="Zip"
+                                           bind-slider="true"
+                                           bind-object="project"
+                                           field_from="zip_from"
+                                           field_to="zip_to"
+                                           on-slideChanged="setRange($event)">
+                    </app-aqis-select-slide>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </p-fieldset>
+</form>

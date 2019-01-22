@@ -1,3 +1,10 @@
-<p>
-  connection-duration works!
-</p>
+<p-inputMask mask="99-99"
+             styleClass="{{!pattern_valid ? 'float-right mask-invalid' : 'float-right'}}"
+             size="5"
+             ref-model="ngModel"
+             [(ngModel)]="object[field_name]"
+             (onBlur)="blur(model); focusOut()"
+             (onFocus)="focus()"
+             (ngModelChange)="validationPattern(model)"
+             placeholder="HH-MM">
+</p-inputMask>

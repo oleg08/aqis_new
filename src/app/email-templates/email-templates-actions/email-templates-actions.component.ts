@@ -4,6 +4,8 @@ import { Message, OverlayPanel } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { GetEmailTemplatesService } from '../../services/get-email-templates.service';
 import { KeywordsService } from '../../services/keywords.service';
+import { PassProjectIdService } from '../../services/pass-project-id.service';
+import { CookieService } from 'ngx-cookie-service';
 import { ToHtmlService } from '../../services/to-html.service';
 import { Keywords } from '../../interfaces/keywords';
 import { EmailTemplates } from '../../interfaces/email-templates';
@@ -29,6 +31,7 @@ export class EmailTemplatesActionsComponent implements OnInit {
   url: any;
   data_key: any;
   id: any = null;
+  current_project_id: number|string;
 
   keywords: Keywords[];
   hot_keywords: Keywords[];
@@ -49,7 +52,9 @@ export class EmailTemplatesActionsComponent implements OnInit {
               private keywordsService:   KeywordsService,
               private toHTML: ToHtmlService,
               private rd: Renderer2,
-              private messageService: MessageService) { }
+              private messageService: MessageService,
+              private passProjectId:   PassProjectIdService,
+              private cookieService:   CookieService) { }
 
   ngOnInit() {
     const self = this;
@@ -57,6 +62,13 @@ export class EmailTemplatesActionsComponent implements OnInit {
     self.url = self.path.split('/');
     if (self.url.length > 1) {
       self.id = self.url[1];
+
+      if (self.url[0] === 'c_tenant_email_templates') {
+        self.passProjectId.currentProjectID.subscribe(project_id => self.current_project_id = project_id);
+        if (!self.current_project_id) {
+          self.current_project_id = self.cookieService.get('project_id');
+        }
+      }
     }
     self.url = self.url[0];
     self.data_key = JSON.parse(JSON.stringify(self.url));
@@ -69,7 +81,7 @@ export class EmailTemplatesActionsComponent implements OnInit {
       self.hot_keywords = hot_keywords;
     });
 
-    self.getEmailTemplates.get(self.path).subscribe(
+    self.getEmailTemplates.get(self.path, self.current_project_id).subscribe(
       data => {
         if (data[self.data_key]) {
           self.email_templates = data[self.data_key];

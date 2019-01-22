@@ -19,6 +19,15 @@ import { CustomerDetailsComponent } from './customers/customer-details/customer-
 import { CustomerTenantStepDetailsComponent } from './steps/customer-tenant-step-details/customer-tenant-step-details.component';
 import { PreCustomersListComponent } from './pre-customers/pre-customers-list/pre-customers-list.component';
 import { PreCustomersDetailsComponent } from './pre-customers/pre-customers-details/pre-customers-details.component';
+import { ProjectsAllComponent } from './projects/projects-all/projects-all.component';
+import { ProjectStepComponent } from './steps/project-step/project-step.component';
+import { ProjectStepDetailsComponent } from './steps/project-step-details/project-step-details.component';
+import { ProjectQuestionComponent } from './questions/project-question/project-question.component';
+import { TenantStepComponent } from './steps/tenant-step/tenant-step.component';
+import { TenantStepDetailsComponent } from './steps/tenant-step-details/tenant-step-details.component';
+import { UsersListComponent } from './users/users-list/users-list.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
+import { StatusesComponent } from './statuses/statuses/statuses.component';
 
 const routes: Routes = [
   {
@@ -83,6 +92,14 @@ const routes: Routes = [
     component: CustomerSearchComponent
   },
   {
+    path: 'authenticate_with_google',
+    component: CustomerSearchComponent
+  },
+  {
+    path: 'authenticate_with_google/:id',
+    component: CustomerSearchComponent
+  },
+  {
     path: 'export_customers',
     component: CustomerExportComponent
   },
@@ -101,6 +118,50 @@ const routes: Routes = [
   {
     path: 'pre_customers/:id',
     component: PreCustomersDetailsComponent
+  },
+  {
+    path: 'projects',
+    component: ProjectsAllComponent
+  },
+  {
+    path: 'projects/:id',
+    component: ProjectStepComponent
+  },
+  {
+    path: 'project_steps/:id',
+    component: ProjectStepDetailsComponent
+  },
+  {
+    path: 'project_questions/:id',
+    component: ProjectQuestionComponent
+  },
+  {
+    path: 'project_email_templates/:id',
+    component: ProjectEmailTemplatesComponent
+  },
+  {
+    path: 'tenant_steps',
+    component: TenantStepComponent
+  },
+  {
+    path: 'tenant_steps/:id',
+    component: TenantStepDetailsComponent
+  },
+  {
+    path: 'tenant_email_templates',
+    component: TenantEmailTemplatesComponent
+  },
+  {
+    path: 'users',
+    component: UsersListComponent
+  },
+  {
+    path: 'users/:id',
+    component: UserDetailsComponent
+  },
+  {
+    path: 'statuses',
+    component: StatusesComponent
   }
 ];
 

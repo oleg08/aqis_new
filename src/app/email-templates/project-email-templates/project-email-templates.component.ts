@@ -10,7 +10,7 @@ export class ProjectEmailTemplatesComponent implements OnInit {
 
   activatedRoute: ActivatedRoute;
   path: string;
-  return_path = '/';
+  return_path = '/projects';
   return_label = 'Return to Projects';
   top_email_templates_path: string;
 

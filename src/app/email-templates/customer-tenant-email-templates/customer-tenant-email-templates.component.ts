@@ -18,8 +18,8 @@ export class CustomerTenantEmailTemplatesComponent implements OnInit {
   ngOnInit() {
     const self = this;
     const values = this.activatedRoute.url['_value'];
-    self.path = 'c_tenant_email_templates/' + values[0].path;
-    self.top_email_templates_path = 'project_email_templates/' + values[0].path;
+    self.path = 'c_tenant_email_templates/' + values[1].path;
+    self.top_email_templates_path = 'project_email_templates/' + values[1].path;
   }
 
 }

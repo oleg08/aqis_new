@@ -26,10 +26,36 @@
           <a [routerLink]="['/customers']">Customers</a>
         </li>
 
-        <li *ngIf="(authService.userSignedIn$ | async)" class="dropdown" dropdown >
+        <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="dropdown" dropdown >
+          <a dropdownToggle role="button">Admin<i class="fa fa-angle-down ml-1"></i></a>
+          <div *dropdownMenu class="dropdown-menu">
+            <a class="dropdown-item" [routerLink]="['/projects']">Projects</a>
+            <a class="dropdown-item" [routerLink]="['/tenant_steps']">Tenant-Steps</a>
+            <a class="dropdown-item" [routerLink]="['/questions']">Tenant-Questions</a>
+            <a class="dropdown-item" [routerLink]="['/tenant_email_templates']">Tenant-Email-Templates</a>
+            <a class="dropdown-item" [routerLink]="['/businesses']">Businesses</a>
+            <a class="dropdown-item" [routerLink]="['/tenants/1']">Users</a>
+            <a class="dropdown-item" [routerLink]="['/users']">Project Assignment</a>
+            <a class="dropdown-item" [routerLink]="['/statuses']">States</a>
+            <a class="dropdown-item" [routerLink]="['/tenants/dsvgo_list']">DSGVO</a>
+          </div>
+        </li>
+
+        <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="dropdown" dropdown >
           <a dropdownToggle role="button">Communications<i class="fa fa-angle-down ml-1"></i></a>
           <div *dropdownMenu class="dropdown-menu">
             <a class="dropdown-item" [routerLink]="['/pre_customers']">First Contacts</a>
+          </div>
+        </li>
+
+        <li *ngIf="(authService.userSignedIn$ | async) && projects && projects.length > 0" class="dropdown" dropdown >
+          <a dropdownToggle role="button">Projects<i class="fa fa-angle-down ml-1"></i></a>
+          <div *dropdownMenu class="dropdown-menu">
+            <span *ngFor="let project of projects"
+               class="dropdown-item"
+               (click)="setCurrentProject(project)">
+              {{project.name}}
+            </span>
           </div>
         </li>
 

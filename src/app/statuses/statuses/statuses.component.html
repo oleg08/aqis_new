@@ -1,0 +1,64 @@
+<p-growl styleClass="message-growl msgs-growl" [(value)]="msgs"></p-growl>
+
+<section #statesList class="states-list">
+
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-orderList [value]="states" [listStyle]="{'width':'100%'}" (onReorder)="reorder(states)" (onSelectionChange)="selectState($event)" dragdrop="true" dragdropScope="states">
+        <ng-template let-state pTemplate="item">
+          <div class="ui-helper-clearfix">
+            <div class="ui-g">
+              <div class="ui-g-1"><h3 class="email-template-order text-center">{{state.order}}</h3></div>
+              <div class="ui-g-2">{{state.label}}</div>
+              <div class="ui-g-6">{{state.description}}</div>
+              <div class="ui-g-1">
+                <p-checkbox [(ngModel)]="state.active" (onChange)="setActive(state)" binary="true" [disabled]="!state.removable"></p-checkbox>
+              </div>
+              <div class="ui-g-1">
+                <p-checkbox [(ngModel)]="state.removable" binary="true" [disabled]="true"></p-checkbox>
+              </div>
+              <div class="ui-g-1">
+                <button type="button" pButton icon="fa fa-edit" (click)="onRowSelect(state)">
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-orderList>
+    </div>
+  </div>
+  <br>
+  <div class="ui-g email-template-order">
+    <div class="ui-g-offset-10 ui-g-2">
+      <button type="button" pButton class="float-right" icon="pi pi-plus" iconPos="right" (click)="showDialogToAdd()" label="Add"></button>
+    </div>
+  </div>
+</section>
+
+<p-dialog header="State Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
+  <div class="ui-g ui-fluid" *ngIf="state">
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="label">Label</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="label" style="width: 100%" [(ngModel)]="state.label" />
+      </div>
+    </div>
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="label">Description</label>
+      </div>
+      <div class="ui-g-8">
+        <textarea pInputTextarea pInputText id="description" class="width100" [(ngModel)]="state.description"></textarea>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix mr-2">
+      <button *ngIf="!newState" type="button" pButton icon="pi pi-times" iconPos="right" (click)="delete()" label="Delete"></button>
+      <button type="button" pButton icon="pi pi-check" iconPos="right" (click)="save()" label="{{newState ? 'Create' : 'Save'}}"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+

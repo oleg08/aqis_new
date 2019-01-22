@@ -37,7 +37,7 @@ export class CustomersWithTenantsService {
         });
       }
 
-      if (customer['email_2'] && customer['email_2'] != customer.email) {
+      if (customer['email_2'] && customer['email_2'] !== customer.email) {
         customer['email_addresses'].push({
           id: customer.customer_tenant_id,
           name: customer['responsible_name'],

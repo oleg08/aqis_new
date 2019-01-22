@@ -17,8 +17,8 @@ export class CustomerTenantStepsComponent implements OnInit {
   ngOnInit() {
     const self = this;
     const values = this.activatedRoute.url['_value'];
-    self.path = 'c_tenant_step/' + values[0].path;
-    self.top_steps_path = 'project_steps/' + values[0].path;
+    self.path = 'c_tenant_step/' + values[1].path;
+    self.top_steps_path = 'project_steps/' + values[1].path;
   }
 
 }
