@@ -38,6 +38,11 @@ export class ToolbarComponent implements OnInit {
       }
     );
   }
+
+  googleAuthenticate() {
+    window.location.href = `${environment.serverUrl}/request_to_google`;
+  }
+
   setCurrentProject(project) {
     this.current_project = project;
     this.passProjectId.changeProjectID(project.id);

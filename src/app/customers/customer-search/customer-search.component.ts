@@ -157,15 +157,6 @@ export class CustomerSearchComponent implements OnInit {
   ngOnInit() {
     const self = this;
 
-    self.http.get(`${environment.serverUrl}/authenticate_with_google`).subscribe(
-      res => {
-        console.log('res - ', res);
-      },
-      err => {
-        console.log('err - ', err);
-      }
-    );
-
     self.filter_roles = [
       { label: 'Agent', value: 'Agent' }, { label: 'Assistant', value: 'Assistant' }
     ];
