@@ -52,7 +52,7 @@
           <a dropdownToggle role="button">Projects<i class="fa fa-angle-down ml-1"></i></a>
           <div *dropdownMenu class="dropdown-menu">
             <span *ngFor="let project of projects"
-               class="dropdown-item"
+               class="dropdown-item cursor-pointer"
                (click)="setCurrentProject(project)">
               {{project.name}}
             </span>
