@@ -7,7 +7,7 @@ import {Message, MessageService} from 'primeng/primeng';
 import {User} from './interfaces/user';
 import {Project} from './interfaces/project';
 
-enableProdMode();
+// enableProdMode();
 
 @Component({
   selector: 'app-root',

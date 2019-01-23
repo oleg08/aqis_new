@@ -373,4 +373,4 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
 })
 export class AppModule { }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+// platformBrowserDynamic().bootstrapModule(AppModule);
