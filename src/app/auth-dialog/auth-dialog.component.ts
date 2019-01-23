@@ -22,7 +22,6 @@ export class AuthDialogComponent implements OnInit {
       this.closeDialog();
     } else {
       console.log('log in errors', e.err.error.erorrs);
-      alert(e.err.error.errors[0]);
     }
   }
 
@@ -30,7 +29,6 @@ export class AuthDialogComponent implements OnInit {
     if (e.signedUp) {
       this.closeDialog();
     } else {
-      alert(e.err.errors.full_messages[0]);
     }
   }
 

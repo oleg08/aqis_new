@@ -157,7 +157,7 @@ export class CustomerSearchComponent implements OnInit {
   ngOnInit() {
     const self = this;
 
-    self.http.get(`${environment.serverUrl}/authenticate_with_google/${self.current_project_id}`).subscribe(
+    self.http.get(`${environment.serverUrl}/authenticate_with_google`).subscribe(
       res => {
         console.log('res - ', res);
       },
