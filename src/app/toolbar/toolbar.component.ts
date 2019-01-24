@@ -34,7 +34,7 @@ export class ToolbarComponent implements OnInit {
         this.projects = res['projects'];
       },
       err => {
-        alert(err.message);
+        console.log(err.message);
       }
     );
   }
