@@ -1,4 +1,4 @@
-<div *ngIf="!(authService.userSignedIn$ | async)" class="row">
+<div *ngIf="(authService.userSignedIn$ | async)" class="row">
   <div class="offset-8 col-4">
     <p-button label="Authenticate with Google" (click)="googleAuthenticate()"></p-button>
 
