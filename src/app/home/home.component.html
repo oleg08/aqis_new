@@ -1,4 +1,15 @@
 <div class="row">
+  <div class="offset-8 col-4">
+    <p-button label="Authenticate with Google" (click)="googleAuthenticate()"></p-button>
+
+    <form #hidden_form style="display: hidden" action="{{url}}" method="POST" id="form">
+      <input type="hidden" id="var1" name="user_id" value="3"/>
+      <input type="hidden" id="var2" name="var2" value=""/>
+    </form>
+  </div>
+</div>
+
+<div class="row">
   <div class="col s12">
     <h1> Welcome</h1>
     <p>
