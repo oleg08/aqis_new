@@ -1,4 +1,13 @@
 <p *ngFor="let alert of alerts">
   <ngb-alert [type]="alert.type"
-             (close)="closeAlert()">{{ alert.message }}</ngb-alert>
+             (close)="closeAlert()">{{ alert.message }}
+    <button pButton *ngIf="url" label="Authenticate with Google"
+            class="ui-button-secondary"
+            (click)="redirectTo()"></button>
+  </ngb-alert>
 </p>
+
+<form *ngIf="url" #hidden_form style="display: hidden" action="{{url}}" method="POST" id="form">
+  <input type="hidden" id="var1" name="user_id" [value]="current_user_id"/>
+  <input type="hidden" id="var2" name="return_to" [value]="return_to_url"/>
+</form>

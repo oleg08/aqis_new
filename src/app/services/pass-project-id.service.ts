@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Project } from '../interfaces/project';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PassProjectIdService {
 
-  private projectIdSource = new BehaviorSubject<number|string>(null);
-  currentProjectID = this.projectIdSource.asObservable();
+  private projectSource = new BehaviorSubject<Project>(null);
+  currentProject = this.projectSource.asObservable();
 
   constructor () {}
 
-  changeProjectID (project_id: any) {
-    this.projectIdSource.next(project_id);
+  changeProject (project: Project) {
+    this.projectSource.next(project);
   }
 }

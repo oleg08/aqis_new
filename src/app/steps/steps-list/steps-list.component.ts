@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/primeng';
 
 import { Step } from '../../interfaces/step';
 import { environment } from '../../../environments/environment';
+import {Project} from '../../interfaces/project';
 
 @Component({
   selector: 'app-aqis-steps-list',
@@ -63,10 +64,10 @@ export class StepsListComponent implements OnInit {
 
     if (self.data_key === 'c_tenant_step') {
       self.data_key_sliced = self.data_key;
-      self.passProjectId.currentProjectID.subscribe(project_id => self.current_project_id = project_id);
-      if (!self.current_project_id) {
-        self.current_project_id = self.cookieService.get('project_id');
-      }
+      let current_project: Project;
+      self.passProjectId.currentProject.subscribe(project => current_project = project);
+      self.current_project_id = current_project ? current_project.id : self.cookieService.get('project_id');
+
       if (self.current_project_id) { url += `?project_id=${self.current_project_id}`; }
     } else {
       self.data_key_sliced = self.data_key.slice(0, -1);

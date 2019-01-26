@@ -1,7 +1,10 @@
-<app-alert-closeable on-alertFalse="alert = false"
+<app-alert-closeable *ngIf="alert"
+                     on-alertFalse="alert = false"
                      bind-type="alertType"
                      bind-message="alertMessage"
-                     *ngIf="alert">
+                     [url]="redirect_url"
+                     [return_to_url]="return_to_url"
+                     [current_user_id]="current_user['id']">
 </app-alert-closeable>
 
 <p-overlayPanel [style]="{'width':'20%','margin-top':'20%','margin-left':'5%'}" [showCloseIcon]="true" #selectEmailTemplate>

@@ -41,13 +41,14 @@ export class ToolbarComponent implements OnInit {
 
   setCurrentProject(project) {
     this.current_project = project;
-    this.passProjectId.changeProjectID(project.id);
+    this.passProjectId.changeProject(project);
     this.cookieService.set('project_id', String(project.id));
     this.router.navigate(['/customers']);
   }
 
   logOut() {
     this.cookieService.delete('project_id');
+    this.cookieService.delete('current_user_id');
     this.authService.logOutUser().subscribe(() => this.router.navigate(['/']));
   }
 

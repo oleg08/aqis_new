@@ -4,6 +4,9 @@
     <app-alert-closeable on-alertFalse="alert = false"
                          bind-type="alertType"
                          bind-message="alertMessage"
+                         [url]="redirect_url"
+                         [return_to_url]="return_to_url"
+                         [current_user_id]="current_user['id']"
                          *ngIf="alert">
     </app-alert-closeable>
     <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>

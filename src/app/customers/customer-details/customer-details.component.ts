@@ -18,6 +18,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Message              } from 'primeng/primeng';
 import { MessageService       } from 'primeng/components/common/messageservice';
 import { environment } from '../../../environments/environment';
+import { Project } from '../../interfaces/project';
 
 @Component({
   selector: 'app-customer-details',
@@ -39,6 +40,7 @@ export class CustomerDetailsComponent implements OnInit {
   id:                any;
   customer:          any;
   current_user:      object;
+  current_project:   Project;
   current_project_id: number|string;
   contacted_user:    object;
   customer_tenant:   object;
@@ -48,10 +50,13 @@ export class CustomerDetailsComponent implements OnInit {
   super_admin:       boolean;
   states:            Array<object> = [];
   selectedState:     number;
+  google_authorized: boolean;
   google_task_saved: boolean;
   alert: boolean;
   alertType: string;
   alertMessage: string;
+  redirect_url: string;
+  return_to_url: string;
 
   @ViewChild('detailsForm') el: ElementRef;
   @ViewChild('customerInfo') customerInfo: CustomerInfoComponent;
@@ -75,11 +80,8 @@ export class CustomerDetailsComponent implements OnInit {
   ngOnInit() {
     const self = this;
 
-    self.passProjectId.currentProjectID.subscribe(project_id => self.current_project_id = project_id);
-    if (!self.current_project_id) {
-      self.current_project_id = self.cookieService.get('project_id');
-      if (self.current_project_id) { self.passProjectId.changeProjectID(self.current_project_id); }
-    }
+    self.passProjectId.currentProject.subscribe(project => self.current_project = project);
+    self.current_project_id = self.current_project ? self.current_project.id : self.cookieService.get('project_id');
 
     const observableFailed = function (response) {
       alert(response);
@@ -93,6 +95,22 @@ export class CustomerDetailsComponent implements OnInit {
         self.contacted_user    = response['contacted_user'];
         self.customer_tenant   = response['customer_tenant'];
         self.google_task_saved = self.customer_tenant['google_saved_connection'];
+        self.google_authorized = response['google_authorized'];
+
+        if (self.google_authorized) {
+          self.callAlert.handler(self, 'info', 'Success Authentication with the Google Calendar.', 10000);
+          if (self.current_project && self.current_project.email && self.current_project.email !== response['calendar_email']) {
+            self.callAlert.handler(self, 'warning',
+              `Project's email and email of the logged in Google account are not equal. Go to authenticate with Google again`,
+              10000);
+          }
+        } else {
+          self.redirect_url = `${environment.serverUrl}/request_to_google`;
+          self.return_to_url = `${environment.clientUrl}/customers/${self.customer.id}`;
+          self.callAlert.handler(self, 'warning',
+            'Authentication with Google expired. To authenticate with Google again follow next link', 10000);
+        }
+
         self.project_questions = JSON.parse(JSON.stringify(self.customer_tenant['customer_tenant_questions']));
 
         self.states = self.transformStates.handler(response['states'], true);
@@ -215,7 +233,7 @@ export class CustomerDetailsComponent implements OnInit {
             customer_tenant_id, 'success-updated');
 
           if (update['field_name'] === 'future_connection') {
-            self.google_task_saved = response['customer_tenant']['google_saved_connection']
+            self.google_task_saved = response['customer_tenant']['google_saved_connection'];
           }
 
           self.customer_tenant = response['customer_tenant'];

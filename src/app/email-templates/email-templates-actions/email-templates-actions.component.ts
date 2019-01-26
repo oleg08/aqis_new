@@ -10,6 +10,7 @@ import { ToHtmlService } from '../../services/to-html.service';
 import { Keywords } from '../../interfaces/keywords';
 import { EmailTemplates } from '../../interfaces/email-templates';
 import { environment } from '../../../environments/environment';
+import {Project} from '../../interfaces/project';
 
 @Component({
   selector: 'app-aqis-email-templates-actions',
@@ -64,10 +65,9 @@ export class EmailTemplatesActionsComponent implements OnInit {
       self.id = self.url[1];
 
       if (self.url[0] === 'c_tenant_email_templates') {
-        self.passProjectId.currentProjectID.subscribe(project_id => self.current_project_id = project_id);
-        if (!self.current_project_id) {
-          self.current_project_id = self.cookieService.get('project_id');
-        }
+        let current_project: Project;
+        self.passProjectId.currentProject.subscribe(project => current_project = project);
+        self.current_project_id = current_project ? current_project.id : self.cookieService.get('project_id');
       }
     }
     self.url = self.url[0];

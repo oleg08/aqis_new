@@ -23,6 +23,7 @@ import { EmailTemplates } from '../../interfaces/email-templates';
 import { States } from '../../interfaces/states';
 import { EmailAddresses } from '../../interfaces/email-addresses';
 import { environment } from '../../../environments/environment';
+import {Project} from '../../interfaces/project';
 
 @Component({
   selector: 'app-aqis-customer-search',
@@ -66,7 +67,7 @@ export class CustomerSearchComponent implements OnInit {
   filteredAgentUsers:   any[];
   filteredAssistantUsers: any[];
   user_id:              number;
-  current_project:      object;
+  current_project:      Project;
   current_project_id:   number|string;
   current_user:         object;
   is_admin:             boolean;
@@ -110,6 +111,9 @@ export class CustomerSearchComponent implements OnInit {
   users_search:      string;
   current_request_url: string;  // to avoid multiple getting users from server
 
+  redirect_url: string;
+  return_to_url: string;
+
   scrolledArray = [];
   msgs: Message[] = [];
   alert: boolean;
@@ -143,7 +147,6 @@ export class CustomerSearchComponent implements OnInit {
     this.upload_file       = null;
     this.upload_customers  = false;
     this.progressValue     = 0;
-    this.current_project   = null;
     this.short_customers_list = true;
 
     this.customers_options_select = [
@@ -202,16 +205,18 @@ export class CustomerSearchComponent implements OnInit {
     const self = this;
 
     if (!self.current_project_id) {
-      self.passProjectId.currentProjectID.subscribe(project_id => self.current_project_id = project_id);
+      self.passProjectId.currentProject.subscribe(project => self.current_project_id = project.id);
       if (!self.current_project_id) {
         self.current_project_id = self.cookieService.get('project_id');
-        if (self.current_project_id) { self.passProjectId.changeProjectID(self.current_project_id); }
       }
     }
 
     const timeZoneOffset = (-1) * new Date().getTimezoneOffset() / 60;
     let request: string;
     request = '/customers.json?page=' + page + '&timeOffset=' + timeZoneOffset;
+
+    self.redirect_url = `${environment.serverUrl}/request_to_google`;
+    self.return_to_url = `${environment.clientUrl}/customers`;
 
     if (self.current_project_id) request += `&project_id=${self.current_project_id}`;
 
@@ -259,10 +264,27 @@ export class CustomerSearchComponent implements OnInit {
           self.customer_ids = response['customer_ids'];
 
           self.user_id = response['user_id'];
+          let message: string;
+          let type: string;
+
+          if (!self.super_admin) {
+            self.current_project = response['current_project'];
+            if (response['google_authorized']) {
+              if (self.current_project && self.current_project.email && self.current_project.email !== response['calendar_email']) {
+                type = 'warning';
+                message = `Project's email and email of the logged in Google account are not equal. Go to authenticate with Google again`;
+              } else {
+                type = 'success';
+                message = 'Success Authentication with the Google Calendar.';
+              }
+            } else {
+              type = 'warning';
+              message = 'Authentication with Google expired. To authenticate with Google again follow next link';
+            }
+            self.callAlert.handler(self, type, message, 10000);
+          }
 
           if (!self.super_admin && !self.tenant_users) {
-
-            self.current_project = response['current_project'];
             self.tenant_users = response['users'];
 
             self.agent_users = self.tenant_users.filter(u => u['agent'] === true);
@@ -677,7 +699,7 @@ export class CustomerSearchComponent implements OnInit {
 
   assigningRequest (id, params) {
     const self = this;
-    params['project_id'] = self.current_project_id
+    params['project_id'] = self.current_project_id;
     self.http.post(environment.serverUrl + '/assign_customer_to_user/' + id + '.json', params
     ).subscribe(
       response => {

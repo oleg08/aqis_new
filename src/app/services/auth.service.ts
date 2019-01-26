@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularTokenService } from 'angular-token';
+import { CurrentUserService } from './current-user.service';
 import { Subject, Observable } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthService {
@@ -11,12 +13,13 @@ export class AuthService {
   userSuperAdmin$: Subject<boolean> = new Subject();
   userAdmin$: Subject<boolean> = new Subject();
 
-  constructor(public authService: AngularTokenService) {}
+  constructor(public authService: AngularTokenService, private currentUser: CurrentUserService, private cookieService: CookieService) {}
 
   logOutUser(): Observable <HttpResponse<any>> {
 
     return this.authService.signOut().pipe(
       map(res => {
+        this.currentUser.changeUser(null);
         this.userSignedIn$.next(false);
         return res;
       })
@@ -37,8 +40,10 @@ export class AuthService {
 
     return this.authService.signIn(signInData).pipe(
       map(res => {
-        this.userSuperAdmin$.next(res.body.data.super_admin);
-        this.userAdmin$.next(res.body.data.admin);
+        if (res.body.data.super_admin) this.userSuperAdmin$.next(true);
+        if (res.body.data.admin) this.userAdmin$.next(true);
+        this.currentUser.changeUser(res.body.data.id);
+        this.cookieService.set('current_user_id', res.body.data.id);
         this.userSignedIn$.next(true);
         return res;
       })

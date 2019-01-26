@@ -3,7 +3,7 @@
     <p-button label="Authenticate with Google" (click)="googleAuthenticate()"></p-button>
 
     <form #hidden_form style="display: hidden" action="{{url}}" method="POST" id="form">
-      <input type="hidden" id="var1" name="user_id" value="35"/>
+      <input type="hidden" id="var1" name="user_id" [value]="current_user_id"/>
       <input type="hidden" id="var2" name="var2" value=""/>
     </form>
   </div>

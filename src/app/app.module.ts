@@ -53,6 +53,7 @@ import { CheckModelService } from './services/check-model.service';
 import { IfHourOrMinService } from './services/if-hour-or-min.service';
 import { ShareCategoriesService } from './services/share-categories.service';
 import { IsEmptyStringService } from './services/is-empty-string.service';
+import { CurrentUserService } from './services/current-user.service';
 
 // primeng
 import {
@@ -283,7 +284,7 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
     BsDropdownModule.forRoot(),
     TooltipModule,
     ModalModule.forRoot(),
-    NgbModule.forRoot(),
+    NgbModule,
     DragulaModule.forRoot(),
     CarouselModule,
     InputTextModule,
@@ -367,7 +368,8 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
     CheckModelService,
     IfHourOrMinService,
     ShareCategoriesService,
-    IsEmptyStringService
+    IsEmptyStringService,
+    CurrentUserService
   ],
   bootstrap: [AppComponent]
 })
