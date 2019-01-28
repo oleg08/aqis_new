@@ -205,7 +205,9 @@ export class CustomerSearchComponent implements OnInit {
     const self = this;
 
     if (!self.current_project_id) {
-      self.passProjectId.currentProject.subscribe(project => self.current_project_id = project.id);
+      let project: Project;
+      self.passProjectId.currentProject.subscribe(p => project = p);
+      if (project) self.current_project_id = project.id;
       if (!self.current_project_id) {
         self.current_project_id = self.cookieService.get('project_id');
       }
