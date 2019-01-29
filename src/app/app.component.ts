@@ -2,6 +2,8 @@ import { Component, enableProdMode } from '@angular/core';
 import {AuthService} from './services/auth.service';
 import {HttpClient} from '@angular/common/http';
 import {AngularTokenService} from 'angular-token';
+import { CurrentUserService } from './services/current-user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 import {Message, MessageService} from 'primeng/primeng';
 import {User} from './interfaces/user';
@@ -12,7 +14,8 @@ import {Project} from './interfaces/project';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [CookieService]
 })
 export class AppComponent {
 
@@ -22,8 +25,8 @@ export class AppComponent {
   msgs:                Message[] = [];
   constructor (public authService: AuthService,
                public tokenService: AngularTokenService,
-               private http: HttpClient,
-               private messageService: MessageService) {
+               private currentUser: CurrentUserService,
+               private cookieService: CookieService) {
   }
 
   ngOnInit() {
@@ -31,6 +34,9 @@ export class AppComponent {
       response => {
         if (response.success) {
           this.current_user = response.data;
+          this.currentUser.changeUser(String(this.current_user.id));
+          this.cookieService.set('current_user_id', String(this.current_user.id));
+          console.log('current-user - ', this.current_user);
           this.authService.isUserLoggedIn(true);
 
           setTimeout(() => {
