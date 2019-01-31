@@ -154,7 +154,7 @@
 <article #customersDetails class="card card-info customer-info" *ngIf="customer">
   <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
   <header class="card-header customer-info-header">
-    <div class="ui-g customer-info-title">
+    <div class="ui-g">
       <div class="ui-g-1">
         <i *ngIf="next_customer && prev_customer && customers_ids['ids'].length > 2"
            class="fa fa-angle-double-left cursor-pointer customer-double-angle"
@@ -167,30 +167,30 @@
             <p-inplace (onActivate)="activateInplace(customer['name'])"
                        [active]="active_inplace">
                         <span pInplaceDisplay>
-                            <h5>{{customer['name']}}</h5>
+                            <h1>{{customer['name']}}</h1>
                         </span>
               <span pInplaceContent>
-                <input #customer_name_input
-                       pInputText
-                       size="80"
-                       (focus)="focusInput()"
-                       (blur)="focusOutInput()"
-                       [(ngModel)]="customer['name']"
-                       ref-customer_name="ngModel"
-                       (keyup.enter)="saveName(customer_name)">
-              </span>
+                            <input #customer_name_input
+                                   pInputText
+                                   size="80"
+                                   (focus)="focusInput()"
+                                   (blur)="focusOutInput()"
+                                   [(ngModel)]="customer['name']"
+                                   ref-customer_name="ngModel"
+                                   (keyup.enter)="saveName(customer_name)">
+                        </span>
             </p-inplace>
           </div>
         </div>
-        <h4 class="h4 text-justify font-weight-bold mb-0 text-center">
-          <span *ngIf="!super_admin">
-            {{customer['name']}}
-          </span>
-        </h4>
+        <h1 class="h1 text-justify font-weight-bold mb-0 text-center">
+                    <span *ngIf="!super_admin">
+                        {{customer['name']}}
+                    </span>
+        </h1>
       </div>
       <div class="ui-g-1">
         <i *ngIf="next_customer && prev_customer"
-           class="fa fa-angle-double-right cursor-pointer customer-double-angle float-right"
+           class="fa fa-angle-double-right cursor-pointer customer-double-angle"
            (click)="goToNextCustomer()"
            ngbTooltip="Next Customer"></i>
       </div>
@@ -199,7 +199,7 @@
     <div class="row">
       <div class="col-4">
         <button class="btn btn-sm mr-1" type="button" [routerLink]="['/customers']" pTooltip="Return to Customers"><i class="fa fa-arrow-circle-left"></i></button>
-        <u>internal ID: <b>{{customer.id}}</b></u>
+        <u>internal ID: <b>{{customer['id']}}</b></u>
       </div>
       <div class="col-4">
         <p-dropdown *ngIf="customers"

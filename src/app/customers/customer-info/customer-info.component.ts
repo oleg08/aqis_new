@@ -1257,10 +1257,8 @@ export class CustomerInfoComponent implements OnInit {
 
   sendMail(email, overlaypanel: OverlayPanel) {
     const self = this;
-    self.http.post(environment.serverUrl + '/send_email_without_template.json', {
-      address: self.current_email_address,
-      email: email,
-      project_id: self.current_project_id }
+    const params = { address: self.current_email_address, email: email, project_id: self.current_project_id };
+    self.http.post(environment.serverUrl + '/send_email_without_template.json', params
     ).subscribe(
       response => {
         if (response['id']) {
