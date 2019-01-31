@@ -13,7 +13,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import 'materialize-css';
+// import 'materialize-css';
 
 // services
 import { AuthInterceptor, ParamInterceptor } from './api.interceptor';
@@ -111,7 +111,7 @@ import { AngularTokenModule } from 'angular-token';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MaterializeModule } from 'angular2-materialize';
+// import { MaterializeModule } from 'angular2-materialize';
 import { HomeComponent } from './home/home.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
@@ -273,7 +273,6 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
     BrowserModule,
     AppRoutingModule,
     AngularTokenModule.forRoot({apiBase: environment.token_auth_config.apiBase}),
-    MaterializeModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

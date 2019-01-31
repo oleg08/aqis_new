@@ -52,8 +52,8 @@ export class ToolbarComponent implements OnInit {
     this.authService.logOutUser().subscribe(() => this.router.navigate(['/']));
   }
 
-  presentAuthDialog(mode?: 'login'| 'register') {
-    this.authDialog.openDialog(mode);
+  presentAuthDialog() {
+    this.authDialog.openDialog();
 
   }
 

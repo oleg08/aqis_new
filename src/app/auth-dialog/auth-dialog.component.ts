@@ -1,5 +1,4 @@
 import {Component, OnInit, Input, EventEmitter} from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'app-auth-dialog',
@@ -8,8 +7,10 @@ import { MaterializeAction } from 'angular2-materialize';
 })
 export class AuthDialogComponent implements OnInit {
 
+  displayLoginForm: boolean;
+
   @Input('auth-mode') authMode: 'login' | 'register' = 'login';
-  modalActions = new EventEmitter<string | MaterializeAction>();
+  modalActions = new EventEmitter<string>();
 
   constructor() {
 
@@ -21,29 +22,18 @@ export class AuthDialogComponent implements OnInit {
     }
   }
 
-  onRegisterFormResult(e) {
-    if (e.signedUp) {
-      this.closeDialog();
-    } else {
-    }
-  }
-
-
-
-  openDialog(mode: 'login' | 'register' = 'login') {
-    this.authMode = mode;
-    this.modalActions.emit({action: 'modal', params: ['open']});
+  openDialog() {
+    this.authMode = 'login';
+    this.displayLoginForm = true;
   }
 
   closeDialog() {
-    this.modalActions.emit({action: 'modal', params: ['close']});
+    this.displayLoginForm = false;
   }
 
   ngOnInit() {
   }
 
   isLoginMode() { return this.authMode === 'login'; }
-  isRegisterMode() { return this.authMode === 'register'; }
-
 
 }

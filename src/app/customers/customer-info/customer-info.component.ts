@@ -156,6 +156,7 @@ export class CustomerInfoComponent implements OnInit {
   active_input               = false;
   active_inplace:            boolean;
   current_name:              string;
+  participantsList:          boolean;
 
   @Input () customer:                object;
   @Input () customer_tenant:         object;

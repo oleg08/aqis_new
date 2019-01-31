@@ -6,7 +6,7 @@
   <div bind-class="addon || addon_button || image_button ? 'input-group' : ''">
     <div *ngIf="addon" class="input-group-prepend">
       {{image ? null : addon}}
-      <a target="{{target}}" class="input-group-text text-field-link-addon"
+      <a target="{{target}}" class="input-group-text"
          [href]="object[field_name] ? sanitize(addon + object[field_name]) : '#'"
          *ngIf="image">
         <img src="{{image}}" width="30">
@@ -23,7 +23,7 @@
            [readonly]="readonly"
            ref-model="ngModel">
     <span *ngIf="addon_button || image_button"
-          class="input-group-addon cursor-pointer p-1 color-whitesmoke text-field-addon"
+          class="input-group-addon cursor-pointer p-1 color-whitesmoke"
           [ngClass]="{'cursor-pointer' : modelValid(model), 'cursor-disabled' : !modelValid(model) }"
           (click)="addonButton(model, $event)">
             {{image_button ? null : addon_button}}

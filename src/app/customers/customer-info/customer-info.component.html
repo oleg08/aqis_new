@@ -894,15 +894,15 @@
                                   pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
                 </app-text-field-component>
               </div>
-              <div *ngIf="customer_tenant.events.length > 0 && customer_tenant.events[0].address" class="ui-g-4 alert-light">
+              <div *ngIf="customer_tenant['events'].length > 0 && customer_tenant['events'][0].address" class="ui-g-4 alert-light">
                 <div class="ui-g-10">
                   <label><b>Event's address</b></label>
-                  <p><b>{{customer_tenant.events[0].address.city_address}}</b></p>
+                  <p><b>{{customer_tenant['events'][0].address.city_address}}</b></p>
                 </div>
                 <div class="ui-g-2">
                   <button type="button"
                           class="btn btn-default float-right"
-                          (click)="map3.show($event); initMap('googleMap3', customer_tenant.events[0].address.city_address)">
+                          (click)="map3.show($event); initMap('googleMap3', customer_tenant['events'][0].address.city_address)">
                     <img src="../../../assets/showcase/images/if_map_285662.png" width="30">
                   </button>
                 </div>

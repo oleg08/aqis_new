@@ -1,44 +1,15 @@
-<div class="modal" style="width: 50%" materialize="modal" [materializeActions]="modalActions">
+<p-dialog header="Godfather I" [(visible)]="displayLoginForm" [modal]="true" [responsive]="true" [style]="{width: '350px', minWidth: '200px'}" [minY]="70"
+          [maximizable]="true" [baseZIndex]="10000" [closable]="true">
+  <div class="ui-g">
 
+    <div class="ui-g-12">
+      <h3 class="grey-text text-darken-2">{{authMode}}</h3>
 
-  <div class="modal-content">
+      <app-login-form (onFormResult)="onLoginFormResult($event)"
+                      *ngIf="isLoginMode()">
 
-    <div class="ui-g">
-
-      <div class="ui-g-12">
-
-        <span class="modal-close right">
-          <i class="fa fa-times" aria-hidden="true"></i>
-        </span>
-      </div>
-
-      <div class="ui-g-12">
-        <h3 class="grey-text text-darken-2">{{authMode}}</h3>
-
-        <app-login-form (onFormResult)="onLoginFormResult($event)"
-                        *ngIf="isLoginMode()">
-
-        </app-login-form>
-      </div>
-      <div class="ui-g-12">
-        <app-register-form (onFormResult)="onRegisterFormResult($event)"
-                           *ngIf="isRegisterMode()">
-
-        </app-register-form>
-      </div>
-
-
-      <div class="ui-g-12">
-        <span class="grey-text text-darken-2" *ngIf="isLoginMode()">
-          Need an account? <a (click)="authMode='register'">Click here to register.</a>
-        </span>
-        <span class="grey-text text-darken-2" *ngIf="isRegisterMode()">
-          Already have an account? <a (click)="authMode='login'">Click here to login.</a>
-        </span>
-      </div>
-
+      </app-login-form>
     </div>
 
   </div>
-
-</div>
+</p-dialog>
