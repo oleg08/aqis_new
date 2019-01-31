@@ -40,6 +40,7 @@ export class AuthService {
 
     return this.authService.signIn(signInData).pipe(
       map(res => {
+        console.log(res.headers);
         if (res.body.data.super_admin) this.userSuperAdmin$.next(true);
         if (res.body.data.admin) this.userAdmin$.next(true);
         this.currentUser.changeUser(res.body.data.id);

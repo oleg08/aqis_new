@@ -36,7 +36,6 @@ export class AppComponent {
           this.current_user = response.data;
           this.currentUser.changeUser(String(this.current_user.id));
           this.cookieService.set('current_user_id', String(this.current_user.id));
-          console.log('current-user - ', this.current_user);
           this.authService.isUserLoggedIn(true);
 
           setTimeout(() => {

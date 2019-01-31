@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // , FormControl, FormGroup
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import 'materialize-css';
 
 // services
+import { AuthInterceptor, ParamInterceptor } from './api.interceptor';
 import { AuthService } from './services/auth.service';
 import { AssignOriginalValueService } from './services/assign-original-value.service';
 import { CheckPatternService } from './services/check-pattern.service';
@@ -331,7 +332,10 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
   ],
   providers: [
     AngularTokenService,
-    AuthService,
+    AuthService, { provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     AssignOriginalValueService,
     CheckPatternService,
     CallAlertService,
