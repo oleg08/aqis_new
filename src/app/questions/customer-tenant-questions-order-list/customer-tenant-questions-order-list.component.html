@@ -9,7 +9,7 @@
   </app-aqis-new-customer-tenant-question>
 </p-overlayPanel>
 
-<app-aqis-step-new (submitForm)="addItem($event)"></app-aqis-step-new>
+<app-aqis-step-new *ngIf="step" (submitForm)="addItem($event)"></app-aqis-step-new>
 
 <br>
 

@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { OpenStepsService } from '../../services/open-steps.service';
 import { Step } from '../../interfaces/step';
 import { DropdownItem } from '../../interfaces/dropdown-item';
-import {environment} from '../../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-aqis-step-new',
@@ -171,7 +171,7 @@ export class StepNewComponent implements OnInit {
   returnToSteps () {
     const self = this;
     let url: string;
-    if (self.back_to_parent_path) url += self.back_to_parent_path;
+    if (self.back_to_parent_path) url = self.back_to_parent_path;
     else url = '/steps';
     self.openSteps.changeOpenStepsState(true);               // to open Lead Qualification on customer-details
     setTimeout(() => self.router.navigate([url]));

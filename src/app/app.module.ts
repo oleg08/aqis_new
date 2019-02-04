@@ -55,6 +55,7 @@ import { IfHourOrMinService } from './services/if-hour-or-min.service';
 import { ShareCategoriesService } from './services/share-categories.service';
 import { IsEmptyStringService } from './services/is-empty-string.service';
 import { CurrentUserService } from './services/current-user.service';
+import { GetToSendEmailsService } from './services/get-to-send-emails.service';
 
 // primeng
 import {
@@ -105,13 +106,13 @@ import { CheckboxModule         } from 'primeng/checkbox';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { RadioButtonModule      } from 'primeng/radiobutton';
 import { VirtualScrollerModule  } from 'primeng/virtualscroller';
+import { ToggleButtonModule     } from 'primeng/togglebutton';
 
 // components
 import { AngularTokenModule } from 'angular-token';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-// import { MaterializeModule } from 'angular2-materialize';
 import { HomeComponent } from './home/home.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
@@ -189,6 +190,7 @@ import { TenantStepDetailsComponent } from './steps/tenant-step-details/tenant-s
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { StatusesComponent } from './statuses/statuses/statuses.component';
+import { ToSendTemplateComponent } from './to-send-template/to-send-template.component';
 
 @NgModule({
   declarations: [
@@ -268,6 +270,7 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
     UsersListComponent,
     UserDetailsComponent,
     StatusesComponent,
+    ToSendTemplateComponent,
   ],
   imports: [
     BrowserModule,
@@ -327,7 +330,8 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
     VirtualScrollerModule,
     DataGridModule,
     DataListModule,
-    DragDropModule
+    DragDropModule,
+    ToggleButtonModule
   ],
   providers: [
     AngularTokenService,
@@ -372,7 +376,8 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
     IfHourOrMinService,
     ShareCategoriesService,
     IsEmptyStringService,
-    CurrentUserService
+    CurrentUserService,
+    GetToSendEmailsService
   ],
   bootstrap: [AppComponent]
 })

@@ -19,21 +19,17 @@
   <app-aqis-edit-business [item]="selectedItem" [field]="selectedField" (saveItem)="save($event)"></app-aqis-edit-business>
 </p-dialog>
 
-<div *ngIf="super_admin" class="ui-g-12">
-  <div class="ui-inputgroup">
-    <input type="text"
-           pInputText
-           placeholder="Business Domain's Name"
-           aria-label="Business Domain's Name"
-           aria-describedby="basic-addon2"
-           name="new_label"
-           [(ngModel)]="new_business_domain"
-           ref-new_label="ngModel">
-    <button pButton class="ui-button-secondary"
-            type="button" pTooltip="Create Business Domain"
-            icon="pi pi-check"
-            (click)="createBusinessDomain()"
-            [disabled]="new_business_domain.length < 1">
+<div *ngIf="super_admin" class="input-group mb-3">
+  <input type="text" class="form-control"
+         placeholder="Business Domain's Name"
+         aria-label="Business Domain's Name"
+         aria-describedby="basic-addon2"
+         name="new_label"
+         [(ngModel)]="new_business_domain"
+         ref-new_label="ngModel">
+  <div class="input-group-append">
+    <button class="btn btn-secondary" type="button" pTooltip="Create Business Domain" (click)="createBusinessDomain()" [disabled]="new_business_domain.length < 1">
+      <img width="20%" src="../../../assets/showcase/images/if_document_text_add_103511.png">
     </button>
   </div>
 </div>
@@ -42,26 +38,26 @@
             dragdrop="true" dragdropScope="b_domains" sourceFilterPlaceholder="Search by label" targetFilterPlaceholder="Search by label" [sourceStyle]="{'min-height':'500px'}" [targetStyle]="{'min-height':'500px'}">
   <ng-template let-business_domain pTemplate="item">
     <div class="ui-helper-clearfix">
-      <div #BusinessAllList class="business-domain-ordered">
-        <!--<p-card>-->
-          <!--<p-header>-->
+      <div class="business-domain-ordered">
+        <p-card>
+          <p-header>
             <div id="b_domain-{{business_domain.id}}" class="ui-g">
               <div class="ui-g-4">
                 <img class="pl-2" width="80%" src="../../../assets/showcase/images/open_book.png">
               </div>
               <div class="ui-g-6 mt-1">
-                <h6><b>{{business_domain.label}}</b></h6>
+                <h4><b>{{business_domain.label}}</b></h4>
               </div>
               <div class="ui-g-2">
-                <div class="btn-group-sm btn-group-vertical float-right">
-                  <button *ngIf="super_admin" type="button" class="btn btn-sm btn-secondary"
+                <div class="btn-group-vertical float-right">
+                  <button *ngIf="super_admin" type="button" class="btn btn-secondary"
                           (click)="showBusiness(business_domain, 'label', null)"
                           pTooltip="Edit Business Domain">
                     <i class="fa fa-edit"></i>
                   </button>
                   <button *ngIf="super_admin && business_domain.businesses.length < 1"
                           type="button"
-                          class="btn btn-sm btn-secondary"
+                          class="btn btn-secondary"
                           pTooltip="Remove Business Domain"
                           (click)="removeBusinessDomain(business_domain.id)">
                     <i class="fa fa-remove"></i>
@@ -69,30 +65,32 @@
                 </div>
               </div>
             </div>
-          <!--</p-header>-->
-          <p-panel header="Businesses"  [toggleable]="true" [collapsed]="true" [style]="{'min-height' : '500px !important'}">
-            <nav class="add-business">
+          </p-header>
+          <p-panel header="Businesses"  [toggleable]="true" [collapsed]="true">
+            <nav>
               <div *ngIf="super_admin" class="ui-g">
                 <div class="ui-g-12">
-                  <div class="ui-inputgroup">
-                    <input type="text"
-                           pInputText
+                  <div class="input-group">
+                    <input type="text" class="form-control"
                            placeholder="Business Name"
                            aria-label="Business Name"
                            aria-describedby="basic-addon2"
                            name="new_description"
                            [(ngModel)]="business_domain.new_business">
-                    <button pButton type="button" icon="pi pi-plus"
-                            class="ui-button-secondary"
-                            (click)="createBusiness(business_domain)"
-                            [disabled]="business_domain.new_business.length < 1"></button>
+                    <div class="input-group-append">
+                      <button class="btn btn-secondary" type="button"
+                              (click)="createBusiness(business_domain)"
+                              [disabled]="business_domain.new_business.length < 1">
+                        <i class="fa fa-plus"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="ui-g">
-                <div class="ui-g-12">
-                  <input pInputText type="text"
-                         placeholder="Search..."
+                <div class="ui-g-3"><h5 class="text-center m-2">Search...</h5></div>
+                <div class="ui-g-8">
+                  <input class="form-control float-right" type="text"
                          [(ngModel)]="business_domain.searchTerm"
                          (ngModelChange)="search(business_domain)">
                 </div>
@@ -106,23 +104,30 @@
                        class="ui-g cursor-grab">
                     <div class="ui-g-8">
                       <div class="ui-g">
-                        <div class="ui-g-12"><p class="business-text" pTooltip="has {{business.customers_number}} companies">{{business.description}}</p></div>
+                        <div class="ui-g-12">{{business.description}}</div>
                         <div class="ui-g-12">
-                          <span *ngFor="let domain_name of business.domain_names">
-                            <small><p>{{domain_name}}</p></small>
-                          </span>
+                                                    <span *ngFor="let domain_name of business.domain_names">
+                                                        <small><i>{{domain_name}}</i></small>
+                                                    </span>
                         </div>
                       </div>
                     </div>
-                    <div class="ui-g-2">
-                      <div class="btn-group-xs btn-group-vertical float-right">
-                        <button type="button" class="btn btn-xs btn-secondary"
+                    <div class="ui-g-1">
+                                            <span *ngIf="business.customers_number > 0"
+                                                  pTooltip="has companies"
+                                                  class="badge badge-secondary float-left">
+                                                {{business.customers_number}}
+                                            </span>
+                    </div>
+                    <div class="ui-g-1">
+                      <div class="btn-group-vertical float-right">
+                        <button type="button" class="btn btn-sm btn-secondary"
                                 (click)="showBusiness(business, 'description', business_domain.id)"
                                 pTooltip="Edit Business">
                           <i class="fa fa-edit"></i>
                         </button>
                         <button type="button"
-                                class="btn btn-xs btn-secondary"
+                                class="btn btn-sm btn-secondary"
                                 pTooltip="Remove Business"
                                 (click)="removeBusiness(business_domain, business.id)">
                           <i class="fa fa-remove"></i>
@@ -140,28 +145,29 @@
                 <li class="business-ordered-item" @fadeIn @fadeOut
                     *ngFor="let business of business_domain.businesses">
                   <div class="ui-g">
-                    <div class="ui-g-10">
+                    <div class="ui-g-11">
                       <div class="ui-g">
                         <div class="ui-g-12">{{business.description}}</div>
                         <div class="ui-g-12">
-                          <small *ngFor="let domain_name of business.domain_names">
-                            <i class="domain-name">{{domain_name}}</i>
-                          </small>
+                                                    <span *ngFor="let domain_name of business.domain_names">
+                                                        <small><i>{{domain_name}}</i></small>
+                                                    </span>
                         </div>
                       </div>
                     </div>
-                    <div *ngIf="business.customers_number > 0" class="ui-g-2">
-                      <span pTooltip="has companies"
-                            class="badge badge-secondary float-left">
-                        <small style="color: white">{{business.customers_number}}</small>
-                      </span>
+                    <div class="ui-g-1">
+                                            <span *ngIf="business.customers_number > 0"
+                                                  pTooltip="has companies"
+                                                  class="badge badge-secondary float-left">
+                                                {{business.customers_number}}
+                                            </span>
                     </div>
                   </div>
                 </li>
               </ul>
             </nav>
           </p-panel>
-        <!--</p-card>-->
+        </p-card>
       </div>
     </div>
   </ng-template>

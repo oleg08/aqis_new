@@ -1,0 +1,63 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<section #toSendEmailsList>
+  <p-table #received_emails [columns]="cols" [value]="to_send_emails" styleClass="to-send-emails-table" [autoLayout]="true">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th>Received</th>
+        <th>Received Email</th>
+        <th>Suggested Answer</th>
+        <th></th>
+      </tr>
+      <tr>
+        <th *ngFor="let col of columns" [ngSwitch]="col.field">
+          <p-dropdown *ngSwitchCase="'state'" [options]="states" [style]="{'width':'100%'}" (onChange)="received_emails.filter($event.value, col.field, 'equals')"></p-dropdown>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr class="state-row to-send-email-row">
+        <td class="text-center p-2">
+          {{rowData.got_time | date}}
+        </td>
+        <td class="text-left p-2">
+          <!--<div>{{rowData.got_email}}</div>-->
+          <div [innerHTML]="rowData.got_email"></div>
+        </td>
+        <td pEditableColumn class="text-left p-2">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <p-editor *ngIf="rowData.c_tenant_email_template_id"
+                        [style]="{'min-height':'100%', 'min-width':'100%'}"
+                        [(ngModel)]="rowData.answer"
+                        (keydown.enter)="pressEnter($event)">
+              </p-editor>
+            </ng-template>
+            <ng-template pTemplate="output">
+              <div *ngIf="rowData.c_tenant_email_template_id"
+                   [innerHtml]="rowData.answer"
+                   class="cursor-pointer">
+              </div>
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td id="approve-{{rowData.id}}" class="text-center p-2">
+          <p-selectButton *ngIf="rowData.c_tenant_email_template_id"
+                          [options]="approvals"
+                          [(ngModel)]="rowData.state"
+                          ref-selected_state="ngModel"
+                          (onChange)="setState(selected_state.viewModel, rowData.id, rowData.answer)"
+                          [disabled]="rowData.state === 'approved'"
+          >
+          </p-selectButton>
+          <p-toggleButton *ngIf="!rowData.c_tenant_email_template_id"
+                          onLabel="Dismissed"
+                          offLabel="Dismiss"
+                          [(ngModel)]="rowData.dismissed"
+                          (onChange)="dismiss(rowData.dismissed, rowData.id)">
+          </p-toggleButton>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>

@@ -22,7 +22,7 @@ export class CustomerTenantStepDetailsComponent implements OnInit {
     const customer_tenant_id = values[1].parameters.customer_tenant_id;
     self.templates_path = 'c_tenant_email_templates/' + values[1].path + '?customer_tenant_id=' + customer_tenant_id;
     self.questions_path = 'customer_tenant_questions/' + values[1].path;
-    self.back_to_parent_path = values[1].parameters.parent_path;
+    self.back_to_parent_path = 'customers/' + values[1].parameters.parent_path;
   }
 
 }

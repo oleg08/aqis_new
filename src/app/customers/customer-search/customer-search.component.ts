@@ -690,6 +690,8 @@ export class CustomerSearchComponent implements OnInit {
 
   selectTemplate(event, template: EmailTemplates, overlaypanel: OverlayPanel) {
 
+    if (!template) return;
+
     const self = this;
     self.selectedTemplate = template;
     self.selectedTemplate.greeting = null;

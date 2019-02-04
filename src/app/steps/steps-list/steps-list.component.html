@@ -1,4 +1,4 @@
-<p-overlayPanel #steps_list [showCloseIcon]="true"  appendTo="body" [dismissable]="true" [style]="{'width': '60%', 'z-index': '100000'}">
+<p-overlayPanel #steps_list [showCloseIcon]="true"  appendTo="body" [dismissable]="false" [style]="{'width': '60%', 'z-index': '100000'}">
   <app-aqis-steps-list-selected *ngIf="top_steps" [steps]="top_steps" (addTopSteps)="addGeneralSteps($event, steps_list)"></app-aqis-steps-list-selected>
 </p-overlayPanel>
 

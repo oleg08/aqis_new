@@ -42,7 +42,7 @@
     <ng-template let-user pTemplate="listItem">
       <div id="tenants_user-{{user.id}}" class="ui-g tenants-user tenants_user">
         <div class="ui-g-12 ui-md-3" style="text-align:center">
-          <img src="/unknown-user-symbol.png">
+          <img src="../../assets/showcase/images/unknown-user-symbol.png">
         </div>
         <div class="ui-g-12 ui-md-8 car-details">
           <div class="ui-g">
@@ -88,7 +88,7 @@
     <ng-template let-user pTemplate="gridItem">
       <div style="padding:.5em" class="ui-g-12 ui-md-3 tenants_user">
         <p-panel [header]="user.name" [style]="{'text-align':'center'}">
-          <img src="/unknown-user-symbol.png" width="60">
+          <img src="../../assets/showcase/images/unknown-user-symbol.png" width="60">
           <div class="car-detail">{{user.email}}</div>
           <hr class="ui-widget-content" style="border-top:0">
           <div class="btn-group" style="margin-top: 0;">
@@ -115,7 +115,7 @@
   <p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedUser">
       <div class="ui-g-12" style="text-align:center">
-        <img src="/unknown-user-symbol.png">
+        <img src="../../assets/showcase/images/unknown-user-symbol.png">
       </div>
 
       <div class="ui-g-4">Name: </div>

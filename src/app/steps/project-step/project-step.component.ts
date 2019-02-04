@@ -17,8 +17,8 @@ export class ProjectStepComponent implements OnInit {
   ngOnInit() {
     const self = this;
     const values = this.activatedRoute.url['_value'];
-    self.path = 'project_list_steps/' + values[0].path;
-    self.top_steps_path = 'tenant_steps/' + values[0].path;
+    self.path = 'project_list_steps/' + values[1].path;
+    self.top_steps_path = 'tenant_steps/' + values[1].path;
   }
 
 }

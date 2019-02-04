@@ -31,7 +31,7 @@ import { OverlayPanel } from 'primeng/primeng';
 export class StepDetailsActionsComponent implements OnInit {
 
   msgs: Message[] = [];
-  step: Step;
+  step: Step = null;
   originalStep: Step;
   model_roles: object;
   g_templates: EmailTemplates[];

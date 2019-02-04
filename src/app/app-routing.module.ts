@@ -28,6 +28,7 @@ import { TenantStepDetailsComponent } from './steps/tenant-step-details/tenant-s
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { StatusesComponent } from './statuses/statuses/statuses.component';
+import { ToSendTemplateComponent } from './to-send-template/to-send-template.component';
 
 const routes: Routes = [
   {
@@ -162,6 +163,10 @@ const routes: Routes = [
   {
     path: 'statuses',
     component: StatusesComponent
+  },
+  {
+    path: 'to_send_emails',
+    component: ToSendTemplateComponent
   }
 ];
 

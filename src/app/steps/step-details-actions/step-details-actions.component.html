@@ -1,8 +1,8 @@
 <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
 
-<section #stepDetails>
+<section #stepDetails *ngIf="step">
   <section class="step-details">
-    <app-aqis-step-new *ngIf="step"
+    <app-aqis-step-new
                     header="Edit Step"
                     submit_button="Save"
                     [step]="step"

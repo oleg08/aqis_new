@@ -4,6 +4,7 @@ import { MessageService  } from 'primeng/components/common/messageservice';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Question } from '../../interfaces/question';
 import { Answer } from '../../interfaces/answer';
+import { Step } from '../../interfaces/step';
 
 @Component({
   selector: 'app-aqis-customer-tenant-questions-order-list',
@@ -32,6 +33,7 @@ export class CustomerTenantQuestionsOrderListComponent implements OnInit {
 
   msgs: Message[] = [];
   saved = false;
+  step: Step = null;
   selectedQuestion: object;
   prev_content: string;
   current_q_id: number;

@@ -3,7 +3,7 @@
 <p-fieldset [toggleable]="true" [collapsed]="true">
   <p-header>
     {{header}}
-    <small *ngIf="step.id > 0">
+    <small *ngIf="step  && step.id > 0">
       <button  pButton type="button" class="float-right" styleClass="btn-sm" label="<< Return to Steps" (click)="returnToSteps()"></button>
     </small>
   </p-header>
