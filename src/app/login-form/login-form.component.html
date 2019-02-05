@@ -4,33 +4,31 @@
   <div class="ui-g">
 
     <div class="input-field ui-g-12">
+      <label for="login">Email</label>
       <input id="login"
+             class="form-control"
              type="email"
              required
              name='login'
-             [(ngModel)]="signInUser.login"
-             class="validate">
-
-      <label for="login">Email</label>
+             [(ngModel)]="signInUser.login">
     </div>
 
 
     <div class="input-field ui-g-12">
+      <label for="password">Password</label>
       <input id="password"
+             class="form-control"
              type="password"
              required
              name='password'
-             [(ngModel)]="signInUser.password"
-             class="validate">
-
-      <label for="password">Password</label>
+             [(ngModel)]="signInUser.password">
     </div>
 
     <div class="ui-g-12">
       <button type="submit"
+              class="btn btn-info cursor-pointer"
               [disabled]="!(f.valid)"
               [ngClass]="{'disabled': !(f.valid)}"
-              class="waves-effect waves-light btn blue right"
       >
         Login </button>
     </div>

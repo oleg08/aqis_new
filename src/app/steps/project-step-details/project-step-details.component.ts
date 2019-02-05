@@ -22,7 +22,7 @@ export class ProjectStepDetailsComponent implements OnInit {
     self.templates_path = 'email_templates/' + values[1].path;
 
     self.questions_path = 'project_questions/' + values[1].parameters.parent_path;
-    self.back_to_parent_path = values[1].parameters.parent_path;
+    self.back_to_parent_path = 'projects/' + values[1].parameters.parent_path;
   }
 
 }

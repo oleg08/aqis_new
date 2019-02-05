@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 
 @Component({
   selector: 'app-auth-dialog',
@@ -9,7 +9,8 @@ export class AuthDialogComponent implements OnInit {
 
   displayLoginForm: boolean;
 
-  @Input('auth-mode') authMode: 'login' | 'register' = 'login';
+  @Input('auth-mode') authMode: 'Log in' | 'register' = 'Log in';
+  @Output() getUserProps: EventEmitter<object> = new EventEmitter<object>();
   modalActions = new EventEmitter<string>();
 
   constructor() {
@@ -18,12 +19,13 @@ export class AuthDialogComponent implements OnInit {
 
   onLoginFormResult(e) {
     if (e.signedIn) {
+      this.getUserProps.emit();
       this.closeDialog();
     }
   }
 
   openDialog() {
-    this.authMode = 'login';
+    this.authMode = 'Log in';
     this.displayLoginForm = true;
   }
 
@@ -34,6 +36,6 @@ export class AuthDialogComponent implements OnInit {
   ngOnInit() {
   }
 
-  isLoginMode() { return this.authMode === 'login'; }
+  isLoginMode() { return this.authMode === 'Log in'; }
 
 }

@@ -25,7 +25,6 @@ export class StepNewComponent implements OnInit {
   date: Date;
   budget: number;
   roles: DropdownItem[] = [];
-  days_int = true;
   msgs: Message[] = [];
   prev_time: number;
 
@@ -50,17 +49,6 @@ export class StepNewComponent implements OnInit {
   ngOnInit() {
     const self = this;
 
-    if (self.step.id === 0) setTimeout(() => self.days_int = true);
-
-    self.prev_time = Math.round(JSON.parse(JSON.stringify(self.step.time)));
-
-    if (self.step.time < 1) {
-      self.step.time = Math.round(self.step.time * 24);
-      self.days_int = false;
-    } else {
-      self.step.time = Math.round(self.step.time);
-    }
-
     self.createForm = self.fb.group({
       'name':          new FormControl('', Validators.required),
       'goal':          new FormControl(''),
@@ -71,6 +59,26 @@ export class StepNewComponent implements OnInit {
       'budget':        new FormControl('')
     });
 
+    if (self.step.id === 0) {
+      setTimeout(() => self.createForm.get('days_interval').setValue(true));
+    } else {
+      self.createForm.get('name').setValue(self.step.name);
+      self.createForm.get('goal').setValue(self.step.goal);
+      self.createForm.get('description').setValue(self.step.description);
+      self.createForm.get('step_role').setValue(self.step.step_role);
+      self.createForm.get('budget').setValue(self.step.budget);
+    }
+
+    self.prev_time = Math.round(JSON.parse(JSON.stringify(self.step.time)));
+
+    if (self.step.time < 1) {
+      self.createForm.get('time').setValue(Math.round(self.step.time * 24));
+      self.createForm.get('days_interval').setValue(false);
+    } else {
+      self.createForm.get('time').setValue(Math.round(self.step.time));
+      self.createForm.get('days_interval').setValue(true);
+    }
+
     self.roles.push({ label: 'Select Role', value: '' });
     Object.keys(self.model_roles).forEach(key => {
       self.roles.push({ label: key, value: key });
@@ -80,7 +88,7 @@ export class StepNewComponent implements OnInit {
   onSubmit(data) {
     const self = this;
 
-    if (self.days_int) {
+    if (self.createForm.get('days_interval').value) {
       if (data.time >= 100) {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Interval must be less than 100 days'});
         return;
@@ -93,78 +101,82 @@ export class StepNewComponent implements OnInit {
       data.time = (data.time / 24).toFixed(5);
     }
 
-    data['step_role'] = self.model_roles[self.step.step_role];
+    data['step_role'] = self.model_roles[self.createForm.get('step_role').value];
     self.submitForm.emit(data);
-    self.step.name = '';
-    self.step.goal = '';
-    self.step.description = '';
-    self.step.step_role = null;
-    self.step.time = null;
-    self.step.budget = null;
+    self.createForm.get('name').setValue('');
+    self.createForm.get('goal').setValue('');
+    self.createForm.get('description').setValue('');
+    self.createForm.get('step_role').setValue(null);
+    self.createForm.get('time').setValue(null);
+    self.createForm.get('budget').setValue(null);
   }
 
-  blur(data, prop) {
+  blur(prop) {
     const self = this;
     if (self.step.id < 1) return;
 
     const obj: object = {};
     if (prop === 'time') {
-      if (!self.days_int) {
-        if (data >= 24) {
+      const val = self.createForm.get('time').value;
+      if (!self.createForm.get('days_interval').value) {
+        if (val >= 24) {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Must be less than 24'});
-          self.step.time = JSON.parse(JSON.stringify(self.prev_time));
+          self.createForm.get('time').setValue(self.prev_time);
           return;
         }
-        data = (data / 24).toFixed(5);
+        self.createForm.get('time').setValue((self.createForm.get('time').value / 24).toFixed(5));
       } else {
-        if (data >= 100) {
+        if (val >= 100) {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Must be less than 100'});
-          self.step.time = JSON.parse(JSON.stringify(self.prev_time));
+          self.createForm.get('time').setValue(self.prev_time);
           return;
         }
       }
     }
 
-    if (prop === 'step_role') obj[prop] = self.model_roles[data];
-    else obj[prop] = data;
+    if (prop === 'step_role') {
+      obj[prop] = self.model_roles[self.createForm.get(prop).value];
+    }
+    else obj[prop] = self.createForm.get(prop).value;
 
     if (self.createForm.controls[prop] && self.createForm.controls[prop].errors) return;
-    self.prev_time = JSON.parse(JSON.stringify(self.step.time));
+    self.prev_time = JSON.parse(JSON.stringify(self.createForm.get('time').value));
     self.onBlur.emit( obj );
   }
 
-  blurRequired(data: string, prop) {
+  blurRequired(prop) {
     const self = this;
     this.createForm.controls[prop].markAsPristine();
-    if (data.length <  1) return;
-    self.blur(data, prop);
+    if (self.createForm.get(prop).value.length <  1) return;
+    self.blur(prop);
   }
 
   changeDaysInt() {
     const self = this;
 
-    if (self.createForm.controls['time'] && self.createForm.controls['time'].errors) {
+    const time = self.createForm.get('time');
+    if (time && time.errors) {
       setTimeout(() => {
-        self.days_int = !self.days_int;
+        self.createForm.get('days_interval').setValue(!self.createForm.get('days_interval').value);
       });
       return;
     }
 
-    if (self.days_int) {
-      if (self.step.time >= 100) {
+    if (self.createForm.get('days_interval').value) {
+      if (time.value >= 100) {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Must be less than 100'});
         return;
       }
     } else {
-      if (self.step.time >= 24) {
+      if (time.value >= 24) {
         setTimeout(() => {
-          self.days_int = true;
+          self.createForm.get('days_interval').setValue(true);
         });
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Must be less than 24'});
         return;
       }
     }
-    const value = self.days_int ? self.step.time : (self.step.time / 24).toFixed(5);
+    const value = self.createForm.get('days_interval').value ? time.value : (time.value / 24).toFixed(5);
     self.onBlur.emit({ time: value });
   }
 

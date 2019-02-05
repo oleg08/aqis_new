@@ -148,7 +148,10 @@ export class StepsListComponent implements OnInit {
     let url: string;
     const queryParams: object = {};
     const parent_path: string = this.path.split('/')[1];
-    if (this.data_key === 'project_list_steps') {
+    if (this.data_key === 'tenant_steps') {
+      url = '/tenant_steps';
+      queryParams['parent_path'] = 'tenant_steps';
+    } else if (this.data_key === 'project_list_steps') {
       queryParams['parent_path'] = parent_path;
       url = '/project_steps';
     } else if (this.data_key === 'c_tenant_step') {

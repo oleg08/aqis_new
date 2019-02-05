@@ -20,6 +20,8 @@ export class AuthService {
     return this.authService.signOut().pipe(
       map(res => {
         this.currentUser.changeUser(null);
+        this.userAdmin$.next(false);
+        this.userSuperAdmin$.next(false);
         this.userSignedIn$.next(false);
         return res;
       })
@@ -40,9 +42,14 @@ export class AuthService {
 
     return this.authService.signIn(signInData).pipe(
       map(res => {
-        console.log(res.headers);
-        if (res.body.data.super_admin) this.userSuperAdmin$.next(true);
-        if (res.body.data.admin) this.userAdmin$.next(true);
+        setTimeout(() => {
+          if (res.body.data.super_admin) {
+            this.userSuperAdmin$.next(true);
+          }
+          if (res.body.data.admin) {
+            this.userAdmin$.next(true);
+          }
+        });
         this.currentUser.changeUser(res.body.data.id);
         this.cookieService.set('current_user_id', res.body.data.id);
         this.userSignedIn$.next(true);

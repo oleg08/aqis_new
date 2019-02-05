@@ -11,6 +11,7 @@ export class TenantStepDetailsComponent implements OnInit {
   templates_path = 'tenant_email_templates';
   questions_path = 'tenant_questions';
   q_prop1 = 'content';
+  back_to_parent_path = 'tenant_steps';
 
   constructor() { }
 

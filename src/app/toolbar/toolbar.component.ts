@@ -29,14 +29,7 @@ export class ToolbarComponent implements OnInit {
               private cookieService: CookieService) {}
 
   ngOnInit() {
-    this.http.get(environment.serverUrl + '/user_properties.json').subscribe(
-      res => {
-        this.projects = res['projects'];
-      },
-      err => {
-        console.log(err.message);
-      }
-    );
+    this.getUserProps();
   }
 
   setCurrentProject(project) {
@@ -49,12 +42,19 @@ export class ToolbarComponent implements OnInit {
   logOut() {
     this.cookieService.delete('project_id');
     this.cookieService.delete('current_user_id');
+    this.projects = [];
     this.authService.logOutUser().subscribe(() => this.router.navigate(['/']));
   }
 
   presentAuthDialog() {
     this.authDialog.openDialog();
-
+  }
+  
+  getUserProps() {
+    this.http.get(environment.serverUrl + '/user_properties.json').subscribe(
+      res => { this.projects = res['projects']; },
+      err => { console.log(err.message); }
+    );
   }
 
 }

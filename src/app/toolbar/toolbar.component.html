@@ -54,7 +54,7 @@
         </div>
       </li>
 
-      <li *ngIf="(authService.userSignedIn$ | async) && projects && projects.length > 0" class="nav-item dropdown">
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async) && projects && projects.length > 0" class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuProjects" data-toggle="dropdown">
           Projects
         </a>
@@ -67,10 +67,10 @@
         </div>
       </li>
 
-      <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog()" class="nav-item" >LOGIN</a></li>
+      <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog()" class="nav-item cursor-pointer" >LOGIN</a></li>
 
-      <li *ngIf="(authService.userSignedIn$ | async)"><a [routerLink]="['/profile']" class="nav-item m-2 profile-link">PROFILE</a></li>
-      <li *ngIf="(authService.userSignedIn$ | async)"><a (click)="logOut()" class="nav-item m-2">LOGOUT</a></li>
+      <li *ngIf="(authService.userSignedIn$ | async)"><a [routerLink]="['/profile']" class="nav-item m-2 profile-link cursor-pointer">PROFILE</a></li>
+      <li *ngIf="(authService.userSignedIn$ | async)"><a (click)="logOut()" class="nav-item m-2 cursor-pointer">LOGOUT</a></li>
 
     </ul>
   </nav>
@@ -83,4 +83,4 @@
   </div>
 </div>
 
-<app-auth-dialog #authDialog ></app-auth-dialog>
+<app-auth-dialog #authDialog (getUserProps)="getUserProps()" ></app-auth-dialog>
