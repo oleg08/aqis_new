@@ -112,7 +112,7 @@
 
   <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
 
-  <p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" (onAfterHide)="onDialogHide()">
+  <p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
     <div class="ui-g" *ngIf="selectedUser">
       <div class="ui-g-12" style="text-align:center">
         <img src="../../assets/showcase/images/unknown-user-symbol.png">

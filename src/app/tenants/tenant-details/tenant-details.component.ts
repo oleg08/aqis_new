@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { ConfirmationService } from 'primeng/api';
 import { FlashHighlightsService } from '../../services/flash-highlights.service';
 import { environment } from '../../../environments/environment';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-tenant-details',
@@ -25,7 +26,7 @@ export class TenantDetailsComponent implements OnInit {
   sortField: string;
   sortOrder: number;
   displayDialog: boolean;
-  selectedUser: object;
+  selectedUser: User;
   editedPassword: string;
   editedPasswordConfirmation: string;
   originalEmail: string;
