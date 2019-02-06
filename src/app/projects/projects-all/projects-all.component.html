@@ -172,6 +172,57 @@
               </div>
             </div>
           </div>
+
+          <br>
+
+          <div class="ui-grid-row alert-secondary mb-1">
+            <div class="ui-grid-col-12">
+              <div class="ui-inputgroup pull-right">
+                <label><b>Gmail &nbsp;</b></label>
+                <input type="text"
+                       id="gmail_{{selectedProject.id}}"
+                       [(ngModel)]="selectedProject.gmail"
+                       maxlength="80"
+                       pInputText
+                       placeholder="Project's gmail">
+                <button pButton
+                        type="button"
+                        icon="fa fa-check"
+                        (click)="editProject(selectedProject, 'gmail')">
+                </button>
+                <button pButton
+                        type="button"
+                        icon="fa fa-close"
+                        (click)="escEditProject()">
+                </button>
+              </div>
+            </div>
+          </div>
+          <!--<div class="ui-grid-row alert-secondary mb-2">-->
+            <!--<div class="ui-grid-col-12">-->
+              <!--<div class="ui-inputgroup pull-right">-->
+                <!--<label><b>Password &nbsp;</b></label>-->
+                <!--<input type="password"-->
+                       <!--id="gmail_password_{{selectedProject.id}}"-->
+                       <!--[(ngModel)]="selectedProject.gmail_password"-->
+                       <!--(click)="selectedProject.gmail_password = null"-->
+                       <!--maxlength="80"-->
+                       <!--pInputText-->
+                       <!--placeholder="Gmail's password">-->
+                <!--<button pButton-->
+                        <!--type="button"-->
+                        <!--icon="fa fa-check"-->
+                        <!--(click)="editProject(selectedProject, 'gmail_password')">-->
+                <!--</button>-->
+                <!--<button pButton-->
+                        <!--type="button"-->
+                        <!--icon="fa fa-close"-->
+                        <!--(click)="escEditProject()">-->
+                <!--</button>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <br>
           <div class="ui-grid-row">
             <div class="ui-grid-col-12">
               <div class="ui-inputgroup pull-right">

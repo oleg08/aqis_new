@@ -2,7 +2,9 @@ export interface Project {
   id?;
   name?;
   email?: string;
+  gmail?: string;
   email_password?: string;
+  gmail_password?: string;
   external_token?: string;
   active?: any;
   zip_from?;
