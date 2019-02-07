@@ -23,7 +23,8 @@ import { EmailTemplates } from '../../interfaces/email-templates';
 import { States } from '../../interfaces/states';
 import { EmailAddresses } from '../../interfaces/email-addresses';
 import { environment } from '../../../environments/environment';
-import {Project} from '../../interfaces/project';
+import { Project } from '../../interfaces/project';
+import { VirtualScroller } from 'primeng/virtualscroller';
 
 @Component({
   selector: 'app-aqis-customer-search',
@@ -121,6 +122,7 @@ export class CustomerSearchComponent implements OnInit {
   alertMessage: string;
 
   @ViewChild('customersList') el: ElementRef;
+  @ViewChild(VirtualScroller) virtualScroller: VirtualScroller;
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -182,7 +184,7 @@ export class CustomerSearchComponent implements OnInit {
       response => {
         if (response['user_id']) {
 
-          const super_admin         = response['super_admin'];
+          const super_admin       = response['super_admin'];
           self.agent_or_assistant = response['agent_or_assistant'];
           self.projects           = response['projects'];
           self.assistant          = super_admin ? false : response['assistant'];
@@ -505,6 +507,7 @@ export class CustomerSearchComponent implements OnInit {
     );
   }
 
+
   removeCustomer (index, customer) {
     const self = this;
     const customers = [...self.lazyCustomers];
@@ -516,6 +519,7 @@ export class CustomerSearchComponent implements OnInit {
           customers.splice(index, 1);
           self.lazyCustomers = customers;
           self.customers_count -= 1;
+          if (index > 1) setTimeout(() => { self.virtualScroller.scrollTo(index - 1); });
         } else {
           self.callAlert.handler(self, 'warning', response['message'], 2000);
         }
