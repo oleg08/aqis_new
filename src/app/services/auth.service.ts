@@ -42,6 +42,7 @@ export class AuthService {
 
     return this.authService.signIn(signInData).pipe(
       map(res => {
+        console.log('authservice - ', res);
         setTimeout(() => {
           if (res.body.data.super_admin) {
             this.userSuperAdmin$.next(true);

@@ -23,8 +23,6 @@ export class LoginFormComponent implements OnInit {
     this.authService.logInUser(this.signInUser).subscribe(
 
       res => {
-        console.log('authSevice res - ', res.headers);
-        console.log('authSevice local-storage - ', localStorage);
         if (res.status === 200) {
           this.onFormResult.emit({signedIn: true, res});
         }

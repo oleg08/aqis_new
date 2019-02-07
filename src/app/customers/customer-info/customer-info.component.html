@@ -565,7 +565,7 @@
             <div class="ui-g">
               <div class="ui-g-4 alert-primary">
                 <label><b>UID-Number</b></label>
-                <h6>{{customer.identifier || 'None'}}</h6>
+                <h6>{{customer['identifier'] || 'None'}}</h6>
               </div>
 
               <div class="ui-g-2 alert-secondary">
@@ -580,27 +580,27 @@
 
               <div class="ui-g-2 alert-secondary">
                 <label><b>Employees</b></label>
-                <h6>{{customer.num_employees || 'None'}}</h6>
+                <h6>{{customer['num_employees'] || 'None'}}</h6>
               </div>
 
               <div class="ui-g-2 alert-secondary">
                 <label><b>Turnover</b></label>
-                <h6>{{customer.turnover || 'None'}}</h6>
+                <h6>{{customer['turnover'] || 'None'}}</h6>
               </div>
             </div>
 
             <div class="ui-g">
               <div class="ui-g-2 customer-address">
                 <label><b>Zip</b></label>
-                <h6>{{customer.zip || 'None'}}</h6>
+                <h6>{{customer['zip'] || 'None'}}</h6>
               </div>
               <div class="ui-g-2 customer-address">
                 <label><b>City</b></label>
-                <h6>{{customer.city || 'None'}}</h6>
+                <h6>{{customer['city'] || 'None'}}</h6>
               </div>
               <div class="ui-g-4 customer-address">
                 <label><b>Comment Firm</b></label>
-                <h6>{{customer.comment_firm || 'None'}}</h6>
+                <h6>{{customer['comment_firm'] || 'None'}}</h6>
               </div>
             </div>
 
@@ -610,7 +610,7 @@
                 <label><b>Address 1</b></label>
                 <div class="row">
                   <div class="col-10">
-                    <h6>{{customer.head_quarter}}</h6>
+                    <h6>{{customer['head_quarter']}}</h6>
                   </div>
                   <div class="col-2">
                     <button type="button"
@@ -668,7 +668,7 @@
               <div class="ui-g-8 customer-address">
                 <label><b>Activity</b></label>
                 <p>
-                  {{customer.activity}}
+                  {{customer['activity']}}
                 </p>
               </div>
             </div>
@@ -679,9 +679,9 @@
                 <label>
                   <b>Customer's business-list</b>
                 </label>
-                <h5 *ngIf="customer.customer_businesses.length < 1">Empty</h5>
+                <h5 *ngIf="customer['customer_businesses'].length < 1">Empty</h5>
                 <ul class="list-group">
-                  <li *ngFor="let business of customer.customer_businesses; let i = index"
+                  <li *ngFor="let business of customer['customer_businesses']; let i = index"
                       class="list-group-item">
                     {{business.description}}
                   </li>
@@ -937,22 +937,22 @@
               <div id="sent_by{{customer_tenant['id']}}" class="ui-g-4 alert-primary">
                 <small><b>Contacted by Agent</b></small>
                 <p *ngIf="contacted_user">
-                  {{contacted_user.email}}
+                  {{contacted_user['email']}}
                 </p>
                 <p *ngIf="!contacted_user">None</p>
               </div>
             </div>
 
             <div class="ui-g">
-              <div id="comment_firm-{{customer['id']}}" class="ui-g-4 customer-address">
+              <div id="comment_firm{{customer_tenant['id']}}" class="ui-g-4 customer-address">
                 <label><b>Comment Firm</b></label>
-                <app-text-field-component bind-object="customer"
+                <app-text-field-component bind-object="customer_tenant"
                                   field_name="comment_firm"
                                   pattern_name="Number"
                                   label="Comment Firm"
                                   (focusInput)="focusInput()"
                                   (focusOutInput)="focusOutInput()"
-                                  on-valueChanged="save($event)">
+                                  on-valueChanged="saveSubItem($event, 'customer_tenants')">
                 </app-text-field-component>
               </div>
               <div class="ui-g-4 alert-info">
