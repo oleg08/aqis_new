@@ -24,7 +24,6 @@ import { States } from '../../interfaces/states';
 import { EmailAddresses } from '../../interfaces/email-addresses';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../interfaces/project';
-import { VirtualScroller } from 'primeng/virtualscroller';
 
 @Component({
   selector: 'app-aqis-customer-search',
@@ -93,6 +92,7 @@ export class CustomerSearchComponent implements OnInit {
   selectedOption: number;
 
   lazyCustomers:      object[] = [];
+  used_pages:         number[] = [];
 
   copy_customers:     Array<object>;
   super_admin         = false;
@@ -122,7 +122,6 @@ export class CustomerSearchComponent implements OnInit {
   alertMessage: string;
 
   @ViewChild('customersList') el: ElementRef;
-  @ViewChild(VirtualScroller) virtualScroller: VirtualScroller;
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -161,6 +160,9 @@ export class CustomerSearchComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
+
+    self.lazyCustomers = [];
+    self.loadCustomersLazy(0);
 
     self.filter_roles = [
       { label: 'Agent', value: 'Agent' }, { label: 'Assistant', value: 'Assistant' }
@@ -250,10 +252,14 @@ export class CustomerSearchComponent implements OnInit {
   }
 
   loadCustomersLazy(event) {
-    if (isNaN(event.first)) return;
     const self = this;
-    const page = event.first / self.size_page;
+    if (!(Number.isInteger((event + 10) / self.size_page)) && event !== 0) return;
+    const page = event === 0 ? 0 : (event + 10) / self.size_page;
+    if (self.used_pages.indexOf(page) === -1) self.used_pages.push(page);
+    else return;
 
+    const customers = [...self.lazyCustomers];
+    let next_customers: object[] = [];
     const url = self.getCustomers(page);
     if (!url) return;
     self.http.get(environment.serverUrl + url).subscribe(
@@ -297,9 +303,11 @@ export class CustomerSearchComponent implements OnInit {
           }
 
           const project_id = self.current_project ? self.current_project['id'] : null;
-          self.lazyCustomers =
+          next_customers =
             self.customersWithTenants.assignTenants(response['customers'], project_id,
               self.user_id, self.agent_users, self.assistant_users);
+          customers.push(...next_customers);
+          self.lazyCustomers = JSON.parse(JSON.stringify(customers));
           self.copy_customers = JSON.parse(JSON.stringify(self.lazyCustomers));
 
           self.sort_properties = self.customersSortData.get(self.super_admin);
@@ -519,7 +527,6 @@ export class CustomerSearchComponent implements OnInit {
           customers.splice(index, 1);
           self.lazyCustomers = customers;
           self.customers_count -= 1;
-          if (index > 1) setTimeout(() => { self.virtualScroller.scrollTo(index - 1); });
         } else {
           self.callAlert.handler(self, 'warning', response['message'], 2000);
         }

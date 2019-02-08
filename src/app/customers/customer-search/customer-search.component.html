@@ -252,8 +252,7 @@
 </div>
 
 <section #customersList  class="customers-scroll pb-2">
-  <p-virtualScroller [value]="lazyCustomers" scrollHeight="800px" [itemSize]="super_admin ? 150 : 200" [rows]="customers_count <= 100 ? customers_count : 100" [cache]="false"
-                     [lazy]="true" (onLazyLoad)="loadCustomersLazy($event)" [totalRecords]="customers_count">
+  <p-panel>
     <p-header>
       <div class="ui-g">
         <div class="ui-g-2 text-left">
@@ -308,141 +307,130 @@
         </div>
       </div>
     </p-header>
-    <ng-template let-customer pTemplate="item" let-i="index">
-      <section [ngClass]="{'cursor-progress' : upload_customers}">
 
-        <div class="ui-g"
-             [@fadeInOut]
-             id="customer_row_{{customer['id']}}">
-          <div class="ui-g-1">
-            <p-checkbox name="group1"
-                        pTooltip="Check for importing to Excel"
-                        tooltipPosition="top"
-                        value="{{customer.id}}"
-                        [(ngModel)]="customers_ids"
-                        inputId="{{customer.id}}"
-                        (onChange)="selectCustomer(customers_ids)">
-            </p-checkbox>
-          </div>
-          <div class="ui-g-9">
-            <h4>
-              <span class="h6">{{customer.zip}}</span>
-              {{customer.name}}
-            </h4>
-          </div>
-          <div class="ui-g-2">
-            <div class="btn-group btn-group-sm float-right">
-              <button class="btn btn-primary"
-                      [disabled]="upload_customers"
-                      (click)="viewDetails(customer)"
-                      value="view_details_{{customer.id}}">
-                View Details...
-              </button>
-              <button class="btn btn-danger"
-                      [disabled]="upload_customers"
-                      on-click="removeCustomer(i, customer)">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="ui-g">
-          <div class="ui-g-10">
-            <div *ngIf="super_admin" [ngClass]="{'empty-car-item-text' : !customer.email}">{{customer.email}}</div>
-            <small>
-              <p-selectButton *ngIf="!super_admin && customer['email_addresses'].length > 0"
-                              [options]="customer['email_addresses']"
-                              [(ngModel)]="email_addresses"
-                              ngbTooltip="Select to send email to Company"
-                              optionLabel="email"
-                              multiple="multiple">
-              </p-selectButton>
-            </small>
-          </div>
-          <div class="ui-g-2">
-            <div class="ui-g-12 p-0">
-              <small class="float-right" *ngIf="!super_admin && customer.state">
-                <b>state</b>{{customer.state}}
-              </small>
-            </div>
-            <div class="ui-g-12 p-0">
-              <small class="float-right"><b>Joined</b> {{customer.created_at | date}}</small>
-            </div>
-          </div>
-        </div>
-        <div *ngIf="!super_admin" id="customer_assign_{{customer.id}}" class="ui-g customers-select-template">
-          <div class="ui-g-1">
-            <input type="checkbox"
-                   [disabled]="!is_agent"
-                   class="form-control float-right"
-                   pTooltip="{{is_agent ? 'You can assign customer to yourself' : 'To assign customer to yourself you should have role Agent'}}"
-                   [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
-                   [(ngModel)]="customer.assigned_as_agent"
-                   (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_agent', 'agent_user')"/>
-          </div>
-          <div class="ui-g-5">
-            <p-autoComplete
-              pTooltip="Select User to which belongs Customers"
-              [suggestions]="filteredAgentUsers"
-              [(ngModel)]="customer.agent_user.email"
-              (completeMethod)="filterAgentUsers($event)"
-              (onSelect)="assignSelectedCustomer(customer.id, customer.agent_user.email, 'agent')"
-              placeholder="Select User"
-              [dropdown]="true"
-              [disabled]="!is_admin">
-              <ng-template let-agent_user pTemplate="item">
-                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
-                  <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{agent_user}}</div>
+    <ul *ngIf="lazyCustomers && lazyCustomers.length > 0" class="list">
+      <cdk-virtual-scroll-viewport  style="height: 800px" itemSize="{{super_admin ? 150 : 200}}" (scrolledIndexChange)="loadCustomersLazy($event)" >
+        <ng-container *cdkVirtualFor="let customer of lazyCustomers; let i = index">
+          <li>
+            <section [ngClass]="{'cursor-progress' : upload_customers}">
+
+              <div class="ui-g"
+                   [@fadeInOut]
+                   id="customer_row_{{customer['id']}}">
+                <div class="ui-g-1">
+                  <p-checkbox name="group1"
+                              pTooltip="Check for importing to Excel"
+                              tooltipPosition="top"
+                              value="{{customer['id']}}"
+                              [(ngModel)]="customers_ids"
+                              inputId="{{customer['id']}}"
+                              (onChange)="selectCustomer(customers_ids)">
+                  </p-checkbox>
                 </div>
-              </ng-template>
-            </p-autoComplete>
-          </div>
-          <div class="ui-g-1">
-            <input type="checkbox"
-                   [disabled]="!is_assistant"
-                   class="form-control float-right"
-                   pTooltip="{{is_assistant ? 'You can assign customer' : 'To assign customer you should have role Assistant'}}"
-                   [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
-                   [(ngModel)]="customer.assigned_as_assistant"
-                   (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_assistant', 'assistant_user')"/>
-          </div>
-          <div class="ui-g-5">
-            <p-autoComplete
-              pTooltip="Select User to which belongs Customers"
-              [suggestions]="filteredAssistantUsers"
-              [(ngModel)]="customer.assistant_user.email"
-              (completeMethod)="filterAssistantUsers($event)"
-              (onSelect)="assignSelectedCustomer(customer.id, customer.assistant_user.email, 'assistant')"
-              placeholder="Select User"
-              [dropdown]="true"
-              [disabled]="!is_admin">
-              <ng-template let-assistant_user pTemplate="item">
-                <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
-                  <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{assistant_user}}</div>
+                <div class="ui-g-9">
+                  <h4>
+                    <span class="h6">{{customer['zip']}}</span>
+                    {{customer['name']}}
+                  </h4>
                 </div>
-              </ng-template>
-            </p-autoComplete>
-          </div>
-        </div>
-      </section>
-    </ng-template>
-    <ng-template let-car pTemplate="loadingItem">
-      <div class="ui-g car-item empty-car-item">
-        <div class="ui-g-12 ui-md-2">
-          <div class="empty-car-item-index"></div>
-        </div>
-        <div class="ui-g-12 ui-md-2">
-          <div class="empty-car-item-image"></div>
-        </div>
-        <div class="ui-g-12 ui-md-8">
-          <div class="ui-g">
-            <div class="ui-g-12"><div class="empty-car-item-text"></div></div>
-            <div class="ui-g-12"><div class="empty-car-item-text"></div></div>
-            <div class="ui-g-12"><div class="empty-car-item-text"></div></div>
-            <div class="ui-g-12"><div class="empty-car-item-text"></div></div>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </p-virtualScroller>
+                <div class="ui-g-2">
+                  <div class="btn-group btn-group-sm float-right">
+                    <button class="btn btn-primary"
+                            [disabled]="upload_customers"
+                            (click)="viewDetails(customer)"
+                            value="view_details_{{customer['id']}}">
+                      View Details...
+                    </button>
+                    <button class="btn btn-danger"
+                            [disabled]="upload_customers"
+                            on-click="removeCustomer(i, customer)">
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g">
+                <div class="ui-g-10">
+                  <div *ngIf="super_admin" [ngClass]="{'empty-car-item-text' : !customer['email']}">{{customer['email']}}</div>
+                  <small>
+                    <p-selectButton *ngIf="!super_admin && customer['email_addresses'].length > 0"
+                                    [options]="customer['email_addresses']"
+                                    [(ngModel)]="email_addresses"
+                                    ngbTooltip="Select to send email to Company"
+                                    optionLabel="email"
+                                    multiple="multiple">
+                    </p-selectButton>
+                  </small>
+                </div>
+                <div class="ui-g-2">
+                  <div class="ui-g-12 p-0">
+                    <small class="float-right" *ngIf="!super_admin && customer.state">
+                      <b>state</b>{{customer.state}}
+                    </small>
+                  </div>
+                  <div class="ui-g-12 p-0">
+                    <small class="float-right"><b>Joined</b> {{customer.created_at | date}}</small>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="!super_admin" id="customer_assign_{{customer.id}}" class="ui-g customers-select-template">
+                <div class="ui-g-1">
+                  <input type="checkbox"
+                         [disabled]="!is_agent"
+                         class="form-control float-right"
+                         pTooltip="{{is_agent ? 'You can assign customer to yourself' : 'To assign customer to yourself you should have role Agent'}}"
+                         [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
+                         [(ngModel)]="customer.assigned_as_agent"
+                         (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_agent', 'agent_user')"/>
+                </div>
+                <div class="ui-g-5">
+                  <p-autoComplete
+                    pTooltip="Select User to which belongs Customers"
+                    [suggestions]="filteredAgentUsers"
+                    [(ngModel)]="customer.agent_user.email"
+                    (completeMethod)="filterAgentUsers($event)"
+                    (onSelect)="assignSelectedCustomer(customer.id, customer.agent_user.email, 'agent')"
+                    placeholder="Select User"
+                    [dropdown]="true"
+                    [disabled]="!is_admin">
+                    <ng-template let-agent_user pTemplate="item">
+                      <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                        <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{agent_user}}</div>
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                </div>
+                <div class="ui-g-1">
+                  <input type="checkbox"
+                         [disabled]="!is_assistant"
+                         class="form-control float-right"
+                         pTooltip="{{is_assistant ? 'You can assign customer' : 'To assign customer you should have role Assistant'}}"
+                         [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
+                         [(ngModel)]="customer.assigned_as_assistant"
+                         (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_assistant', 'assistant_user')"/>
+                </div>
+                <div class="ui-g-5">
+                  <p-autoComplete
+                    pTooltip="Select User to which belongs Customers"
+                    [suggestions]="filteredAssistantUsers"
+                    [(ngModel)]="customer.assistant_user.email"
+                    (completeMethod)="filterAssistantUsers($event)"
+                    (onSelect)="assignSelectedCustomer(customer.id, customer.assistant_user.email, 'assistant')"
+                    placeholder="Select User"
+                    [dropdown]="true"
+                    [disabled]="!is_admin">
+                    <ng-template let-assistant_user pTemplate="item">
+                      <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
+                        <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{assistant_user}}</div>
+                      </div>
+                    </ng-template>
+                  </p-autoComplete>
+                </div>
+              </div>
+            </section>
+          </li>
+        </ng-container>
+      </cdk-virtual-scroll-viewport>
+    </ul>
+  </p-panel>
 </section>
