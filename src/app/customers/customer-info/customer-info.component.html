@@ -294,23 +294,26 @@
         <div id="outlets-{{customer['id']}}" class="ui-g-2 alert-secondary">
           <label><b>Filias</b></label>
           <app-text-field-component bind-object="customer"
-                            field_name="outlets"
-                            pattern="\d\d\d\d"
-                            label="Number of Filias"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
+                                    field_name="outlets"
+                                    pattern_name="number between 1 and 100000"
+                                    pattern="\d{1,5}"
+                                    label="Number of Filias"
+                                    (focusInput)="focusInput()"
+                                    (focusOutInput)="focusOutInput()"
+                                    on-valueChanged="save($event)">
           </app-text-field-component>
         </div>
 
         <div id="num_employees-{{customer['id']}}" class="ui-g-2 alert-secondary">
           <label><b>Employees</b></label>
           <app-text-field-component bind-object="customer"
-                            field_name="num_employees"
-                            label="Employees"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
+                                    field_name="num_employees"
+                                    pattern_name="number between 1 and 100000"
+                                    pattern="\d{1,5}"
+                                    label="Employees"
+                                    (focusInput)="focusInput()"
+                                    (focusOutInput)="focusOutInput()"
+                                    on-valueChanged="save($event)">
           </app-text-field-component>
         </div>
 
@@ -672,6 +675,12 @@
                 </p>
               </div>
             </div>
+            <div class="ui-g customer-address">
+              <div class="ui-g-offset-4 ui-g-8">
+                <label><b>Conversation - Notes</b></label>
+                <p>{{customer['conversation']}}</p>
+              </div>
+            </div>
 
             <div class="ui-g">
               <div class="ui-g-12 alert-secondary">
@@ -1007,17 +1016,17 @@
 
             <div class="ui-g">
               <div id="conversation{{customer_tenant['id']}}" class="ui-g-12">
-                <label><b>Conversation - Notes</b></label>
+                <label><b>Additional Information</b></label>
                 <app-aqis-area-field bind-object="customer_tenant"
                                   field_name="conversation"
                                   rows="4"
-                                  label="Conversation - Notes"
+                                  label="Additional Information"
                                   (focusInput)="focusInput()"
                                   (focusOutInput)="focusOutInput()"
                                   on-valueChanged="saveSubItem($event, 'customer_tenants')">
                 </app-aqis-area-field>
                 <br>
-              </div>
+              </div>con
             </div>
 
             <div class="ui-g">
