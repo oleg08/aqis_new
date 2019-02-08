@@ -251,7 +251,7 @@ export class CustomerSearchComponent implements OnInit {
     // return self.http.get(request).pipe(map(response => response));
   }
 
-  loadCustomersLazy(event) {
+  loadCustomersLazy(event: number) {
     const self = this;
     if (!(Number.isInteger((event + 10) / self.size_page)) && event !== 0) return;
     const page = event === 0 ? 0 : (event + 10) / self.size_page;
@@ -366,7 +366,8 @@ export class CustomerSearchComponent implements OnInit {
     const self = this;
     self.lazyCustomers = [];
     self.init = true;
-    self.loadCustomersLazy({ first: 0, rows: self.size_page });
+    self.used_pages = [];
+    self.loadCustomersLazy(0);
   }
 
   changeRoles (roles) {
@@ -479,7 +480,8 @@ export class CustomerSearchComponent implements OnInit {
     self.lazyCustomers = [];
     self.customers_count = 0;
     self.init = true;
-    self.loadCustomersLazy({ first: 0, rows: self.size_page });
+    self.used_pages = [];
+    self.loadCustomersLazy(0);
   }
 
   addCustomer (new_name, new_email, new_identifier) {
@@ -661,7 +663,8 @@ export class CustomerSearchComponent implements OnInit {
     self.init = true;
 
     self.order = event.value instanceof Array ? self.order = event.value[0] + ',' + event.value[1] : event.value;
-    self.loadCustomersLazy({ first: 0, rows: self.size_page });
+    self.used_pages = [];
+    self.loadCustomersLazy(0);
   }
 
   sendEmail() {

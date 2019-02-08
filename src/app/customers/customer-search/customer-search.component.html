@@ -311,7 +311,7 @@
     <ul *ngIf="lazyCustomers && lazyCustomers.length > 0" class="list">
       <cdk-virtual-scroll-viewport  style="height: 800px" itemSize="{{super_admin ? 150 : 200}}" (scrolledIndexChange)="loadCustomersLazy($event)" >
         <ng-container *cdkVirtualFor="let customer of lazyCustomers; let i = index">
-          <li>
+          <li class="customers-list-item">
             <section [ngClass]="{'cursor-progress' : upload_customers}">
 
               <div class="ui-g"
