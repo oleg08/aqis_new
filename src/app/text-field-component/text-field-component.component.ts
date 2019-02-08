@@ -45,7 +45,7 @@ export class TextFieldComponentComponent implements OnInit {
   sanitize (url) {
     if (this.label === 'Web') {
       if (url.indexOf(' http') !== 0 && url.indexOf('http') !== 0) {
-        url = 'https:\\' + this.object[this.field_name];
+        url = 'https://' + this.object[this.field_name];
       }
       console.log('sanitize url - ', url);
     }
