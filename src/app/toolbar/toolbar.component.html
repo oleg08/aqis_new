@@ -77,6 +77,12 @@
 
 <!--</div>-->
 
+<app-alert-closeable *ngIf="alert"
+                     on-alertFalse="alert = false"
+                     bind-type="alertType"
+                     bind-message="alertMessage">
+</app-alert-closeable>
+
 <div class="ui-g">
   <div class="ui-g-8">
     <img src="../../assets/showcase/images/Logo-Keil.png" class="logo-keil">

@@ -8,28 +8,42 @@ import { User } from '../interfaces/user';
 import { Project } from '../interfaces/project';
 import { PassProjectIdService } from '../services/pass-project-id.service';
 import { CookieService } from 'ngx-cookie-service';
+import { CallAlertService } from '../services/call-alert.service';
+import { AngularTokenService } from 'angular-token';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
+  providers: [CallAlertService]
 })
 export class ToolbarComponent implements OnInit {
   options: any;
   current_user: User;
   projects: Project[] = [];
   current_project: Project;
+  alert = false;
+  alertType: string;
+  alertMessage: string;
 
   @ViewChild('authDialog') authDialog: AuthDialogComponent;
 
   constructor(public authService: AuthService,
               private http: HttpClient,
+              private tokenAuthService: AngularTokenService,
               private router: Router,
               private passProjectId: PassProjectIdService,
+              private callAlert: CallAlertService,
               private cookieService: CookieService) {}
 
   ngOnInit() {
-    this.getUserProps();
+    if (this.tokenAuthService.userSignedIn()) {
+      this.getUserProps();
+    } else {
+      this.alert = true;
+      this.alertType = 'warning';
+      this.alertMessage = `You haven't rights on requested page. Please log in`;
+    }
   }
 
   setCurrentProject(project) {
@@ -49,8 +63,9 @@ export class ToolbarComponent implements OnInit {
   presentAuthDialog() {
     this.authDialog.openDialog();
   }
-  
+
   getUserProps() {
+    this.alert = false;
     this.http.get(environment.serverUrl + '/user_properties.json').subscribe(
       res => { this.projects = res['projects']; },
       err => { console.log(err.message); }

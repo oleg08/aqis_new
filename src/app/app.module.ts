@@ -57,6 +57,11 @@ import { IsEmptyStringService } from './services/is-empty-string.service';
 import { CurrentUserService } from './services/current-user.service';
 import { GetToSendEmailsService } from './services/get-to-send-emails.service';
 
+// Guards
+import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { SuperAdminGuard } from './guards/super-admin.guard';
+
 // primeng
 import {
   CarouselModule,
@@ -335,7 +340,7 @@ import { ToSendTemplateComponent } from './to-send-template/to-send-template.com
   ],
   providers: [
     AngularTokenService,
-    AuthService, { provide: HTTP_INTERCEPTORS,
+    AuthService, { provide: HTTP_INTERCEPTORS,       // set headers for each request
       useClass: AuthInterceptor,
       multi: true
     },
@@ -377,7 +382,10 @@ import { ToSendTemplateComponent } from './to-send-template/to-send-template.com
     ShareCategoriesService,
     IsEmptyStringService,
     CurrentUserService,
-    GetToSendEmailsService
+    GetToSendEmailsService,
+    AuthGuard,
+    AdminGuard,
+    SuperAdminGuard
   ],
   bootstrap: [AppComponent]
 })

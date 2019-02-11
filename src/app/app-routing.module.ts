@@ -30,6 +30,11 @@ import { UserDetailsComponent } from './users/user-details/user-details.componen
 import { StatusesComponent } from './statuses/statuses/statuses.component';
 import { ToSendTemplateComponent } from './to-send-template/to-send-template.component';
 
+// Guards
+import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { SuperAdminGuard } from './guards/super-admin.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -42,131 +47,163 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'steps',
-    component: StepComponent
+    component: StepComponent,
+    canActivate: [SuperAdminGuard]
   },
   {
     path: 'steps/:id',
-    component: StepDetailsComponent
+    component: StepDetailsComponent,
+    canActivate: [SuperAdminGuard]
   },
   {
     path: 'main_email_templates',
-    component: MainEmailTemplatesComponent
+    component: MainEmailTemplatesComponent,
+    canActivate: [SuperAdminGuard]
   },
   {
     path: 'tenant_email_templates',
-    component: TenantEmailTemplatesComponent
+    component: TenantEmailTemplatesComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'email_templates',
-    component: EmailTemplatesComponent
+    component: EmailTemplatesComponent,
+    canActivate: [SuperAdminGuard]
   },
   {
     path: 'project_email_templates/:id',
-    component: ProjectEmailTemplatesComponent
+    component: ProjectEmailTemplatesComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'questions',
-    component: QuestionListComponent
+    component: QuestionListComponent,
+    canActivate: [SuperAdminGuard]
   },
   {
     path: 'businesses',
-    component: BusinessAllComponent
+    component: BusinessAllComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'tenants',
-    component: TenantsListComponent
+    component: TenantsListComponent,
+    canActivate: [SuperAdminGuard]
   },
   {
     path: 'tenants/dsvgo_list',
-    component: TenantsDsvgoComponent
+    component: TenantsDsvgoComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'tenants/:id',
-    component: TenantDetailsComponent
+    component: TenantDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'customers',
-    component: CustomerSearchComponent
+    component: CustomerSearchComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'authenticate_with_google',
-    component: CustomerSearchComponent
+    component: CustomerSearchComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'authenticate_with_google/:id',
-    component: CustomerSearchComponent
+    component: CustomerSearchComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'export_customers',
-    component: CustomerExportComponent
+    component: CustomerExportComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'customers/:id',
-    component: CustomerDetailsComponent
+    component: CustomerDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'c_tenant_steps/:id',
-    component: CustomerTenantStepDetailsComponent
+    component: CustomerTenantStepDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'pre_customers',
-    component: PreCustomersListComponent
+    component: PreCustomersListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'pre_customers/:id',
-    component: PreCustomersDetailsComponent
+    component: PreCustomersDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'projects',
-    component: ProjectsAllComponent
+    component: ProjectsAllComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'projects/:id',
-    component: ProjectStepComponent
+    component: ProjectStepComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'project_steps/:id',
-    component: ProjectStepDetailsComponent
+    component: ProjectStepDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'project_questions/:id',
-    component: ProjectQuestionComponent
+    component: ProjectQuestionComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'project_email_templates/:id',
-    component: ProjectEmailTemplatesComponent
+    component: ProjectEmailTemplatesComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'tenant_steps',
-    component: TenantStepComponent
+    component: TenantStepComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'tenant_steps/:id',
-    component: TenantStepDetailsComponent
+    component: TenantStepDetailsComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'tenant_email_templates',
-    component: TenantEmailTemplatesComponent
+    component: TenantEmailTemplatesComponent,
+    canActivate: [AdminGuard]
   },
   {
     path: 'users',
-    component: UsersListComponent
+    component: UsersListComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'users/:id',
-    component: UserDetailsComponent
+    component: UserDetailsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'statuses',
-    component: StatusesComponent
+    component: StatusesComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'to_send_emails',
-    component: ToSendTemplateComponent
+    component: ToSendTemplateComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

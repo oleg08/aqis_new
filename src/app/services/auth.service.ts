@@ -12,6 +12,8 @@ export class AuthService {
   userSignedIn$: Subject<boolean> = new Subject();
   userSuperAdmin$: Subject<boolean> = new Subject();
   userAdmin$: Subject<boolean> = new Subject();
+  userSuperAdmin = false;
+  userAdmin = false;
 
   constructor(public authService: AngularTokenService, private currentUser: CurrentUserService, private cookieService: CookieService) {}
 
@@ -23,6 +25,8 @@ export class AuthService {
         this.userAdmin$.next(false);
         this.userSuperAdmin$.next(false);
         this.userSignedIn$.next(false);
+        this.userAdmin = false;
+        this.userSuperAdmin = false;
         return res;
       })
     );
@@ -42,13 +46,16 @@ export class AuthService {
 
     return this.authService.signIn(signInData).pipe(
       map(res => {
-        console.log('authService - ', res.headers.get('client'));
         setTimeout(() => {
           if (res.body.data.super_admin) {
             this.userSuperAdmin$.next(true);
+            this.userAdmin$.next(false);
+            this.userSuperAdmin = true;
           }
           if (res.body.data.admin) {
             this.userAdmin$.next(true);
+            this.userSuperAdmin$.next(false);
+            this.userAdmin = true;
           }
         });
         this.currentUser.changeUser(res.body.data.id);
@@ -61,5 +68,13 @@ export class AuthService {
   }
 
   isUserLoggedIn(loggedIn: boolean) { this.userSignedIn$.next(loggedIn); }
+
+  isUserAdmin () {
+    return this.userAdmin;
+  }
+
+  isUserSuperAdmin () {
+    return this.userSuperAdmin;
+  }
 
 }
