@@ -10,6 +10,15 @@
   color: rgba(0, 0, 0, 0.7);
 }
 
+.toolbar-nav {
+  position: fixed;
+  z-index: 1000000
+}
+
+.logo-row {
+  padding-top: 5% !important;
+}
+
 
 
 //li span, .dropbtn {

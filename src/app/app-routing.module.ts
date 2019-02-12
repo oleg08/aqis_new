@@ -34,6 +34,7 @@ import { ToSendTemplateComponent } from './to-send-template/to-send-template.com
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { SuperAdminGuard } from './guards/super-admin.guard';
+import { ForceSslGuard } from './guards/force-ssl.guard';
 
 const routes: Routes = [
   {
@@ -48,7 +49,7 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'steps',

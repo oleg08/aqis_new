@@ -37,12 +37,13 @@ export class ToolbarComponent implements OnInit {
               private cookieService: CookieService) {}
 
   ngOnInit() {
-    if (this.tokenAuthService.userSignedIn()) {
-      this.getUserProps();
+    const self = this;
+    if (self.tokenAuthService.userSignedIn()) {
+      self.getUserProps();
     } else {
-      this.alert = true;
-      this.alertType = 'warning';
-      this.alertMessage = `You haven't rights on requested page. Please log in`;
+      self.alert = true;
+      self.alertType = 'warning';
+      self.alertMessage = `You haven't rights on requested page. Please log in`;
     }
   }
 
@@ -65,9 +66,16 @@ export class ToolbarComponent implements OnInit {
   }
 
   getUserProps() {
-    this.alert = false;
-    this.http.get(environment.serverUrl + '/user_properties.json').subscribe(
-      res => { this.projects = res['projects']; },
+    const self = this;
+    self.alert = false;
+    self.http.get(environment.serverUrl + '/user_properties.json').subscribe(
+      res => {
+        self.projects = res['projects'];
+        const project_id = self.cookieService.get('project_id');
+        if (project_id) {
+          self.current_project = self.projects.find(p => p.id === Number(project_id));
+        }
+        },
       err => { console.log(err.message); }
     );
   }

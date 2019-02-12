@@ -61,6 +61,7 @@ import { GetToSendEmailsService } from './services/get-to-send-emails.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { SuperAdminGuard } from './guards/super-admin.guard';
+import { ForceSslGuard } from './guards/force-ssl.guard';
 
 // primeng
 import {
@@ -385,7 +386,8 @@ import { ToSendTemplateComponent } from './to-send-template/to-send-template.com
     GetToSendEmailsService,
     AuthGuard,
     AdminGuard,
-    SuperAdminGuard
+    SuperAdminGuard,
+    ForceSslGuard
   ],
   bootstrap: [AppComponent]
 })

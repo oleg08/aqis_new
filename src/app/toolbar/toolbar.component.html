@@ -1,6 +1,6 @@
 <!--<div class="navbar-fixed">-->
 
-  <nav  class="navbar navbar-expand-lg navbar-light bg-primary">
+  <nav  class="navbar navbar-expand-lg navbar-light bg-primary toolbar-nav">
 
     <a [routerLink]="['']" id="logo-container" class="brand-logo navbar-brand">
       <img src="../../assets/showcase/images/aQis_Logo_L01.png" class="logo-keil">
@@ -83,9 +83,12 @@
                      bind-message="alertMessage">
 </app-alert-closeable>
 
-<div class="ui-g">
+<div class="ui-g logo-row">
   <div class="ui-g-8">
     <img src="../../assets/showcase/images/Logo-Keil.png" class="logo-keil">
+  </div>
+  <div *ngIf="current_project" class="ui-g-4">
+    <h6 class="float-right"><i>Current Project - </i><a [routerLink]="['/customers']">{{current_project.name}}</a></h6>
   </div>
 </div>
 
