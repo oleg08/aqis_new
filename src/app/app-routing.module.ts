@@ -148,12 +148,12 @@ const routes: Routes = [
   {
     path: 'projects',
     component: ProjectsAllComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'projects/:id',
     component: ProjectStepComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'project_steps/:id',
@@ -163,12 +163,12 @@ const routes: Routes = [
   {
     path: 'project_questions/:id',
     component: ProjectQuestionComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'project_email_templates/:id',
     component: ProjectEmailTemplatesComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'tenant_steps',

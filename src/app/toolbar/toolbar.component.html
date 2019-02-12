@@ -54,7 +54,7 @@
         </div>
       </li>
 
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async) && projects && projects.length > 0" class="nav-item dropdown">
+      <li *ngIf="(authService.userSignedIn$ | async) && projects && projects.length > 0" class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuProjects" data-toggle="dropdown">
           Projects
         </a>
