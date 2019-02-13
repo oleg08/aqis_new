@@ -8,6 +8,7 @@ import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 export class AuthDialogComponent implements OnInit {
 
   displayLoginForm: boolean;
+  displayWarningAuthFailed: boolean;
 
   @Input('auth-mode') authMode: 'Log in' | 'register' = 'Log in';
   @Output() getUserProps: EventEmitter<object> = new EventEmitter<object>();
@@ -21,6 +22,8 @@ export class AuthDialogComponent implements OnInit {
     if (e.signedIn) {
       this.getUserProps.emit();
       this.closeDialog();
+    } else {
+      this.displayWarningAuthFailed = true;
     }
   }
 

@@ -58,6 +58,7 @@ export class ToolbarComponent implements OnInit {
     this.cookieService.delete('project_id');
     this.cookieService.delete('current_user_id');
     this.projects = [];
+    this.current_project = null;
     this.authService.logOutUser().subscribe(() => this.router.navigate(['/']));
   }
 

@@ -276,7 +276,7 @@ import { ToSendTemplateComponent } from './to-send-template/to-send-template.com
     UsersListComponent,
     UserDetailsComponent,
     StatusesComponent,
-    ToSendTemplateComponent,
+    ToSendTemplateComponent
   ],
   imports: [
     BrowserModule,
