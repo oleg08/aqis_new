@@ -54,157 +54,157 @@ const routes: Routes = [
   {
     path: 'steps',
     component: StepComponent,
-    canActivate: [SuperAdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'steps/:id',
     component: StepDetailsComponent,
-    canActivate: [SuperAdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'main_email_templates',
     component: MainEmailTemplatesComponent,
-    canActivate: [SuperAdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'tenant_email_templates',
     component: TenantEmailTemplatesComponent,
-    canActivate: [AdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'email_templates',
     component: EmailTemplatesComponent,
-    canActivate: [SuperAdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'project_email_templates/:id',
     component: ProjectEmailTemplatesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'questions',
     component: QuestionListComponent,
-    canActivate: [SuperAdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'businesses',
     component: BusinessAllComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'tenants',
     component: TenantsListComponent,
-    canActivate: [SuperAdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'tenants/dsvgo_list',
     component: TenantsDsvgoComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'tenants/:id',
     component: TenantDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'customers',
     component: CustomerSearchComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'authenticate_with_google',
     component: CustomerSearchComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'authenticate_with_google/:id',
     component: CustomerSearchComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'export_customers',
     component: CustomerExportComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'customers/:id',
     component: CustomerDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'c_tenant_steps/:id',
     component: CustomerTenantStepDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'pre_customers',
     component: PreCustomersListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'pre_customers/:id',
     component: PreCustomersDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'projects',
     component: ProjectsAllComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'projects/:id',
     component: ProjectStepComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'project_steps/:id',
     component: ProjectStepDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'project_questions/:id',
     component: ProjectQuestionComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'project_email_templates/:id',
     component: ProjectEmailTemplatesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'tenant_steps',
     component: TenantStepComponent,
-    canActivate: [AdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'tenant_steps/:id',
     component: TenantStepDetailsComponent,
-    canActivate: [AdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'tenant_email_templates',
     component: TenantEmailTemplatesComponent,
-    canActivate: [AdminGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'users',
     component: UsersListComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'users/:id',
     component: UserDetailsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'statuses',
     component: StatusesComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   },
   {
     path: 'to_send_emails',
     component: ToSendTemplateComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ForceSslGuard, AuthGuard]
   }
 ];
 

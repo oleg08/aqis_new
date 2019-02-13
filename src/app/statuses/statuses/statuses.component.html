@@ -4,7 +4,7 @@
 
   <div class="ui-g">
     <div class="ui-g-12">
-      <p-orderList [value]="states" [listStyle]="{'width':'100%'}" (onReorder)="reorder(states)" (onSelectionChange)="selectState($event)" dragdrop="true" dragdropScope="states">
+      <p-orderList [value]="states" [listStyle]="{'width':'100%','height':'100%'}" (onReorder)="reorder(states)" (onSelectionChange)="selectState($event)" dragdrop="true" dragdropScope="states">
         <ng-template let-state pTemplate="item">
           <div class="ui-helper-clearfix">
             <div class="ui-g">
