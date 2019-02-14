@@ -7,7 +7,19 @@
 }
 
 .profile-link {
-  color: rgba(0, 0, 0, 0.7);
+  color: orange !important;
+}
+
+.toolbar-dropdown {
+  color: orange !important;
+}
+
+.toolbar-dropdown-item:hover {
+  background-color: white;
+}
+
+.toolbar-item {
+  padding-top: .5rem;
 }
 
 .toolbar-nav {
@@ -19,8 +31,6 @@
 .logo-row {
   padding-top: 5% !important;
 }
-
-
 
 //li span, .dropbtn {
 //  display: inline-block;

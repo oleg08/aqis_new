@@ -97,19 +97,25 @@ export class CustomerDetailsComponent implements OnInit {
         self.google_task_saved = self.customer_tenant['google_saved_connection'];
         self.google_authorized = response['google_authorized'];
 
-        if (self.google_authorized) {
-          self.callAlert.handler(self, 'info', 'Success Authentication with the Google Calendar.', 10000);
-          if (self.current_project && self.current_project.email && self.current_project.email !== response['calendar_email']) {
-            self.callAlert.handler(self, 'warning',
-              `Project's email and email of the logged in Google account are not equal. Go to authenticate with Google again`,
-              10000);
+        self.redirect_url = `${environment.serverUrl}/request_to_google`;
+        self.return_to_url = `${environment.clientUrl}/customers/${self.customer.id}`;
+
+        let message: string;
+        let type: string;
+
+        if (response['google_authorized']) {
+          if (self.current_project && self.current_project.gmail && self.current_project.gmail !== response['calendar_email']) {
+            type = 'warning';
+            message = `Project's email and email of the logged in Google account are not equal. Go to authenticate with Google again`;
+          } else {
+            type = 'success';
+            message = 'Success Authentication with the Google Calendar.';
           }
         } else {
-          self.redirect_url = `${environment.serverUrl}/request_to_google`;
-          self.return_to_url = `${environment.clientUrl}/customers/${self.customer.id}`;
-          self.callAlert.handler(self, 'warning',
-            'Authentication with Google expired. To authenticate with Google again follow next link', 10000);
+          type = 'warning';
+          message = 'Authentication with Google expired. To authenticate with Google again follow next link';
         }
+        self.callAlert.handler(self, type, message, 10000);
 
         self.project_questions = JSON.parse(JSON.stringify(self.customer_tenant['customer_tenant_questions']));
 

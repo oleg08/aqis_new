@@ -280,7 +280,7 @@ export class CustomerSearchComponent implements OnInit {
           if (!self.super_admin) {
             self.current_project = response['current_project'];
             if (response['google_authorized']) {
-              if (self.current_project && self.current_project.email && self.current_project.email !== response['calendar_email']) {
+              if (self.current_project && self.current_project.gmail && self.current_project.gmail !== response['calendar_email']) {
                 type = 'warning';
                 message = `Project's email and email of the logged in Google account are not equal. Go to authenticate with Google again`;
               } else {

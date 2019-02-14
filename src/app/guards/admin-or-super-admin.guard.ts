@@ -7,18 +7,19 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class SuperAdminGuard implements CanActivate {
+export class AdminOrSuperAdminGuard implements CanActivate {
 
-  constructor(private authTokenService: AngularTokenService, private router: Router, private authService: AuthService) {}
+  constructor (private authTokenService: AngularTokenService, private router: Router, private authService: AuthService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authTokenService.userSignedIn() && this.authService.userSuperAdmin$.getValue()) {
+    if (this.authTokenService.userSignedIn() && (this.authService.userSuperAdmin$.getValue() || this.authService.userAdmin$.getValue())) {
       return true;
     } else {
       this.router.navigate(['/']);
       return false;
     }
   }
+  
 }

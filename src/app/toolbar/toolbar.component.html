@@ -7,9 +7,9 @@
     </a>
 
     <ul class="navbar-nav ml-auto">
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuSteps" data-toggle="dropdown">
-          Steps Properties
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuSteps" data-toggle="dropdown">
+          <b>Steps Properties</b>
         </a>
         <div class="dropdown-menu">
           <a class="dropdown-item" [routerLink]="['/steps']">Steps</a>
@@ -17,19 +17,19 @@
           <a class="dropdown-item" [routerLink]="['/main_email_templates']">Email Templates</a>
         </div>
       </li>
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="nav-item">
-        <a class="nav-link" [routerLink]="['/businesses']">Businesses</a>
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
+        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/businesses']"><b>Businesses</b></a>
       </li>
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="nav-item">
-        <a class="nav-link" [routerLink]="['/tenants']">Tenants</a>
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
+        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/tenants']"><b>Tenants</b></a>
       </li>
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="nav-item">
-        <a class="nav-link" [routerLink]="['/customers']">Customers</a>
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
+        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/customers']"><b>Customers</b></a>
       </li>
 
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuAdmin" data-toggle="dropdown">
-          Admin
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuAdmin" data-toggle="dropdown">
+          <b>Admin</b>
         </a>
         <div class="dropdown-menu">
           <a class="dropdown-item" [routerLink]="['/projects']">Projects</a>
@@ -44,19 +44,19 @@
         </div>
       </li>
 
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuCommunications" data-toggle="dropdown">
-          Communications
+      <li *ngIf="(authService.userSignedIn$ | async) && ((authService.userAdmin$ | async) || (authService.userSuperAdmin$ | async))" class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuCommunications" data-toggle="dropdown">
+          <b>Communications</b>
         </a>
         <div class="dropdown-menu">
           <a class="dropdown-item" [routerLink]="['/pre_customers']">First Contacts</a>
-          <a class="dropdown-item" [routerLink]="['/to_send_emails']">Received Emails</a>
+          <a *ngIf="(authService.userAdmin$ | async)" class="dropdown-item" [routerLink]="['/to_send_emails']">Received Emails</a>
         </div>
       </li>
 
-      <li *ngIf="(authService.userSignedIn$ | async) && projects && projects.length > 0" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuProjects" data-toggle="dropdown">
-          Projects
+      <li *ngIf="(authService.userSignedIn$ | async) && projects && projects.length > 0" class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuProjects" data-toggle="dropdown">
+          <b>Projects</b>
         </a>
         <div class="dropdown-menu">
             <span *ngFor="let project of projects"
@@ -67,10 +67,22 @@
         </div>
       </li>
 
-      <li *ngIf="!(authService.userSignedIn$ | async)"> <a (click)="presentAuthDialog()" class="nav-item cursor-pointer" >LOGIN</a></li>
+      <li class="toolbar-item" *ngIf="!(authService.userSignedIn$ | async)">
+        <a (click)="presentAuthDialog()" class="nav-item m2 cursor-pointer profile-link" >
+          <b>LOGIN</b>
+        </a>
+      </li>
 
-      <li *ngIf="(authService.userSignedIn$ | async)"><a [routerLink]="['/profile']" class="nav-item m-2 profile-link cursor-pointer">PROFILE</a></li>
-      <li *ngIf="(authService.userSignedIn$ | async)"><a (click)="logOut()" class="nav-item m-2 cursor-pointer">LOGOUT</a></li>
+      <li class="toolbar-item toolbar-dropdown-item" *ngIf="(authService.userSignedIn$ | async)">
+        <a [routerLink]="['/profile']" class="nav-item m-2 profile-link cursor-pointer">
+          <b>PROFILE</b>
+        </a>
+      </li>
+      <li class="toolbar-item toolbar-dropdown-item" *ngIf="(authService.userSignedIn$ | async)">
+        <a (click)="logOut()" class="nav-item m-2 cursor-pointer profile-link">
+          <b>LOGOUT</b>
+        </a>
+      </li>
 
     </ul>
   </nav>

@@ -62,6 +62,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { SuperAdminGuard } from './guards/super-admin.guard';
 import { ForceSslGuard } from './guards/force-ssl.guard';
+import { AdminOrSuperAdminGuard } from './guards/admin-or-super-admin.guard';
 
 // primeng
 import {
@@ -387,6 +388,7 @@ import { ToSendTemplateComponent } from './to-send-template/to-send-template.com
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,
+    AdminOrSuperAdminGuard,
     ForceSslGuard
   ],
   bootstrap: [AppComponent]

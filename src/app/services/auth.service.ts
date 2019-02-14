@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularTokenService } from 'angular-token';
 import { CurrentUserService } from './current-user.service';
-import { Subject, Observable } from 'rxjs';
+import {Subject, Observable, BehaviorSubject} from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
@@ -9,11 +9,9 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable()
 export class AuthService {
 
-  userSignedIn$: Subject<boolean> = new Subject();
-  userSuperAdmin$: Subject<boolean> = new Subject();
-  userAdmin$: Subject<boolean> = new Subject();
-  userSuperAdmin = false;
-  userAdmin = false;
+  userSignedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  userSuperAdmin$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  userAdmin$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(public authService: AngularTokenService, private currentUser: CurrentUserService, private cookieService: CookieService) {}
 
@@ -25,8 +23,6 @@ export class AuthService {
         this.userAdmin$.next(false);
         this.userSuperAdmin$.next(false);
         this.userSignedIn$.next(false);
-        this.userAdmin = false;
-        this.userSuperAdmin = false;
         return res;
       })
     );
@@ -50,12 +46,10 @@ export class AuthService {
           if (res.body.data.super_admin) {
             this.userSuperAdmin$.next(true);
             this.userAdmin$.next(false);
-            this.userSuperAdmin = true;
           }
           if (res.body.data.admin) {
             this.userAdmin$.next(true);
             this.userSuperAdmin$.next(false);
-            this.userAdmin = true;
           }
         });
         this.currentUser.changeUser(res.body.data.id);
@@ -68,13 +62,5 @@ export class AuthService {
   }
 
   isUserLoggedIn(loggedIn: boolean) { this.userSignedIn$.next(loggedIn); }
-
-  isUserAdmin () {
-    return this.userAdmin;
-  }
-
-  isUserSuperAdmin () {
-    return this.userSuperAdmin;
-  }
 
 }
