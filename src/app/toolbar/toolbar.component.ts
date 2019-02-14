@@ -10,6 +10,7 @@ import { PassProjectIdService } from '../services/pass-project-id.service';
 import { CookieService } from 'ngx-cookie-service';
 import { CallAlertService } from '../services/call-alert.service';
 import { AngularTokenService } from 'angular-token';
+import { SwitchProjectService } from '../services/switch-project.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -34,7 +35,8 @@ export class ToolbarComponent implements OnInit {
               private router: Router,
               private passProjectId: PassProjectIdService,
               private callAlert: CallAlertService,
-              private cookieService: CookieService) {}
+              private cookieService: CookieService,
+              private switchProject: SwitchProjectService) {}
 
   ngOnInit() {
     const self = this;
@@ -51,10 +53,15 @@ export class ToolbarComponent implements OnInit {
     this.current_project = project;
     this.passProjectId.changeProject(project);
     this.cookieService.set('project_id', String(project.id));
-    this.router.navigate(['/customers']);
+    if (window.location.href.split(environment.clientUrl)[1] === '/customers') {
+      this.switchProject.switchProject(true);
+    } else {
+      this.router.navigate(['/customers']);
+    }
   }
 
   logOut() {
+    this.passProjectId.changeProject(null);
     this.cookieService.delete('project_id');
     this.cookieService.delete('current_user_id');
     this.projects = [];

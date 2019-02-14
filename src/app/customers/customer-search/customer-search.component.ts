@@ -19,6 +19,7 @@ import { Message, OverlayPanel } from 'primeng/primeng';
 import { MessageService        } from 'primeng/components/common/messageservice';
 import { ShareCustomersIdsService } from '../../services/share-customers-ids.service';
 import { IterateCustomersService } from '../../services/iterate-customers.service';
+import { SwitchProjectService } from '../../services/switch-project.service';
 import { EmailTemplates } from '../../interfaces/email-templates';
 import { States } from '../../interfaces/states';
 import { EmailAddresses } from '../../interfaces/email-addresses';
@@ -140,6 +141,7 @@ export class CustomerSearchComponent implements OnInit {
               private iterateCustomers: IterateCustomersService,
               private flashHighlights: FlashHighlightsService,
               private passProjectId: PassProjectIdService,
+              private switchProject: SwitchProjectService,
               private cookieService: CookieService) {
     this.copy_customers    = null;
     this.projects          = null;
@@ -160,6 +162,13 @@ export class CustomerSearchComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
+
+    this.switchProject.currentValue.subscribe(val => {
+      if (val) {
+        this.nullifyAndGetCustomers();
+        this.switchProject.switchProject(false);
+      }
+    });
 
     self.lazyCustomers = [];
     self.loadCustomersLazy(0);
@@ -208,13 +217,11 @@ export class CustomerSearchComponent implements OnInit {
   getCustomers(page): string {
     const self = this;
 
+    let project: Project;
+    self.passProjectId.currentProject.subscribe(p => project = p);
+    if (project) self.current_project_id = project.id;
     if (!self.current_project_id) {
-      let project: Project;
-      self.passProjectId.currentProject.subscribe(p => project = p);
-      if (project) self.current_project_id = project.id;
-      if (!self.current_project_id) {
-        self.current_project_id = self.cookieService.get('project_id');
-      }
+      self.current_project_id = self.cookieService.get('project_id');
     }
 
     const timeZoneOffset = (-1) * new Date().getTimezoneOffset() / 60;
