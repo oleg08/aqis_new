@@ -95,7 +95,7 @@ const routes: Routes = [
   {
     path: 'tenants',
     component: TenantsListComponent,
-    canActivate: [ForceSslGuard, AdminGuard]    // guard
+    canActivate: [ForceSslGuard, SuperAdminGuard]    // guard
   },
   {
     path: 'tenants/dsvgo_list',
