@@ -267,7 +267,7 @@ export class EmailTemplatesActionsComponent implements OnInit {
       data => {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
       }
-    )
+    );
   }
 
   addGeneralTemplates(templates: EmailTemplates[], overlaypanel: OverlayPanel) {

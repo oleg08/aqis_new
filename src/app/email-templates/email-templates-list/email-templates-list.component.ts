@@ -39,14 +39,14 @@ export class EmailTemplatesListComponent implements OnInit {
   @Input() hot_keywords: Keywords[];
   @Input() super_admin: boolean;
 
-  @Output() addItem:             EventEmitter<object> = new EventEmitter<object>();
-  @Output() cancelUpdate:        EventEmitter<object> = new EventEmitter<object>();
-  @Output() saveItem:            EventEmitter<object> = new EventEmitter<object>();
-  @Output() removeItem:          EventEmitter<object> = new EventEmitter<object>();
-  @Output() enterAutoComplete:   EventEmitter<object> = new EventEmitter<object>();
-  @Output() focusAutoComplete:   EventEmitter<object> = new EventEmitter<object>();
-  @Output() addToAutoComplete:   EventEmitter<object> = new EventEmitter<object>();
-  @Output() addGeneralTemplates: EventEmitter<object> = new EventEmitter<object>();
+  @Output() addItem:               EventEmitter<object> = new EventEmitter<object>();
+  @Output() cancelUpdate:          EventEmitter<object> = new EventEmitter<object>();
+  @Output() saveItem:              EventEmitter<object> = new EventEmitter<object>();
+  @Output() removeItem:            EventEmitter<object> = new EventEmitter<object>();
+  @Output() enterAutoComplete:     EventEmitter<object> = new EventEmitter<object>();
+  @Output() focusAutoComplete:     EventEmitter<object> = new EventEmitter<object>();
+  @Output() addToAutoComplete:     EventEmitter<object> = new EventEmitter<object>();
+  @Output() addGeneralTemplates:   EventEmitter<object> = new EventEmitter<object>();
 
   constructor(private http: HttpClient,
               private router: Router,

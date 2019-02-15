@@ -111,7 +111,7 @@ export class StepsCrudComponent implements OnInit {
     if (value) {
       const active_steps = self.steps.filter(st => st.active === true && st.id !== step_id);
 
-      if (step.role === 'Machine') {
+      if (step.step_role === 'Machine') {
         self.confirmActive(step, active_steps);
       } else {
         self.updateStep.emit({ value: { active: true }, step_id: step_id });

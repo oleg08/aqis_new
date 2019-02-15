@@ -15,6 +15,7 @@
 <div *ngIf="!super_admin" class="ui-g alert-secondary">
   <div class="ui-g-12">
     <button pButton
+            type="button"
             class="float-right"
             (click)="addSteps($event)"
             label="Import Steps">
@@ -53,10 +54,10 @@
                      value="step.active">
             </div>
             <div class="ui-g-offset-5 ui-g-4 pt-0">
-              <section *ngIf="step.role === 'Machine'" class="machine-weight-section">
+              <section *ngIf="step.step_role === 'Machine'" class="machine-weight-section">
                 <u><b>Weight {{step.percent_weight}}</b></u>
               </section>
-              <section *ngIf="step.role !== 'Machine'" class="agent-weight-section">
+              <section *ngIf="step.step_role !== 'Machine'" class="agent-weight-section">
                 <u><small>Weight {{step.weight}}</small></u>
                 <p-slider [(ngModel)]="step.weight"
                           [style]="{'width':'8em'}"
