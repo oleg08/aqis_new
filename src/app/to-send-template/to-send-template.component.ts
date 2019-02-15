@@ -9,6 +9,7 @@ import { GetToSendEmailsService } from '../services/get-to-send-emails.service';
 import { ToSendEmail } from '../interfaces/to-send-email';
 import { EmailTemplates } from '../interfaces/email-templates';
 import {CallAlertService} from '../services/call-alert.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-to-send-template',
@@ -93,7 +94,7 @@ export class ToSendTemplateComponent implements OnInit {
   updateRequest(id, params) {
     const self = this;
     const to_send_emails: ToSendEmail[] = [...self.to_send_emails];
-    self.http.patch('/to_send_emails/' + id + '.json', params
+    self.http.patch(environment.serverUrl + '/to_send_emails/' + id + '.json', params
     ).subscribe(
       response => {
         if (response['to_send_email']) {
