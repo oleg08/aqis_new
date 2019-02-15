@@ -435,9 +435,9 @@
             <div class="col-2">
               <button type="button"
                       class="btn btn-default float-right"
-                      (click)="map1.show($event); initMap('googleMap1', String(customer['zip']) + ' ' +
-                                                                                      customer['city'] + ' ' +
-                                                                                      customer['head_quarter'])">
+                      (click)="map1.show($event); initMap('googleMap1', customer['zip'] + ' ' +
+                                                                        customer['city'] + ' ' +
+                                                                        customer['head_quarter'])">
                 <img src="../../../assets/showcase/images/if_map_285662.png" width="30">
               </button>
             </div>
@@ -830,10 +830,9 @@
                   <div class="col-2">
                     <button type="button"
                             class="btn btn-default float-right"
-                            (click)="map2.show($event); initMap('googleMap2',
-                                                                                     String(customer_tenant['zip_2']) + ' ' +
-                                                                                     customer_tenant['city_2'] + ' ' +
-                                                                                     customer_tenant['comment_address'])">
+                            (click)="map2.show($event); initMap('googleMap2', customer_tenant['zip_2'] + ' ' +
+                                                                              customer_tenant['city_2'] + ' ' +
+                                                                              customer_tenant['comment_address'])">
                       <img src="../../../assets/showcase/images/if_map_285662.png" width="30">
                     </button>
                   </div>
