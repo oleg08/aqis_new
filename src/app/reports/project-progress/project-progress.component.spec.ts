@@ -1,22 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { StepComponent } from './step.component';
+import { ProjectProgressComponent } from './project-progress.component';
 
-describe('StepComponent', () => {
-  let component: StepComponent;
-  let fixture: ComponentFixture<StepComponent>;
+describe('ProjectProgressComponent', () => {
+  let component: ProjectProgressComponent;
+  let fixture: ComponentFixture<ProjectProgressComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ StepComponent ]
+      declarations: [ ProjectProgressComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StepComponent);
+    fixture = TestBed.createComponent(ProjectProgressComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

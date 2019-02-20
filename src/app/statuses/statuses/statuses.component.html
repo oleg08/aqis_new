@@ -7,15 +7,15 @@
       <p-orderList [value]="states" [listStyle]="{'width':'100%','height':'100%'}" (onReorder)="reorder(states)" (onSelectionChange)="selectState($event)" dragdrop="true" dragdropScope="states">
         <ng-template let-state pTemplate="item">
           <div class="ui-helper-clearfix">
-            <div class="ui-g">
+            <div class="ui-g" [ngClass]="{'success-state': state.success}">
               <div class="ui-g-1"><h3 class="email-template-order text-center">{{state.order}}</h3></div>
               <div class="ui-g-2">{{state.label}}</div>
               <div class="ui-g-6">{{state.description}}</div>
               <div class="ui-g-1">
-                <p-checkbox [(ngModel)]="state.active" (onChange)="setActive(state)" binary="true" [disabled]="!state.removable"></p-checkbox>
+                <p-checkbox pTooltip="State is {{state.active ? 'active' : 'inactive'}}" [(ngModel)]="state.active" (onChange)="setActive(state)" binary="true" [disabled]="!state.removable"></p-checkbox>
               </div>
               <div class="ui-g-1">
-                <p-checkbox [(ngModel)]="state.removable" binary="true" [disabled]="true"></p-checkbox>
+                <p-checkbox pTooltip="State {{state.removable ? 'can' : 'can not'}} be deleted" [(ngModel)]="state.removable" binary="true" [disabled]="true"></p-checkbox>
               </div>
               <div class="ui-g-1">
                 <button type="button" pButton icon="fa fa-edit" (click)="onRowSelect(state)">
@@ -56,7 +56,7 @@
   </div>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix mr-2">
-      <button *ngIf="!newState" type="button" pButton icon="pi pi-times" iconPos="right" (click)="delete()" label="Delete"></button>
+      <button *ngIf="!newState && state.removable" type="button" pButton icon="pi pi-times" iconPos="right" (click)="delete()" label="Delete"></button>
       <button type="button" pButton icon="pi pi-check" iconPos="right" (click)="save()" label="{{newState ? 'Create' : 'Save'}}"></button>
     </div>
   </p-footer>

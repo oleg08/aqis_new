@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { NewEmailTemplateComponent } from './new-email-template.component';
 
@@ -8,6 +9,7 @@ describe('NewEmailTemplateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      schemas: [NO_ERRORS_SCHEMA],
       declarations: [ NewEmailTemplateComponent ]
     })
     .compileComponents();

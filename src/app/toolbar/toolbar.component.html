@@ -67,6 +67,15 @@
         </div>
       </li>
 
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuReports" data-toggle="dropdown">
+          <b>Reports</b>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" [routerLink]="['/reports_project_progress']">Projects Progress</a>
+        </div>
+      </li>
+
       <li class="toolbar-item" *ngIf="!(authService.userSignedIn$ | async)">
         <a (click)="presentAuthDialog()" class="nav-item m2 cursor-pointer profile-link" >
           <b>LOGIN</b>

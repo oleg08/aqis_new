@@ -1,0 +1,43 @@
+<p-growl styleClass="message-growl" [baseZIndex]="1050" [(value)]="msgs"></p-growl>
+
+<table class="table table-hover table-progress-report">
+  <thead>
+  <tr>
+    <th colspan="9" class="text-center">
+      <h4><u>Projects Progress</u></h4>
+    </th>
+  </tr>
+  <tr>
+    <th class="table-cell" rowspan="2" scope="col">Project</th>
+    <th class="table-cell" colspan="4" scope="col">Progress %</th>
+    <th class="table-cell" rowspan="2" scope="col">Active</th>
+    <th class="table-cell" rowspan="2" scope="col">Closed</th>
+    <th class="table-cell" rowspan="2" scope="col">Success</th>
+    <th class="table-cell" rowspan="2" scope="col">Total</th>
+  </tr>
+  <tr>
+    <th>0-25</th>
+    <th>25-50</th>
+    <th>50-75</th>
+    <th>75-100</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngIf="!load_completed">
+    <td colspan="9">
+      <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+    </td>
+  </tr>
+  <tr *ngFor="let report of reports">
+    <td>{{report.project}}</td>
+    <td>{{report.progress0_25 || '-'}}</td>
+    <td>{{report.progress25_50 || '-'}}</td>
+    <td>{{report.progress50_75 || '-'}}</td>
+    <td>{{report.progress75_100 || '-'}}</td>
+    <td>{{report.active_companies || '-'}}</td>
+    <td>{{report.closed_companies || '-'}}</td>
+    <td>{{report.success_companies || '-'}}</td>
+    <td>{{report.total_companies || '-'}}</td>
+  </tr>
+  </tbody>
+</table>
