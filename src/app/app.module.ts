@@ -200,6 +200,7 @@ import { UserDetailsComponent } from './users/user-details/user-details.componen
 import { StatusesComponent } from './statuses/statuses/statuses.component';
 import { ToSendTemplateComponent } from './to-send-template/to-send-template.component';
 import { ProjectProgressComponent } from './reports/project-progress/project-progress.component';
+import { CustomerInfoLinksComponent } from './customers/customer-info-links/customer-info-links.component';
 
 @NgModule({
   declarations: [
@@ -280,7 +281,8 @@ import { ProjectProgressComponent } from './reports/project-progress/project-pro
     UserDetailsComponent,
     StatusesComponent,
     ToSendTemplateComponent,
-    ProjectProgressComponent
+    ProjectProgressComponent,
+    CustomerInfoLinksComponent
   ],
   imports: [
     BrowserModule,

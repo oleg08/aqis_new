@@ -1,0 +1,17 @@
+<div class="btn-group float-right" role="group" aria-label="Info Links">
+  <a pTooltip="Search with Wikipedia"
+     tooltipPosition="top"
+     type="button" target="_blank"
+     class="btn btn-outline-dark"
+     [href]="goTo(wiki_search_url, '_')">
+    <i class="fa fa-wikipedia-w"></i>
+  </a>
+  <a pTooltip="Search with Google"
+     tooltipPosition="top"
+     type="button"
+     target="_blank"
+     class="btn btn-outline-dark"
+     [href]="goTo(google_search_url, '+')">
+    <i class="fa fa-google"></i>
+  </a>
+</div>

@@ -380,7 +380,7 @@
           </app-text-field-component>
         </div>
 
-        <div id="responsible_name-{{customer['id']}}" class="ui-g-4 alert-info">
+        <div id="responsible_name-{{customer['id']}}" class="ui-g-4 customer-address">
           <label><b>Responsible Person</b></label>
           <app-text-field-component bind-object="customer"
                             field_name="responsible_name"
@@ -391,7 +391,9 @@
           </app-text-field-component>
         </div>
 
-        <div class="ui-g-4 alert-info"></div>
+        <div class="ui-g-4 customer-address">
+          <app-aqis-customer-info-links [customer_name]="customer['name']"></app-aqis-customer-info-links>
+        </div>
       </div>
 
       <div class="ui-g">
@@ -676,7 +678,10 @@
               </div>
             </div>
             <div class="ui-g customer-address">
-              <div class="ui-g-offset-4 ui-g-8">
+              <div class="ui-g-4">
+                <app-aqis-customer-info-links [customer_name]="customer['name']"></app-aqis-customer-info-links>
+              </div>
+              <div class="ui-g-8">
                 <label><b>Conversation - Notes</b></label>
                 <p>{{customer['conversation']}}</p>
               </div>
