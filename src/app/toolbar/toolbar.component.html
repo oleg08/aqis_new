@@ -26,6 +26,9 @@
       <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
         <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/customers']"><b>Customers</b></a>
       </li>
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
+        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/info_links']"><b>Info-Links</b></a>
+      </li>
 
       <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="nav-item dropdown toolbar-dropdown-item">
         <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuAdmin" data-toggle="dropdown">

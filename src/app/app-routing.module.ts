@@ -30,6 +30,7 @@ import { UserDetailsComponent } from './users/user-details/user-details.componen
 import { StatusesComponent } from './statuses/statuses/statuses.component';
 import { ToSendTemplateComponent } from './to-send-template/to-send-template.component';
 import { ProjectProgressComponent } from './reports/project-progress/project-progress.component';
+import { InfoLinksComponent } from './info-links/info-links.component';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -211,6 +212,11 @@ const routes: Routes = [
   {
     path: 'reports_project_progress',
     component: ProjectProgressComponent,
+    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+  },
+  {
+    path: 'info_links',
+    component: InfoLinksComponent,
     canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
   }
 ];

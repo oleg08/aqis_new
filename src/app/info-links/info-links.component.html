@@ -1,0 +1,75 @@
+<p-growl styleClass="message-growl" [(value)]="msgs"></p-growl>
+
+<table class="table table-striped info-links-table">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Search System</th>
+    <th>Prepend URL</th>
+    <th>Separator</th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let info_link of info_links; let i = index">
+    <th scope="row">{{ i + 1 }}</th>
+    <td>{{ info_link.search_system }}</td>
+    <td>{{ info_link.prepend_url }}</td>
+    <td>{{ info_link.separator }}</td>
+    <td>
+      <button type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
+    </td>
+    <td>
+      <button type="button" class="btn btn-danger" (click)="onDelete(i, info_link.id)">Delete</button>
+    </td>
+    <td *ngIf="!dataLoaded" colspan="6">
+      <br>
+      <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div class="text-right">
+  <button type="submit" class="btn btn-primary" (click)="onNew()">New</button>
+</div>
+<br>
+<div class="regentry" *ngIf="showNew">
+  <form (ngSubmit)="onSave()" name="newForm" #newForm="ngForm">
+    <div class="form-group row">
+      <label for="searchSystem" class="col-2 col-form-label">Search System</label>
+      <div class="col-10">
+        <input class="form-control" type="text" [(ngModel)]="regModel.search_system" name="searchSystem" required #searchSystem="ngModel">
+        <div *ngIf="searchSystem.invalid && (searchSystem.dirty || searchSystem.touched)"
+             class="alert alert-danger">
+          <div *ngIf="searchSystem.errors.required">
+            Name of search system is required.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="prependUrl" class="col-2 col-form-label">Prepend URL</label>
+      <div class="col-10">
+        <input class="form-control error" type="text" [(ngModel)]="regModel.prepend_url" name="prependUrl" required #prependUrl="ngModel">
+        <div *ngIf="prependUrl.invalid && (prependUrl.dirty || prependUrl.touched)"
+             class="alert alert-danger">
+          <div *ngIf="prependUrl.errors.required">
+            Url is required.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="separator-input" class="col-2 col-form-label">Separator</label>
+      <div class="col-10 dropdown" ngbDropdown myDrop="ngbDropdown">
+        <button type="button" class="btn btn-outline-primary" id="dropdownManual" name="separator" ngbDropdownToggle>{{regModel.separator}}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownManual">
+          <button type="button" class="dropdown-item" *ngFor="let separator of separators" (click)="onChangeSeparator(separator)">{{separator}}</button>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="newForm.invalid">{{submitType}}</button>
+    <button type="submit" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+  </form>
+</div>

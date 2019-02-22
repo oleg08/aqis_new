@@ -1,7 +1,10 @@
+<p-growl styleClass="message-growl" [(value)]="msgs"></p-growl>
+
 <div class="btn-group float-right" role="group" aria-label="Info Links">
   <a pTooltip="Search with Wikipedia"
      tooltipPosition="top"
-     type="button" target="_blank"
+     type="button"
+     target="_blank"
      class="btn btn-outline-dark"
      [href]="goTo(wiki_search_url, '_')">
     <i class="fa fa-wikipedia-w"></i>
@@ -14,4 +17,17 @@
      [href]="goTo(google_search_url, '+')">
     <i class="fa fa-google"></i>
   </a>
+
+  <div *ngIf="info_links && info_links.length > 0" class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Others Search Systems
+    </button>
+    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+      <a *ngFor="let info_link of info_links" target="_blank"
+         class="dropdown-item"
+         [href]="goTo(info_link.prepend_url, info_link.separator)">
+        {{info_link.search_system}}
+      </a>
+    </div>
+  </div>
 </div>

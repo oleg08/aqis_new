@@ -201,6 +201,7 @@ import { StatusesComponent } from './statuses/statuses/statuses.component';
 import { ToSendTemplateComponent } from './to-send-template/to-send-template.component';
 import { ProjectProgressComponent } from './reports/project-progress/project-progress.component';
 import { CustomerInfoLinksComponent } from './customers/customer-info-links/customer-info-links.component';
+import { InfoLinksComponent } from './info-links/info-links.component';
 
 @NgModule({
   declarations: [
@@ -282,7 +283,8 @@ import { CustomerInfoLinksComponent } from './customers/customer-info-links/cust
     StatusesComponent,
     ToSendTemplateComponent,
     ProjectProgressComponent,
-    CustomerInfoLinksComponent
+    CustomerInfoLinksComponent,
+    InfoLinksComponent
   ],
   imports: [
     BrowserModule,
