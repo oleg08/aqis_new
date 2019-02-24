@@ -8,36 +8,59 @@
     </th>
   </tr>
   <tr>
-    <th class="table-cell" rowspan="2" scope="col">Project</th>
-    <th class="table-cell" colspan="4" scope="col">Progress %</th>
-    <th class="table-cell" rowspan="2" scope="col">Active</th>
-    <th class="table-cell" rowspan="2" scope="col">Closed</th>
-    <th class="table-cell" rowspan="2" scope="col">Success</th>
-    <th class="table-cell" rowspan="2" scope="col">Total</th>
+    <th colspan="9">
+      <div class="ui-g">
+        <div class="ui-g-4">Project</div>
+        <div class="ui-g-4">Progress %</div>
+        <div class="ui-g-1">Active</div>
+        <div class="ui-g-1">Closed</div>
+        <div class="ui-g-1">Success</div>
+        <div class="ui-g-1">Total</div>
+      </div>
+    </th>
+    <!--<th class="table-cell" rowspan="2" scope="col">Project</th>-->
+    <!--<th class="table-cell" colspan="4" scope="col">Progress %</th>-->
+    <!--<th class="table-cell" rowspan="2" scope="col">Active</th>-->
+    <!--<th class="table-cell" rowspan="2" scope="col">Closed</th>-->
+    <!--<th class="table-cell" rowspan="2" scope="col">Success</th>-->
+    <!--<th class="table-cell" rowspan="2" scope="col">Total</th>-->
   </tr>
   <tr>
-    <th>0-25</th>
-    <th>25-50</th>
-    <th>50-75</th>
-    <th>75-100</th>
+    <th colspan="9">
+      <div class="ui-g">
+        <div class="ui-g-offset-4 ui-g-1">0-25</div>
+        <div class="ui-g-1">25-50</div>
+        <div class="ui-g-1">50-75</div>
+        <div class="ui-g-1">75-100</div>
+      </div>
+    </th>
+    <!--<th>0-25</th>-->
+    <!--<th>25-50</th>-->
+    <!--<th>50-75</th>-->
+    <!--<th>75-100</th>-->
   </tr>
   </thead>
   <tbody>
-  <tr *ngIf="!load_completed">
+  <!--<tr *ngIf="!load_completed">-->
+    <!--<td colspan="9">-->
+      <!--<p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <tr *ngFor="let project_id of project_ids">
     <td colspan="9">
-      <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+      <app-aqis-report-row [project_id]="project_id"></app-aqis-report-row>
     </td>
   </tr>
-  <tr *ngFor="let report of reports">
-    <td>{{report.project}}</td>
-    <td>{{report.progress0_25 || '-'}}</td>
-    <td>{{report.progress25_50 || '-'}}</td>
-    <td>{{report.progress50_75 || '-'}}</td>
-    <td>{{report.progress75_100 || '-'}}</td>
-    <td>{{report.active_companies || '-'}}</td>
-    <td>{{report.closed_companies || '-'}}</td>
-    <td>{{report.success_companies || '-'}}</td>
-    <td>{{report.total_companies || '-'}}</td>
-  </tr>
+  <!--<tr *ngFor="let report of reports">-->
+    <!--<td>{{report.project}}</td>-->
+    <!--<td>{{report.progress0_25 || '-'}}</td>-->
+    <!--<td>{{report.progress25_50 || '-'}}</td>-->
+    <!--<td>{{report.progress50_75 || '-'}}</td>-->
+    <!--<td>{{report.progress75_100 || '-'}}</td>-->
+    <!--<td>{{report.active_companies || '-'}}</td>-->
+    <!--<td>{{report.closed_companies || '-'}}</td>-->
+    <!--<td>{{report.success_companies || '-'}}</td>-->
+    <!--<td>{{report.total_companies || '-'}}</td>-->
+  <!--</tr>-->
   </tbody>
 </table>
