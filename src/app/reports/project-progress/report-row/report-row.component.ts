@@ -64,6 +64,7 @@ export class ReportRowComponent implements OnInit {
 
       },
       err => {
+        self.load_error = true;
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
         console.log('err - ', err);
       }
