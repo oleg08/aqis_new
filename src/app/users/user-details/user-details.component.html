@@ -1,5 +1,5 @@
 <form #projectsForm>
-  <p-fieldset *ngIf="user" legend="{{user['email']}}">
+  <p-card *ngIf="user" header="{{user['email']}}" [style]="{width: '100%', 'background-color': '#f5f5f5'}">
     <div class="ui-g">
       <div class="ui-g-8">
         <h5>Drag a Project to assign to user {{user['email']}}</h5>
@@ -17,9 +17,9 @@
              pDroppable="{{projects_1}}"
              (onDrop)="dropUserProject($event)"
              [ngClass]="{'ui-state-highlight':draggedUserProject}">
-          <ul style="margin:0;padding:0">
+          <ul>
             <li *ngFor="let project of projects"
-                class="ui-state-default ui-helper-clearfix"
+                class="ui-state-default ui-helper-clearfix user-assignment not-assigned"
                 pDraggable="{{users_projects_1}}"
                 (onDragStart)="dragProjectStart($event, project)"
                 (onDragEnd)="dragProjectEnd($event)">
@@ -34,9 +34,9 @@
              pDroppable="{{users_projects_1}}"
              (onDrop)="dropProject($event)"
              [ngClass]="{'ui-state-highlight':draggedProject}">
-          <ul style="margin:0;padding:0">
+          <ul>
             <li *ngFor="let project of users_projects"
-                class="ui-state-default ui-helper-clearfix"
+                class="ui-state-default ui-helper-clearfix user-assignment assigned"
                 pDraggable="{{projects_1}}"
                 (onDragStart)="dragUserProjectStart($event,project)"
                 (onDragEnd)="dragUserProjectEnd($event)">
@@ -60,5 +60,8 @@
         </div>
       </div>
     </div>
-  </p-fieldset>
+  </p-card>
+  <!--<p-fieldset *ngIf="user" legend="{{user['email']}}">-->
+    <!---->
+  <!--</p-fieldset>-->
 </form>

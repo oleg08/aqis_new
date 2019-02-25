@@ -192,7 +192,7 @@ const routes: Routes = [
   {
     path: 'users',
     component: UsersListComponent,
-    canActivate: [ForceSslGuard, AuthGuard]  // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]  // admin-guard
   },
   {
     path: 'users/:id',

@@ -344,14 +344,14 @@
         </div>
         <div id="comment_firm-{{customer['id']}}" class="ui-g-4 customer-address">
           <label><b>Comment Firm</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="comment_firm"
-                            pattern_name="Number"
-                            label="Comment Firm"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
+          <app-aqis-area-field  bind-object="customer"
+                                    field_name="comment_firm"
+                                rows="4"
+                                    label="Comment Firm"
+                                    (focusInput)="focusInput()"
+                                    (focusOutInput)="focusOutInput()"
+                                    on-valueChanged="save($event)">
+          </app-aqis-area-field >
         </div>
         <div id="link-{{customer['id']}}" class="ui-g-4 customer-address">
           <label><b>Web</b></label>
@@ -959,14 +959,14 @@
             <div class="ui-g">
               <div id="comment_firm{{customer_tenant['id']}}" class="ui-g-4 customer-address">
                 <label><b>Comment Firm</b></label>
-                <app-text-field-component bind-object="customer_tenant"
+                <app-aqis-area-field  bind-object="customer_tenant"
                                   field_name="comment_firm"
-                                  pattern_name="Number"
+                                  rows="4"
                                   label="Comment Firm"
                                   (focusInput)="focusInput()"
                                   (focusOutInput)="focusOutInput()"
                                   on-valueChanged="saveSubItem($event, 'customer_tenants')">
-                </app-text-field-component>
+                </app-aqis-area-field >
               </div>
               <div class="ui-g-4 alert-info">
                 <small><b>Available</b></small>
