@@ -198,30 +198,31 @@
               </div>
             </div>
           </div>
-          <!--<div class="ui-grid-row alert-secondary mb-2">-->
-            <!--<div class="ui-grid-col-12">-->
-              <!--<div class="ui-inputgroup pull-right">-->
-                <!--<label><b>Password &nbsp;</b></label>-->
-                <!--<input type="password"-->
-                       <!--id="gmail_password_{{selectedProject.id}}"-->
-                       <!--[(ngModel)]="selectedProject.gmail_password"-->
-                       <!--(click)="selectedProject.gmail_password = null"-->
-                       <!--maxlength="80"-->
-                       <!--pInputText-->
-                       <!--placeholder="Gmail's password">-->
-                <!--<button pButton-->
-                        <!--type="button"-->
-                        <!--icon="fa fa-check"-->
-                        <!--(click)="editProject(selectedProject, 'gmail_password')">-->
-                <!--</button>-->
-                <!--<button pButton-->
-                        <!--type="button"-->
-                        <!--icon="fa fa-close"-->
-                        <!--(click)="escEditProject()">-->
-                <!--</button>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
+          <div class="ui-grid-row alert-secondary mb-1">
+            <div class="ui-grid-col-12">
+              <div class="ui-inputgroup pull-right">
+                <label><b>Sending Email-Address</b></label>
+                <input type="text"
+                       id="email_sending_{{selectedProject.id}}"
+                       [(ngModel)]="selectedProject.email_sending"
+                       maxlength="80"
+                       pInputText
+                       pTooltip="This email will be seen as sender's email-address"
+                       placeholder="Project's sending email">
+                <button pButton
+                        type="button"
+                        icon="fa fa-check"
+                        (click)="editProject(selectedProject, 'email_sending')">
+                </button>
+                <button pButton
+                        type="button"
+                        icon="fa fa-close"
+                        (click)="escEditProject()">
+                </button>
+              </div>
+            </div>
+          </div>
+
           <br>
           <div class="ui-grid-row">
             <div class="ui-grid-col-12">
