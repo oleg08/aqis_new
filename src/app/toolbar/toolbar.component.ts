@@ -23,6 +23,7 @@ export class ToolbarComponent implements OnInit {
   current_user: User;
   projects: Project[] = [];
   current_project: Project;
+  tenant_id: number;
   alert = false;
   alertType: string;
   alertMessage: string;
@@ -79,6 +80,7 @@ export class ToolbarComponent implements OnInit {
     self.http.get(environment.serverUrl + '/user_properties.json').subscribe(
       res => {
         self.projects = res['projects'];
+        self.tenant_id = res['tenant_id'];
         const project_id = self.cookieService.get('project_id');
         if (project_id) {
           self.current_project = self.projects.find(p => p.id === Number(project_id));
