@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularTokenService } from 'angular-token';
 import { CurrentUserService } from './current-user.service';
-import {Subject, Observable, BehaviorSubject} from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
+import { User } from '../interfaces/user';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,31 @@ export class AuthService {
   userSuperAdmin$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   userAdmin$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(public authService: AngularTokenService, private currentUser: CurrentUserService, private cookieService: CookieService) {}
+  redirectUrl: string;
+
+  constructor(public authService: AngularTokenService,
+              private currentUser: CurrentUserService,
+              private router: Router) {
+    this.authService.validateToken().subscribe((res) => {
+      if (res.success) {
+        this.userSignedIn$.next(true);
+
+        const current_user: User = res.data;
+        this.currentUser.changeUser(String(current_user.id));
+
+        this.userSuperAdmin$.next(res.data.super_admin);
+        this.userAdmin$.next(res.data.admin);
+
+        if (this.redirectUrl) {
+          this.router.navigate([this.redirectUrl]);
+        }
+      } else {
+        this.userSignedIn$.next(false);
+        this.userAdmin$.next(false);
+        this.userSuperAdmin$.next(false);
+      }
+    });
+  }
 
   logOutUser(): Observable <HttpResponse<any>> {
 
@@ -53,8 +78,8 @@ export class AuthService {
           }
         });
         this.currentUser.changeUser(res.body.data.id);
-        this.cookieService.set('current_user_id', res.body.data.id);
         this.userSignedIn$.next(true);
+
         return res;
       })
     );

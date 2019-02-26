@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { CallAlertService } from '../services/call-alert.service';
 import { AngularTokenService } from 'angular-token';
 import { SwitchProjectService } from '../services/switch-project.service';
+import { CurrentUserService } from '../services/current-user.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -35,6 +36,7 @@ export class ToolbarComponent implements OnInit {
               private tokenAuthService: AngularTokenService,
               private router: Router,
               private passProjectId: PassProjectIdService,
+              private currentUser: CurrentUserService,
               private callAlert: CallAlertService,
               private cookieService: CookieService,
               private switchProject: SwitchProjectService) {}
@@ -64,7 +66,7 @@ export class ToolbarComponent implements OnInit {
   logOut() {
     this.passProjectId.changeProject(null);
     this.cookieService.delete('project_id');
-    this.cookieService.delete('current_user_id');
+    this.currentUser.changeUser(null);
     this.projects = [];
     this.current_project = null;
     this.authService.logOutUser().subscribe(() => this.router.navigate(['/']));

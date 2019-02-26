@@ -16,9 +16,9 @@ export class SuperAdminGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.authTokenService.userSignedIn() && this.authService.userSuperAdmin$.getValue()) {
       return true;
-    } else {
-      this.router.navigate(['/']);
-      return false;
     }
+    this.authService.redirectUrl = state.url;
+    this.router.navigate(['/']);
+    return false;
   }
 }

@@ -57,57 +57,57 @@ const routes: Routes = [
   {
     path: 'steps',
     component: StepComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // super-admin-guard
+    canActivate: [ForceSslGuard, SuperAdminGuard]   // super-admin-guard
   },
   {
     path: 'steps/:id',
     component: StepDetailsComponent,
-    canActivate: [ForceSslGuard, AuthGuard]  // super-admin-guard
+    canActivate: [ForceSslGuard, SuperAdminGuard]  // super-admin-guard
   },
   {
     path: 'main_email_templates',
     component: MainEmailTemplatesComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // super-admin-guard
+    canActivate: [ForceSslGuard, SuperAdminGuard]   // super-admin-guard
   },
   {
     path: 'tenant_email_templates',
     component: TenantEmailTemplatesComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
   },
   {
     path: 'email_templates',
     component: EmailTemplatesComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // super-admin-guard
+    canActivate: [ForceSslGuard, SuperAdminGuard]   // super-admin-guard
   },
   {
     path: 'project_email_templates/:id',
     component: ProjectEmailTemplatesComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]   // admin-guard
   },
   {
     path: 'questions',
     component: QuestionListComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // super-admin-guard
+    canActivate: [ForceSslGuard, SuperAdminGuard]   // super-admin-guard
   },
   {
     path: 'businesses',
     component: BusinessAllComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // admin-or-super-admin-guard
+    canActivate: [ForceSslGuard, AdminOrSuperAdminGuard]   // admin-or-super-admin-guard
   },
   {
     path: 'tenants',
     component: TenantsListComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // super-admin-guard
+    canActivate: [ForceSslGuard, SuperAdminGuard]    // super-admin-guard
   },
   {
     path: 'tenants/dsvgo_list',
     component: TenantsDsvgoComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
   },
   {
     path: 'tenants/:id',
     component: TenantDetailsComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
   },
   {
     path: 'customers',
@@ -142,42 +142,42 @@ const routes: Routes = [
   {
     path: 'pre_customers',
     component: PreCustomersListComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // admin-or-super-admin-guard
+    canActivate: [ForceSslGuard, AdminOrSuperAdminGuard]   // admin-or-super-admin-guard
   },
   {
     path: 'pre_customers/:id',
     component: PreCustomersDetailsComponent,
-    canActivate: [ForceSslGuard, AuthGuard]  // admin-or-super-admin-guard
+    canActivate: [ForceSslGuard, AdminOrSuperAdminGuard]  // admin-or-super-admin-guard
   },
   {
     path: 'projects',
     component: ProjectsAllComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
   },
   {
     path: 'projects/:id',
     component: ProjectStepComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
   },
   {
     path: 'project_steps/:id',
     component: ProjectStepDetailsComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
   },
   {
     path: 'project_questions/:id',
     component: ProjectQuestionComponent,
-    canActivate: [ForceSslGuard, AuthGuard]  // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]  // admin-guard
   },
   {
     path: 'project_email_templates/:id',
     component: ProjectEmailTemplatesComponent,
-    canActivate: [ForceSslGuard, AuthGuard]  // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]  // admin-guard
   },
   {
     path: 'tenant_steps',
     component: TenantStepComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]   // admin-guard
   },
   {
     path: 'tenant_steps/:id',
@@ -187,7 +187,7 @@ const routes: Routes = [
   {
     path: 'tenant_email_templates',
     component: TenantEmailTemplatesComponent,
-    canActivate: [ForceSslGuard, AuthGuard]  // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]  // admin-guard
   },
   {
     path: 'users',
@@ -197,12 +197,12 @@ const routes: Routes = [
   {
     path: 'users/:id',
     component: UserDetailsComponent,
-    canActivate: [ForceSslGuard, AuthGuard]  // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]  // admin-guard
   },
   {
     path: 'statuses',
     component: StatusesComponent,
-    canActivate: [ForceSslGuard, AuthGuard]   // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]   // admin-guard
   },
   {
     path: 'to_send_emails',
@@ -212,12 +212,12 @@ const routes: Routes = [
   {
     path: 'reports_project_progress',
     component: ProjectProgressComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
   },
   {
     path: 'info_links',
     component: InfoLinksComponent,
-    canActivate: [ForceSslGuard, AuthGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
   }
 ];
 
