@@ -1,66 +1,62 @@
 <p-growl styleClass="message-growl" [baseZIndex]="1050" [(value)]="msgs"></p-growl>
 
+<p-dialog header="Confirmation" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [style]="{width: '400px', minWidth: '200px'}" [minY]="70"
+          [baseZIndex]="10000">
+  <span *ngIf="!update_running && !reload_button" class="text-center"><p>The report was updated <b><u>{{last_update | date:'medium' }}</u></b>. Would you like to update it now ?</p></span>
+  <span *ngIf="update_running && !reload_button" class="text-center">
+    <p>Data update is ongoing. It will take a few minutes. Please wait...</p>
+  </span>
+  <span *ngIf="reload_button" class="text-center">
+    Reload the page to see the latest changes
+    <button class="btn btn-secondary" (click)="reloadPage()">
+      <i class="fa fa-arrow-right"></i>
+    </button>
+  </span>
+  <p-progressBar *ngIf="update_running" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+  <p-footer *ngIf="!reload_button">
+    <button type="button" pButton icon="pi pi-check" iconPos="right" (click)="updateData()" label="Yes" [disabled]="update_running"></button>
+    <button type="button" pButton icon="pi pi-close" iconPos="right" (click)="displayDialog=false" label="No" class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
+
 <table class="table table-hover table-progress-report">
   <thead>
   <tr>
-    <th colspan="9" class="text-center">
+    <th colspan="9">
       <h4><u>Projects Progress</u></h4>
+      <button class="btn btn-info float-right" (click)="showDialog()">Update Data</button>
     </th>
   </tr>
   <tr>
-    <th colspan="9">
-      <div class="ui-g">
-        <div class="ui-g-4">Project</div>
-        <div class="ui-g-4">Progress %</div>
-        <div class="ui-g-1">Active</div>
-        <div class="ui-g-1">Closed</div>
-        <div class="ui-g-1">Success</div>
-        <div class="ui-g-1">Total</div>
-      </div>
-    </th>
-    <!--<th class="table-cell" rowspan="2" scope="col">Project</th>-->
-    <!--<th class="table-cell" colspan="4" scope="col">Progress %</th>-->
-    <!--<th class="table-cell" rowspan="2" scope="col">Active</th>-->
-    <!--<th class="table-cell" rowspan="2" scope="col">Closed</th>-->
-    <!--<th class="table-cell" rowspan="2" scope="col">Success</th>-->
-    <!--<th class="table-cell" rowspan="2" scope="col">Total</th>-->
+    <th class="table-cell" rowspan="2" scope="col">Project</th>
+    <th class="table-cell" colspan="4" scope="col">Progress %</th>
+    <th class="table-cell" rowspan="2" scope="col">Active</th>
+    <th class="table-cell" rowspan="2" scope="col">Closed</th>
+    <th class="table-cell" rowspan="2" scope="col">Success</th>
+    <th class="table-cell" rowspan="2" scope="col">Total</th>
   </tr>
   <tr>
-    <th colspan="9">
-      <div class="ui-g">
-        <div class="ui-g-offset-4 ui-g-1">0-25</div>
-        <div class="ui-g-1">25-50</div>
-        <div class="ui-g-1">50-75</div>
-        <div class="ui-g-1">75-100</div>
-      </div>
-    </th>
-    <!--<th>0-25</th>-->
-    <!--<th>25-50</th>-->
-    <!--<th>50-75</th>-->
-    <!--<th>75-100</th>-->
+    <th>0-25</th>
+    <th>25-50</th>
+    <th>50-75</th>
+    <th>75-100</th>
   </tr>
   </thead>
   <tbody>
-  <!--<tr *ngIf="!load_completed">-->
-    <!--<td colspan="9">-->
-      <!--<p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>-->
-    <!--</td>-->
-  <!--</tr>-->
-  <tr *ngFor="let project_id of project_ids">
+  <tr *ngIf="!load_completed">
     <td colspan="9">
-      <app-aqis-report-row [project_id]="project_id"></app-aqis-report-row>
+      <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
     </td>
   </tr>
-  <!--<tr *ngFor="let report of reports">-->
-    <!--<td>{{report.project}}</td>-->
-    <!--<td>{{report.progress0_25 || '-'}}</td>-->
-    <!--<td>{{report.progress25_50 || '-'}}</td>-->
-    <!--<td>{{report.progress50_75 || '-'}}</td>-->
-    <!--<td>{{report.progress75_100 || '-'}}</td>-->
-    <!--<td>{{report.active_companies || '-'}}</td>-->
-    <!--<td>{{report.closed_companies || '-'}}</td>-->
-    <!--<td>{{report.success_companies || '-'}}</td>-->
-    <!--<td>{{report.total_companies || '-'}}</td>-->
-  <!--</tr>-->
+  <tr *ngFor="let report of reports">
+    <td>{{report.project}}</td>
+    <td>{{report.progress0_25 || '-'}}</td>
+    <td>{{report.progress25_50 || '-'}}</td>
+    <td>{{report.progress50_75 || '-'}}</td>
+    <td>{{report.progress75_100 || '-'}}</td>
+    <td>{{report.active_companies || '-'}}</td>
+    <td>{{report.closed_companies || '-'}}</td>
+    <td>{{report.success_companies || '-'}}</td>
+    <td>{{report.total_companies || '-'}}</td>
   </tbody>
 </table>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Message } from 'primeng/primeng';
 import { MessageService } from 'primeng/primeng';
+import { CookieService } from 'ngx-cookie-service';
 
 export interface ProjectReport {
   name: string;
@@ -28,6 +29,7 @@ export interface CompaniesReport {
 
 export interface ReportProgress {
   project: string;
+  progress?: number;
   progress0_25?: number;
   progress25_50?: number;
   progress50_75?: number;
@@ -47,20 +49,36 @@ export interface ReportProgress {
 
 export class ProjectProgressComponent implements OnInit {
 
-  project_ids: number[];
+  last_update: string;
   load_completed = false;
   projects: ProjectReport[];
   reports: ReportProgress[];
   msgs: Message[] = [];
+  displayDialog = false;
+  update_running = false;
+  start_updating = 'false';   // evualate to 'true' when click 'Yes' on the confirmation dialog
+  reload_button = false;
 
-  constructor(private messageService: MessageService, private http: HttpClient) { }
+  constructor(private messageService: MessageService, private cookieService: CookieService, private http: HttpClient) { }
 
   ngOnInit() {
     const self = this;
-    self.http.get(`${environment.serverUrl}/project_ids.json`).subscribe(
+    self.start_updating = self.cookieService.get('start_progress_update'); // checks whether button 'Yes' on the confirmation was clicked
+    self.last_update = self.cookieService.get('last_progress_update');
+    // self.start_updating = 'false';
+
+    self.http.get(`${environment.serverUrl}/projects_progress.json`).subscribe(
       res => {
-        if (res['project_ids']) {
-          self.project_ids = res['project_ids'];
+        if (res['reports']) {
+          const response_reports: ReportProgress[] = res['reports'];
+          response_reports.forEach(report => {
+            if (report.progress > 0 && report.progress <= 25) { report.progress0_25 = report.progress; }
+            if (report.progress > 25 && report.progress <= 50) { report.progress25_50 = report.progress; }
+            if (report.progress > 50 && report.progress <= 75) { report.progress50_75 = report.progress; }
+            if (report.progress > 75 && report.progress <= 100) { report.progress75_100 = report.progress; }
+          });
+          self.reports = [...response_reports];
+          self.load_completed = true;
         } else {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
         }
@@ -69,51 +87,54 @@ export class ProjectProgressComponent implements OnInit {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
       }
     );
-
-
-    // self.http.get(`${environment.serverUrl}/reports_project_progress.json`).subscribe(
-    //   res => {
-    //
-    //     self.projects = res['projects'];
-    //     self.reports = [];
-    //
-    //     self.projects.forEach(p => {
-    //       const num_companies = p.companies.length;
-    //       const report: ReportProgress = {
-    //         project: p.name,
-    //         total_companies: num_companies
-    //       };
-    //       const companies_with_active_step: CompaniesReport[] = p.companies.filter( c => c.step_active === true);
-    //       let project_progress = 0;
-    //       companies_with_active_step.forEach(ac => {
-    //         const progress: number = ((ac.step_order - 1) / ac.step_count) * 100;
-    //         project_progress += progress;
-    //       });
-    //       project_progress /= num_companies;
-    //       project_progress = Number(project_progress.toFixed(2));
-    //       if (project_progress <= 25) report.progress0_25 = project_progress;
-    //       if (project_progress > 25 && project_progress <= 50) report.progress25_50 = project_progress;
-    //       if (project_progress > 50 && project_progress <= 75) report.progress50_75 = project_progress;
-    //       if (project_progress > 75 && project_progress <= 100) report.progress75_100 = project_progress;
-    //
-    //       report.active_companies = p.companies.filter(c => c.active_state === true || c.active_state === null).length;
-    //       report.closed_companies = p.companies
-    //         .filter(c => c.active_state === false && (c.success_state === false || c.success_state === null)).length;
-    //       report.success_companies = p.companies.filter(c => c.success_state === true).length;
-    //
-    //       self.reports.push(report);
-    //
-    //     });
-    //     if (self.reports.length < 1) {
-    //       self.messageService.add({severity: 'warn', summary: 'Warning', detail: `There aren't reports`});
-    //     }
-    //     self.load_completed = true;
-    //     },
-    //   err => {
-    //     self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
-    //     console.log('err - ', err);
-    //   }
-    // );
   }
 
+  updateData() {
+    const self = this;
+    self.start_updating = 'true';
+    self.cookieService.set('start_progress_update', 'true', ((15 / 24) / 60));
+    self.http.get(`${environment.serverUrl}/update_projects_progress.json`).subscribe(
+      res => {
+        if (res['message'] !== 'Update is running' && res['message'] !== 'Update just started' &&
+          res['message'] !== 'Update of another tenant is running') {
+          self.start_updating = 'false';
+          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Error Updating`});
+        }
+        },
+      err => { self.start_updating = 'false'; }
+    );
+    self.displayDialog = false;
+  }
+
+  showDialog() {
+    const self = this;
+    self.update_running = false;
+    self.http.get(`${environment.serverUrl}/last_tenant_update.json`).subscribe(
+      res => {
+        if (res['last_update']) {
+          if (self.last_update && self.last_update === res['last_update'] && self.start_updating === 'true') {
+            self.update_running = true;
+            self.displayDialog = true;
+            setTimeout(() => { self.displayDialog = false; }, 5000);
+          } else {
+            self.last_update = res['last_update'];
+            self.cookieService.set('last_progress_update', self.last_update);
+            if (self.start_updating === 'true') { self.reload_button = true; }
+            self.start_updating = 'false';
+            self.cookieService.set('start_progress_update', 'false');
+            self.displayDialog = true;
+          }
+        } else {
+          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Updating is not available`});
+        }
+      },
+      err => {
+        self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Updating is not available`});
+      }
+    );
+  }
+
+  reloadPage() {
+    window.location.href = '/reports_project_progress';
+  }
 }

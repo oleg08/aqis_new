@@ -139,7 +139,7 @@ export class ProjectsAllComponent implements OnInit {
             self.projects.push({
               id:         response['project']['id'],
               name:       response['project']['name'],
-              businesses: []
+              project_businesses: []
             });
             self.new_project = null;
           } else {

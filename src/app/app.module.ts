@@ -12,6 +12,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { DragulaModule } from 'ng2-dragula';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatProgressBarModule } from '@angular/material';
 
 // import 'materialize-css';
 
@@ -305,6 +306,7 @@ import { ReportRowComponent } from './reports/project-progress/report-row/report
     ModalModule.forRoot(),
     NgbModule,
     DragulaModule.forRoot(),
+    MatProgressBarModule,
     CarouselModule,
     InputTextModule,
     ButtonModule,
