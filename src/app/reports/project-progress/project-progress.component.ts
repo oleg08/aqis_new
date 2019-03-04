@@ -30,10 +30,6 @@ export interface CompaniesReport {
 export interface ReportProgress {
   project: string;
   progress?: number;
-  progress0_25?: number;
-  progress25_50?: number;
-  progress50_75?: number;
-  progress75_100?: number;
   active_companies?: number;
   closed_companies?: number;
   success_companies?: number;
@@ -71,12 +67,6 @@ export class ProjectProgressComponent implements OnInit {
       res => {
         if (res['reports']) {
           const response_reports: ReportProgress[] = res['reports'];
-          response_reports.forEach(report => {
-            if (report.progress > 0 && report.progress <= 25) { report.progress0_25 = report.progress; }
-            if (report.progress > 25 && report.progress <= 50) { report.progress25_50 = report.progress; }
-            if (report.progress > 50 && report.progress <= 75) { report.progress50_75 = report.progress; }
-            if (report.progress > 75 && report.progress <= 100) { report.progress75_100 = report.progress; }
-          });
           self.reports = [...response_reports];
           self.load_completed = true;
         } else {
@@ -92,7 +82,7 @@ export class ProjectProgressComponent implements OnInit {
   updateData() {
     const self = this;
     self.start_updating = 'true';
-    self.cookieService.set('start_progress_update', 'true', ((15 / 24) / 60));
+    self.cookieService.set('start_progress_update', 'true', ((45 / 24) / 60));
     self.http.get(`${environment.serverUrl}/update_projects_progress.json`).subscribe(
       res => {
         if (res['message'] !== 'Update is running' && res['message'] !== 'Update just started' &&

@@ -9,7 +9,7 @@
   <span *ngIf="reload_button" class="text-center">
     Reload the page to see the latest changes
     <button class="btn btn-secondary" (click)="reloadPage()">
-      <i class="fa fa-arrow-right"></i>
+      <i class="fa fa-refresh"></i>
     </button>
   </span>
   <p-progressBar *ngIf="update_running" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
@@ -36,10 +36,7 @@
     <th class="table-cell" rowspan="2" scope="col">Total</th>
   </tr>
   <tr>
-    <th>0-25</th>
-    <th>25-50</th>
-    <th>50-75</th>
-    <th>75-100</th>
+    <th colspan="4"></th>
   </tr>
   </thead>
   <tbody>
@@ -50,10 +47,9 @@
   </tr>
   <tr *ngFor="let report of reports">
     <td>{{report.project}}</td>
-    <td>{{report.progress0_25 || '-'}}</td>
-    <td>{{report.progress25_50 || '-'}}</td>
-    <td>{{report.progress50_75 || '-'}}</td>
-    <td>{{report.progress75_100 || '-'}}</td>
+    <td colspan="4">
+      <p-progressBar [value]="report.progress"></p-progressBar>
+    </td>
     <td>{{report.active_companies || '-'}}</td>
     <td>{{report.closed_companies || '-'}}</td>
     <td>{{report.success_companies || '-'}}</td>

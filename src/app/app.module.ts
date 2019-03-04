@@ -203,7 +203,6 @@ import { ToSendTemplateComponent } from './to-send-template/to-send-template.com
 import { ProjectProgressComponent } from './reports/project-progress/project-progress.component';
 import { CustomerInfoLinksComponent } from './customers/customer-info-links/customer-info-links.component';
 import { InfoLinksComponent } from './info-links/info-links.component';
-import { ReportRowComponent } from './reports/project-progress/report-row/report-row.component';
 
 @NgModule({
   declarations: [
@@ -286,8 +285,7 @@ import { ReportRowComponent } from './reports/project-progress/report-row/report
     ToSendTemplateComponent,
     ProjectProgressComponent,
     CustomerInfoLinksComponent,
-    InfoLinksComponent,
-    ReportRowComponent
+    InfoLinksComponent
   ],
   imports: [
     BrowserModule,
