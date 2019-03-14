@@ -202,6 +202,9 @@
         </div>
       </div>
     </li>
+    <li *ngIf="loading" class="list-group-item">
+      <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+    </li>
     <li *ngFor="let report of reports" class="list-group-item">
       <section>
         <table class="table table-info table-bordered">

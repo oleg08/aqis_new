@@ -77,6 +77,7 @@ export class ProgressAssistantComponent implements OnInit {
   reload_button = false;
   last_update: string;
   start_updating = 'false';   // evaluate to 'true' when click 'Yes' on the confirmation dialog
+  loading = true;
 
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder,
@@ -103,9 +104,11 @@ export class ProgressAssistantComponent implements OnInit {
         } else {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
         }
+        self.loading = false;
       },
       err => {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
+        self.loading = false;
       }
     );
   }
@@ -114,6 +117,7 @@ export class ProgressAssistantComponent implements OnInit {
 
   submitFilters() {
     const self = this;
+    self.loading = true;
     self.reports = [];
     self.submitted = true;
     const zip_from: number = Number(self.reportsFilters.value.zipFrom);
@@ -145,11 +149,14 @@ export class ProgressAssistantComponent implements OnInit {
           } else {
             self.reports = res['reports'];
           }
-      } else {
+        } else {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
-        }},
+        }
+        self.loading = false;
+        },
       err => {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
+        self.loading = false;
       }
     );
   }
@@ -168,6 +175,7 @@ export class ProgressAssistantComponent implements OnInit {
 
   setDateRange () {
     const self = this;
+    self.loading = true;
     self.reports = [];
     const today = new Date();
     if (self.monthDateStart > self.monthDateEnd) { self.monthDateStart = self.monthDateEnd; }
@@ -186,15 +194,19 @@ export class ProgressAssistantComponent implements OnInit {
           }
         } else {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
-        }},
+        }
+        self.loading = false;
+        },
       err => {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
+        self.loading = false;
       }
     );
   }
 
   changeReportDate () {
       const self = this;
+      self.loading = true;
       self.reports = [];
       const today = new Date ();
       if (self.monthDateStart > today) { self.monthDateStart = today; }
@@ -212,9 +224,12 @@ export class ProgressAssistantComponent implements OnInit {
             }
           } else {
             self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
-          }},
+          }
+          self.loading = false;
+          },
           err => {
             self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
+            self.loading = false;
           });
   }
 
