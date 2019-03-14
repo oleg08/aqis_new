@@ -4,6 +4,7 @@
 
 export const environment = {
   production: true,
+  dev_var: true,
   clientUrl: 'https://aqis-new.herokuapp.com',
   serverUrl: 'https://aqis-new-server.herokuapp.com',
   token_auth_config: {
