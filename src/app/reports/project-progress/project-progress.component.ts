@@ -52,7 +52,7 @@ export class ProjectProgressComponent implements OnInit {
   msgs: Message[] = [];
   displayDialog = false;
   update_running = false;
-  start_updating = 'false';   // evualate to 'true' when click 'Yes' on the confirmation dialog
+  start_updating = 'false';   // evaluate to 'true' when click 'Yes' on the confirmation dialog
   reload_button = false;
 
   constructor(private messageService: MessageService, private cookieService: CookieService, private http: HttpClient) { }
@@ -101,13 +101,13 @@ export class ProjectProgressComponent implements OnInit {
     self.update_running = false;
     self.http.get(`${environment.serverUrl}/last_tenant_update.json`).subscribe(
       res => {
-        if (res['last_update']) {
-          if (self.last_update && self.last_update === res['last_update'] && self.start_updating === 'true') {
+        if (res['last_project_progress_update']) {
+          if (self.last_update && self.last_update === res['last_project_progress_update'] && self.start_updating === 'true') {
             self.update_running = true;
             self.displayDialog = true;
             setTimeout(() => { self.displayDialog = false; }, 5000);
           } else {
-            self.last_update = res['last_update'];
+            self.last_update = res['last_project_progress_update'];
             self.cookieService.set('last_progress_update', self.last_update);
             if (self.start_updating === 'true') { self.reload_button = true; }
             self.start_updating = 'false';

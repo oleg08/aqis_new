@@ -1,3 +1,24 @@
+<p-growl styleClass="message-growl" [baseZIndex]="1050" [(value)]="msgs"></p-growl>
+
+<p-dialog header="Confirmation" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [style]="{width: '400px', minWidth: '200px'}" [minY]="70"
+          [baseZIndex]="10000">
+  <span *ngIf="!update_running && !reload_button" class="text-center"><p>The report was updated <b><u>{{last_update | date:'medium' }}</u></b>. Would you like to update it now ?</p></span>
+  <span *ngIf="update_running && !reload_button" class="text-center">
+    <p>Data update is ongoing. It will take a few minutes. Please wait...</p>
+  </span>
+  <span *ngIf="reload_button" class="text-center">
+    Reload the page to see the latest changes
+    <button class="btn btn-secondary" (click)="reloadPage()">
+      <i class="fa fa-refresh"></i>
+    </button>
+  </span>
+  <p-progressBar *ngIf="update_running" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+  <p-footer *ngIf="!reload_button">
+    <button type="button" pButton icon="pi pi-check" iconPos="right" (click)="updateData()" label="Yes" [disabled]="update_running"></button>
+    <button type="button" pButton icon="pi pi-close" iconPos="right" (click)="displayDialog=false" label="No" class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
+
 <section class="assistant-report-filters">
 
   <form (ngSubmit)="submitFilters()" [formGroup]="reportsFilters">
@@ -112,16 +133,75 @@
           </div>
         </div>
       </div>
-      <div class="ui-g-3"></div>
-      <div class="ui-g-12">
-        <button pButton type="submit" label="Submit Filters" class="float-right"></button>
+
+      <div class="ui-g-3">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <button pButton type="submit" label="Submit Filters"></button>
+          </div>
+        </div>
       </div>
     </div>
   </form>
+  <div class="ui-g">
+    <div class="ui-g-3 mb-1 range-date">
+      <p-calendar class="float-right"
+                  [(ngModel)]="monthDateStart"
+                  (onSelect)="changeReportDate()"
+                  view="month"
+                  dateFormat="yy-mm"
+                  [yearNavigator]="true"
+                  yearRange="2019:2050">
+      </p-calendar>
+    </div>
+    <div class="ui-md-9 mb-1 range-date">
+      <mat-accordion>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <span *ngIf="monthDateEnd" class="mr-2" pTooltip="Delete range" tooltipPosition="left">
+              <i class="fa fa-close" (click)="monthDateEnd = null; changeReportDate()"></i>
+            </span>
+            <span *ngIf="monthDateEnd">
+              <small class="mr-2">Report range is from</small>
+              <span class="range-data">{{monthDateStart | date: 'y, MMM'}}</span>
+              <br>
+              <span class="float-right">
+                <small class="mr-2">to</small>
+                <span class="range-data">{{monthDateEnd | date: 'y, MMM'}}</span>
+              </span>
+            </span>
+            <span *ngIf="!monthDateEnd">
+              <small class="mr-2">Report is until</small>
+              <span class="range-data">{{monthDateStart | date: 'y, MMM'}}</span>
+            </span>
+            <hr/>
+          </mat-expansion-panel-header>
+          <p-calendar [style]="{'height': rangeCalendarHeight}"
+                      [(ngModel)]="monthDateEnd"
+                      (onFocus)="rangeCalendarHeight = '250px'"
+                      (onSelect)="setDateRange();"
+                      (onBlur)="rangeCalendarHeight = '0'"
+                      view="month" dateFormat="yy-mm"
+                      [yearNavigator]="true"
+                      placeholder="Set range for Report"
+                      yearRange="2015:2050">
+          </p-calendar>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
 </section>
 
 <section *ngIf="reports">
   <ol class="list-group">
+    <li class="list-group-item">
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <button class="btn btn-info float-right" (click)="showDialog()">Update Report</button>
+        </div>
+      </div>
+    </li>
     <li *ngFor="let report of reports" class="list-group-item">
       <section>
         <table class="table table-info table-bordered">

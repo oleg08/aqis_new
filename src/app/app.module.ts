@@ -12,7 +12,14 @@ import { ModalModule } from 'ngx-bootstrap';
 import { DragulaModule } from 'ng2-dragula';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { MatProgressBarModule } from '@angular/material';
+
+// angular material
+import {
+  MatProgressBarModule,
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatInputModule
+} from '@angular/material';
 
 // import 'materialize-css';
 
@@ -21,6 +28,7 @@ import { AuthInterceptor, ParamInterceptor } from './api.interceptor';
 import { AuthService } from './services/auth.service';
 import { AssignOriginalValueService } from './services/assign-original-value.service';
 import { CheckPatternService } from './services/check-pattern.service';
+import { DifferenceArraysService } from './services/difference-arrays.service';
 import { CallAlertService } from './services/call-alert.service';
 import { FlashHighlightsService } from './services/flash-highlights.service';
 import { TimeZonesDataService } from './services/time-zones-data.service';
@@ -307,6 +315,9 @@ import { ProgressAssistantComponent } from './reports/progress-assistant/progres
     NgbModule,
     DragulaModule.forRoot(),
     MatProgressBarModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
     CarouselModule,
     InputTextModule,
     ButtonModule,
@@ -359,6 +370,7 @@ import { ProgressAssistantComponent } from './reports/progress-assistant/progres
     },
     AssignOriginalValueService,
     CheckPatternService,
+    DifferenceArraysService,
     CallAlertService,
     FlashHighlightsService,
     TimeZonesDataService,
