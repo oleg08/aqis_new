@@ -96,7 +96,7 @@
       </div>
       <div *ngIf="!super_admin" class="ui-g">
         <div class="ui-g-10 pr-0">
-          <p-autoComplete pTooltip="Select User to which belongs Customers"
+          <p-autoComplete pTooltip="Select User to which belongs Company"
                           [(ngModel)]="tenant_user"
                           [suggestions]="filteredUsers"
                           (completeMethod)="filterUsers($event)"
@@ -385,12 +385,12 @@
                 </div>
                 <div class="ui-g-5">
                   <p-autoComplete
-                    pTooltip="Select User to which belongs Customers"
+                    pTooltip="Select sales Agent to which belongs Company"
                     [suggestions]="filteredAgentUsers"
                     [(ngModel)]="customer.agent_user.email"
                     (completeMethod)="filterAgentUsers($event)"
                     (onSelect)="assignSelectedCustomer(customer.id, customer.agent_user.email, 'agent')"
-                    placeholder="Select User"
+                    placeholder="Select sales Agent"
                     [dropdown]="true"
                     [disabled]="!is_admin">
                     <ng-template let-agent_user pTemplate="item">
@@ -411,12 +411,12 @@
                 </div>
                 <div class="ui-g-5">
                   <p-autoComplete
-                    pTooltip="Select User to which belongs Customers"
+                    pTooltip="Select sales Assistant to which belongs Company"
                     [suggestions]="filteredAssistantUsers"
                     [(ngModel)]="customer.assistant_user.email"
                     (completeMethod)="filterAssistantUsers($event)"
                     (onSelect)="assignSelectedCustomer(customer.id, customer.assistant_user.email, 'assistant')"
-                    placeholder="Select User"
+                    placeholder="Select sales Assistant"
                     [dropdown]="true"
                     [disabled]="!is_admin">
                     <ng-template let-assistant_user pTemplate="item">

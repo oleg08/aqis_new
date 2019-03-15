@@ -124,20 +124,19 @@ export class StepNewComponent implements OnInit {
           self.createForm.get('time').setValue(self.prev_time);
           return;
         }
-        self.createForm.get('time').setValue((self.createForm.get('time').value / 24).toFixed(5));
+        obj[prop] = (self.createForm.get('time').value / 24).toFixed(5);
       } else {
         if (val >= 100) {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Must be less than 100'});
           self.createForm.get('time').setValue(self.prev_time);
           return;
         }
+        obj[prop] = self.createForm.get(prop).value;
       }
+    } else {
+      if (prop === 'step_role') { obj[prop] = self.model_roles[self.createForm.get(prop).value]; }
+      else {obj[prop] = self.createForm.get(prop).value; }
     }
-
-    if (prop === 'step_role') {
-      obj[prop] = self.model_roles[self.createForm.get(prop).value];
-    }
-    else obj[prop] = self.createForm.get(prop).value;
 
     if (self.createForm.controls[prop] && self.createForm.controls[prop].errors) return;
     self.prev_time = JSON.parse(JSON.stringify(self.createForm.get('time').value));

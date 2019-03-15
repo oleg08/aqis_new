@@ -713,7 +713,6 @@
                 <br>
                 <p-dropdown [options]="states"
                             [(ngModel)]="selectedState"
-                            [autoWidth]="false"
                             ref-selected_state="ngModel"
                             (onChange)="changeState(selectedState, selected_state)"
                             placeholder="Select State">
@@ -779,7 +778,6 @@
                     <p-dropdown [options]="genders"
                                 [(ngModel)]="selectedResponsibleGender"
                                 (onChange)="setGender(selectedResponsibleGender, 'responsible_gender')"
-                                [autoWidth]="false"
                                 placeholder="Select a Gender"
                                 (focusInput)="focusInput()"
                                 (focusOutInput)="focusOutInput()"
@@ -805,7 +803,6 @@
                     <p-dropdown [options]="genders"
                                 [(ngModel)]="selectedAssistantGender"
                                 (onChange)="setGender(selectedAssistantGender, 'assistant_gender')"
-                                [autoWidth]="false"
                                 placeholder="Select a Gender"
                                 optionLabel="name">
                     </p-dropdown>
@@ -863,7 +860,6 @@
                                 placeholder="Select a Template"
                                 optionLabel="name"
                                 [style]="{'width':'90%'}"
-                                [autoWidth]="false"
                                 [showClear]="true">
                     </p-dropdown>
                   </div>
