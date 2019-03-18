@@ -3,19 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
-  dev_var: true,
-  clientUrl: 'https://aqis-new.herokuapp.com',
-  serverUrl: 'https://aqis-new-server.herokuapp.com',
+  production: false,
+  clientUrl: 'http://localhost:4200',
+  serverUrl: 'http://fenix:3000',
   token_auth_config: {
-    apiBase: 'https://aqis-new-server.herokuapp.com'
+    apiBase: 'http://fenix:3000'
   }
-  // production: false,
-  // clientUrl: 'http://localhost:4200',
-  // serverUrl: 'http://fenix:3000',
-  // token_auth_config: {
-  //   apiBase: 'http://fenix:3000'
-  // }
 };
 
 /*
