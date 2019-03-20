@@ -53,14 +53,14 @@
                   <div class="ui-g-2 values-names"><small>Performed</small></div>
                   <div class="ui-g-2 values-names"><small>Total</small></div>
 
-                  <div class="ui-g-1">{{report.total_companies}}</div>
-                  <div class="ui-g-1">{{report.companies_in_progress}}</div>
-                  <div class="ui-g-1">{{report.companies_closed}}</div>
-                  <div class="ui-g-1">{{report.companies_succeed}}</div>
-                  <div class="ui-g-2">{{report.time_performed * 24 | number:'1.0-0'}}</div>
-                  <div class="ui-g-2">{{report.time_total * 24 | number:'1.0-0'}}</div>
-                  <div class="ui-g-2">{{report.steps_performed}}</div>
-                  <div class="ui-g-2">{{report.steps_total}}</div>
+                  <div class="ui-g-1 progress-values">{{report.total_companies}}</div>
+                  <div class="ui-g-1 progress-values">{{report.companies_in_progress}}</div>
+                  <div class="ui-g-1 progress-values">{{report.companies_closed}}</div>
+                  <div class="ui-g-1 progress-values">{{report.companies_succeed}}</div>
+                  <div class="ui-g-2 progress-values">{{report.time_performed * 24 | number:'1.0-0'}}</div>
+                  <div class="ui-g-2 progress-values">{{report.time_total * 24 | number:'1.0-0'}}</div>
+                  <div class="ui-g-2 progress-values">{{report.steps_performed}}</div>
+                  <div class="ui-g-2 progress-values">{{report.steps_total}}</div>
                 </div>
               </div>
             </div>
