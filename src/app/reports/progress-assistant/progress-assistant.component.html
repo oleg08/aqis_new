@@ -1,6 +1,11 @@
 <p-growl styleClass="message-growl" [baseZIndex]="1050" [(value)]="msgs"></p-growl>
 
-<app-aqis-update-assistant-reports #updateAssistantReports (reload)="reloadPage()"></app-aqis-update-assistant-reports>
+<app-aqis-update-assistant-reports #updateAssistantReports
+                                   cookies_key_date_update="last_assistant_progress_update"
+                                   update_path="update_assistant_progress"
+                                   cookies_key_start_update="start_assistant_progress_update"
+                                   tenant_update_date_path="last_tenant_update"
+                                   (reload)="reloadPage()"></app-aqis-update-assistant-reports>
 
 <section class="assistant-report-filters">
   <app-aqis-progress-assistant-filters [loading]="loading"
@@ -23,36 +28,44 @@
     </li>
     <li *ngFor="let report of reports" class="list-group-item">
       <section>
-        <table class="table table-info table-bordered">
-          <tr>
-            <th class="text-center" rowspan="3">{{report.assistant}}</th>
-            <th class="text-center" rowspan="2">Projects</th>
-            <th class="text-center" colspan="4">Companies</th>
-            <th class="text-center" colspan="2">Working Time</th>
-            <th class="text-center" colspan="2">Steps</th>
-          </tr>
-          <tr>
-            <th class="text-center">Total</th>
-            <th class="text-center">In Progress</th>
-            <th class="text-center">Closed</th>
-            <th class="text-center">Succeed</th>
-            <th class="text-center">Performed</th>
-            <th class="text-center">Total</th>
-            <th class="text-center">Performed</th>
-            <th class="text-center">Total</th>
-          </tr>
-          <tr>
-            <td class="text-right">{{report.projects.length}}</td>
-            <td class="text-right">{{report.total_companies}}</td>
-            <td class="text-right">{{report.companies_in_progress}}</td>
-            <td class="text-right">{{report.companies_closed}}</td>
-            <td class="text-right">{{report.companies_succeed}}</td>
-            <td class="text-right">{{report.time_performed * 24 | number:'1.0-0'}}</td>
-            <td class="text-right">{{report.time_total * 24 | number:'1.0-0'}}</td>
-            <td class="text-right">{{report.steps_performed}}</td>
-            <td class="text-right">{{report.steps_total}}</td>
-          </tr>
-        </table>
+        <div class="ui-g text-center sum-assistance">
+          <div class="ui-g-2">
+            <div class="ui-g">
+              <div class="ui-g-12 assistant-name"><h5>{{report.assistant}}</h5></div>
+              <div class="ui-g-12 assistant-projects-header">Projects</div>
+              <div class="ui-g-12 assistant-projects-count">{{report.projects.length}}</div>
+            </div>
+          </div>
+          <div class="ui-g-10">
+            <div class="ui-g">
+              <div class="ui-g-11">
+                <div class="ui-g">
+                  <div class="ui-g-4 values-header">Companies</div>
+                  <div class="ui-g-4 values-header">Working Time</div>
+                  <div class="ui-g-4 values-header">Steps</div>
+
+                  <div class="ui-g-1 values-names"><small>Total</small></div>
+                  <div class="ui-g-1 values-names"><small>In Progress</small></div>
+                  <div class="ui-g-1 values-names"><small>Closed</small></div>
+                  <div class="ui-g-1 values-names"><small>Succeed</small></div>
+                  <div class="ui-g-2 values-names"><small>Performed</small></div>
+                  <div class="ui-g-2 values-names"><small>Total</small></div>
+                  <div class="ui-g-2 values-names"><small>Performed</small></div>
+                  <div class="ui-g-2 values-names"><small>Total</small></div>
+
+                  <div class="ui-g-1">{{report.total_companies}}</div>
+                  <div class="ui-g-1">{{report.companies_in_progress}}</div>
+                  <div class="ui-g-1">{{report.companies_closed}}</div>
+                  <div class="ui-g-1">{{report.companies_succeed}}</div>
+                  <div class="ui-g-2">{{report.time_performed * 24 | number:'1.0-0'}}</div>
+                  <div class="ui-g-2">{{report.time_total * 24 | number:'1.0-0'}}</div>
+                  <div class="ui-g-2">{{report.steps_performed}}</div>
+                  <div class="ui-g-2">{{report.steps_total}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
       <p-accordion>
         <p-accordionTab *ngFor="let project of report.projects" [header]="project.name">

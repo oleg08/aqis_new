@@ -1,0 +1,30 @@
+.sum-assistance {
+  border: solid black .5px;
+}
+
+.assistant-name {
+  background-image: linear-gradient(rgb(99, 152, 237), lightgreen);
+}
+
+.assistant-projects-header {
+  background-image: linear-gradient(lightgreen, yellow);
+  border-top: solid black .4px;
+}
+.assistant-projects-count {
+  background-image: linear-gradient(yellow, white);
+  border-bottom: solid lightgray .4px;
+}
+
+.sum-assistance-projects {
+  background-color: #f4f4f4;
+}
+
+.values-header {
+  background-image: linear-gradient(blue, lightgrey);
+  border-bottom: solid grey .4px;
+}
+
+.values-names {
+  border-bottom: solid lightgray .2px;
+  background-image: linear-gradient(lightgrey, white);
+}

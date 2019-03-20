@@ -1,6 +1,11 @@
 <p-growl styleClass="message-growl" [baseZIndex]="1050" [(value)]="msgs"></p-growl>
 
-<app-aqis-update-assistant-reports #updateAssistantReports (reload)="reloadPage()"></app-aqis-update-assistant-reports>
+<app-aqis-update-assistant-reports #updateAssistantReports
+                                   cookies_key_date_update="last_assistant_progress_update"
+                                   update_path="update_assistant_progress"
+                                   cookies_key_start_update="start_assistant_progress_update"
+                                   tenant_update_date_path="last_tenant_update"
+                                   (reload)="reloadPage()"></app-aqis-update-assistant-reports>
 
 <section class="assistant-report-filters">
   <app-aqis-progress-assistant-filters [loading]="loading"
@@ -8,6 +13,8 @@
                                        (sendRequest)="submitFilters($event)">
   </app-aqis-progress-assistant-filters>
 </section>
+
+<p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
 
 <section *ngIf="projects.length > 0">
   <div class="ui-g">
