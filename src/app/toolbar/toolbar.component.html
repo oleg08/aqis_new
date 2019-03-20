@@ -57,6 +57,30 @@
         </div>
       </li>
 
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuReports" data-toggle="dropdown">
+          <b>Reports</b>
+        </a>
+
+        <ul class="dropdown-menu multi-level">
+          <li>
+            <a class="dropdown-item" [routerLink]="['/reports_project_progress']">Projects Progress</a>
+          </li>
+          <li class="divider"></li>
+          <li class="dropdown-submenu nav-item dropdown toolbar-dropdown-item">
+            <a href="#" class="nav-link dropdown-toggle item-multi-level" data-toggle="dropdown">Assistant Progress</a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" [routerLink]="['/progress_assistant']">By Assistants</a>
+              </li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/progress_projects_assistant']">By projects</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
       <li *ngIf="(authService.userSignedIn$ | async) && projects && projects.length > 0" class="nav-item dropdown toolbar-dropdown-item">
         <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuProjects" data-toggle="dropdown">
           <b>Projects</b>
@@ -67,16 +91,6 @@
                   (click)="setCurrentProject(project)">
               {{project.name}}
             </span>
-        </div>
-      </li>
-
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAdmin$ | async)" class="nav-item dropdown toolbar-dropdown-item">
-        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuReports" data-toggle="dropdown">
-          <b>Reports</b>
-        </a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" [routerLink]="['/reports_project_progress']">Projects Progress</a>
-          <a class="dropdown-item" [routerLink]="['/progress_assistant']">Assistants Progress</a>
         </div>
       </li>
 

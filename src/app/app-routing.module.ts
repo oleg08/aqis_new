@@ -32,6 +32,7 @@ import { ToSendTemplateComponent } from './to-send-template/to-send-template.com
 import { ProjectProgressComponent } from './reports/project-progress/project-progress.component';
 import { InfoLinksComponent } from './info-links/info-links.component';
 import { ProgressAssistantComponent } from './reports/progress-assistant/progress-assistant.component';
+import { ProgressProjectsAssistantsComponent } from './reports/progress-projects-assistants/progress-projects-assistants.component';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -223,6 +224,11 @@ const routes: Routes = [
   {
     path: 'progress_assistant',
     component: ProgressAssistantComponent,
+    canActivate: [ForceSslGuard, AdminGuard]   // admin-guard
+  },
+  {
+    path: 'progress_projects_assistant',
+    component: ProgressProjectsAssistantsComponent,
     canActivate: [ForceSslGuard, AdminGuard]   // admin-guard
   }
 ];

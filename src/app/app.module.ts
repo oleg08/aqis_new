@@ -66,6 +66,8 @@ import { IsEmptyStringService } from './services/is-empty-string.service';
 import { CurrentUserService } from './services/current-user.service';
 import { GetToSendEmailsService } from './services/get-to-send-emails.service';
 import { SwitchProjectService } from './services/switch-project.service';
+import { AssistantProgressesPropsService } from './reports/assistant-progresses-props.service';
+import { DifferenceReportsService } from './reports/difference-reports.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -212,6 +214,10 @@ import { ProjectProgressComponent } from './reports/project-progress/project-pro
 import { CustomerInfoLinksComponent } from './customers/customer-info-links/customer-info-links.component';
 import { InfoLinksComponent } from './info-links/info-links.component';
 import { ProgressAssistantComponent } from './reports/progress-assistant/progress-assistant.component';
+import { ProgressProjectsAssistantsComponent } from './reports/progress-projects-assistants/progress-projects-assistants.component';
+import { ProgressProjectTableComponent } from './reports/tables/progress-project-table/progress-project-table.component';
+import { ProgressAssistantFiltersComponent } from './reports/filters/progress-assistant-filters/progress-assistant-filters.component';
+import { UpdateAssistantReportsComponent } from './reports/update-assistant-reports/update-assistant-reports.component';
 
 @NgModule({
   declarations: [
@@ -295,7 +301,11 @@ import { ProgressAssistantComponent } from './reports/progress-assistant/progres
     ProjectProgressComponent,
     CustomerInfoLinksComponent,
     InfoLinksComponent,
-    ProgressAssistantComponent
+    ProgressAssistantComponent,
+    ProgressProjectsAssistantsComponent,
+    ProgressProjectTableComponent,
+    ProgressAssistantFiltersComponent,
+    UpdateAssistantReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -408,7 +418,9 @@ import { ProgressAssistantComponent } from './reports/progress-assistant/progres
     IsEmptyStringService,
     CurrentUserService,
     GetToSendEmailsService,
+    DifferenceReportsService,
     SwitchProjectService,
+    AssistantProgressesPropsService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

@@ -1,0 +1,170 @@
+<form (ngSubmit)="submitFilters()" [formGroup]="reportsFilters">
+  <div class="ui-g">
+
+    <div class="ui-g-3">
+      <div class="ui-g">
+        <div class="ui-g-12 pb-0">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><small>zip from</small></span>
+            </div>
+            <input type="text" formControlName="zipFrom"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.zipFrom.errors }"
+                   placeholder="From"/>
+            <div *ngIf="submitted && f.zipFrom.errors" class="invalid-feedback">
+              <div *ngIf="f.zipFrom.errors.pattern">Must be Number</div>
+              <div *ngIf="f.zipFrom.errors.min">Must be more then 0</div>
+              <div *ngIf="f.zipFrom.errors.max">Must be less then 9900</div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 pt-0">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><small>zip to</small></span>
+            </div>
+            <input type="text" formControlName="zipTo"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.zipTo.errors }"
+                   placeholder="To"/>
+            <div *ngIf="submitted && f.zipTo.errors" class="invalid-feedback">
+              <div *ngIf="f.zipTo.errors.pattern">Must be Number</div>
+              <div *ngIf="f.zipTo.errors.min">Must be more then 0</div>
+              <div *ngIf="f.zipTo.errors.max">Must be less then 10000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-g-3">
+      <div class="ui-g">
+        <div class="ui-g-12 pb-0">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><small>employees from</small></span>
+            </div>
+            <input type="text" formControlName="emplFrom"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.emplFrom.errors }"
+                   placeholder="From"/>
+            <div *ngIf="submitted && f.emplFrom.errors" class="invalid-feedback">
+              <div *ngIf="f.emplFrom.errors.pattern">Must be Number</div>
+              <div *ngIf="f.emplFrom.errors.min">Must be more then 0</div>
+              <div *ngIf="f.emplFrom.errors.max">Must be less then 990000</div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 pt-0">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><small>employees to</small></span>
+            </div>
+            <input type="text" formControlName="emplTo"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.emplTo.errors }"
+                   placeholder="To"/>
+            <div *ngIf="submitted && f.emplTo.errors" class="invalid-feedback">
+              <div *ngIf="f.emplTo.errors.pattern">Must be Number</div>
+              <div *ngIf="f.emplTo.errors.min">Must be more then 0</div>
+              <div *ngIf="f.emplTo.errors.max">Must be less then 1000000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-3">
+      <div class="ui-g">
+        <div class="ui-g-12 pb-0">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><small>turnover from</small></span>
+            </div>
+            <input type="text" formControlName="turnoverFrom"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.turnoverFrom.errors }"
+                   placeholder="From"/>
+            <div *ngIf="submitted && f.turnoverFrom.errors" class="invalid-feedback">
+              <div *ngIf="f.turnoverFrom.errors.pattern">Must be Number</div>
+              <div *ngIf="f.turnoverFrom.errors.min">Must be more then 0</div>
+              <div *ngIf="f.turnoverFrom.errors.max">Must be less then 999990000</div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-12 pt-0">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><small>turnover to</small></span>
+            </div>
+            <input type="text" formControlName="turnoverTo"
+                   class="form-control"
+                   [ngClass]="{ 'is-invalid': submitted && f.turnoverTo.errors }"
+                   placeholder="To"/>
+            <div *ngIf="submitted && f.turnoverTo.errors" class="invalid-feedback">
+              <div *ngIf="f.turnoverTo.errors.pattern">Must be Number</div>
+              <div *ngIf="f.turnoverTo.errors.min">Must be more then 0</div>
+              <div *ngIf="f.turnoverTo.errors.max">Must be less then 1000000000</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-g-3">
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <button pButton type="submit" label="Submit Filters"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="ui-g">
+  <div class="ui-g-3 mb-1 range-date">
+    <p-calendar class="float-right"
+                [(ngModel)]="monthDateStart"
+                (onSelect)="changeReportDate()"
+                view="month"
+                dateFormat="yy-mm"
+                [yearNavigator]="true"
+                yearRange="2019:2050">
+    </p-calendar>
+  </div>
+  <div class="ui-md-9 mb-1 range-date">
+    <mat-accordion>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <span *ngIf="monthDateEnd" class="mr-2" pTooltip="Delete range" tooltipPosition="left">
+              <i class="fa fa-close" (click)="monthDateEnd = null; changeReportDate()"></i>
+            </span>
+          <span *ngIf="monthDateEnd">
+              <small class="mr-2">Report range is from</small>
+              <span class="range-data">{{monthDateStart | date: 'y, MMM'}}</span>
+              <br>
+              <span class="float-right">
+                <small class="mr-2">to</small>
+                <span class="range-data">{{monthDateEnd | date: 'y, MMM'}}</span>
+              </span>
+            </span>
+          <span *ngIf="!monthDateEnd">
+              <small class="mr-2">Report is until</small>
+              <span class="range-data">{{monthDateStart | date: 'y, MMM'}}</span>
+            </span>
+          <hr/>
+        </mat-expansion-panel-header>
+        <p-calendar [style]="{'height': rangeCalendarHeight}"
+                    [(ngModel)]="monthDateEnd"
+                    (onFocus)="rangeCalendarHeight = '250px'"
+                    (onSelect)="setDateRange();"
+                    (onBlur)="rangeCalendarHeight = '0'"
+                    view="month" dateFormat="yy-mm"
+                    [yearNavigator]="true"
+                    placeholder="Set range for Report"
+                    yearRange="2015:2050">
+        </p-calendar>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<p-growl styleClass="message-growl" [baseZIndex]="1050" [(value)]="msgs"></p-growl>
+
+<p-dialog header="Confirmation" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [style]="{width: '400px', minWidth: '200px'}" [minY]="70"
+          [baseZIndex]="10000">
+  <span *ngIf="!update_running && !reload_button" class="text-center"><p>The report was updated <b><u>{{last_update | date:'medium' }}</u></b>. Would you like to update it now ?</p></span>
+  <span *ngIf="update_running && !reload_button" class="text-center">
+    <p>Data update is ongoing. It will take a few minutes. Please wait...</p>
+  </span>
+  <span *ngIf="reload_button" class="text-center">
+    Reload the page to see the latest changes
+    <button class="btn btn-secondary" (click)="reloadPage()">
+      <i class="fa fa-refresh"></i>
+    </button>
+  </span>
+  <p-progressBar *ngIf="update_running" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+  <p-footer *ngIf="!reload_button">
+    <button type="button" pButton icon="pi pi-check" iconPos="right" (click)="updateData()" label="Yes" [disabled]="update_running"></button>
+    <button type="button" pButton icon="pi pi-close" iconPos="right" (click)="displayDialog=false" label="No" class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>

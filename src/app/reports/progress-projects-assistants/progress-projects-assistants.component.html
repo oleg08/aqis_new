@@ -1,0 +1,52 @@
+<p-growl styleClass="message-growl" [baseZIndex]="1050" [(value)]="msgs"></p-growl>
+
+<app-aqis-update-assistant-reports #updateAssistantReports (reload)="reloadPage()"></app-aqis-update-assistant-reports>
+
+<section class="assistant-report-filters">
+  <app-aqis-progress-assistant-filters [loading]="loading"
+                                       [submitted]="submitted"
+                                       (sendRequest)="submitFilters($event)">
+  </app-aqis-progress-assistant-filters>
+</section>
+
+<section *ngIf="projects.length > 0">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <button class="btn btn-info float-right" (click)="showDialog()">Update Report</button>
+    </div>
+  </div>
+  <p-accordion>
+    <p-accordionTab *ngFor="let project of projects">
+      <p-header>
+        {{project.name}}
+        <div class="ui-g text-center">
+          <div class="ui-g-4 main-header">Companies</div>
+          <div class="ui-g-4 main-header">Working Time(hours)</div>
+          <div class="ui-g-4 main-header">Steps</div>
+
+          <div class="ui-g-1 second-header"><small>Total</small></div>
+          <div class="ui-g-1 second-header"><small>In Progress</small></div>
+          <div class="ui-g-1 second-header"><small>Closed</small></div>
+          <div class="ui-g-1 second-header"><small>Succeed</small></div>
+          <div class="ui-g-2 second-header"><small>Performed</small></div>
+          <div class="ui-g-2 second-header"><small>Total</small></div>
+          <div class="ui-g-2 second-header"><small>Performed</small></div>
+          <div class="ui-g-2 second-header"><small>Total</small></div>
+
+          <div class="ui-g-1">{{project.progresses.length}}</div>
+          <div class="ui-g-1">{{project.num_in_progress}}</div>
+          <div class="ui-g-1">{{project.num_closed}}</div>
+          <div class="ui-g-1">{{project.num_succeed}}</div>
+
+          <div class="ui-g-2">{{project.completed_steps_time * 24 | number:'1.0-0'}}</div>
+          <div class="ui-g-2">{{project.total_steps_time * 24 | number:'1.0-0'}}</div>
+          <div class="ui-g-2">{{project.completed_steps}}</div>
+          <div class="ui-g-2">{{project.total_steps}}</div>
+        </div>
+      </p-header>
+
+      <app-aqis-progress-project-table [project]="project"></app-aqis-progress-project-table>
+
+    </p-accordionTab>
+  </p-accordion>
+</section>
