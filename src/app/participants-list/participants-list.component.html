@@ -4,14 +4,44 @@
              (onEditComplete)="editParticipant($event)"
              [editable]="true">
   <p-column field="name"
-            header="Name"
+            [style]="{'text-align':'center', 'border':'none', 'border-bottom':'solid lightblue .2px'}"
             [editable]="true">
+    <ng-template pTemplate="header">
+      <div class="table-participants-header">
+        <h6><b>Name</b></h6>
+      </div>
+    </ng-template>
+    <ng-template let-col let-participant="rowData" pTemplate="body">
+      <div class="table-participants-cell">{{participant[col.field]}}</div>
+    </ng-template>
   </p-column>
-  <p-column field="email" header="Email" [editable]="true"></p-column>
-  <p-column field="phone" header="Phone" [editable]="true"></p-column>
-  <p-column [style]="{'width':'10%','text-align':'center'}" header="">
+  <p-column field="email"
+            [style]="{'text-align':'center', 'border':'none', 'border-bottom':'solid lightblue .2px'}"
+            [editable]="true">
+    <ng-template pTemplate="header">
+      <div class="table-participants-header">
+        <h6><b>Email</b></h6>
+      </div>
+    </ng-template>
+    <ng-template let-col let-participant="rowData" pTemplate="body">
+      <div class="table-participants-cell">{{participant[col.field]}}</div>
+    </ng-template>
+  </p-column>
+  <p-column field="phone"
+            [style]="{'text-align':'center', 'border':'none', 'border-bottom':'solid lightblue .2px'}"
+            [editable]="true">
+    <ng-template pTemplate="header">
+      <div class="table-participants-header">
+        <h6><b>Phone</b></h6>
+      </div>
+    </ng-template>
+    <ng-template let-col let-participant="rowData" pTemplate="body">
+      <div class="table-participants-cell">{{participant[col.field]}}</div>
+    </ng-template>
+  </p-column>
+  <p-column [style]="{'width':'10%','text-align':'center', 'border':'none', 'border-bottom':'solid lightblue .2px'}" header="">
     <ng-template let-participant="rowData" pTemplate="body">
-      <button type="button" pButton (click)="removeParticipant($event, participant);" icon="fa-remove"></button>
+      <button type="button" pButton (click)="removeParticipant($event, participant);" icon="fa fa-remove"></button>
     </ng-template>
   </p-column>
 </p-dataTable>

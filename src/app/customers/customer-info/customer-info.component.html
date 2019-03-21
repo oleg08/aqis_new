@@ -137,19 +137,25 @@
   </app-aqis-select-question-list>
 </p-overlayPanel>
 
-<p-sidebar *ngIf="!super_admin && filteredParticipantsNew"
-           (onShow)="focusInput()"
-           (onHide)="focusOutInput()"
-           [(visible)]="participantsList" [fullScreen]="true" [baseZIndex]="10000">
+<p-dialog [(visible)]="participantsList"
+          [modal]="true"
+          [responsive]="true"
+          (onShow)="focusInput()"
+          (onHide)="focusOutInput()"
+          [style]="{'width': '90%'}"
+          [minY]="70"
+          [maximizable]="true"
+          [baseZIndex]="10000">
+  <p-header>Participants of company <u>{{customer['name']}}</u></p-header>
   <div class="ui-g">
     <div class="ui-g-11">
-      <app-aqis-participants-list bind-participants="filteredParticipantsNew"
+      <app-aqis-participants-list bind-participants="customer_tenant['participants']"
                                   (deleteParticipant)="removeParticipant($event)"
                                   (showMessage)="callMessageService($event)">
       </app-aqis-participants-list>
     </div>
   </div>
-</p-sidebar>
+</p-dialog>
 
 <article #customersDetails class="card card-info customer-info" *ngIf="customer">
   <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>

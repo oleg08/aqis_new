@@ -205,9 +205,9 @@ export class CustomerInfoComponent implements OnInit {
     const self = this;
     self.top_questions_path = 'project_questions/' + self.customer['id'];
 
-    self.passStateService.currentState.subscribe(state => self.selectedState = state);
+    self.passStateService.currentState.subscribe(st => self.selectedState = st);
 
-    self.openSteps.currentState.subscribe(state => self.open_steps = state);
+    self.openSteps.currentState.subscribe(st => self.open_steps = st);
 
     self.genders = self.genderService.get();
 
@@ -646,6 +646,8 @@ export class CustomerInfoComponent implements OnInit {
   goToNextCustomer (prev) {
     const self = this;
     self.initSteps = false;
+
+    console.log(self.customer_tenant['participants']);
 
     const ids = self.customers_ids['ids'];
 
