@@ -1,0 +1,163 @@
+<article class="panel panel-default account-info">
+  <header class="panel-heading p-1">
+    <h1 class="h5">Billing Info</h1>
+  </header>
+  <br>
+  <section class="panel-body">
+    <section class="billing-address">
+      <div class="form-group">
+        <div class="billing-item pb-2 pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+          <label>UID</label>
+          <app-text-field-component [object]="billing_info"
+                                    field_name="uid"
+                                    label="UID-Number"
+                                    (valueChanged)="save($event)">
+          </app-text-field-component>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="billing-item pb-2 pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+          <label>Swift</label>
+          <app-text-field-component [object]="billing_info"
+                                    field_name="swift"
+                                    label="Swift"
+                                    (valueChanged)="save($event)">
+          </app-text-field-component>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="billing-item pb-2 pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+          <label>Bank</label>
+          <app-text-field-component [object]="billing_info"
+                                    field_name="bank"
+                                    label="Bank"
+                                    (valueChanged)="save($event)">
+          </app-text-field-component>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="billing-item pb-2 pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+          <label>BIC</label>
+          <app-text-field-component [object]="billing_info"
+                                    field_name="bic"
+                                    label="BIC"
+                                    (valueChanged)="save($event)">
+          </app-text-field-component>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="billing-item pb-2 pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+          <label>Account #</label>
+          <app-text-field-component [object]="billing_info"
+                                    field_name="account"
+                                    label="Account"
+                                    (valueChanged)="save($event)">
+          </app-text-field-component>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="billing-item pb-2 pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+          <label>IBAN</label>
+          <app-text-field-component [object]="billing_info"
+                                    field_name="iban"
+                                    label="IBAN"
+                                    (valueChanged)="save($event)">
+          </app-text-field-component>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="billing-item pb-2 pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+          <label>Phone</label>
+          <app-text-field-component [object]="billing_info"
+                                    field_name="phone"
+                                    label="Phone"
+                                    (valueChanged)="save($event)">
+          </app-text-field-component>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="billing-item pb-2 pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+          <label>Fax</label>
+          <app-text-field-component [object]="billing_info"
+                                    field_name="fax"
+                                    label="Fax"
+                                    (valueChanged)="save($event)">
+          </app-text-field-component>
+        </div>
+      </div>
+
+    </section>
+    <section class="city-address">
+      <div class="form-group pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+        <label>Address 1</label>
+        <app-text-field-component [object]="billing_info"
+                                  field_name="address1"
+                                  label="Address 1"
+                                  (valueChanged)="save($event)">
+        </app-text-field-component>
+      </div>
+      <div class="ui-g pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+        <div class="ui-g-7">
+          <div class="form-group">
+            <label>City</label>
+            <app-text-field-component [object]="billing_info"
+                                      field_name="city1"
+                                      label="City"
+                                      (valueChanged)="save($event)">
+            </app-text-field-component>
+          </div>
+        </div>
+        <div class="ui-g-5">
+          <div class="form-group">
+            <label>Zip</label>
+            <app-text-field-component [object]="billing_info"
+                                      field_name="zip1"
+                                      label="Zip"
+                                      (valueChanged)="save($event)">
+            </app-text-field-component>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="city-address">
+      <div class="form-group pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+        <label>Address 2</label>
+        <app-text-field-component [object]="billing_info"
+                                  field_name="address2"
+                                  label="Address"
+                                  (valueChanged)="save($event)">
+        </app-text-field-component>
+      </div>
+      <div class="ui-g pl-2 pr-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+        <div class="ui-g-7">
+          <div class="form-group">
+            <label>City</label>
+            <app-text-field-component [object]="billing_info"
+                                      field_name="city2"
+                                      label="City"
+                                      (valueChanged)="save($event)">
+            </app-text-field-component>
+          </div>
+        </div>
+        <div class="ui-g-5">
+          <div class="form-group">
+            <label>Zip</label>
+            <app-text-field-component [object]="billing_info"
+                                      field_name="zip2"
+                                      label="Zip"
+                                      (valueChanged)="save($event)">
+            </app-text-field-component>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</article>

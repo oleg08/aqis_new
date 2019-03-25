@@ -40,6 +40,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { SuperAdminGuard } from './guards/super-admin.guard';
 import { AdminOrSuperAdminGuard } from './guards/admin-or-super-admin.guard';
 import { ForceSslGuard } from './guards/force-ssl.guard';
+import {SuperAdminAccountInfoComponent} from './super-admin-account-info/super-admin-account-info.component';
 
 const routes: Routes = [
   {
@@ -230,6 +231,11 @@ const routes: Routes = [
     path: 'progress_projects_assistant',
     component: ProgressProjectsAssistantsComponent,
     canActivate: [ForceSslGuard, AdminGuard]   // admin-guard
+  },
+  {
+    path: 'super_admin_infos',
+    component: SuperAdminAccountInfoComponent,
+    canActivate: [ForceSslGuard, SuperAdminGuard]   // admin-guard
   }
 ];
 

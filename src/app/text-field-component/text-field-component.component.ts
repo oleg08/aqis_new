@@ -11,6 +11,10 @@ import { CheckPatternService } from '../services/check-pattern.service';
 export class TextFieldComponentComponent implements OnInit {
 
   originalValue: object;
+  green_highlight1 = false;
+  green_highlight2 = false;
+  red_highlight1 = false;
+  red_highlight2 = false;
 
   @Input() object:       object;
   @Input() field_name:   string;
@@ -27,7 +31,7 @@ export class TextFieldComponentComponent implements OnInit {
   @Input() disabled:     boolean;
   @Input() max_value:    number;
   @Input() min_value:    number;
-  @Input() readonly:    boolean;
+  @Input() readonly:     boolean;
 
   @Output() valueChanged: EventEmitter<object> = new EventEmitter<object>();
   @Output() focusInput: EventEmitter<object> = new EventEmitter<object>();
@@ -103,5 +107,19 @@ export class TextFieldComponentComponent implements OnInit {
         value: model.viewModel, event: event
       });
     }
+  }
+
+  greenHighlight() {
+    this.green_highlight1 = true;
+    setTimeout(() => { this.green_highlight1 = false; }, 1000);
+    setTimeout(() => { this.green_highlight2 = true; }, 1000);
+    setTimeout(() => { this.green_highlight2 = false; }, 2000);
+  }
+
+  redHighlight() {
+    this.red_highlight1 = true;
+    setTimeout(() => { this.red_highlight1 = false; }, 1000);
+    setTimeout(() => { this.red_highlight2 = true; }, 1000);
+    setTimeout(() => { this.red_highlight2 = false; }, 2000);
   }
 }

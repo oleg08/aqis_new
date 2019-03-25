@@ -4,6 +4,10 @@
   <app-aqis-add-user-to-tenant (submitForm)="createTenantAdmin($event)"></app-aqis-add-user-to-tenant>
 </p-overlayPanel>
 
+<p-dialog header="Edit Tenant" [(visible)]="displayEdit" (onHide)="hideEditDialog()" [style]="{'width':'60%'}">
+  <app-aqis-edit-tenant #edit_tenant *ngIf="current_tenant" [tenant]="current_tenant" (saveTenant)="editTenant($event)"></app-aqis-edit-tenant>
+</p-dialog>
+
 <section *ngIf="tenants" #tenantsList class="tenants-list background-white">
 
   <p-overlayPanel #new_tenant [showCloseIcon]="true" [dismissable]="true">
@@ -25,17 +29,50 @@
     </div>
   </section>
   <p-dataTable [value]="tenants"
-               (onEditInit)="setOriginalValue($event)"
-               (onEditComplete)="editTenant($event)"
-               [editable]="true">
-    <p-column field="name" header="Name" [editable]="true">
+               (onEditComplete)="editTenant($event)">
+    <p-column field="name" header="Name" [style]="{'border':'none', 'border-bottom':'solid grey .7px'}">
       <ng-template let-col let-tenant="rowData" pTemplate="body">
-        <div id="tenantRow-{{tenant.id}}" class="tenant-row">
-          {{tenant[col.field]}}
+        <div id="tenantRow-{{tenant.id}}" class="ui-g tenant-row">
+          <div class="ui-g-11">
+            <div class="ui-g">
+              <div class="ui-g-12 tenant-prop-name">
+                {{tenant[col.field]}}
+              </div>
+              <div class="ui-g-12 tenant-prop">
+                <b>Email:</b>
+                {{tenant.email || '-'}}
+              </div>
+              <div class="ui-g-6 tenant-prop">
+                <b>UID:</b>
+                {{tenant.uid || '-'}}
+              </div>
+              <div class="ui-g-6 tenant-prop">
+                <b>Phone:</b>
+                {{tenant.phone || '-'}}
+              </div>
+              <div class="ui-g-4 tenant-prop-city">
+                <b>Zip:</b>
+                {{tenant.zip || '-'}}
+              </div>
+              <div class="ui-g-8 tenant-prop-city">
+                <b>City:</b>
+                {{tenant.city || '-'}}
+              </div>
+              <div class="ui-g-12 tenant-prop-address">
+                <b>Address:</b>
+                {{tenant.address || '-'}}
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-1">
+            <button type="button" ngbTooltip="Edit Tenant" class="btn btn-sm btn-info" (click)="showEditDialog(tenant)">
+              <i class="fa fa-edit"></i>
+            </button>
+          </div>
         </div>
       </ng-template>
     </p-column>
-    <p-column field="tenant_admins" header="Tenant-Admin">
+    <p-column field="tenant_admins" header="Tenant-Admin" [style]="{'border':'none', 'border-bottom':'solid grey .7px'}">
       <ng-template let-col let-tenant="rowData" pTemplate="body">
         <div id="tenant-admin-{{tenant.id}}" class="tenant-row">
           <ul class="list-group" *ngFor="let user of tenant[col.field]; let i = index" [attr.data-index]="i">
@@ -53,7 +90,7 @@
         </div>
       </ng-template>
     </p-column>
-    <p-column field="name" header="" [style]="{'width':'10%','text-align':'center'}">
+    <p-column field="name" header="" [style]="{'width':'10%','text-align':'center', 'border':'none', 'border-bottom':'solid grey .7px'}">
       <ng-template let-col let-tenant="rowData" pTemplate="body">
         <div class="btn-group btn-group-sm" role="group" aria-label="Show Delete">
           <button type="button"

@@ -7,6 +7,8 @@ import { Message        } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { ConfirmationService } from 'primeng/api';
 import { environment } from '../../../environments/environment';
+import {Tenant} from '../../interfaces/tenant';
+import { EditTenantComponent } from '../edit-tenant/edit-tenant.component';
 
 @Component({
   selector: 'app-tenants-list',
@@ -25,8 +27,11 @@ export class TenantsListComponent implements OnInit {
   password: string = null;
   originalValue: string;
   current_tenantId: number;
+  current_tenant: Tenant;
+  displayEdit = false;
 
   @ViewChild('tenantsList') el: ElementRef;
+  @ViewChild('edit_tenant') edit_tenant: EditTenantComponent;
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -72,6 +77,17 @@ export class TenantsListComponent implements OnInit {
   passTenantId(tenant_id) {
     const self = this;
     self.current_tenantId = tenant_id;
+  }
+
+  showEditDialog(tenant: Tenant) {
+    this.current_tenant = tenant;
+    this.displayEdit = true;
+  }
+
+  hideEditDialog() {
+    const self = this;
+    self.current_tenant = null;
+    self.edit_tenant.assignOriginalValue();
   }
 
   createTenantAdmin (object) {
@@ -159,17 +175,16 @@ export class TenantsListComponent implements OnInit {
     );
   }
 
-  setOriginalValue (event) {
-    const self = this;
-    self.originalValue = event.data.name;
-  }
+  // setOriginalValue (event) {
+  //   const self = this;
+  //   self.originalValue = event.data.name;
+  // }
 
   editTenant (event) {
     const self = this;
-    const tenant_id = event.data.id;
-    const params = {
-      name: event.data.name
-    };
+    const tenant_id = event.id;
+    const params = event.params;
+    self.displayEdit = false;
     self.http.patch(environment.serverUrl + '/tenants/' + tenant_id + '.json', params
     ).subscribe(
       response => {
@@ -181,8 +196,8 @@ export class TenantsListComponent implements OnInit {
           window.location.href = '/';
         } else {
           const tenant = self.tenants.find(item => item['id'] === tenant_id);
-          tenant.name = self.originalValue;
-          tenant.label = self.originalValue;
+          // tenant.name = self.originalValue;
+          // tenant.label = self.originalValue;
 
           self.flashHighlights.handler(self, '#tenantRow-', tenant_id,
             'failed-update'

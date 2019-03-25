@@ -23,6 +23,7 @@ export class ToolbarComponent implements OnInit {
   options: any;
   current_user: User;
   projects: Project[] = [];
+  super_admin: boolean;
   current_project: Project;
   tenant_id: number;
   alert = false;
@@ -82,6 +83,7 @@ export class ToolbarComponent implements OnInit {
     self.http.get(environment.serverUrl + '/user_properties.json').subscribe(
       res => {
         self.projects = res['projects'];
+        self.super_admin = res['super_admin'];
         self.tenant_id = res['tenant_id'];
         const project_id = self.cookieService.get('project_id');
         if (project_id) {
@@ -90,6 +92,12 @@ export class ToolbarComponent implements OnInit {
         },
       err => { console.log(err.message); }
     );
+  }
+
+  goToProfile () {
+    const self = this;
+    const path: string = self.super_admin ? '/super_admin_infos' : '/profile';
+    self.router.navigate([path]);
   }
 
 }

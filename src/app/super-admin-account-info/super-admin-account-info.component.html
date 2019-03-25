@@ -1,0 +1,18 @@
+<section class="account-details">
+  <form>
+    <div class="ui-g">
+      <div class="ui-g-6 account-info-section">
+        <app-aqis-super-admin-information *ngIf="user"
+                                          [user]="user"
+                                          (onBlur)="saveUserInfo($event)">
+        </app-aqis-super-admin-information>
+      </div>
+      <div class="ui-g-6 account-info-section">
+        <app-aqis-super-admin-billing-info *ngIf="billing_info"
+                                           [billing_info]="billing_info"
+                                           (onBlur)="saveBillingInfo($event)">
+        </app-aqis-super-admin-billing-info>
+      </div>
+    </div>
+  </form>
+</section>

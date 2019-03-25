@@ -57,6 +57,14 @@
   background-color: lightpink !important;
 }
 
+.success-update {
+  background-image: linear-gradient(to right, #5aef28, #a3fc99) !important;
+}
+
+.fail-update {
+  background-image: linear-gradient(to right, #f23535, #ff8282);
+}
+
 .cursor-progress {
   cursor: progress !important;
 }

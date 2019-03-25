@@ -20,8 +20,14 @@
       <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
         <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/businesses']"><b>Businesses</b></a>
       </li>
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
-        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/tenants']"><b>Tenants</b></a>
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuTenants" data-toggle="dropdown">
+          <b>Tenants</b>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" [routerLink]="['/tenants']">Tenants</a>
+          <a class="dropdown-item" [routerLink]="['/questions']">Billing Info</a>
+        </div>
       </li>
       <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
         <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/customers']"><b>Customers</b></a>
@@ -101,7 +107,7 @@
       </li>
 
       <li class="toolbar-item toolbar-dropdown-item" *ngIf="(authService.userSignedIn$ | async)">
-        <a [routerLink]="['/profile']" class="nav-item m-2 profile-link cursor-pointer">
+        <a (click)="goToProfile()" class="nav-item m-2 profile-link cursor-pointer">
           <b>PROFILE</b>
         </a>
       </li>

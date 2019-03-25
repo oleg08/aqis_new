@@ -218,6 +218,10 @@ import { ProgressProjectsAssistantsComponent } from './reports/progress-projects
 import { ProgressProjectTableComponent } from './reports/tables/progress-project-table/progress-project-table.component';
 import { ProgressAssistantFiltersComponent } from './reports/filters/progress-assistant-filters/progress-assistant-filters.component';
 import { UpdateAssistantReportsComponent } from './reports/update-assistant-reports/update-assistant-reports.component';
+import { SuperAdminAccountInfoComponent } from './super-admin-account-info/super-admin-account-info.component';
+import { SuperAdminInformationComponent } from './super-admin-account-info/super-admin-information/super-admin-information.component';
+import { SuperAdminBillingInfoComponent } from './super-admin-account-info/super-admin-billing-info/super-admin-billing-info.component';
+import { EditTenantComponent } from './tenants/edit-tenant/edit-tenant.component';
 
 @NgModule({
   declarations: [
@@ -305,7 +309,11 @@ import { UpdateAssistantReportsComponent } from './reports/update-assistant-repo
     ProgressProjectsAssistantsComponent,
     ProgressProjectTableComponent,
     ProgressAssistantFiltersComponent,
-    UpdateAssistantReportsComponent
+    UpdateAssistantReportsComponent,
+    SuperAdminAccountInfoComponent,
+    SuperAdminInformationComponent,
+    SuperAdminBillingInfoComponent,
+    EditTenantComponent
   ],
   imports: [
     BrowserModule,

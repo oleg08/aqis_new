@@ -1,0 +1,35 @@
+<article class="panel panel-primary account-info">
+  <header class="panel-heading p-1">
+    <h1 class="h5">Account</h1>
+  </header>
+  <section class="panel-body">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="form-group">
+          <div class="user-item p-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+            <label>Name</label>
+            <app-text-field-component [object]="user"
+                                      field_name="name"
+                                      label="Name"
+                                      (valueChanged)="save($event)">
+            </app-text-field-component>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="form-group">
+          <div class="user-item p-2" [ngClass]="{'success-update':green_highlight, 'fail-update':red_highlight}">
+            <label>Email</label>
+            <app-text-field-component [object]="user"
+                                      field_name="email"
+                                      label="Email"
+                                      addon="' '"
+                                      image="../../../assets/showcase/images/icons8-email-50.png"
+                                      (valueChanged)="save($event)">
+            </app-text-field-component>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</article>

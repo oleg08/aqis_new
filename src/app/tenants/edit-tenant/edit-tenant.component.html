@@ -1,0 +1,33 @@
+<div class="ui-g">
+  <div class="ui-g-12 tenant-prop-cell">
+    <label>Name</label>
+    <input class="form-control" type="text" [(ngModel)]="tenant.name">
+  </div>
+  <div class="ui-g-12 tenant-prop-cell">
+    <label>UID</label>
+    <input class="form-control" type="text" [(ngModel)]="tenant.uid">
+  </div>
+  <div class="ui-g-12 tenant-prop-cell">
+    <label>Email</label>
+    <input class="form-control" type="text" [(ngModel)]="tenant.email">
+  </div>
+  <div class="ui-g-12 tenant-prop-cell">
+    <label>Phone</label>
+    <input class="form-control" type="text" [(ngModel)]="tenant.phone">
+  </div>
+  <div class="ui-g-4 tenant-prop-address-cell">
+    <label>Zip</label>
+    <input class="form-control" type="text" [(ngModel)]="tenant.zip">
+  </div>
+  <div class="ui-g-8 tenant-prop-address-cell">
+    <label>City</label>
+    <input class="form-control" type="text" [(ngModel)]="tenant.city">
+  </div>
+  <div class="ui-g-12 tenant-prop-address-cell">
+    <label>Address</label>
+    <input class="form-control" type="text" [(ngModel)]="tenant.address">
+  </div>
+  <div class="ui-g-12">
+    <button class="btn btn-info float-right" (click)="save()">Save</button>
+  </div>
+</div>

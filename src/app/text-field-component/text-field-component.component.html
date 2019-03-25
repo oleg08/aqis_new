@@ -14,6 +14,8 @@
     </div>
     <input type="text" class="form-control text-field" attr.name="{{field_name}}"
            placeholder="{{placeholder}}"
+           [ngClass]="{'success-update1':green_highlight1, 'success-update2':green_highlight2,
+                       'fail-update1':red_highlight1, 'fail-update2':red_highlight2}"
            (focus)="focus()"
            (focusout)="focusOut()"
            on-blur="blur(model)"
