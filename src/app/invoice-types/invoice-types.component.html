@@ -1,0 +1,38 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<div *ngIf="tenant" class="ui-g">
+  <div class="ui-g-1">
+    <button class="btn btn-default return-button"
+            ngbTooltip="Return to tenants"
+            [routerLink]="['/tenants']">
+      <i class="fa fa-chevron-left"></i>
+    </button>
+  </div>
+  <div class="ui-g-4 invoice-tenant-name mb-1 pr-0 text-center"><h3>{{tenant.name}}</h3></div>
+  <div class="ui-g-7 new-invoice-type pl-0 mb-1">
+    <app-aqis-new-invoice-type (createNew)="createNew($event)"></app-aqis-new-invoice-type>
+  </div>
+
+  <section class="invoice-types-list width100">
+    <ul class="list-group"
+        [@listAnimation]="tenant.invoice_types.length">
+      <li class="list-group-item invoice-types-item pr-1 pt-0" *ngFor="let invoice_type of tenant.invoice_types; let i = index">
+        <i class="fa fa-close float-right cursor-pointer delete-icon"
+           (click)="delete(invoice_type.id, i)"
+           ngbTooltip="Delete"></i>
+        <div class="ui-g">
+          <div class="ui-g-9">
+            <h4 class="pt-2">{{invoice_type.name}}</h4>
+          </div>
+          <div class="ui-g-2">
+            <pre><u>{{invoice_type.period}}</u></pre>
+          </div>
+          <div class="ui-g-1">
+            <i class="fa fa-chevron-right float-right p-3 cursor-pointer"
+               ngbTooltip="Go to Details..."></i>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+</div>

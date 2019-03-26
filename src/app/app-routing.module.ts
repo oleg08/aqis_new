@@ -33,6 +33,7 @@ import { ProjectProgressComponent } from './reports/project-progress/project-pro
 import { InfoLinksComponent } from './info-links/info-links.component';
 import { ProgressAssistantComponent } from './reports/progress-assistant/progress-assistant.component';
 import { ProgressProjectsAssistantsComponent } from './reports/progress-projects-assistants/progress-projects-assistants.component';
+import { InvoiceTypesComponent } from './invoice-types/invoice-types.component';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -235,7 +236,12 @@ const routes: Routes = [
   {
     path: 'super_admin_infos',
     component: SuperAdminAccountInfoComponent,
-    canActivate: [ForceSslGuard, SuperAdminGuard]   // admin-guard
+    canActivate: [ForceSslGuard, SuperAdminGuard]   // super-admin-guard
+  },
+  {
+    path: 'invoices_list/:id',
+    component: InvoiceTypesComponent,
+    canActivate: [ForceSslGuard, SuperAdminGuard]    // super-admin-guard
   }
 ];
 

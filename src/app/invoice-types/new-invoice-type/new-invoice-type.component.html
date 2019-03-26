@@ -1,0 +1,19 @@
+<div class="ui-g">
+  <div class="ui-g-2 text-center"><h6>New Invoice Type</h6></div>
+  <div class="ui-g-6">
+    <input class="form-control" type="text" [(ngModel)]="newName">
+  </div>
+  <div class="ui-g-3">
+    <ng-select [(ngModel)]="selectedPeriod" [clearable]="false" placeholder="Period">
+      <ng-option *ngFor="let period of periods" [value]="period.id">{{period.label}}</ng-option>
+    </ng-select>
+  </div>
+  <div class="ui-g-1">
+    <button class="btn btn-default create-button cursor-pointer"
+            [disabled]="!newName"
+            ngbTooltip="Create Invoice Type"
+            (click)="create()">
+      <i class="fa fa-check"></i>
+    </button>
+  </div>
+</div>

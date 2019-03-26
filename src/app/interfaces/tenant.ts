@@ -1,3 +1,5 @@
+import { InvoiceType } from './invoice-type';
+
 export interface Tenant {
   id?: number;
   name?: string;
@@ -7,6 +9,7 @@ export interface Tenant {
   zip?: string;
   city?: string;
   address?: string;
+  invoice_types?: InvoiceType[];
   created_at?: string;
   updated_at?: string;
 }

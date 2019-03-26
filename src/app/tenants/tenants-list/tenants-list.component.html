@@ -65,9 +65,18 @@
             </div>
           </div>
           <div class="ui-g-1">
-            <button type="button" ngbTooltip="Edit Tenant" class="btn btn-sm btn-info" (click)="showEditDialog(tenant)">
-              <i class="fa fa-edit"></i>
-            </button>
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <button type="button" ngbTooltip="Edit Tenant" class="btn btn-sm btn-info" (click)="showEditDialog(tenant)">
+                  <i class="fa fa-edit"></i>
+                </button>
+              </div>
+              <div class="ui-g-12">
+                <button type="button" ngbTooltip="Go to invoices" class="btn btn-sm btn-info" [routerLink]="['/invoices_list/', tenant.id]">
+                  <i class="fa fa-list"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </ng-template>

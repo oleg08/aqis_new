@@ -18,7 +18,8 @@ import {
   MatProgressBarModule,
   MatExpansionModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatSelectModule
 } from '@angular/material';
 
 // import 'materialize-css';
@@ -222,6 +223,8 @@ import { SuperAdminAccountInfoComponent } from './super-admin-account-info/super
 import { SuperAdminInformationComponent } from './super-admin-account-info/super-admin-information/super-admin-information.component';
 import { SuperAdminBillingInfoComponent } from './super-admin-account-info/super-admin-billing-info/super-admin-billing-info.component';
 import { EditTenantComponent } from './tenants/edit-tenant/edit-tenant.component';
+import { InvoiceTypesComponent } from './invoice-types/invoice-types.component';
+import { NewInvoiceTypeComponent } from './invoice-types/new-invoice-type/new-invoice-type.component';
 
 @NgModule({
   declarations: [
@@ -313,7 +316,9 @@ import { EditTenantComponent } from './tenants/edit-tenant/edit-tenant.component
     SuperAdminAccountInfoComponent,
     SuperAdminInformationComponent,
     SuperAdminBillingInfoComponent,
-    EditTenantComponent
+    EditTenantComponent,
+    InvoiceTypesComponent,
+    NewInvoiceTypeComponent
   ],
   imports: [
     BrowserModule,
@@ -336,6 +341,7 @@ import { EditTenantComponent } from './tenants/edit-tenant/edit-tenant.component
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     CarouselModule,
     InputTextModule,
     ButtonModule,
