@@ -28,6 +28,7 @@ export class NewInvoiceTypeComponent implements OnInit {
   create () {
     this.createNew.emit({ name: this.newName, period: this.selectedPeriod });
     this.newName = null;
+    this.selectedPeriod = 0;
   }
 
 }

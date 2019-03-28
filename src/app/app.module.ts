@@ -69,6 +69,7 @@ import { GetToSendEmailsService } from './services/get-to-send-emails.service';
 import { SwitchProjectService } from './services/switch-project.service';
 import { AssistantProgressesPropsService } from './reports/assistant-progresses-props.service';
 import { DifferenceReportsService } from './reports/difference-reports.service';
+import { InvoiceTypesBreadcrumbDataService } from './invoice-types/invoice-types-breadcrumb/invoice-types-breadcrumb-data.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -225,6 +226,8 @@ import { SuperAdminBillingInfoComponent } from './super-admin-account-info/super
 import { EditTenantComponent } from './tenants/edit-tenant/edit-tenant.component';
 import { InvoiceTypesComponent } from './invoice-types/invoice-types.component';
 import { NewInvoiceTypeComponent } from './invoice-types/new-invoice-type/new-invoice-type.component';
+import { InvoiceTypeDetailsComponent } from './invoice-types/invoice-type-details/invoice-type-details.component';
+import { InvoiceTypesBreadcrumbComponent } from './invoice-types/invoice-types-breadcrumb/invoice-types-breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -318,7 +321,9 @@ import { NewInvoiceTypeComponent } from './invoice-types/new-invoice-type/new-in
     SuperAdminBillingInfoComponent,
     EditTenantComponent,
     InvoiceTypesComponent,
-    NewInvoiceTypeComponent
+    NewInvoiceTypeComponent,
+    InvoiceTypeDetailsComponent,
+    InvoiceTypesBreadcrumbComponent
   ],
   imports: [
     BrowserModule,
@@ -435,6 +440,7 @@ import { NewInvoiceTypeComponent } from './invoice-types/new-invoice-type/new-in
     DifferenceReportsService,
     SwitchProjectService,
     AssistantProgressesPropsService,
+    InvoiceTypesBreadcrumbDataService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

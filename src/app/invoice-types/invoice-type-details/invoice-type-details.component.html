@@ -1,0 +1,102 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<app-aqis-invoice-types-breadcrumb *ngIf="invoice_type" [breadcrumbList]="breadcrumbList"></app-aqis-invoice-types-breadcrumb>
+
+<div class="ui-g" *ngIf="invoice_type">
+  <div class="ui-g-6">
+    <section class="invoice-details-invoice-type">
+      <div class="ui-g">
+        <div class="ui-g-3 invoice-details-invoice-name"><small class="float-right">Invoice Type</small></div>
+        <div class="ui-g-9 invoice-details-invoice-name">
+          <h3>{{invoice_type.name}}</h3>
+        </div>
+      </div>
+      <div class="ui-g invoice-details-items-list">
+        <div class="ui-g-6">
+          <ul class="list-group" [@listAnimation]="invoice_type.users.length">
+            <li class="list-group-item text-center invoice-details-list-header">Users</li>
+            <li class="list-group-item pb-0 pt-0"
+                *ngFor="let user of invoice_type.users; let i = index">
+              <div class="ui-g">
+                <div class="ui-g-10">
+                  {{user.name || user.email}}
+                </div>
+                <div class="ui-g-2">
+                  <i class="fa fa-minus cursor-pointer"
+                     ngbTooltip="Remove User From Invoice Type"
+                     (click)="removeUser(user, i)"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="ui-g-6">
+          <ul class="list-group" [@listAnimation]="invoice_type.projects.length">
+            <li class="list-group-item text-center invoice-details-list-header">Projects</li>
+            <li class="list-group-item pb-0 pt-0"
+                *ngFor="let project of invoice_type.projects; let i = index">
+              <div class="ui-g">
+                <div class="ui-g-10">
+                  {{project.name}}
+                </div>
+                <div class="ui-g-2">
+                  <i class="fa fa-minus cursor-pointer"
+                     ngbTooltip="Remove Project from Invoice Type"
+                     (click)="removeProject(project, i)"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="ui-g-6">
+    <section class="invoice-details-tenant">
+      <div class="ui-g">
+        <div class="ui-g-3 invoice-details-tenant-name"><small class="float-right">Tenant</small></div>
+        <div class="ui-g-9 invoice-details-tenant-name">
+          <h3>{{invoice_type.tenant.name}}</h3>
+        </div>
+      </div>
+      <div class="ui-g invoice-details-items-list">
+        <div class="ui-g-6">
+          <ul class="list-group" [@listAnimation]="users.length">
+            <li class="list-group-item text-center invoice-details-list-header">Users</li>
+            <li class="list-group-item pb-0 pt-0"
+                *ngFor="let user of users; let i = index">
+              <div class="ui-g">
+                <div class="ui-g-10">
+                  {{user.name || user.email}}
+                </div>
+                <div class="ui-g-2">
+                  <i class="fa fa-plus cursor-pointer"
+                     (click)="addUser(user, i)"
+                     ngbTooltip="Add User to Invoice Type"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="ui-g-6">
+          <ul class="list-group" [@listAnimation]="projects.length">
+            <li class="list-group-item text-center invoice-details-list-header">Projects</li>
+            <li class="list-group-item pb-0 pt-0"
+                *ngFor="let project of projects; let i = index">
+              <div class="ui-g">
+                <div class="ui-g-10">
+                  {{project.name}}
+                </div>
+                <div class="ui-g-2">
+                  <i class="fa fa-plus cursor-pointer"
+                     (click)="addProject(project, i)"
+                     ngbTooltip="Add Project to Invoice Type"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

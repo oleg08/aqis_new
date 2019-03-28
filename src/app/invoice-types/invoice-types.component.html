@@ -1,15 +1,10 @@
 <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
 
+<app-aqis-invoice-types-breadcrumb *ngIf="tenant" [breadcrumbList]="breadcrumbList"></app-aqis-invoice-types-breadcrumb>
+
 <div *ngIf="tenant" class="ui-g">
-  <div class="ui-g-1">
-    <button class="btn btn-default return-button"
-            ngbTooltip="Return to tenants"
-            [routerLink]="['/tenants']">
-      <i class="fa fa-chevron-left"></i>
-    </button>
-  </div>
   <div class="ui-g-4 invoice-tenant-name mb-1 pr-0 text-center"><h3>{{tenant.name}}</h3></div>
-  <div class="ui-g-7 new-invoice-type pl-0 mb-1">
+  <div class="ui-g-8 new-invoice-type pl-0 mb-1">
     <app-aqis-new-invoice-type (createNew)="createNew($event)"></app-aqis-new-invoice-type>
   </div>
 
@@ -29,6 +24,7 @@
           </div>
           <div class="ui-g-1">
             <i class="fa fa-chevron-right float-right p-3 cursor-pointer"
+               [routerLink]="['/invoice_types/', invoice_type.id]"
                ngbTooltip="Go to Details..."></i>
           </div>
         </div>

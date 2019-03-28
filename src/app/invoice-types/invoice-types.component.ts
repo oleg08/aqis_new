@@ -5,9 +5,11 @@ import { CapitalizeService } from '../services/capitalize.service';
 import { environment } from '../../environments/environment';
 import { Message        } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { InvoiceTypesBreadcrumbDataService } from './invoice-types-breadcrumb/invoice-types-breadcrumb-data.service';
 import { Tenant } from '../interfaces/tenant';
 import { InvoiceType } from '../interfaces/invoice-type';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
+import {InvoiceTypesBreadcrumb} from './invoice-types-breadcrumb/invoice-types-breadcrumb.component';
 
 @Component({
   selector: 'app-invoice-types',
@@ -30,17 +32,19 @@ import {animate, query, stagger, style, transition, trigger} from '@angular/anim
       ])
     ])
   ],
-  providers: [MessageService, CapitalizeService]
+  providers: [MessageService, CapitalizeService, InvoiceTypesBreadcrumbDataService]
 })
 export class InvoiceTypesComponent implements OnInit {
 
   tenant: Tenant;
   msgs: Message[] = [];
+  breadcrumbList: InvoiceTypesBreadcrumb[];
 
   constructor(private http: HttpClient,
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService,
-              private capitalizeService: CapitalizeService) { }
+              private capitalizeService: CapitalizeService,
+              private breadcrumbData: InvoiceTypesBreadcrumbDataService) { }
 
   ngOnInit() {
     const self = this;
@@ -53,6 +57,8 @@ export class InvoiceTypesComponent implements OnInit {
         self.tenant.invoice_types.forEach(it => {
           it.period = self.capitalizeService.concatAndCapitalize(it.period, '_', ' ');
         });
+
+        self.breadcrumbList = [...self.breadcrumbData.list(2, self.tenant)];
       } else {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: res['message']});
       }
@@ -110,5 +116,4 @@ export class InvoiceTypesComponent implements OnInit {
       }
     );
   }
-
 }

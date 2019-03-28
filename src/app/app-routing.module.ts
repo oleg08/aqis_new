@@ -34,6 +34,7 @@ import { InfoLinksComponent } from './info-links/info-links.component';
 import { ProgressAssistantComponent } from './reports/progress-assistant/progress-assistant.component';
 import { ProgressProjectsAssistantsComponent } from './reports/progress-projects-assistants/progress-projects-assistants.component';
 import { InvoiceTypesComponent } from './invoice-types/invoice-types.component';
+import { InvoiceTypeDetailsComponent } from './invoice-types/invoice-type-details/invoice-type-details.component';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -241,6 +242,11 @@ const routes: Routes = [
   {
     path: 'invoices_list/:id',
     component: InvoiceTypesComponent,
+    canActivate: [ForceSslGuard, SuperAdminGuard]    // super-admin-guard
+  },
+  {
+    path: 'invoice_types/:id',
+    component: InvoiceTypeDetailsComponent,
     canActivate: [ForceSslGuard, SuperAdminGuard]    // super-admin-guard
   }
 ];
