@@ -10,6 +10,37 @@
         <div class="ui-g-9 invoice-details-invoice-name">
           <h3>{{invoice_type.name}}</h3>
         </div>
+        <div class="ui-g-6 image-sign">
+          <div class="ui-g">
+            <div class="ui-g-12">
+              <input #inputFile type="file" size="60" style="display: none" (change)="onFileSelected($event)">
+              <div class="btn-group-vertical">
+                <button class="btn btn-info" (click)="onUpload()">
+                  <span *ngIf="selectedFile">
+                    {{selectedFile.name}}
+                    <i class="fa fa-upload"></i>
+                  </span>
+                  <span *ngIf="!selectedFile">
+                    Choose Sign
+                    <i class="fa fa-plus"></i>
+                  </span>
+                </button>
+                <button *ngIf="invoice_type.sign_image_url"
+                        class="btn btn-danger"
+                        (click)="clearSignImage()">
+                  Clear <i class="fa fa-minus-circle"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-6 image-sign">
+          <img *ngIf="invoice_type.sign_image_url && invoice_type.sign_image_content_type === 'image/png'"
+               [src]="invoice_type.sign_image_url" class="width100">
+        </div>
+        <div *ngIf="loadingSign" class="ui-g-12 image-sign">
+          <p-progressBar [value]="loadSign"></p-progressBar>
+        </div>
       </div>
       <div class="ui-g invoice-details-items-list">
         <div class="ui-g-6">
