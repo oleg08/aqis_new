@@ -70,6 +70,7 @@ import { SwitchProjectService } from './services/switch-project.service';
 import { AssistantProgressesPropsService } from './reports/assistant-progresses-props.service';
 import { DifferenceReportsService } from './reports/difference-reports.service';
 import { InvoiceTypesBreadcrumbDataService } from './invoice-types/invoice-types-breadcrumb/invoice-types-breadcrumb-data.service';
+import { InvoiceTypesPeriodsDataService } from './invoice-types/invoice-types-periods-data.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -228,6 +229,8 @@ import { InvoiceTypesComponent } from './invoice-types/invoice-types.component';
 import { NewInvoiceTypeComponent } from './invoice-types/new-invoice-type/new-invoice-type.component';
 import { InvoiceTypeDetailsComponent } from './invoice-types/invoice-type-details/invoice-type-details.component';
 import { InvoiceTypesBreadcrumbComponent } from './invoice-types/invoice-types-breadcrumb/invoice-types-breadcrumb.component';
+import { InvoiceTypeImageLoadingComponent } from './invoice-types/invoice-type-image-loading/invoice-type-image-loading.component';
+import { InvoiceTypeEditComponent } from './invoice-types/invoice-type-edit/invoice-type-edit.component';
 
 @NgModule({
   declarations: [
@@ -323,7 +326,9 @@ import { InvoiceTypesBreadcrumbComponent } from './invoice-types/invoice-types-b
     InvoiceTypesComponent,
     NewInvoiceTypeComponent,
     InvoiceTypeDetailsComponent,
-    InvoiceTypesBreadcrumbComponent
+    InvoiceTypesBreadcrumbComponent,
+    InvoiceTypeImageLoadingComponent,
+    InvoiceTypeEditComponent
   ],
   imports: [
     BrowserModule,
@@ -441,6 +446,7 @@ import { InvoiceTypesBreadcrumbComponent } from './invoice-types/invoice-types-b
     SwitchProjectService,
     AssistantProgressesPropsService,
     InvoiceTypesBreadcrumbDataService,
+    InvoiceTypesPeriodsDataService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

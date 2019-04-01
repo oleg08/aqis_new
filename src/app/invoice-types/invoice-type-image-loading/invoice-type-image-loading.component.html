@@ -1,0 +1,32 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<div class="ui-g">
+  <div class="ui-g-6 image-sign">
+    <input #inputFile type="file" size="60" style="display: none" (change)="onFileSelected($event)">
+    <div class="btn-group-vertical">
+      <button class="btn btn-default invoice-image-load" (click)="onUpload()">
+        <span *ngIf="selectedFile">
+          {{selectedFile.name}}
+          <i class="fa fa-upload"></i>
+        </span>
+        <span *ngIf="!selectedFile">
+          Choose {{capitalizedProp}}
+          <i class="fa fa-plus"></i>
+        </span>
+      </button>
+      <button *ngIf="invoice_type[prop + '_image_url']"
+              class="btn btn-default invoice-image-clear"
+              (click)="clear()">
+        Clear <i class="fa fa-minus-circle float-right"></i>
+      </button>
+    </div>
+  </div>
+  <div class="ui-g-6 image-sign">
+    <img *ngIf="invoice_type[prop + '_image_url'] && invoice_type[prop + '_image_content_type'] === 'image/png'"
+         [src]="invoice_type[prop + '_image_url']" class="width100">
+  </div>
+  <div *ngIf="loading" class="ui-g-12 image-sign">
+    <p-progressBar [value]="loadValue"></p-progressBar>
+  </div>
+</div>
+

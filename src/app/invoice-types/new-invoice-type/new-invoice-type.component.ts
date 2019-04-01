@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { InvoiceTypesPeriodsDataService } from '../invoice-types-periods-data.service';
 
 export interface InvoicePeriod {
   id?: number;
@@ -8,21 +9,21 @@ export interface InvoicePeriod {
 @Component({
   selector: 'app-aqis-new-invoice-type',
   templateUrl: './new-invoice-type.component.html',
-  styleUrls: ['./new-invoice-type.component.scss']
+  styleUrls: ['./new-invoice-type.component.scss'],
+  providers: [InvoiceTypesPeriodsDataService]
 })
 export class NewInvoiceTypeComponent implements OnInit {
 
   newName: string;
   selectedPeriod = 0;
   @Output() createNew:  EventEmitter<object> = new EventEmitter<object>();
-  periods: InvoicePeriod[] = [
-    {id: 0, label: 'Two Weeks'},
-    {id: 1, label: 'One Month'}
-  ];
+  periods: InvoicePeriod[];
 
-  constructor() { }
+  constructor(private periodsData: InvoiceTypesPeriodsDataService) { }
 
   ngOnInit() {
+    const self = this;
+    self.periods = self.periodsData.getPeriods();
   }
 
   create () {

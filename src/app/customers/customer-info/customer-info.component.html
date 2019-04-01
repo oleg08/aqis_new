@@ -148,7 +148,7 @@
           [baseZIndex]="10000">
   <p-header>Participants of company <u>{{customer['name']}}</u></p-header>
   <div class="ui-g">
-    <div class="ui-g-11">
+    <div *ngIf="!super_admin" class="ui-g-11">
       <app-aqis-participants-list bind-participants="customer_tenant['participants']"
                                   (deleteParticipant)="removeParticipant($event)"
                                   (showMessage)="callMessageService($event)">

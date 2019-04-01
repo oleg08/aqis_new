@@ -1,17 +1,17 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {HttpClient, HttpEventType} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
-import {environment} from '../../../environments/environment';
-import {Message} from 'primeng/primeng';
-import {MessageService} from 'primeng/components/common/messageservice';
-import {DifferenceArraysService} from '../../services/difference-arrays.service';
-import {InvoiceTypesBreadcrumbDataService} from '../invoice-types-breadcrumb/invoice-types-breadcrumb-data.service';
-import {InvoiceType} from '../../interfaces/invoice-type';
-import {User} from '../../interfaces/user';
-import {Project} from '../../interfaces/project';
-import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
-import {InvoiceTypesBreadcrumb} from '../invoice-types-breadcrumb/invoice-types-breadcrumb.component';
+import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import { HttpClient, HttpEventType } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { Message } from 'primeng/primeng';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { FlashHighlightsService } from '../../services/flash-highlights.service';
+import { DifferenceArraysService } from '../../services/difference-arrays.service';
+import { InvoiceTypesBreadcrumbDataService } from '../invoice-types-breadcrumb/invoice-types-breadcrumb-data.service';
+import { InvoiceType } from '../../interfaces/invoice-type';
+import { User } from '../../interfaces/user';
+import { Project } from '../../interfaces/project';
+import { animate, query, stagger, style, transition, trigger } from '@angular/animations';
+import { InvoiceTypesBreadcrumb } from '../invoice-types-breadcrumb/invoice-types-breadcrumb.component';
 
 @Component({
   selector: 'app-aqis-invoice-type-details',
@@ -34,7 +34,12 @@ import {InvoiceTypesBreadcrumb} from '../invoice-types-breadcrumb/invoice-types-
       ])
     ])
   ],
-  providers: [MessageService, DifferenceArraysService, InvoiceTypesBreadcrumbDataService]
+  providers: [
+    MessageService,
+    DifferenceArraysService,
+    InvoiceTypesBreadcrumbDataService,
+    FlashHighlightsService
+  ]
 })
 export class InvoiceTypeDetailsComponent implements OnInit {
 
@@ -43,18 +48,21 @@ export class InvoiceTypeDetailsComponent implements OnInit {
   users: User[];
   projects: Project[];
   breadcrumbList: InvoiceTypesBreadcrumb[];
-  selectedFile: File = null;
   loadSign: number;
   loadingSign = false;
+  loadEmblem: number;
+  loadingEmblem = false;
 
   @ViewChild('inputFile') inputFile: ElementRef;
+  @ViewChild('invoiceTypeEdit') el: ElementRef;
 
   constructor(private http: HttpClient,
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService,
               private differenceArray: DifferenceArraysService,
               private breadcrumbData: InvoiceTypesBreadcrumbDataService,
-              private sanitizer: DomSanitizer) { }
+              private flashHighlights: FlashHighlightsService,
+              public rd: Renderer2) { }
 
   ngOnInit() {
     const self = this;
@@ -82,6 +90,26 @@ export class InvoiceTypeDetailsComponent implements OnInit {
       );
     };
     self.activatedRoute.params.subscribe(routeSuccess, observableFailed);
+  }
+
+  saveInvoiceType(data) {
+    const self = this;
+    const params = {};
+    params[data['field_name']] = data['value'];
+    self.http.patch(`${environment.serverUrl}/invoice_types/${self.invoice_type.id}.json`, params).subscribe(
+      res => {
+        if (res['invoice_type']) {
+          self.flashHighlights.handler(self, '#invoice_type_', data['field_name'], 'success-updated');
+        } else {
+          self.invoice_type[data['field_name']] = data['originalValue'];
+          self.flashHighlights.handler(self, '#invoice_type_', data['field_name'], 'failed-update');
+        }
+      },
+      err => {
+        self.invoice_type[data['field_name']] = data['originalValue'];
+        self.flashHighlights.handler(self, '#invoice_type_', data['field_name'], 'failed-update');
+      }
+    );
   }
 
   addUser(user, index) {
@@ -169,64 +197,48 @@ export class InvoiceTypeDetailsComponent implements OnInit {
     );
   }
 
-  onFileSelected(data) {
-    this.selectedFile = data.target.files[0];
-  }
-
-  onUpload() {
+  onUpload(data) {
     const self = this;
-
-    if (!self.selectedFile) {
-      const inputFile: HTMLElement = self.inputFile.nativeElement as HTMLElement;
-      inputFile.click();
-      return;
+    if (data['prop'] === 'sign') {
+      self.loadingSign = true;
+    } else if (data['prop'] === 'emblem') {
+      self.loadingEmblem = true;
     }
 
-    if (self.selectedFile.type !== 'image/png') {
-      self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Must be format png`});
-      self.selectedFile = null;
-      return;
-    }
-
-    self.loadingSign = true;
-    const fd: FormData = new FormData();
-    fd.append('sign_image', this.selectedFile, this.selectedFile.name);
-    this.http.post(`${environment.serverUrl}/invoice_type_sign_image/${self.invoice_type.id}.json`, fd,
+    self.http.post(`${environment.serverUrl}/invoice_type_${data['prop']}_image/${self.invoice_type.id}.json`, data['form_data'],
       { reportProgress: true, observe: 'events' }).subscribe(
       event => {
         if (event.type === HttpEventType.UploadProgress) {
-          self.loadSign = Math.round(event.loaded / event.total * 100);
+          if (data['prop'] === 'sign') {
+            self.loadSign = Math.round(event.loaded / event.total * 100);
+          } else if (data['prop'] === 'emblem') {
+            self.loadEmblem = Math.round(event.loaded / event.total * 100);
+          }
         } else if (event.type === HttpEventType.Response) {
           if (event.body['invoice_type']) {
-            self.invoice_type.sign_image_url = event.body['invoice_type']['sign_image_url'];
-            self.invoice_type.sign_image_content_type = event.body['invoice_type']['sign_image_content_type'];
-            self.selectedFile = null;
-            self.loadingSign = false;
-            self.loadSign = null;
+            self.invoice_type[data['prop'] + '_image_url'] = event.body['invoice_type'][data['prop'] + '_image_url'];
+            self.invoice_type[data['prop'] + '_image_content_type'] = event.body['invoice_type'][data['prop'] + '_image_content_type'];
+            self.clearLoadingValues();
           } else {
             self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't upload image`});
-            self.selectedFile = null;
-            self.loadingSign = false;
-            self.loadSign = null;
+            self.clearLoadingValues();
           }
         }
       },
       err => {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't upload image`});
-        self.selectedFile = null;
-        self.loadingSign = false;
-        self.loadSign = null;
+        self.clearLoadingValues();
       }
     );
   }
 
-  clearSignImage() {
+  clearSignImage(data) {
     const self = this;
-    self.http.delete(`${environment.serverUrl}/invoice_type_sign_image/${self.invoice_type.id}.json`
+    self.http.delete(`${environment.serverUrl}/invoice_type_${data['prop']}_image/${self.invoice_type.id}.json`
     ).subscribe(
       res => {
         if (res['invoice_type']) {
-          self.invoice_type.sign_image_url = null;
+          self.invoice_type[data['prop'] + '_image_url'] = null;
         } else {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't delete image`});
         }
@@ -237,7 +249,11 @@ export class InvoiceTypeDetailsComponent implements OnInit {
     );
   }
 
-  secureUrl(url) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  clearLoadingValues() {
+    const self = this;
+    self.loadingSign = false;
+    self.loadSign = null;
+    self.loadingEmblem = false;
+    self.loadEmblem = null;
   }
 }

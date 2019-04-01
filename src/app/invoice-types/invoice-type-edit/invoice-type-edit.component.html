@@ -1,0 +1,69 @@
+<div class="ui-g">
+  <div id="invoice_type_name" class="ui-g-12">
+    <app-text-field-component [object]="invoice_type"
+                              field_name="name"
+                              (valueChanged)="changeValue($event)">
+    </app-text-field-component>
+  </div>
+  <div id="invoice_type_period" class="ui-g-6">
+    <ng-select [(ngModel)]="invoice_type.period_int"
+               (change)="changePeriod($event)"
+               [clearable]="false"
+               placeholder="Period">
+      <ng-option *ngFor="let period of periods" [value]="period.id">{{period.label}}</ng-option>
+    </ng-select>
+  </div>
+  <div id="invoice_type_license_cost" class="ui-g-6">
+    <label><small>License Cost</small></label>
+    <app-text-field-component [object]="invoice_type"
+                              field_name="license_cost"
+                              pattern="\d{1,7}(.)?\d{0,2}"
+                              pattern_name="number with 0..2 decimals"
+                              (valueChanged)="changeValue($event)">
+    </app-text-field-component>
+  </div>
+  <div id="invoice_type_discount" class="ui-g-6">
+    <label><small>Discount</small></label>
+    <app-text-field-component [object]="invoice_type"
+                              field_name="discount"
+                              pattern_name="number with 0..2 decimals"
+                              pattern="\d{1,7}(.)?\d{0,2}"
+                              (valueChanged)="changeValue($event)">
+    </app-text-field-component>
+  </div>
+  <div id="invoice_type_discount_sign" class="ui-g-6">
+    <ng-select [(ngModel)]="invoice_type.discount_sign_int"
+               (change)="changeDiscountSign($event)"
+               [clearable]="false"
+               placeholder="Discount">
+      <ng-option *ngFor="let sign of discount_signs" [value]="sign.id">{{sign.label}}</ng-option>
+    </ng-select>
+  </div>
+  <div id="invoice_type_agent_rate" class="ui-g-4">
+    <label><small>Agent Rate</small></label>
+    <app-text-field-component [object]="invoice_type"
+                              field_name="agent_rate"
+                              pattern_name="number with 0..2 decimals"
+                              pattern="\d{1,7}(.)?\d{0,2}"
+                              (valueChanged)="changeValue($event)">
+    </app-text-field-component>
+  </div>
+  <div id="invoice_type_assistant_rate" class="ui-g-4">
+    <label><small>Assistant Rate</small></label>
+    <app-text-field-component [object]="invoice_type"
+                              field_name="assistant_rate"
+                              pattern_name="number with 0..2 decimals"
+                              pattern="\d{1,7}(.)?\d{0,2}"
+                              (valueChanged)="changeValue($event)">
+    </app-text-field-component>
+  </div>
+  <div id="invoice_type_min_hours" class="ui-g-4">
+    <label><small>Min Hours</small></label>
+    <app-text-field-component [object]="invoice_type"
+                              field_name="min_hours"
+                              pattern_name="number with 0..2 decimals"
+                              pattern="\d{1,7}(.)?\d{0,2}"
+                              (valueChanged)="changeValue($event)">
+    </app-text-field-component>
+  </div>
+</div>

@@ -25,11 +25,14 @@
 }
 
 .image-sign {
-  background-image: linear-gradient(rgba(21, 106, 242, 0.3), rgba(193, 212, 242, 0.3));
+  background-image: linear-gradient(rgba(247, 223, 116, 0.5), rgba(255, 245, 204, 0.5));
   border-bottom: #94c46d solid 0.1px;
 }
 
-.sign_progress {
-  background-color: rgba(193, 212,242,0.3);
-  border-bottom: #94c46d solid 0.1px;
+.image-emblem {
+  background-image: linear-gradient(rgba(244, 171, 119, 0.5), rgba(249, 225, 207, 0.5));
+}
+
+.invoice-type-edit {
+  background-image: linear-gradient(rgba(72, 214, 209, 0.5), rgba(198, 244, 243, 0.5));
 }
