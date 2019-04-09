@@ -241,6 +241,7 @@ import { InvoiceTypeImageLoadingComponent } from './invoice-types/invoice-type-i
 import { InvoiceTypeEditComponent } from './invoice-types/invoice-type-edit/invoice-type-edit.component';
 import { AssistantStepsHoursComponent } from './assistant-steps-hours/assistant-steps-hours.component';
 import { DailyReportEditComponent } from './assistant-steps-hours/daily-report-edit/daily-report-edit.component';
+import { AssistantDailyReportsComponent } from './assistant-daily-reports/assistant-daily-reports.component';
 
 @NgModule({
   declarations: [
@@ -340,7 +341,8 @@ import { DailyReportEditComponent } from './assistant-steps-hours/daily-report-e
     InvoiceTypeImageLoadingComponent,
     InvoiceTypeEditComponent,
     AssistantStepsHoursComponent,
-    DailyReportEditComponent
+    DailyReportEditComponent,
+    AssistantDailyReportsComponent
   ],
   imports: [
     BrowserModule,

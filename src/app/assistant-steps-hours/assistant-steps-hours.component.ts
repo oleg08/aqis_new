@@ -67,7 +67,8 @@ export class AssistantStepsHoursComponent implements OnInit {
   };
   current_step: StepDailyReport;
 
-  constructor(private getReportData: GetReportDataService, private messageService: MessageService) { }
+  constructor(private getReportData: GetReportDataService,
+              private messageService: MessageService) { }
 
   ngOnInit() {
     const self = this;

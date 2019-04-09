@@ -81,6 +81,16 @@
         </ul>
       </li>
 
+      <li *ngIf="(authService.userSignedIn$ | async) && ((authService.userAdmin$ | async) || (authService.userSuperAdmin$ | async))"
+          class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuDailyReports" data-toggle="dropdown">
+          <b>Daily Reports</b>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" [routerLink]="['/assistant_daily_reports']">Assistant Daily Reports</a>
+        </div>
+      </li>
+
       <li *ngIf="(authService.userSignedIn$ | async) && projects && projects.length > 0" class="nav-item dropdown toolbar-dropdown-item">
         <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuProjects" data-toggle="dropdown">
           <b>Projects</b>
@@ -95,7 +105,7 @@
       </li>
 
       <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAssistant$ | async)" class="toolbar-item toolbar-dropdown-item">
-        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/steps_daily_reports']"><b>Daily Reports</b></a>
+        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/steps_daily_reports']"><b>Assistant Steps</b></a>
       </li>
 
       <li class="toolbar-item" *ngIf="!(authService.userSignedIn$ | async)">

@@ -1,0 +1,46 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<p-dialog header="Edit Report Data"
+          [(visible)]="displayDialog"
+          [transitionOptions]="'500ms'"
+          (onHide)="closeDialog()">
+  <div *ngIf="current_report">
+    <app-aqis-daily-report-edit #dailyReport
+                                (submitValues)="editReport($event)"
+                                (onDelete)="deleteReport()">
+    </app-aqis-daily-report-edit>
+  </div>
+</p-dialog>
+
+<section *ngIf="assistants" class="assistants-daily-reports">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let assistant of assistants"
+                          (opened)="openPanel(assistant)"
+                          (closed)="closePanel()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h5 class="assistant-name mr-2" ngbTooltip="Assistant">{{assistant.name || assistant.email}}</h5>
+          <br>
+          <small [matBadge]="assistant.tenant_name" ngbTooltip="Tenant"></small>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-grid-list cols="3" rowHeight="10:1">
+        <mat-grid-tile class="list-data-header">Description</mat-grid-tile>
+        <mat-grid-tile class="list-data-header">Date</mat-grid-tile>
+        <mat-grid-tile class="list-data-header">Hours</mat-grid-tile>
+      </mat-grid-list>
+      <ul class="list-group mt-1" [@listAnimation]="assistant.assistant_daily_reports.length">
+        <li class="list-group-item list-data-row"
+            [ngClass]="{'cursor-pointer':super_admin}"
+            *ngFor="let report of assistant.assistant_daily_reports"
+            (click)="showEdit(report)">
+          <mat-grid-list cols="3" rowHeight="10:1">
+            <mat-grid-tile class="list-data-item">{{report.description}}</mat-grid-tile>
+            <mat-grid-tile class="list-data-item">{{report.report_date | date}}</mat-grid-tile>
+            <mat-grid-tile class="list-data-item">{{report.hours}}</mat-grid-tile>
+          </mat-grid-list>
+        </li>
+      </ul>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>
