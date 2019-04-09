@@ -94,6 +94,10 @@
         </div>
       </li>
 
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userAssistant$ | async)" class="toolbar-item toolbar-dropdown-item">
+        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/steps_daily_reports']"><b>Daily Reports</b></a>
+      </li>
+
       <li class="toolbar-item" *ngIf="!(authService.userSignedIn$ | async)">
         <a (click)="presentAuthDialog()" class="nav-item m2 cursor-pointer profile-link" >
           <b>LOGIN</b>

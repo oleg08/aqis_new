@@ -1,0 +1,96 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<p-dialog header="Edit Report Data"
+          [(visible)]="displayDialog"
+          [transitionOptions]="'500ms'"
+          (onHide)="closeDialog()">
+  <div *ngIf="current_report">
+    <app-aqis-daily-report-edit #dailyReport
+                                (submitValues)="editReport($event)"
+                                (onDelete)="deleteReport()"
+    >
+    </app-aqis-daily-report-edit>
+  </div>
+</p-dialog>
+
+<section *ngIf="steps" style="background-color: white">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let step of steps" (opened)="openPanel(step)" (closed)="closePanel()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h5 ngbTooltip="Step" class="step-name mr-2">{{step.name}}</h5>
+          <br>
+          <small ngbTooltip="Project" [matBadge]="step.project_name"></small>
+        </mat-panel-title>
+        <mat-panel-description>
+          <span ngbTooltip="Company" class="company-name">{{step.company_name}}</span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <mat-grid-list cols="3" rowHeight="10:1">
+        <mat-grid-tile class="list-data-header">
+          Description
+        </mat-grid-tile>
+        <mat-grid-tile class="list-data-header">Date</mat-grid-tile>
+        <mat-grid-tile class="list-data-header">Hours</mat-grid-tile>
+      </mat-grid-list>
+      <ul class="list-group mt-1" [@listAnimation]="step.assistant_daily_reports.length">
+        <li class="list-group-item list-data-row cursor-pointer"
+            *ngFor="let report of step.assistant_daily_reports"
+            (click)="showEdit(report)">
+          <mat-grid-list cols="3" rowHeight="10:1">
+            <mat-grid-tile class="list-data-item">{{report.description}}</mat-grid-tile>
+            <mat-grid-tile class="list-data-item">{{report.report_date | date}}</mat-grid-tile>
+            <mat-grid-tile class="list-data-item">{{report.hours}}</mat-grid-tile>
+          </mat-grid-list>
+        </li>
+      </ul>
+
+      <div class="ui-g">
+        <div class="ui-g-12">Add new Report Data</div>
+        <div class="ui-g-6">
+          <textarea class="form-control"
+                    [ngClass]="{'has-error' : descriptionHasError}"
+                    (ngModelChange)="descriptionChanged($event)"
+                    (blur)="blurDescription()"
+                    pInputTextarea
+                    [(ngModel)]="newDescription"
+                    placeholder="Description">
+          </textarea>
+          <span *ngIf="descriptionHasError"
+                class="error-message">
+            <small>Description required</small>
+          </span>
+
+        </div>
+        <div class="ui-g-3">
+          <p-calendar [(ngModel)]="initDate" [showIcon]="true"></p-calendar>
+          <br *ngIf="!initDate">
+          <span *ngIf="!initDate" class="error-message">
+            <small>Date required</small>
+          </span>
+        </div>
+        <div class="ui-g-2">
+          <input class="form-control"
+                 [ngClass]="{'has-error' : hoursHasErrors}"
+                 [(ngModel)]="newHours"
+                 (ngModelChange)="hoursChanged($event)"
+                 (blur)="blurHours()"
+                 placeholder="Hours">
+          <span *ngIf="hoursHasErrors" class="error-message">
+            <small>Must be number between 0 and 100</small>
+          </span>
+        </div>
+        <div class="ui-g-1">
+          <button mat-raised-button
+                  ngbTooltip="Create Report"
+                  [disabled]="!newDescription || !initDate || !newHours || descriptionHasError || hoursHasErrors"
+                  (click)="createReport()">
+            <i class="fa fa-check"></i>
+          </button>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-expansion-panel>
+  </mat-accordion>
+</section>

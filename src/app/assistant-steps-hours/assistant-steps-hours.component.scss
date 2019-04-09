@@ -1,0 +1,28 @@
+.list-data-header {
+  border-bottom: #3f51b5 solid 0.4px;
+}
+
+.list-data-item {
+  border-bottom: #99ccff solid 0.2px;
+}
+
+.list-data-row:hover {
+  background-color: rgba(212, 225, 244, 0.3);
+}
+
+.step-name {
+  color: slateblue;
+}
+
+.company-name {
+  color: slategray;
+}
+
+.has-error {
+  border-bottom-color: red;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+}

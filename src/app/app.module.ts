@@ -19,7 +19,13 @@ import {
   MatExpansionModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatListModule,
+  MatDividerModule,
+  MatGridListModule,
+  MatDialogModule,
+  MatButtonModule,
+  MatBadgeModule
 } from '@angular/material';
 
 // import 'materialize-css';
@@ -71,6 +77,7 @@ import { AssistantProgressesPropsService } from './reports/assistant-progresses-
 import { DifferenceReportsService } from './reports/difference-reports.service';
 import { InvoiceTypesBreadcrumbDataService } from './invoice-types/invoice-types-breadcrumb/invoice-types-breadcrumb-data.service';
 import { InvoiceTypesPeriodsDataService } from './invoice-types/invoice-types-periods-data.service';
+import { GetReportDataService } from './assistant-steps-hours/get-report-data.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -91,7 +98,7 @@ import {
   MultiSelectModule,
   DataGridModule,
   DataListModule,
-  DragDropModule,
+  DragDropModule
 } from 'primeng/primeng';
 
 import { MessageService      } from 'primeng/primeng';
@@ -129,6 +136,7 @@ import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { RadioButtonModule      } from 'primeng/radiobutton';
 import { VirtualScrollerModule  } from 'primeng/virtualscroller';
 import { ToggleButtonModule     } from 'primeng/togglebutton';
+import { TreeTableModule        } from 'primeng/primeng';
 
 // components
 import { AngularTokenModule } from 'angular-token';
@@ -231,6 +239,8 @@ import { InvoiceTypeDetailsComponent } from './invoice-types/invoice-type-detail
 import { InvoiceTypesBreadcrumbComponent } from './invoice-types/invoice-types-breadcrumb/invoice-types-breadcrumb.component';
 import { InvoiceTypeImageLoadingComponent } from './invoice-types/invoice-type-image-loading/invoice-type-image-loading.component';
 import { InvoiceTypeEditComponent } from './invoice-types/invoice-type-edit/invoice-type-edit.component';
+import { AssistantStepsHoursComponent } from './assistant-steps-hours/assistant-steps-hours.component';
+import { DailyReportEditComponent } from './assistant-steps-hours/daily-report-edit/daily-report-edit.component';
 
 @NgModule({
   declarations: [
@@ -328,7 +338,9 @@ import { InvoiceTypeEditComponent } from './invoice-types/invoice-type-edit/invo
     InvoiceTypeDetailsComponent,
     InvoiceTypesBreadcrumbComponent,
     InvoiceTypeImageLoadingComponent,
-    InvoiceTypeEditComponent
+    InvoiceTypeEditComponent,
+    AssistantStepsHoursComponent,
+    DailyReportEditComponent
   ],
   imports: [
     BrowserModule,
@@ -352,6 +364,12 @@ import { InvoiceTypeEditComponent } from './invoice-types/invoice-type-edit/invo
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatListModule,
+    MatDividerModule,
+    MatGridListModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatBadgeModule,
     CarouselModule,
     InputTextModule,
     ButtonModule,
@@ -394,7 +412,8 @@ import { InvoiceTypeEditComponent } from './invoice-types/invoice-type-edit/invo
     DataGridModule,
     DataListModule,
     DragDropModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    TreeTableModule
   ],
   providers: [
     AngularTokenService,
@@ -447,6 +466,7 @@ import { InvoiceTypeEditComponent } from './invoice-types/invoice-type-edit/invo
     AssistantProgressesPropsService,
     InvoiceTypesBreadcrumbDataService,
     InvoiceTypesPeriodsDataService,
+    GetReportDataService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

@@ -1,0 +1,57 @@
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="form-group">
+        <label>Description</label>
+        <textarea pInputTextarea
+                  class="form-control float-right"
+                  formControlName="description"
+                  [ngClass]="{'is-invalid': submitted && f.description.errors}">
+        </textarea>
+        <div *ngIf="submitted && f.description.errors" class="errors-feedback">
+          <div *ngIf="f.description.errors.required">
+            <small>Required</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-6">
+      <div class="form-group">
+        <label>Date</label>
+        <br>
+        <p-calendar [ngClass]="{'is-invalid': submitted && f.report_date.errors}"
+                    formControlName="report_date" [showIcon]="true">
+        </p-calendar>
+        <div *ngIf="submitted && f.report_date.errors" class="errors-feedback">
+          <div *ngIf="f.report_date.errors.required">
+            <small>Required</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-g-6">
+      <div class="form-group">
+        <label>Hours</label>
+        <input class="form-control"
+               [ngClass]="{'is-invalid': submitted && f.hours.errors}"
+               formControlName="hours">
+        <div *ngIf="submitted && f.hours.errors" class="errors-feedback">
+          <div *ngIf="f.hours.errors.required">
+            <small>Required</small>
+          </div>
+          <div *ngIf="f.hours.errors.min"><small>Must be more than 0</small></div>
+          <div *ngIf="f.hours.errors.max"><small>Must be less than 100</small></div>
+          <div *ngIf="f.hours.errors.pattern"><small>Must be number</small></div>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <div class="form-group">
+        <div class="btn-group float-right">
+          <button class="btn btn-info" type="submit" >Save</button>
+          <button class="btn btn-danger" (click)="delete()" type="button">Delete</button>
+        </div>
+      </div>
+    </p-footer>
+  </div>
+</form>
