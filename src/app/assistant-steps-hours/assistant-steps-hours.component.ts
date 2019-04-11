@@ -115,7 +115,6 @@ export class AssistantStepsHoursComponent implements OnInit {
       report_date: self.initDate
     };
     params['c_tenant_step_id'] = self.current_step.id;
-    params['user_id'] = 2;
 
     self.getReportData.createAssistantReport(params).then(
       (res: object) => {

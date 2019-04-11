@@ -9,6 +9,8 @@ export interface InvoiceType {
   users?: User[];
   tenant?: Tenant;
   period?: string;
+  date_range: Date[];
+  assistant_cost: number;
   period_int?: number;
   discount?: number;
   discount_sign?: string;

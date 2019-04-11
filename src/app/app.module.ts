@@ -25,7 +25,8 @@ import {
   MatGridListModule,
   MatDialogModule,
   MatButtonModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatCardModule
 } from '@angular/material';
 
 // import 'materialize-css';
@@ -78,6 +79,7 @@ import { DifferenceReportsService } from './reports/difference-reports.service';
 import { InvoiceTypesBreadcrumbDataService } from './invoice-types/invoice-types-breadcrumb/invoice-types-breadcrumb-data.service';
 import { InvoiceTypesPeriodsDataService } from './invoice-types/invoice-types-periods-data.service';
 import { GetReportDataService } from './assistant-steps-hours/get-report-data.service';
+import { SetRangeDateService } from './services/set-range-date.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -242,6 +244,7 @@ import { InvoiceTypeEditComponent } from './invoice-types/invoice-type-edit/invo
 import { AssistantStepsHoursComponent } from './assistant-steps-hours/assistant-steps-hours.component';
 import { DailyReportEditComponent } from './assistant-steps-hours/daily-report-edit/daily-report-edit.component';
 import { AssistantDailyReportsComponent } from './assistant-daily-reports/assistant-daily-reports.component';
+import { TenantInvoiceComponent } from './invoice-types/tenant-invoice/tenant-invoice.component';
 
 @NgModule({
   declarations: [
@@ -342,7 +345,8 @@ import { AssistantDailyReportsComponent } from './assistant-daily-reports/assist
     InvoiceTypeEditComponent,
     AssistantStepsHoursComponent,
     DailyReportEditComponent,
-    AssistantDailyReportsComponent
+    AssistantDailyReportsComponent,
+    TenantInvoiceComponent
   ],
   imports: [
     BrowserModule,
@@ -372,6 +376,7 @@ import { AssistantDailyReportsComponent } from './assistant-daily-reports/assist
     MatDialogModule,
     MatButtonModule,
     MatBadgeModule,
+    MatCardModule,
     CarouselModule,
     InputTextModule,
     ButtonModule,
@@ -469,6 +474,7 @@ import { AssistantDailyReportsComponent } from './assistant-daily-reports/assist
     InvoiceTypesBreadcrumbDataService,
     InvoiceTypesPeriodsDataService,
     GetReportDataService,
+    SetRangeDateService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

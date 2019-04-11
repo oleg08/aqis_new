@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-title>
+    <h4 class="text-center">
+      Invoice
+    </h4>
+    <mat-divider></mat-divider>
+    <small class="mt-2">Dates Range:</small>
+    <h5 class="text-right">{{invoice_type.date_range[0] | date}} - {{invoice_type.date_range[1] | date}}</h5>
+  </mat-card-title>
+  <mat-divider></mat-divider>
+  <mat-card-subtitle>
+    <small><u>tenant:</u></small>
+    <h5 class="text-right">{{tenant_name}}</h5>
+  </mat-card-subtitle>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <small class="mr-2">Sum:</small>
+    <div class="ui-inputgroup">
+      <span class="ui-inputgroup-addon">€</span>
+      <input type="text" class="text-right" pInputText
+             [value]="invoice_type.assistant_cost"
+             [readonly]="true">
+    </div>
+  </mat-card-content>
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <div class="btn-group float-right mb-2">
+      <button class="btn btn-info">Save</button>
+      <button class="btn btn-success">Send</button>
+    </div>
+  </mat-card-actions>
+</mat-card>

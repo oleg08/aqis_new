@@ -2,6 +2,14 @@
 
 <app-aqis-invoice-types-breadcrumb *ngIf="tenant" [breadcrumbList]="breadcrumbList"></app-aqis-invoice-types-breadcrumb>
 
+<p-overlayPanel #makeInvoice (onHide)="hideInvoice()">
+  <section *ngIf="selectedInvoiceType">
+    <app-aqis-tenant-invoice [invoice_type]="selectedInvoiceType"
+                             [tenant_name]="tenant.name"
+    ></app-aqis-tenant-invoice>
+  </section>
+</p-overlayPanel>
+
 <div *ngIf="tenant" class="ui-g">
   <div class="ui-g-4 invoice-tenant-name mb-1 pr-0 text-center"><h3>{{tenant.name}}</h3></div>
   <div class="ui-g-8 new-invoice-type pl-0 mb-1">
@@ -16,11 +24,19 @@
            (click)="delete(invoice_type.id, i)"
            ngbTooltip="Delete"></i>
         <div class="ui-g">
-          <div class="ui-g-9">
+          <div class="ui-g-6">
             <h4 class="pt-2">{{invoice_type.name}}</h4>
           </div>
+          <div class="ui-g-3">
+            <small>Date Range</small>
+            <p-calendar [(ngModel)]="invoice_type.date_range"
+                        selectionMode="range"
+                        dateFormat="dd-mm-yy"
+                        placeholder="Date Range"
+                        [readonlyInput]="true"></p-calendar>
+          </div>
           <div class="ui-g-2">
-            <pre><u>{{invoice_type.period}}</u></pre>
+            <button class="btn btn-info" (click)="selectInvoice($event, invoice_type, makeInvoice)">Make Invoice</button>
           </div>
           <div class="ui-g-1">
             <i class="fa fa-chevron-right float-right p-3 cursor-pointer"

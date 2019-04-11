@@ -3,13 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { CapitalizeService } from '../services/capitalize.service';
 import { environment } from '../../environments/environment';
-import { Message        } from 'primeng/primeng';
+import {Message, OverlayPanel} from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { InvoiceTypesBreadcrumbDataService } from './invoice-types-breadcrumb/invoice-types-breadcrumb-data.service';
 import { Tenant } from '../interfaces/tenant';
 import { InvoiceType } from '../interfaces/invoice-type';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 import {InvoiceTypesBreadcrumb} from './invoice-types-breadcrumb/invoice-types-breadcrumb.component';
+import {SetRangeDateService} from '../services/set-range-date.service';
 
 @Component({
   selector: 'app-invoice-types',
@@ -39,11 +40,14 @@ export class InvoiceTypesComponent implements OnInit {
   tenant: Tenant;
   msgs: Message[] = [];
   breadcrumbList: InvoiceTypesBreadcrumb[];
+  selectedInvoiceType: InvoiceType;
+  today: Date = new Date();
 
   constructor(private http: HttpClient,
               private activatedRoute: ActivatedRoute,
               private messageService: MessageService,
               private capitalizeService: CapitalizeService,
+              private setRangeDate: SetRangeDateService,
               private breadcrumbData: InvoiceTypesBreadcrumbDataService) { }
 
   ngOnInit() {
@@ -55,6 +59,13 @@ export class InvoiceTypesComponent implements OnInit {
       if (res['tenant']) {
         self.tenant = res['tenant'];
         self.tenant.invoice_types.forEach(it => {
+
+          if (it.period === 'two_weeks') {
+            it.date_range = [...self.setRangeDate.previousTwoWeeks()];
+          } else if (it.period === 'one_month') {
+            it.date_range = [...self.setRangeDate.previousOneMonth()];
+          }
+
           it.period = self.capitalizeService.concatAndCapitalize(it.period, '_', ' ');
         });
 
@@ -115,5 +126,31 @@ export class InvoiceTypesComponent implements OnInit {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't delete Invoice Type`});
       }
     );
+  }
+
+  selectInvoice (event, invoice_type: InvoiceType, overlaypanel: OverlayPanel) {
+    const self = this;
+    const params = {
+      invoice_type_id: invoice_type.id,
+      dates: invoice_type.date_range
+    };
+    self.http.post(`${environment.serverUrl}/sum_assistant_cost.json`, params).subscribe(
+      res => {
+        if (res['sum_assistant']) {
+          self.selectedInvoiceType = invoice_type;
+          self.selectedInvoiceType.assistant_cost = res['sum_assistant'];
+          overlaypanel.toggle(event);
+        } else {
+          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load Invoice`});
+        }
+      },
+      err => {
+        self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load Invoice`});
+      }
+    );
+  }
+
+  hideInvoice() {
+    // this.selectedInvoiceType = null;
   }
 }
