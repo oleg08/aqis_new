@@ -70,7 +70,7 @@ export class CustomerSearchComponent implements OnInit {
   user_id:              number;
   current_project:      Project;
   current_project_id:   number|string;
-  current_user:         object;
+  current_user:         object = { id: null };
   is_admin:             boolean;
   is_agent:             boolean;
   is_assistant:         boolean;
