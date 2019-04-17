@@ -1,0 +1,39 @@
+<ul [@listAnimation]="invoice_type.assistant_invoices.length" class="list-group">
+  <li class="list-group-item">
+    <div class="ui-g">
+      <div class="ui-g-2">
+        <h6 class="text-center"><b>Customer</b></h6>
+      </div>
+      <div class="ui-g-4"><h6 class="text-center"><b>From - To</b></h6></div>
+      <div class="ui-g-2"><h6 class="text-center"><b>Sum</b></h6></div>
+      <div class="ui-g-3"><h6 class="text-center"><b>Created</b></h6></div>
+      <div class="ui-g-1"></div>
+    </div>
+  </li>
+  <mat-divider></mat-divider>
+  <br>
+  <li class="list-group-item" *ngFor="let invoice of invoice_type.assistant_invoices">
+    <div class="ui-g">
+      <div class="ui-g-2 text-center">
+        {{invoice_type.tenant.name}}
+        <br>
+        <small *ngIf="invoice_type.tenant.email">{{invoice_type.tenant.email}}</small>
+      </div>
+      <div class="ui-g-4 text-center">
+        {{invoice.date_start | date}} - {{invoice.date_end | date}}
+      </div>
+      <div class="ui-g-2 text-center">
+        {{invoice.sum}}
+      </div>
+      <div class="ui-g-3 text-center">{{invoice.created_at | date}}</div>
+      <div class="ui-g-1">
+        <div class="btn-group">
+          <button class="btn btn-sm pdf-invoice-btn" (click)="goToLink(invoice.image_url)">
+            PDF
+          </button>
+          <button class="btn btn-sm send-invoice-btn" (click)="send(invoice.id)">Send</button>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>

@@ -245,6 +245,7 @@ import { AssistantStepsHoursComponent } from './assistant-steps-hours/assistant-
 import { DailyReportEditComponent } from './assistant-steps-hours/daily-report-edit/daily-report-edit.component';
 import { AssistantDailyReportsComponent } from './assistant-daily-reports/assistant-daily-reports.component';
 import { TenantInvoiceComponent } from './invoice-types/tenant-invoice/tenant-invoice.component';
+import { InvoiceTypeInvoicesComponent } from './invoice-types/invoice-type-invoices/invoice-type-invoices.component';
 
 @NgModule({
   declarations: [
@@ -346,7 +347,8 @@ import { TenantInvoiceComponent } from './invoice-types/tenant-invoice/tenant-in
     AssistantStepsHoursComponent,
     DailyReportEditComponent,
     AssistantDailyReportsComponent,
-    TenantInvoiceComponent
+    TenantInvoiceComponent,
+    InvoiceTypeInvoicesComponent
   ],
   imports: [
     BrowserModule,

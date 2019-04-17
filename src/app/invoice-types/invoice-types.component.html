@@ -6,9 +6,19 @@
   <section *ngIf="selectedInvoiceType">
     <app-aqis-tenant-invoice [invoice_type]="selectedInvoiceType"
                              [tenant_name]="tenant.name"
-    ></app-aqis-tenant-invoice>
+                             (onSaveInvoice)="saveInvoice($event, makeInvoice)">
+    </app-aqis-tenant-invoice>
   </section>
 </p-overlayPanel>
+
+<p-dialog header="Unsent Invoices" [style]="{'width':'60%'}" [(visible)]="showInvoices" (onHide)="invoicesOfInvoiceType = null">
+  <section *ngIf="invoicesOfInvoiceType">
+    <app-aqis-invoice-type-invoices #invoiceTypeInvoices
+                                    [invoice_type]="invoicesOfInvoiceType"
+                                    (onSend)="sendInvoice($event)">
+    </app-aqis-invoice-type-invoices>
+  </section>
+</p-dialog>
 
 <div *ngIf="tenant" class="ui-g">
   <div class="ui-g-4 invoice-tenant-name mb-1 pr-0 text-center"><h3>{{tenant.name}}</h3></div>
@@ -20,10 +30,11 @@
     <ul class="list-group"
         [@listAnimation]="tenant.invoice_types.length">
       <li class="list-group-item invoice-types-item pr-1 pt-0" *ngFor="let invoice_type of tenant.invoice_types; let i = index">
-        <i class="fa fa-close float-right cursor-pointer delete-icon"
+        <i *ngIf="invoice_type.is_removable"
+           class="fa fa-close float-right cursor-pointer delete-icon"
            (click)="delete(invoice_type.id, i)"
            ngbTooltip="Delete"></i>
-        <div class="ui-g">
+        <div class="ui-g" [ngClass]="{'pr-3' : !invoice_type.is_removable}">
           <div class="ui-g-6">
             <h4 class="pt-2">{{invoice_type.name}}</h4>
           </div>
@@ -36,7 +47,10 @@
                         [readonlyInput]="true"></p-calendar>
           </div>
           <div class="ui-g-2">
-            <button class="btn btn-info" (click)="selectInvoice($event, invoice_type, makeInvoice)">Make Invoice</button>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-success" (click)="selectInvoice($event, invoice_type, makeInvoice)">Make Invoice</button>
+              <button *ngIf="!invoice_type.is_removable" class="btn btn-sm btn-info" (click)="myInvoices(invoice_type)">My Invoices</button>
+            </div>
           </div>
           <div class="ui-g-1">
             <i class="fa fa-chevron-right float-right p-3 cursor-pointer"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { CapitalizeService } from '../services/capitalize.service';
@@ -11,6 +11,7 @@ import { InvoiceType } from '../interfaces/invoice-type';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 import {InvoiceTypesBreadcrumb} from './invoice-types-breadcrumb/invoice-types-breadcrumb.component';
 import {SetRangeDateService} from '../services/set-range-date.service';
+import {InvoiceTypeInvoicesComponent} from './invoice-type-invoices/invoice-type-invoices.component';
 
 @Component({
   selector: 'app-invoice-types',
@@ -41,7 +42,10 @@ export class InvoiceTypesComponent implements OnInit {
   msgs: Message[] = [];
   breadcrumbList: InvoiceTypesBreadcrumb[];
   selectedInvoiceType: InvoiceType;
-  today: Date = new Date();
+  showInvoices = false;
+  invoicesOfInvoiceType: InvoiceType;
+
+  @ViewChild('invoiceTypeInvoices') invoice_type_invoices: InvoiceTypeInvoicesComponent;
 
   constructor(private http: HttpClient,
               private activatedRoute: ActivatedRoute,
@@ -150,7 +154,61 @@ export class InvoiceTypesComponent implements OnInit {
     );
   }
 
+  saveInvoice(params, overlaypanel: OverlayPanel) {
+    const self = this;
+    self.http.post(`${environment.serverUrl}/assistant_invoices.json`, params).subscribe(
+      res => {
+        if (res['assistant_invoice']) {
+          self.messageService.add({severity: 'success', summary: 'Success', detail: `Invoice successfully created`});
+        } else {
+          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't create Invoice`});
+        }
+      },
+      err => {
+        self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't create Invoice`});
+      }
+    );
+    overlaypanel.visible = false;
+  }
+
+  myInvoices(invoice_type: InvoiceType) {
+    const self = this;
+
+    self.http.get(`${environment.serverUrl}/invoice_type_invoices/${invoice_type.id}.json`).subscribe(
+      res => {
+        if (res['invoice_type']) {
+          self.invoicesOfInvoiceType = res['invoice_type'];
+          self.showInvoices = true;
+        } else {
+          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load Invoices`});
+        }
+      },
+      err => {
+        self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load Invoices`});
+      }
+    );
+    self.showInvoices = true;
+  }
+
+  sendInvoice(obj: object) {
+    const self = this;
+    const invoice_id = obj['assistant_invoice_id'];
+    self.http.post(`${environment.serverUrl}/send_assistant_invoice/${invoice_id}.json`, {}).subscribe(
+      res => {
+        if (res['assistant_invoice']) {
+          self.invoice_type_invoices.removeInvoice(invoice_id);
+        } else {
+          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't send Invoice`});
+        }
+      },
+      err => {
+        self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't send Invoice`});
+      }
+    );
+
+  }
+
   hideInvoice() {
-    // this.selectedInvoiceType = null;
+    this.selectedInvoiceType = null;
   }
 }
