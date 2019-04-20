@@ -9,7 +9,10 @@ export interface InvoiceType {
   projects?: Project[];
   users?: User[];
   assistant_invoices?: AssistantInvoice[];
+  unsent_assistant_invoices?: AssistantInvoice[];
   tenant?: Tenant;
+  start_identifier?: string;
+  vat?: number;
   period?: string;
   date_range: Date[];
   assistant_cost: number;
@@ -23,6 +26,7 @@ export interface InvoiceType {
   sign_image_url?: string;
   sign_image_content_type?: string;
   is_removable?: boolean;
+  has_unsent_invoices?: boolean;
   created_at?: string;
   updated_at?: string;
 }

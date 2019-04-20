@@ -5,6 +5,20 @@
                               (valueChanged)="changeValue($event)">
     </app-text-field-component>
   </div>
+  <div id="invoice_type_vat" class="ui-g-4">
+    <label><small>VAT</small></label>
+    <app-text-field-component [object]="invoice_type"
+                              field_name="vat"
+                              (valueChanged)="changeValue($event)">
+    </app-text-field-component>
+  </div>
+  <div id="invoice_type_start_identifier" class="ui-g-8">
+    <label><small>Start Identifier</small></label>
+    <app-text-field-component [object]="invoice_type"
+                              field_name="start_identifier"
+                              (valueChanged)="changeValue($event)">
+    </app-text-field-component>
+  </div>
   <div id="invoice_type_period" class="ui-g-6">
     <ng-select [(ngModel)]="invoice_type.period_int"
                (change)="changePeriod($event)"

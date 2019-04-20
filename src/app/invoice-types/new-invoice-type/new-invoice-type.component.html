@@ -1,7 +1,38 @@
 <div class="ui-g">
   <div class="ui-g-2 text-center"><h6>New Invoice Type</h6></div>
   <div class="ui-g-6">
-    <input class="form-control" type="text" [(ngModel)]="newName">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="form-group">
+          <input class="form-control"
+                 id="name"
+                 type="text"
+                 [ngClass]="{'is-invalid': newNameInvalid}"
+                 [(ngModel)]="newName"
+                 (ngModelChange)="onNameChange()"
+                 (blur)="newNameInvalid = false"
+                 required>
+        </div>
+      </div>
+      <div class="ui-g-4">
+        <small>
+          <b>UID of Invoices will start with</b>
+        </small>
+      </div>
+      <div class="ui-g-8">
+        <div class="form-group">
+          <input class="form-control"
+                 id="start_identifier"
+                 [ngClass]="{'is-invalid': newStartIdentifierInvalid }"
+                 type="text"
+                 [(ngModel)]="newStartIdentifier"
+                 (ngModelChange)="onStartIdentifierChange()"
+                 (blur)="newStartIdentifierInvalid = false"
+                 required>
+          <span *ngIf="newStartIdentifierInvalid" class="invalid-feedback">Required</span>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="ui-g-3">
     <ng-select [(ngModel)]="selectedPeriod" [clearable]="false" placeholder="Period">
@@ -10,7 +41,7 @@
   </div>
   <div class="ui-g-1">
     <button class="btn btn-default create-button cursor-pointer"
-            [disabled]="!newName"
+            [disabled]="!newName || !newStartIdentifier"
             ngbTooltip="Create Invoice Type"
             (click)="create()">
       <i class="fa fa-check"></i>

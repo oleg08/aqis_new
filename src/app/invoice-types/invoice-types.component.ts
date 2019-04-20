@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { CapitalizeService } from '../services/capitalize.service';
@@ -12,6 +12,7 @@ import {animate, query, stagger, style, transition, trigger} from '@angular/anim
 import {InvoiceTypesBreadcrumb} from './invoice-types-breadcrumb/invoice-types-breadcrumb.component';
 import {SetRangeDateService} from '../services/set-range-date.service';
 import {InvoiceTypeInvoicesComponent} from './invoice-type-invoices/invoice-type-invoices.component';
+import {TenantInvoiceComponent} from './tenant-invoice/tenant-invoice.component';
 
 @Component({
   selector: 'app-invoice-types',
@@ -46,6 +47,7 @@ export class InvoiceTypesComponent implements OnInit {
   invoicesOfInvoiceType: InvoiceType;
 
   @ViewChild('invoiceTypeInvoices') invoice_type_invoices: InvoiceTypeInvoicesComponent;
+  @ViewChild('assistantInvoice') assistant_invoice: TenantInvoiceComponent;
 
   constructor(private http: HttpClient,
               private activatedRoute: ActivatedRoute,
@@ -102,6 +104,13 @@ export class InvoiceTypesComponent implements OnInit {
       res => {
         if (res['invoice_type']) {
           const new_invoice_type: InvoiceType = res['invoice_type'];
+
+          if (new_invoice_type.period === 'two_weeks') {
+            new_invoice_type.date_range = [...self.setRangeDate.previousTwoWeeks()];
+          } else if (new_invoice_type.period === 'one_month') {
+            new_invoice_type.date_range = [...self.setRangeDate.previousOneMonth()];
+          }
+
           new_invoice_type.period = self.capitalizeService.concatAndCapitalize(new_invoice_type.period, '_', ' ');
           invoice_types.push(new_invoice_type);
           self.tenant.invoice_types = invoice_types;
@@ -143,6 +152,9 @@ export class InvoiceTypesComponent implements OnInit {
         if (res['sum_assistant']) {
           self.selectedInvoiceType = invoice_type;
           self.selectedInvoiceType.assistant_cost = res['sum_assistant'];
+          setTimeout(() => {
+            self.assistant_invoice.setIdentifier(invoice_type);
+          });
           overlaypanel.toggle(event);
         } else {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load Invoice`});
@@ -156,9 +168,13 @@ export class InvoiceTypesComponent implements OnInit {
 
   saveInvoice(params, overlaypanel: OverlayPanel) {
     const self = this;
+    const invoice_type_id: number = params['invoice_type_id'];
     self.http.post(`${environment.serverUrl}/assistant_invoices.json`, params).subscribe(
       res => {
         if (res['assistant_invoice']) {
+          const invoice_type: InvoiceType = self.tenant.invoice_types.find(it => it.id === invoice_type_id);
+          invoice_type.is_removable = false;
+          invoice_type.has_unsent_invoices = true;
           self.messageService.add({severity: 'success', summary: 'Success', detail: `Invoice successfully created`});
         } else {
           self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't create Invoice`});

@@ -39,7 +39,7 @@ export class InvoiceTypeInvoicesComponent implements OnInit {
 
   removeInvoice(invoice_id: number) {
     const self = this;
-    self.invoice_type.assistant_invoices = self.invoice_type.assistant_invoices.filter(inv => inv.id !== invoice_id);
+    self.invoice_type.unsent_assistant_invoices = self.invoice_type.unsent_assistant_invoices.filter(inv => inv.id !== invoice_id);
   }
 
   goToLink(url: string) {

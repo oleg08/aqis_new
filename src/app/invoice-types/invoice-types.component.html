@@ -4,14 +4,19 @@
 
 <p-overlayPanel #makeInvoice (onHide)="hideInvoice()">
   <section *ngIf="selectedInvoiceType">
-    <app-aqis-tenant-invoice [invoice_type]="selectedInvoiceType"
+    <app-aqis-tenant-invoice #assistantInvoice
+                             [invoice_type]="selectedInvoiceType"
                              [tenant_name]="tenant.name"
                              (onSaveInvoice)="saveInvoice($event, makeInvoice)">
     </app-aqis-tenant-invoice>
   </section>
 </p-overlayPanel>
 
-<p-dialog header="Unsent Invoices" [style]="{'width':'60%'}" [(visible)]="showInvoices" (onHide)="invoicesOfInvoiceType = null">
+<p-dialog header="Unsent Invoices"
+          [style]="{'width':'70%'}"
+          [(visible)]="showInvoices"
+          [transitionOptions]="'500ms'"
+          (onHide)="invoicesOfInvoiceType = null">
   <section *ngIf="invoicesOfInvoiceType">
     <app-aqis-invoice-type-invoices #invoiceTypeInvoices
                                     [invoice_type]="invoicesOfInvoiceType"
@@ -21,7 +26,16 @@
 </p-dialog>
 
 <div *ngIf="tenant" class="ui-g">
-  <div class="ui-g-4 invoice-tenant-name mb-1 pr-0 text-center"><h3>{{tenant.name}}</h3></div>
+  <div class="ui-g-4 invoice-tenant-name mb-1 pr-0 text-center">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <h3>{{tenant.name}}</h3>
+      </div>
+      <div class="ui-g-12">
+        <a [routerLink]="['/assistant_invoices']">All Invoices</a>
+      </div>
+    </div>
+  </div>
   <div class="ui-g-8 new-invoice-type pl-0 mb-1">
     <app-aqis-new-invoice-type (createNew)="createNew($event)"></app-aqis-new-invoice-type>
   </div>
@@ -49,7 +63,7 @@
           <div class="ui-g-2">
             <div class="btn-group">
               <button class="btn btn-sm btn-success" (click)="selectInvoice($event, invoice_type, makeInvoice)">Make Invoice</button>
-              <button *ngIf="!invoice_type.is_removable" class="btn btn-sm btn-info" (click)="myInvoices(invoice_type)">My Invoices</button>
+              <button *ngIf="invoice_type.has_unsent_invoices" class="btn btn-sm btn-info" (click)="myInvoices(invoice_type)">My Invoices</button>
             </div>
           </div>
           <div class="ui-g-1">

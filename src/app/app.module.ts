@@ -26,7 +26,7 @@ import {
   MatDialogModule,
   MatButtonModule,
   MatBadgeModule,
-  MatCardModule
+  MatCardModule,
 } from '@angular/material';
 
 // import 'materialize-css';
@@ -80,6 +80,7 @@ import { InvoiceTypesBreadcrumbDataService } from './invoice-types/invoice-types
 import { InvoiceTypesPeriodsDataService } from './invoice-types/invoice-types-periods-data.service';
 import { GetReportDataService } from './assistant-steps-hours/get-report-data.service';
 import { SetRangeDateService } from './services/set-range-date.service';
+import { AssistantInvoicesDataService } from './assistant-invoices/assistant-invoices-data.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -246,6 +247,8 @@ import { DailyReportEditComponent } from './assistant-steps-hours/daily-report-e
 import { AssistantDailyReportsComponent } from './assistant-daily-reports/assistant-daily-reports.component';
 import { TenantInvoiceComponent } from './invoice-types/tenant-invoice/tenant-invoice.component';
 import { InvoiceTypeInvoicesComponent } from './invoice-types/invoice-type-invoices/invoice-type-invoices.component';
+import { AssistantInvoicesComponent } from './assistant-invoices/assistant-invoices.component';
+import { AssistantInvoicesSearchComponent } from './assistant-invoices/assistant-invoices-search/assistant-invoices-search/assistant-invoices-search.component';
 
 @NgModule({
   declarations: [
@@ -348,7 +351,9 @@ import { InvoiceTypeInvoicesComponent } from './invoice-types/invoice-type-invoi
     DailyReportEditComponent,
     AssistantDailyReportsComponent,
     TenantInvoiceComponent,
-    InvoiceTypeInvoicesComponent
+    InvoiceTypeInvoicesComponent,
+    AssistantInvoicesComponent,
+    AssistantInvoicesSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -477,6 +482,7 @@ import { InvoiceTypeInvoicesComponent } from './invoice-types/invoice-type-invoi
     InvoiceTypesPeriodsDataService,
     GetReportDataService,
     SetRangeDateService,
+    AssistantInvoicesDataService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

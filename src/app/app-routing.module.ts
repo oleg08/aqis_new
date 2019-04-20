@@ -37,6 +37,7 @@ import { InvoiceTypesComponent } from './invoice-types/invoice-types.component';
 import { InvoiceTypeDetailsComponent } from './invoice-types/invoice-type-details/invoice-type-details.component';
 import { AssistantStepsHoursComponent } from './assistant-steps-hours/assistant-steps-hours.component';
 import { AssistantDailyReportsComponent } from './assistant-daily-reports/assistant-daily-reports.component';
+import { AssistantInvoicesComponent } from './assistant-invoices/assistant-invoices.component';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -260,6 +261,11 @@ const routes: Routes = [
     path: 'assistant_daily_reports',
     component: AssistantDailyReportsComponent,
     canActivate: [ForceSslGuard, AdminOrSuperAdminGuard]        // admin-or-super-admin-guard
+  },
+  {
+    path: 'assistant_invoices',
+    component: AssistantInvoicesComponent,
+    canActivate: [ForceSslGuard, SuperAdminGuard]           // super-admin-guard
   }
 ];
 

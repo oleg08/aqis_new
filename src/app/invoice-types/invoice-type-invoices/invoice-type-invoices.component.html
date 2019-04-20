@@ -1,4 +1,4 @@
-<ul [@listAnimation]="invoice_type.assistant_invoices.length" class="list-group">
+<ul [@listAnimation]="invoice_type.unsent_assistant_invoices.length" class="list-group">
   <li class="list-group-item">
     <div class="ui-g">
       <div class="ui-g-2">
@@ -12,12 +12,20 @@
   </li>
   <mat-divider></mat-divider>
   <br>
-  <li class="list-group-item" *ngFor="let invoice of invoice_type.assistant_invoices">
+  <li class="list-group-item" *ngFor="let invoice of invoice_type.unsent_assistant_invoices">
     <div class="ui-g">
       <div class="ui-g-2 text-center">
-        {{invoice_type.tenant.name}}
-        <br>
-        <small *ngIf="invoice_type.tenant.email">{{invoice_type.tenant.email}}</small>
+        <div class="ui-g">
+          <div class="ui-g-12">
+            {{invoice_type.tenant.name}}
+          </div>
+          <div class="ui-g-12">
+            <small *ngIf="invoice_type.tenant.email">{{invoice_type.tenant.email}}</small>
+          </div>
+          <div class="ui-g-12">
+            <small><b>UID:</b>{{' ' + invoice.identifier}}</small>
+          </div>
+        </div>
       </div>
       <div class="ui-g-4 text-center">
         {{invoice.date_start | date}} - {{invoice.date_end | date}}
