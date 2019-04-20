@@ -1,0 +1,23 @@
+<div class="ui-g">
+  <div class="ui-g-4">
+    <input type="text"
+           class="form-control"
+           [(ngModel)]="search_identifier"
+           (input)="searchInvoices()"
+           placeholder="Search By UID"/>
+  </div>
+  <div class="ui-g-4">
+    <p-calendar [(ngModel)]="rangeDates"
+                selectionMode="range"
+                [readonlyInput]="true"
+                placeholder="Search by Created at"
+                [showIcon]="true"
+                (onSelect)="searchInvoices()">
+    </p-calendar>
+    <i *ngIf="rangeDates" class="fa fa-close ml-2 cursor-pointer"
+       ngbTooltip="Clear Calendar"
+       (click)="clearCalendar()"
+    ></i>
+  </div>
+  <div class="ui-g-4"></div>
+</div>

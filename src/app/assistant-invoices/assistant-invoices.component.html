@@ -1,0 +1,41 @@
+<p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
+
+<section class="assistant-invoices-search">
+  <app-aqis-assistant-invoices-search [assistant_invoices]="original_assistant_invoices"
+                                      (onSearchIdentifier)="search($event)"
+                                      (onSearchCreated)="search($event)">
+  </app-aqis-assistant-invoices-search>
+</section>
+
+<section *ngIf="assistant_invoices"
+         [@listAnimation]="assistant_invoices.length"
+         class="assistant-invoices-list">
+  <mat-grid-list class="invoice-list-header"
+                 cols="7" rowHeight="4:1">
+    <mat-grid-tile><b>UID</b></mat-grid-tile>
+    <mat-grid-tile><b>Tenant</b></mat-grid-tile>
+    <mat-grid-tile><b>Dates Range</b></mat-grid-tile>
+    <mat-grid-tile><b>Sum</b></mat-grid-tile>
+    <mat-grid-tile><b>Created At</b></mat-grid-tile>
+    <mat-grid-tile><b>Sent</b></mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+  </mat-grid-list>
+  <mat-grid-list class="invoice-list-item"
+                 *ngFor="let invoice of assistant_invoices"
+                 cols="7" rowHeight="4:1">
+    <mat-grid-tile>{{invoice.identifier}}</mat-grid-tile>
+    <mat-grid-tile>{{invoice.tenant_name}}</mat-grid-tile>
+    <mat-grid-tile>
+      <small>{{invoice.date_start | date:'MMM d'}} - {{invoice.date_end | date}}</small>
+    </mat-grid-tile>
+    <mat-grid-tile>{{invoice.sum}}</mat-grid-tile>
+    <mat-grid-tile>{{invoice.created_at | date}}</mat-grid-tile>
+    <mat-grid-tile>{{invoice.sent ? (invoice.sent | date) : '-'}}</mat-grid-tile>
+    <mat-grid-tile>
+      <div *ngIf="invoice.image_url" class="btn-group">
+        <button class="btn btn-sm pdf-invoice-btn" (click)="goToLink(invoice.image_url)">PDF</button>
+        <button class="btn btn-sm send-invoice-btn" (click)="send(invoice)">{{invoice.sent ? 'Send Again' : 'Send'}}</button>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</section>
