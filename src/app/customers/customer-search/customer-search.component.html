@@ -141,7 +141,9 @@
             <div class="col-6">
               <div bind-class="( newIdentifier.invalid && newIdentifier.dirty ) ?
                                            'form-group has-warning' : 'form-group'">
+                <label class="sr-only" for="new_identifier"></label>
                 <input class="form-control"
+                       id="new_identifier"
                        type="text"
                        ref-newIdentifier="ngModel"
                        (blur)="setInputToPristine(newIdentifier)"
@@ -153,8 +155,8 @@
                 <aside *ngIf="newIdentifier.invalid && newIdentifier.dirty"
                        class="alert alert-danger">
                   <small>
-                    <span *ngIf="newIdentifier.pattern">This required</span>
-                    <span *ngIf="!newIdentifier.pattern">Must be as UID-Number</span>
+                    <span *ngIf="newIdentifier['pattern']">This required</span>
+                    <span *ngIf="!newIdentifier['pattern']">Must be as UID-Number</span>
                   </small>
                 </aside>
               </div>
@@ -162,8 +164,10 @@
             <div class="col-6">
               <div bind-class="( newName.invalid && newName.dirty ) ?
                                    'form-group has-warning' : 'form-group'">
+                <label class="sr-only" for="new_name">New Name</label>
                 <input class="form-control"
                        type="text"
+                       id="new_name"
                        ref-newName="ngModel"
                        [disabled]="upload_customers"
                        (blur)="setInputToPristine(newName)"
@@ -173,8 +177,8 @@
                 <aside *ngIf="newName.invalid && newName.dirty"
                        class="alert alert-danger">
                   <small>
-                    <span *ngIf="newName.pattern">This required</span>
-                    <span *ngIf="!newName.pattern">Must be as name</span>
+                    <span *ngIf="newName['pattern']">This required</span>
+                    <span *ngIf="!newName['pattern']">Must be as name</span>
                   </small>
                 </aside>
               </div>
@@ -184,8 +188,10 @@
             <div class="col-9">
               <div bind-class="( newEmail.invalid && newEmail.dirty ) ?
                                    'form-group has-warning' : 'form-group'">
+                <label class="sr-only" for="new_email">New Email</label>
                 <input class="form-control"
                        type="text"
+                       id="new_email"
                        ref-newEmail="ngModel"
                        [disabled]="upload_customers"
                        name="new_email"
@@ -268,9 +274,7 @@
               <h6 *ngIf="!short_customers_list">Long List</h6>
             </div>
             <div class="ui-g-4">
-              <p-inputSwitch onLabel="Short list"
-                             offLabel="Long list"
-                             class="float-right"
+              <p-inputSwitch class="float-right"
                              [(ngModel)]="short_customers_list">
               </p-inputSwitch>
             </div>
@@ -364,32 +368,34 @@
                 </div>
                 <div class="ui-g-2">
                   <div class="ui-g-12 p-0">
-                    <small class="float-right" *ngIf="!super_admin && customer.state">
-                      <b>state</b>{{customer.state}}
+                    <small class="float-right" *ngIf="!super_admin && customer['state']">
+                      <b>state</b>{{customer['state']}}
                     </small>
                   </div>
                   <div class="ui-g-12 p-0">
-                    <small class="float-right"><b>Joined</b> {{customer.created_at | date}}</small>
+                    <small class="float-right"><b>Joined</b> {{customer['created_at'] | date}}</small>
                   </div>
                 </div>
               </div>
-              <div *ngIf="!super_admin" id="customer_assign_{{customer.id}}" class="ui-g customers-select-template">
+              <div *ngIf="!super_admin" id="customer_assign_{{customer['id']}}" class="ui-g customers-select-template">
                 <div class="ui-g-1">
+                  <label class="sr-only" for="assign_to_me">Assign to me</label>
                   <input type="checkbox"
                          [disabled]="!is_agent"
+                         id="assign_to_me"
                          class="form-control float-right"
                          pTooltip="{{is_agent ? 'You can assign customer to yourself' : 'To assign customer to yourself you should have role Agent'}}"
                          [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
-                         [(ngModel)]="customer.assigned_as_agent"
+                         [(ngModel)]="customer['assigned_as_agent']"
                          (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_agent', 'agent_user')"/>
                 </div>
                 <div class="ui-g-5">
                   <p-autoComplete
                     pTooltip="Select sales Agent to which belongs Company"
                     [suggestions]="filteredAgentUsers"
-                    [(ngModel)]="customer.agent_user.email"
+                    [(ngModel)]="customer['agent_user']['email']"
                     (completeMethod)="filterAgentUsers($event)"
-                    (onSelect)="assignSelectedCustomer(customer.id, customer.agent_user.email, 'agent')"
+                    (onSelect)="assignSelectedCustomer(customer['id'], customer['agent_user']['email'], 'agent')"
                     placeholder="Select sales Agent"
                     [dropdown]="true"
                     [disabled]="!is_admin">
@@ -401,21 +407,23 @@
                   </p-autoComplete>
                 </div>
                 <div class="ui-g-1">
+                  <label class="sr-only" for="assign_as_assistant">Assign as assistant</label>
                   <input type="checkbox"
+                         id="assign_as_assistant"
                          [disabled]="!is_assistant"
                          class="form-control float-right"
                          pTooltip="{{is_assistant ? 'You can assign customer' : 'To assign customer you should have role Assistant'}}"
                          [ngClass]="{'cursor-pointer': agent_or_assistant, 'cursor-disabled': !agent_or_assistant}"
-                         [(ngModel)]="customer.assigned_as_assistant"
+                         [(ngModel)]="customer['assigned_as_assistant']"
                          (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_assistant', 'assistant_user')"/>
                 </div>
                 <div class="ui-g-5">
                   <p-autoComplete
                     pTooltip="Select sales Assistant to which belongs Company"
                     [suggestions]="filteredAssistantUsers"
-                    [(ngModel)]="customer.assistant_user.email"
+                    [(ngModel)]="customer['assistant_user']['email']"
                     (completeMethod)="filterAssistantUsers($event)"
-                    (onSelect)="assignSelectedCustomer(customer.id, customer.assistant_user.email, 'assistant')"
+                    (onSelect)="assignSelectedCustomer(customer['id'], customer['assistant_user']['email'], 'assistant')"
                     placeholder="Select sales Assistant"
                     [dropdown]="true"
                     [disabled]="!is_admin">

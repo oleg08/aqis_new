@@ -1,4 +1,4 @@
-import { Component, OnInit, enableProdMode, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CallAlertService } from '../../services/call-alert.service';
@@ -6,7 +6,7 @@ import { FlashHighlightsService } from '../../services/flash-highlights.service'
 import { SortArrayService } from '../../services/sort-array.service';
 import { SortMultipleService } from '../../services/sort-multiple.service';
 import { GetEmailTemplatesService } from '../../services/get-email-templates.service';
-import { transition, animate, style, state, trigger } from '@angular/animations';
+import { transition, animate, style, trigger } from '@angular/animations';
 import { PassCustomersIdsService } from '../../services/pass-customers-ids.service';
 import { CustomersWithTenantsService } from '../../services/customers-with-tenants.service';
 import { TransformStatesService } from '../../services/transform-states.service';
@@ -55,6 +55,42 @@ import { Project } from '../../interfaces/project';
   ]
 })
 export class CustomerSearchComponent implements OnInit {
+
+  constructor(private http: HttpClient,
+              private router: Router,
+              public rd: Renderer2,
+              private messageService: MessageService,
+              private callAlert: CallAlertService,
+              private sortArray: SortArrayService,
+              private sortMultiple: SortMultipleService,
+              private next_customers_ids: PassCustomersIdsService,
+              private getEmailTemplates: GetEmailTemplatesService,
+              private customersWithTenants: CustomersWithTenantsService,
+              private transformStates: TransformStatesService,
+              private openSteps: OpenStepsService,
+              private customersSortData: CustomersSortDataService,
+              private shareCustomersIds: ShareCustomersIdsService,
+              private iterateCustomers: IterateCustomersService,
+              private flashHighlights: FlashHighlightsService,
+              private passProjectId: PassProjectIdService,
+              private switchProject: SwitchProjectService,
+              private cookieService: CookieService) {
+    this.copy_customers    = null;
+    this.projects          = null;
+    this.keywords          = '';
+    this.order             = '';
+    this.upload_file       = null;
+    this.upload_customers  = false;
+    this.progressValue     = 0;
+    this.short_customers_list = true;
+
+    this.customers_options_select = [
+      { label: 'Deselect All Companies',    value: 1 },
+      { label: 'Select All Companies',      value: 2 },
+      { label: 'Select Filtered Companies', value: 3 },
+    ];
+    this.selectedOption = 1;
+  }
 
   customers:            Array<object> = [];
   customer_ids:         Array<any> = [];
@@ -124,40 +160,14 @@ export class CustomerSearchComponent implements OnInit {
 
   @ViewChild('customersList') el: ElementRef;
 
-  constructor(private http: HttpClient,
-              private router: Router,
-              public rd: Renderer2,
-              private messageService: MessageService,
-              private callAlert: CallAlertService,
-              private sortArray: SortArrayService,
-              private sortMultiple: SortMultipleService,
-              private next_customers_ids: PassCustomersIdsService,
-              private getEmailTemplates: GetEmailTemplatesService,
-              private customersWithTenants: CustomersWithTenantsService,
-              private transformStates: TransformStatesService,
-              private openSteps: OpenStepsService,
-              private customersSortData: CustomersSortDataService,
-              private shareCustomersIds: ShareCustomersIdsService,
-              private iterateCustomers: IterateCustomersService,
-              private flashHighlights: FlashHighlightsService,
-              private passProjectId: PassProjectIdService,
-              private switchProject: SwitchProjectService,
-              private cookieService: CookieService) {
-    this.copy_customers    = null;
-    this.projects          = null;
-    this.keywords          = '';
-    this.order             = '';
-    this.upload_file       = null;
-    this.upload_customers  = false;
-    this.progressValue     = 0;
-    this.short_customers_list = true;
+  static generalFilterUsers(event, users, filtered_array) {
 
-    this.customers_options_select = [
-      { label: 'Deselect All Companies',    value: 1 },
-      { label: 'Select All Companies',      value: 2 },
-      { label: 'Select Filtered Companies', value: 3 },
-    ];
-    this.selectedOption = 1;
+    for (let i = 0; i < users.length; i++) {
+      const user = users[i]['email'];
+      if (user.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
+        filtered_array.push(user);
+      }
+    }
   }
 
   ngOnInit() {
@@ -187,6 +197,7 @@ export class CustomerSearchComponent implements OnInit {
       },
       data => {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
+        console.log(data);
       }
     );
 
@@ -210,7 +221,7 @@ export class CustomerSearchComponent implements OnInit {
           }
         }
       },
-      response => {}
+      response => { console.log(response); }
     );
   }
 
@@ -219,7 +230,7 @@ export class CustomerSearchComponent implements OnInit {
 
     let project: Project;
     self.passProjectId.currentProject.subscribe(p => project = p);
-    if (project) self.current_project_id = project.id;
+    if (project) { self.current_project_id = project.id; }
     if (!self.current_project_id) {
       self.current_project_id = self.cookieService.get('project_id');
     }
@@ -231,7 +242,7 @@ export class CustomerSearchComponent implements OnInit {
     self.redirect_url = `${environment.serverUrl}/request_to_google`;
     self.return_to_url = `${environment.clientUrl}/customers`;
 
-    if (self.current_project_id) request += `&project_id=${self.current_project_id}`;
+    if (self.current_project_id) { request += `&project_id=${self.current_project_id}`; }
 
     if (self.keywords) {
       request += '&keywords=' + self.keywords;
@@ -260,15 +271,17 @@ export class CustomerSearchComponent implements OnInit {
 
   loadCustomersLazy(event: number) {
     const self = this;
-    if (!(Number.isInteger((event + 10) / self.size_page)) && event !== 0) return;
+    if (!(Number.isInteger((event + 10) / self.size_page)) && event !== 0) { return; }
     const page = event === 0 ? 0 : (event + 10) / self.size_page;
-    if (self.used_pages.indexOf(page) === -1) self.used_pages.push(page);
-    else return;
+    if (self.used_pages.indexOf(page) === -1) { self.used_pages.push(page);
+    } else {
+      return;
+    }
 
     const customers = [...self.lazyCustomers];
     let next_customers: object[] = [];
     const url = self.getCustomers(page);
-    if (!url) return;
+    if (!url) { return; }
     self.http.get(environment.serverUrl + url).subscribe(
       response => {
         if (response['customers']) {
@@ -306,7 +319,7 @@ export class CustomerSearchComponent implements OnInit {
 
             self.agent_users = self.tenant_users.filter(u => u['agent'] === true);
             self.assistant_users = self.tenant_users.filter(u => u['assistant'] === true);
-            if (!self.current_user) self.current_user = self.tenant_users.find(u => u['id'] === self.user_id);
+            if (!self.current_user['id']) { self.current_user = self.tenant_users.find(u => u['id'] === self.user_id); }
           }
 
           const project_id = self.current_project ? self.current_project['id'] : null;
@@ -324,6 +337,7 @@ export class CustomerSearchComponent implements OnInit {
       },
       response => {
         self.callAlert.handler(self, 'warning', `Can't load data`, 2000);
+        console.log(response);
       },
     );
 
@@ -340,12 +354,12 @@ export class CustomerSearchComponent implements OnInit {
 
         if (states.indexOf(0) !== -1) {
           const index1 = states.indexOf(0);
-          if (index1 !== -1) states.splice(index1, 1);
+          if (index1 !== -1) { states.splice(index1, 1); }
         }
         if (states.length === 1 && states[0] === 'With States') {
           const states_with_value = [];
           self.filter_states.forEach(st => {
-            if (st['value'] !== 0) states_with_value.push(st['value']);
+            if (st['value'] !== 0) { states_with_value.push(st['value']); }
           });
           states = states_with_value;
         }
@@ -391,21 +405,11 @@ export class CustomerSearchComponent implements OnInit {
     self.nullifyAndGetCustomers();
   }
 
-  generalFilterUsers(event, users, filtered_array) {
-
-    for (let i = 0; i < users.length; i++) {
-      const user = users[i]['email'];
-      if (user.toLowerCase().indexOf(event.query.toLowerCase()) === 0) {
-        filtered_array.push(user);
-      }
-    }
-  }
-
   filterUsers(event) {
     const self = this;
     self.filteredUsers = [];
     self.filteredUsers.push('Not assigned Customers');
-    self.generalFilterUsers(event, self.tenant_users, self.filteredUsers);
+    CustomerSearchComponent.generalFilterUsers(event, self.tenant_users, self.filteredUsers);
   }
 
   filterAgentUsers(event) {
@@ -520,6 +524,7 @@ export class CustomerSearchComponent implements OnInit {
       },
       function (response) {
         self.callAlert.handler(self, 'warning', `Can't create customer`, 2000);
+        console.log(response);
       }
     );
   }
@@ -542,6 +547,7 @@ export class CustomerSearchComponent implements OnInit {
       },
       function (response) {
         self.callAlert.handler(self, 'warning', `Can't delete customer`, 2000);
+        console.log(response);
       }
     );
   }
@@ -701,6 +707,7 @@ export class CustomerSearchComponent implements OnInit {
         response => {
           self.messageService.add({
             severity: 'warn', summary: 'Warning', detail: `Can't send email to Company`});
+          console.log(response);
         }
       );
     } else {
@@ -711,12 +718,12 @@ export class CustomerSearchComponent implements OnInit {
 
   selectTemplate(event, template: EmailTemplates, overlaypanel: OverlayPanel) {
 
-    if (!template) return;
+    if (!template) { return; }
 
     const self = this;
     self.selectedTemplate = template;
     self.selectedTemplate.greeting = null;
-    if (self.selectedTemplate) self.selectedTemplate.body = self.selectedTemplate.body.replace(/\n/gi,  ' <br/> ' );
+    if (self.selectedTemplate) { self.selectedTemplate.body = self.selectedTemplate.body.replace(/\n/gi,  ' <br/> ' ); }
     if (self.selectedTemplate) {
       overlaypanel.toggle(event.originalEvent);
     }
@@ -742,13 +749,14 @@ export class CustomerSearchComponent implements OnInit {
         self.flashHighlights.handler(self, '#customer_assign_', String(id),
           'failed-update'
         );
+        console.log(response);
       }
     );
   }
 
   assignCustomerToMe(customer, prop1, prop2) {
     const self = this;
-    if (self.super_admin) return;
+    if (self.super_admin) { return; }
     self.assigningRequest(customer['id'], { [prop1]: customer[prop1] });
     const email =  JSON.parse(JSON.stringify(self.current_user['email']));
     customer[prop2]['email'] = customer[prop1] ? email : null;
@@ -757,21 +765,21 @@ export class CustomerSearchComponent implements OnInit {
   assignSelectedCustomer (customer_id, email, prop) {
     const self = this;
 
-    if (self.super_admin) return;
+    if (self.super_admin) { return; }
     const prop1 = 'assigned_as_' + prop;
     const prop2 = prop + '_id';
     const user = self[prop + '_users'].find(u => u['email'] === email);
-    if (user) self.assigningRequest(customer_id, { [prop2]: user['id'] });
-    const customer = self.scrolledArray.find(c => c['id'] === customer_id);
+    if (user) { self.assigningRequest(customer_id, { [prop2]: user['id'] }); }
+    const customer = self.lazyCustomers.find(c => c['id'] === customer_id);
     customer[prop1] = user['id'] === self.user_id ? !customer[prop1] : false;
   }
 
   assignAsAssistant (customer_id, email) {
     const self = this;
 
-    if (self.super_admin) return;
+    if (self.super_admin) { return; }
     const user = self.assistant_users.find(u => u['email'] === email);
-    if (user) self.assigningRequest(customer_id, { assistant_id: user['id'] });
+    if (user) { self.assigningRequest(customer_id, { assistant_id: user['id'] }); }
   }
 
   selectCustomer (ids) {
@@ -807,7 +815,7 @@ export class CustomerSearchComponent implements OnInit {
 
   loadSteps() {
     const self = this;
-    if (self.super_admin) return;
+    if (self.super_admin) { return; }
 
     if (self.customers_ids.length < 1) {
       self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'You should select at least one company'});
@@ -828,6 +836,7 @@ export class CustomerSearchComponent implements OnInit {
       },
       response => {
         self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load steps`});
+        console.log(response);
       }
     );
   }
