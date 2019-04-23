@@ -85,7 +85,7 @@ export class AssistantDailyReportsComponent implements OnInit {
 
   showEdit(report: DailyReport) {
     const self = this;
-    if (!self.super_admin) return;
+    if (!self.super_admin) { return; }
     self.dailyReportEdit.setReport(report);
     self.current_report = report;
     self.displayDialog = true;
@@ -135,6 +135,6 @@ export class AssistantDailyReportsComponent implements OnInit {
         }
         self.displayDialog = false;
       }
-    )
+    );
   }
 }

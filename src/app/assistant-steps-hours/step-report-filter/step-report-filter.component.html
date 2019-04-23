@@ -1,0 +1,12 @@
+<div class="ui-g">
+  <div class="ui-g-offset-8 ui-g-4">
+    <p-calendar [(ngModel)]="rangeDates"
+                dateFormat="dd mm yy"
+                selectionMode="range"
+                placeholder="Date in range"
+                (onSelect)="selectDates()"
+                [readonlyInput]="true">
+    </p-calendar>
+    <i *ngIf="rangeDates" class="fa fa-close cursor-pointer ml-1" (click)="clearDates()" ngbTooltip="Clear Dates"></i>
+  </div>
+</div>

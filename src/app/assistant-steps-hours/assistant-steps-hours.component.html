@@ -13,43 +13,57 @@
   </div>
 </p-dialog>
 
+<section class="daily-report-filters">
+  <app-aqis-daily-reports-filters [projects]="filterProjects"
+                                  [steps]="original_steps"
+                                  (onSearchStep)="search($event)">
+  </app-aqis-daily-reports-filters>
+</section>
+
 <section *ngIf="steps" style="background-color: white">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let step of steps" (opened)="openPanel(step)" (closed)="closePanel()">
+    <mat-expansion-panel *ngFor="let step of steps"
+                         class="step-report-row"
+                         (opened)="openPanel(step)"
+                         (closed)="closePanel()">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <h5 ngbTooltip="Step" class="step-name mr-2">{{step.name}}</h5>
-          <br>
-          <small ngbTooltip="Project" [matBadge]="step.project_name"></small>
         </mat-panel-title>
         <mat-panel-description>
-          <span ngbTooltip="Company" class="company-name">{{step.company_name}}</span>
+          <span ngbTooltip="Project" class="company-name">{{step.project_name}}</span>
         </mat-panel-description>
       </mat-expansion-panel-header>
-
-      <mat-grid-list cols="3" rowHeight="10:1">
-        <mat-grid-tile class="list-data-header">
-          Description
-        </mat-grid-tile>
-        <mat-grid-tile class="list-data-header">Date</mat-grid-tile>
-        <mat-grid-tile class="list-data-header">Hours</mat-grid-tile>
-      </mat-grid-list>
+      <div class="ui-g list-data-header text-center">
+        <div class="ui-g-12">
+          <app-aqis-step-report-filter #reportFilter
+                                       [reports]="original_reports"
+                                       (onSelectDates)="searchReports($event)"
+          >
+          </app-aqis-step-report-filter>
+        </div>
+        <div class="ui-g-9">Description</div>
+        <div class="ui-g-2">Date</div>
+        <div class="ui-g-1">Hours</div>
+      </div>
       <ul class="list-group mt-1" [@listAnimation]="step.assistant_daily_reports.length">
         <li class="list-group-item list-data-row cursor-pointer"
             *ngFor="let report of step.assistant_daily_reports"
             (click)="showEdit(report)">
-          <mat-grid-list cols="3" rowHeight="10:1">
-            <mat-grid-tile class="list-data-item">{{report.description}}</mat-grid-tile>
-            <mat-grid-tile class="list-data-item">{{report.report_date | date}}</mat-grid-tile>
-            <mat-grid-tile class="list-data-item">{{report.hours}}</mat-grid-tile>
-          </mat-grid-list>
+          <div class="ui-g list-data-item">
+            <div class="ui-g-9">{{report.description}}</div>
+            <div class="ui-g-2 text-center">{{report.report_date | date}}</div>
+            <div class="ui-g-1 text-center">{{report.hours}}</div>
+          </div>
         </li>
       </ul>
 
       <div class="ui-g">
         <div class="ui-g-12">Add new Report Data</div>
-        <div class="ui-g-6">
+        <div class="ui-g-5">
+          <label class="sr-only" for="newDescription">New Dscription</label>
           <textarea class="form-control"
+                    id="newDescription"
                     [ngClass]="{'has-error' : descriptionHasError}"
                     (ngModelChange)="descriptionChanged($event)"
                     (blur)="blurDescription()"
@@ -63,15 +77,17 @@
           </span>
 
         </div>
-        <div class="ui-g-3">
-          <p-calendar [(ngModel)]="initDate" [showIcon]="true"></p-calendar>
+        <div class="ui-g-4">
+          <p-calendar [(ngModel)]="initDate" [showIcon]="true" dateFormat="dd mm yy"></p-calendar>
           <br *ngIf="!initDate">
           <span *ngIf="!initDate" class="error-message">
             <small>Date required</small>
           </span>
         </div>
         <div class="ui-g-2">
+          <label class="sr-only" for="newHours">New Hours</label>
           <input class="form-control"
+                 id="newHours"
                  [ngClass]="{'has-error' : hoursHasErrors}"
                  [(ngModel)]="newHours"
                  (ngModelChange)="hoursChanged($event)"

@@ -14,6 +14,10 @@
   color: slateblue;
 }
 
+.step-report-row {
+  background-image: linear-gradient(rgb(222, 236, 242), white);
+}
+
 .company-name {
   color: slategray;
 }
@@ -25,4 +29,9 @@
 .error-message {
   color: red;
   text-align: center;
+}
+
+.daily-report-filters {
+  background-color: rgba(212, 225, 244, 0.3);
+  border: #babec4 solid 0.1px;
 }

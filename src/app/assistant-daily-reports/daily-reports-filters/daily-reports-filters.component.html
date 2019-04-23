@@ -1,0 +1,18 @@
+<div class="ui-g">
+  <div class="ui-g-6">
+    <label class="sr-only" for="searchName">Search Name</label>
+    <input class="form-control"
+           id="searchName"
+           type="text"
+           [(ngModel)]="searchName"
+           (input)="searchStep()"
+           placeholder="Search by Name"
+    />
+  </div>
+  <div class="ui-g-6">
+    <p-dropdown [options]="projects"
+                [(ngModel)]="selectedProject"
+                (onChange)="searchStep()"
+    ></p-dropdown>
+  </div>
+</div>

@@ -4,6 +4,8 @@ import { GetReportDataService } from './get-report-data.service';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 import { Message } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
+import {StepReportFilterComponent} from './step-report-filter/step-report-filter.component';
+
 export interface StepDailyReport {
   id?: number;
   name?: string;
@@ -16,8 +18,10 @@ export interface DailyReport {
   id?: number;
   description?: string;
   report_date?: Date;
+  step_name?: string;
+  project_name?: string;
   user_id?: number;
-  c_tenant_step_id?: number;
+  project_step_id?: number;
   hours?: number;
   created_at?: string;
   update_at?: string;
@@ -46,10 +50,13 @@ export interface DailyReport {
     ])
   ]
 })
+
 export class AssistantStepsHoursComponent implements OnInit {
 
   steps: StepDailyReport[];
+  original_steps: StepDailyReport[];
   @ViewChild('dailyReport') dailyReportEdit: DailyReportEditComponent;
+  @ViewChild('reportFilter') reportFilter: StepReportFilterComponent;
 
   initDate: Date = new Date();
   newDescription: string;
@@ -66,6 +73,11 @@ export class AssistantStepsHoursComponent implements OnInit {
     hours: null
   };
   current_step: StepDailyReport;
+  original_reports: DailyReport[];
+
+  filterProjects: object[] = [
+    { label: 'Select Project', value: null }
+  ];
 
   constructor(private getReportData: GetReportDataService,
               private messageService: MessageService) { }
@@ -74,19 +86,29 @@ export class AssistantStepsHoursComponent implements OnInit {
     const self = this;
     self.getReportData.getAssistantsReports().then(steps => {
       self.steps = steps;
+      self.original_steps = steps;
+
+      self.steps.forEach(step => {
+        if (!self.filterProjects.find(p => p['label'] === step.project_name )) {
+          self.filterProjects.push({ label: step.project_name, value: step.project_name });
+        }
+      });
     });
   }
 
   openPanel(step: StepDailyReport) {
     const self = this;
     self.current_step = step;
+    self.original_reports = step.assistant_daily_reports;
   }
 
   closePanel() {
     this.current_step = null;
+    this.original_reports = null;
     this.newHours = null;
     this.newDescription = null;
     this.initDate = new Date();
+    this.reportFilter.clearDates();
   }
 
   showEdit(report: DailyReport) {
@@ -105,6 +127,19 @@ export class AssistantStepsHoursComponent implements OnInit {
     };
   }
 
+  search(data) {
+    const self = this;
+    const steps: StepDailyReport[] = data['searched_steps'];
+    self.steps = [...steps];
+  }
+
+  searchReports(data) {
+    const self = this;
+    if (!self.current_step) { return; }
+    const reports: DailyReport[] = data['searched_reports'];
+    self.current_step.assistant_daily_reports = [...reports];
+  }
+
   createReport () {
     const self = this;
     const reports: DailyReport[] = [...self.current_step.assistant_daily_reports];
@@ -114,13 +149,14 @@ export class AssistantStepsHoursComponent implements OnInit {
       hours: Number(self.newHours),
       report_date: self.initDate
     };
-    params['c_tenant_step_id'] = self.current_step.id;
+    params['project_step_id'] = self.current_step.id;
 
     self.getReportData.createAssistantReport(params).then(
       (res: object) => {
         if (res['assistant_daily_report']) {
           reports.push(res['assistant_daily_report']);
           self.current_step.assistant_daily_reports = reports;
+          self.original_reports = reports;
           self.newDescription = null;
           self.initDate = new Date();
           self.newHours = null;
@@ -181,11 +217,7 @@ export class AssistantStepsHoursComponent implements OnInit {
   hoursChanged(event: string): void {
     const val = Number(event);
     if (!isNaN(val)) {
-      if (val > 0 && val <= 100 && event.indexOf('.') === -1) {
-        this.hoursHasErrors = false;
-      } else {
-        this.hoursHasErrors = true;
-      }
+      this.hoursHasErrors = !(val > 0 && val <= 100 && event.indexOf('.') === -1);
     } else {
       this.hoursHasErrors = true;
     }

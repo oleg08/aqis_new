@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { StepDailyReport } from './assistant-steps-hours.component';
 import { environment } from '../../environments/environment';
-import { AssistantsWithDailyReports } from '../assistant-daily-reports/assistant-daily-reports.component';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,7 @@ export class GetReportDataService {
     return this.http.get<any>(`${environment.serverUrl}/steps_daily_reports.json`)
       .toPromise()
       .then(res => <StepDailyReport[]>res['steps'])
-      .then(data => { return data; });
+      .then(data => data);
   }
 
   createAssistantReport(params) {
@@ -47,6 +46,6 @@ export class GetReportDataService {
     return this.http.delete(`${environment.serverUrl}/assistant_daily_reports/${report_id}.json`)
       .toPromise()
       .then(res => <object>res)
-      .then(data => { return data; });
+      .then(data => data);
   }
 }

@@ -24,21 +24,31 @@
           <small [matBadge]="assistant.tenant_name" ngbTooltip="Tenant"></small>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-grid-list cols="3" rowHeight="10:1">
-        <mat-grid-tile class="list-data-header">Description</mat-grid-tile>
-        <mat-grid-tile class="list-data-header">Date</mat-grid-tile>
-        <mat-grid-tile class="list-data-header">Hours</mat-grid-tile>
-      </mat-grid-list>
       <ul class="list-group mt-1" [@listAnimation]="assistant.assistant_daily_reports.length">
-        <li class="list-group-item list-data-row"
+        <li class="list-group-item text-center report-header">
+          <div class="ui-g">
+            <div class="ui-g-2">Project</div>
+            <div class="ui-g-2">Step</div>
+            <div class="ui-g-5">Description</div>
+            <div class="ui-g-2">Date</div>
+            <div class="ui-g-1">Hours</div>
+          </div>
+        </li>
+        <li class="list-group-item p-0"
             [ngClass]="{'cursor-pointer':super_admin}"
             *ngFor="let report of assistant.assistant_daily_reports"
             (click)="showEdit(report)">
-          <mat-grid-list cols="3" rowHeight="10:1">
-            <mat-grid-tile class="list-data-item">{{report.description}}</mat-grid-tile>
-            <mat-grid-tile class="list-data-item">{{report.report_date | date}}</mat-grid-tile>
-            <mat-grid-tile class="list-data-item">{{report.hours}}</mat-grid-tile>
-          </mat-grid-list>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="ui-g">
+                <div class="ui-g-2 report-cell text-center">{{report.project_name}}</div>
+                <div class="ui-g-2 report-cell text-center">{{report.step_name}}</div>
+                <div class="ui-g-5 report-cell">{{report.description}}</div>
+                <div class="ui-g-2 report-cell text-center">{{report.report_date | date}}</div>
+                <div class="ui-g-1 report-cell text-center">{{report.hours}}</div>
+              </div>
+            </li>
+          </ul>
         </li>
       </ul>
     </mat-expansion-panel>

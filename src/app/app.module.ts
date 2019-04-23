@@ -5,7 +5,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { CommonModule } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { ModalModule } from 'ngx-bootstrap';
@@ -32,7 +31,7 @@ import {
 // import 'materialize-css';
 
 // services
-import { AuthInterceptor, ParamInterceptor } from './api.interceptor';
+import { AuthInterceptor } from './api.interceptor';
 import { AuthService } from './services/auth.service';
 import { AssignOriginalValueService } from './services/assign-original-value.service';
 import { CheckPatternService } from './services/check-pattern.service';
@@ -248,7 +247,11 @@ import { AssistantDailyReportsComponent } from './assistant-daily-reports/assist
 import { TenantInvoiceComponent } from './invoice-types/tenant-invoice/tenant-invoice.component';
 import { InvoiceTypeInvoicesComponent } from './invoice-types/invoice-type-invoices/invoice-type-invoices.component';
 import { AssistantInvoicesComponent } from './assistant-invoices/assistant-invoices.component';
-import { AssistantInvoicesSearchComponent } from './assistant-invoices/assistant-invoices-search/assistant-invoices-search/assistant-invoices-search.component';
+// tslint:disable-next-line:import-spacing
+import { AssistantInvoicesSearchComponent } from
+    './assistant-invoices/assistant-invoices-search/assistant-invoices-search/assistant-invoices-search.component';
+import { DailyReportsFiltersComponent } from './assistant-daily-reports/daily-reports-filters/daily-reports-filters.component';
+import { StepReportFilterComponent } from './assistant-steps-hours/step-report-filter/step-report-filter.component';
 
 @NgModule({
   declarations: [
@@ -353,7 +356,9 @@ import { AssistantInvoicesSearchComponent } from './assistant-invoices/assistant
     TenantInvoiceComponent,
     InvoiceTypeInvoicesComponent,
     AssistantInvoicesComponent,
-    AssistantInvoicesSearchComponent
+    AssistantInvoicesSearchComponent,
+    DailyReportsFiltersComponent,
+    StepReportFilterComponent
   ],
   imports: [
     BrowserModule,
