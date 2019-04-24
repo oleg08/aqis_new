@@ -14,9 +14,11 @@
 </p-dialog>
 
 <section class="daily-report-filters">
-  <app-aqis-daily-reports-filters [projects]="filterProjects"
-                                  [steps]="original_steps"
-                                  (onSearchStep)="search($event)">
+  <app-aqis-daily-reports-filters [dropdownItems]="filterProjects"
+                                  dropdownItemName="project_name"
+                                  [showDropdown]="true"
+                                  [items]="original_steps"
+                                  (onSearchItem)="search($event)">
   </app-aqis-daily-reports-filters>
 </section>
 
@@ -35,11 +37,10 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div class="ui-g list-data-header text-center">
-        <div class="ui-g-12">
+        <div *ngIf="original_reports" class="ui-g-12 report-filter mt-2">
           <app-aqis-step-report-filter #reportFilter
                                        [reports]="original_reports"
-                                       (onSelectDates)="searchReports($event)"
-          >
+                                       (onSelectDates)="searchReports($event)">
           </app-aqis-step-report-filter>
         </div>
         <div class="ui-g-9">Description</div>

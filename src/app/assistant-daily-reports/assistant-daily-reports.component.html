@@ -12,6 +12,15 @@
   </div>
 </p-dialog>
 
+<section *ngIf="original_assistants" class="daily-report-filters">
+  <app-aqis-daily-reports-filters [dropdownItems]="filterTenants"
+                                  dropdownItemName="tenant_name"
+                                  [showDropdown]="super_admin"
+                                  [items]="original_assistants"
+                                  (onSearchItem)="search($event)">
+  </app-aqis-daily-reports-filters>
+</section>
+
 <section *ngIf="assistants" class="assistants-daily-reports">
   <mat-accordion>
     <mat-expansion-panel *ngFor="let assistant of assistants"
@@ -27,6 +36,15 @@
       <ul class="list-group mt-1" [@listAnimation]="assistant.assistant_daily_reports.length">
         <li class="list-group-item text-center report-header">
           <div class="ui-g">
+            <div *ngIf="original_reports" class="ui-g-12 report-filter mt-2">
+              <app-aqis-step-report-filter #reportFilter
+                                           [ifAssistants]="true"
+                                           [reports]="original_reports"
+                                           dropdownItemName="project_name"
+                                           [dropdownItems]="filterReportsDropdownItems"
+                                           (onSelectDates)="searchReports($event)">
+              </app-aqis-step-report-filter>
+            </div>
             <div class="ui-g-2">Project</div>
             <div class="ui-g-2">Step</div>
             <div class="ui-g-5">Description</div>

@@ -1,10 +1,27 @@
 <div class="ui-g">
-  <div class="ui-g-offset-8 ui-g-4">
+  <div *ngIf="ifAssistants" class="ui-g-3">
+    <p-dropdown [options]="dropdownItems"
+                [(ngModel)]="selectedDropdownItem"
+                (onChange)="searchReport()"
+                [disabled]="reports.length < 1"
+    >
+    </p-dropdown>
+  </div>
+  <div *ngIf="ifAssistants" class="ui-g-5">
+    <label class="sr-only" for="search_by_step">Search By Step</label>
+    <input type="text" class="form-control float-right" id="search_by_step"
+           [(ngModel)]="searchByStepName"
+           (input)="searchReport()"
+           [disabled]="reports.length < 1"
+           placeholder="Search by Step"/>
+  </div>
+  <div class="ui-g-4" [ngClass]="{'ui-g-offset-8':!ifAssistants}">
     <p-calendar [(ngModel)]="rangeDates"
                 dateFormat="dd mm yy"
                 selectionMode="range"
                 placeholder="Date in range"
-                (onSelect)="selectDates()"
+                (onSelect)="searchReport()"
+                [disabled]="reports.length < 1"
                 [readonlyInput]="true">
     </p-calendar>
     <i *ngIf="rangeDates" class="fa fa-close cursor-pointer ml-1" (click)="clearDates()" ngbTooltip="Clear Dates"></i>

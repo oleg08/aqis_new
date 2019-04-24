@@ -2,9 +2,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { GetReportDataService } from '../assistant-steps-hours/get-report-data.service';
 import { Message } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
-import {DailyReport} from '../assistant-steps-hours/assistant-steps-hours.component';
+import { DailyReport } from '../assistant-steps-hours/assistant-steps-hours.component';
 import {DailyReportEditComponent} from '../assistant-steps-hours/daily-report-edit/daily-report-edit.component';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
+import {StepReportFilterComponent} from '../assistant-steps-hours/step-report-filter/step-report-filter.component';
 
 export interface AssistantsWithDailyReports {
   id?: number;
@@ -48,6 +49,7 @@ export class AssistantDailyReportsComponent implements OnInit {
   admin: boolean;
   super_admin: boolean;
   assistants: AssistantsWithDailyReports[];
+  original_assistants: AssistantsWithDailyReports[];
   current_assistant: AssistantsWithDailyReports;
   current_report: DailyReport = {
     id: null,
@@ -57,8 +59,18 @@ export class AssistantDailyReportsComponent implements OnInit {
   };
   displayDialog = false;
   msgs: Message[] = [];
+  original_reports: DailyReport[];
+
+  filterTenants: object[] = [
+    { label: 'Select Tenant', value: null }
+  ];
+
+  filterReportsDropdownItems: object[] = [
+    { label: 'Select Project', value: null }
+  ];
 
   @ViewChild('dailyReport') dailyReportEdit: DailyReportEditComponent;
+  @ViewChild('reportFilter') reportFilter: StepReportFilterComponent;
 
   constructor(private getReportData: GetReportDataService,
               private messageService: MessageService) { }
@@ -68,8 +80,25 @@ export class AssistantDailyReportsComponent implements OnInit {
     self.getReportData.indexAssistantReports().then(
       data => {
         self.assistants = data['assistants'];
+
+        if (data['projects'] && data['projects'].length > 0) {
+          const projects = data['projects'];
+          projects.forEach(project_name => {
+            self.filterReportsDropdownItems.push({ label: project_name, value: project_name });
+          });
+        }
+
+        self.original_assistants = data['assistants'];
         self.admin = data['admin'];
         self.super_admin = data['super_admin'];
+
+        if (self.super_admin) {
+          self.assistants.forEach(assistant => {
+            if (!self.filterTenants.find(t => t['value'] === assistant.tenant_name)) {
+              self.filterTenants.push({ label: assistant.tenant_name, value: assistant.tenant_name });
+            }
+          });
+        }
       }
     );
   }
@@ -77,10 +106,13 @@ export class AssistantDailyReportsComponent implements OnInit {
   openPanel(assistant: AssistantsWithDailyReports) {
     const self = this;
     self.current_assistant = assistant;
+    self.original_reports = assistant.assistant_daily_reports;
   }
 
   closePanel() {
     this.current_assistant = null;
+    this.original_reports = null;
+    this.reportFilter.clearDates();
   }
 
   showEdit(report: DailyReport) {
@@ -136,5 +168,18 @@ export class AssistantDailyReportsComponent implements OnInit {
         self.displayDialog = false;
       }
     );
+  }
+
+  search(data) {
+    const self = this;
+    const assistants: AssistantsWithDailyReports[] = data['searched_items'];
+    self.assistants = [...assistants];
+  }
+
+  searchReports(data) {
+    const self = this;
+    if (!self.current_assistant) { return; }
+    const reports: DailyReport[] = data['searched_reports'];
+    self.current_assistant.assistant_daily_reports = [...reports];
   }
 }

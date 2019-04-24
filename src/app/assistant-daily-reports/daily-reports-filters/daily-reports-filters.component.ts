@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {StepDailyReport} from '../../assistant-steps-hours/assistant-steps-hours.component';
 
 @Component({
   selector: 'app-aqis-daily-reports-filters',
@@ -8,11 +7,13 @@ import {StepDailyReport} from '../../assistant-steps-hours/assistant-steps-hours
 })
 export class DailyReportsFiltersComponent implements OnInit {
 
-  @Input() projects: object[];
-  @Input() steps: StepDailyReport[];
+  @Input() dropdownItems: object[];
+  @Input() items: any[];
+  @Input() dropdownItemName: string;
+  @Input() showDropdown: boolean;
   // tslint:disable-next-line:no-output-on-prefix
-  @Output()onSearchStep: EventEmitter<object> = new EventEmitter<object>();
-  selectedProject: string;
+  @Output()onSearchItem: EventEmitter<object> = new EventEmitter<object>();
+  selectedDropdownItem: string;
   searchName: string;
 
   constructor() { }
@@ -23,14 +24,14 @@ export class DailyReportsFiltersComponent implements OnInit {
   searchStep() {
     const self = this;
     let isIncludesName = true;
-    let isIncludesProject = true;
-    let searched_steps: StepDailyReport[];
+    let isIncludesDropdownItem = true;
+    let searched_items: any[];
 
-    searched_steps = self.steps.filter(step => {
+    searched_items = self.items.filter(step => {
       isIncludesName = self.searchName ? step.name.toLowerCase().includes(self.searchName.toLowerCase()) : true;
-      isIncludesProject = self.selectedProject ? step.project_name === self.selectedProject : true;
-      return isIncludesName && isIncludesProject;
+      isIncludesDropdownItem = self.selectedDropdownItem ? step[self.dropdownItemName] === self.selectedDropdownItem : true;
+      return isIncludesName && isIncludesDropdownItem;
     });
-    self.onSearchStep.emit({ searched_steps: searched_steps });
+    self.onSearchItem.emit({ searched_items: searched_items });
   }
 }

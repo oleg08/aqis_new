@@ -2,6 +2,11 @@
   background-color: whitesmoke;
 }
 
+.daily-report-filters {
+  background-color: rgba(212, 225, 244, 0.3);
+  border: #babec4 solid 0.1px;
+}
+
 .assistant-name {
   color: slateblue;
 }
@@ -12,4 +17,8 @@
 
 .report-cell {
   background-image: linear-gradient(to bottom right, rgb(165, 28, 234), rgb(209, 179, 224));
+}
+
+.report-filter {
+  border: #489be8 solid 0.2px;
 }

@@ -9,9 +9,9 @@
            placeholder="Search by Name"
     />
   </div>
-  <div class="ui-g-6">
-    <p-dropdown [options]="projects"
-                [(ngModel)]="selectedProject"
+  <div *ngIf="showDropdown" class="ui-g-6">
+    <p-dropdown [options]="dropdownItems"
+                [(ngModel)]="selectedDropdownItem"
                 (onChange)="searchStep()"
     ></p-dropdown>
   </div>
