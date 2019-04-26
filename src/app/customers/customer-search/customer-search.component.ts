@@ -14,6 +14,7 @@ import { OpenStepsService } from '../../services/open-steps.service';
 import { SortCustomers } from '../../interfaces/sort-customers';
 import { CustomersSortDataService } from '../../services/customers-sort-data.service';
 import { PassProjectIdService } from '../../services/pass-project-id.service';
+import { GoogleAuthenticationMessagesService } from '../../services/google-authentication-messages.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Message, OverlayPanel } from 'primeng/primeng';
 import { MessageService        } from 'primeng/components/common/messageservice';
@@ -300,19 +301,17 @@ export class CustomerSearchComponent implements OnInit {
           if (!self.super_admin) {
             self.current_project = response['current_project'];
             if (response['google_authorized']) {
+              const calendar_email: string = response['calendar_email'];
               if (self.current_project && self.current_project.gmail && self.current_project.gmail !== response['calendar_email']) {
-                const calendar_email: string = response['calendar_email'];
                 type = 'warning';
-                message = `You are connected to the Google Calendar as ${calendar_email}.
-                If you want all events will be created to the Google Calendar for user ${self.current_project.gmail},
-                go to authentication with Google again.`;
+                message = GoogleAuthenticationMessagesService.emails_are_not_equals(calendar_email, self.current_project.gmail);
               } else {
                 type = 'success';
-                message = 'Success Authentication with the Google Calendar.';
+                message = GoogleAuthenticationMessagesService.success(calendar_email);
               }
             } else {
               type = 'warning';
-              message = 'Authentication with Google expired. To authenticate with Google again follow next link';
+              message = GoogleAuthenticationMessagesService.fail();
             }
             self.callAlert.handler(self, type, message, 10000);
           }

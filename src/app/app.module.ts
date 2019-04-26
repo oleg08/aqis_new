@@ -80,6 +80,7 @@ import { InvoiceTypesPeriodsDataService } from './invoice-types/invoice-types-pe
 import { GetReportDataService } from './assistant-steps-hours/get-report-data.service';
 import { SetRangeDateService } from './services/set-range-date.service';
 import { AssistantInvoicesDataService } from './assistant-invoices/assistant-invoices-data.service';
+import { GoogleAuthenticationMessagesService } from './services/google-authentication-messages.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -488,6 +489,7 @@ import { StepReportFilterComponent } from './assistant-steps-hours/step-report-f
     GetReportDataService,
     SetRangeDateService,
     AssistantInvoicesDataService,
+    GoogleAuthenticationMessagesService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

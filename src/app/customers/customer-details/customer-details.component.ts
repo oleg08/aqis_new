@@ -13,6 +13,7 @@ import { ShareAddressService } from '../../services/share-address.service';
 import { TransformStatesService } from '../../services/transform-states.service';
 import { PassStateService } from '../../services/pass-state.service';
 import { PassProjectIdService } from '../../services/pass-project-id.service';
+import { GoogleAuthenticationMessagesService } from '../../services/google-authentication-messages.service';
 import { CookieService } from 'ngx-cookie-service';
 
 import { Message              } from 'primeng/primeng';
@@ -106,14 +107,14 @@ export class CustomerDetailsComponent implements OnInit {
         if (response['google_authorized']) {
           if (self.current_project && self.current_project.gmail && self.current_project.gmail !== response['calendar_email']) {
             type = 'warning';
-            message = `Project's email and email of the logged in Google account are not equal. Go to authenticate with Google again`;
+            message = GoogleAuthenticationMessagesService.emails_are_not_equals(response['calendar_email'], self.current_project.gmail);
           } else {
             type = 'success';
-            message = 'Success Authentication with the Google Calendar.';
+            message = GoogleAuthenticationMessagesService.success(response['calendar_email']);
           }
         } else {
           type = 'warning';
-          message = 'Authentication with Google expired. To authenticate with Google again follow next link';
+          message = GoogleAuthenticationMessagesService.fail();
         }
         self.callAlert.handler(self, type, message, 10000);
 

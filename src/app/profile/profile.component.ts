@@ -8,6 +8,7 @@ import { AuthService} from '../services/auth.service';
 import { CallAlertService } from '../services/call-alert.service';
 import { FlashHighlightsService } from '../services/flash-highlights.service';
 import { TimeZonesDataService } from '../services/time-zones-data.service';
+import { GoogleAuthenticationMessagesService } from '../services/google-authentication-messages.service';
 
 import { Project } from '../interfaces/project';
 import { TimeZones } from '../interfaces/time-zones';
@@ -72,14 +73,15 @@ export class ProfileComponent implements OnInit {
           self.calendar_email = res['calendar_email'];
 
           if (self.current_project && self.google_authorized && self.calendar_email) {
-            self.authentication_text = `You are authenticated with Google as ${self.calendar_email}`;
-            self.current_project_info = `Project's email is ${self.current_project.gmail}`;
+            self.authentication_text = GoogleAuthenticationMessagesService.profileAuthTextSuccess(self.calendar_email);
+            self.current_project_info = GoogleAuthenticationMessagesService.profileProjectInfo(self.current_project.gmail);
             if (self.current_project.gmail) {
-              self.is_project_and_google_emails_equal = self.current_project.gmail === self.calendar_email ?
-              `Project's and google-calendar emails are equal` : `Project's and google-calendar emails are not equal`;
+              self.is_project_and_google_emails_equal = GoogleAuthenticationMessagesService.profileIsEmailsEquals(
+                self.calendar_email,
+                self.current_project.gmail);
             }
           } else {
-            self.authentication_text = `You are not authenticated with the Google Calendar.`;
+            self.authentication_text = GoogleAuthenticationMessagesService.profileAuthTextFailed();
           }
         }
       },
