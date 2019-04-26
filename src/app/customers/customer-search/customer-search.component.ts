@@ -301,8 +301,11 @@ export class CustomerSearchComponent implements OnInit {
             self.current_project = response['current_project'];
             if (response['google_authorized']) {
               if (self.current_project && self.current_project.gmail && self.current_project.gmail !== response['calendar_email']) {
+                const calendar_email: string = response['calendar_email'];
                 type = 'warning';
-                message = `Project's email and email of the logged in Google account are not equal. Go to authenticate with Google again`;
+                message = `You are connected to the Google Calendar as ${calendar_email}.
+                If you want all events will be created to the Google Calendar for user ${self.current_project.gmail},
+                go to authentication with Google again.`;
               } else {
                 type = 'success';
                 message = 'Success Authentication with the Google Calendar.';

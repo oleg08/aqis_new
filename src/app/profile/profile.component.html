@@ -58,3 +58,18 @@
   </p-carousel>
   <p-confirmDialog></p-confirmDialog>
 </section>
+<br>
+<section class="google-authentication-info p-2">
+  <div class="ui-g">
+    <div class="ui-g-2">
+      <img src="assets/showcase/images/icons8-google-calendar-48.png">
+    </div>
+    <div class="ui-g-10">
+      <div class="ui-g">
+        <div class="ui-g-12"><p>{{authentication_text}}</p></div>
+        <div *ngIf="current_project_info" class="ui-g-12">{{current_project_info}}</div>
+        <div *ngIf="is_project_and_google_emails_equal" class="ui-g-12">{{is_project_and_google_emails_equal}}</div>
+      </div>
+    </div>
+  </div>
+</section>

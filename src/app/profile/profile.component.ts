@@ -36,6 +36,12 @@ export class ProfileComponent implements OnInit {
   alert = false;
   alertType:           string;
   alertMessage:        string;
+  google_authorized  = false;
+  current_project:     Project;
+  calendar_email:      string;
+  authentication_text: string;
+  current_project_info: string;
+  is_project_and_google_emails_equal: string;
 
   @ViewChild('userProfile') el: ElementRef;
 
@@ -61,6 +67,20 @@ export class ProfileComponent implements OnInit {
           self.current_user = res['user'];
           self.user         = res['user'];
           self.projects     = res['projects'];
+          self.current_project = res['current_project'];
+          self.google_authorized = res['google_authorized'];
+          self.calendar_email = res['calendar_email'];
+
+          if (self.current_project && self.google_authorized && self.calendar_email) {
+            self.authentication_text = `You are authenticated with Google as ${self.calendar_email}`;
+            self.current_project_info = `Project's email is ${self.current_project.gmail}`;
+            if (self.current_project.gmail) {
+              self.is_project_and_google_emails_equal = self.current_project.gmail === self.calendar_email ?
+              `Project's and google-calendar emails are equal` : `Project's and google-calendar emails are not equal`;
+            }
+          } else {
+            self.authentication_text = `You are not authenticated with the Google Calendar.`;
+          }
         }
       },
       err => {
@@ -162,7 +182,8 @@ export class ProfileComponent implements OnInit {
         const url = response['url'];
 
         fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/https://example.com
-          .then(response => response.text())
+        // tslint:disable-next-line:no-shadowed-variable
+          .then((response: any) => response.text())
           .then(contents => console.log(contents))
           .catch(() => console.log(`Can’t access ` + url + ' response. Blocked by browser?'));
         console.log('success', response);
