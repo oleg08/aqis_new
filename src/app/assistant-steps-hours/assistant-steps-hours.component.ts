@@ -140,8 +140,9 @@ export class AssistantStepsHoursComponent implements OnInit {
     self.current_step.assistant_daily_reports = [...reports];
   }
 
-  createReport () {
+  createReport (step: StepDailyReport) {
     const self = this;
+    if (!self.current_step) { self.current_step = step; }
     const reports: DailyReport[] = [...self.current_step.assistant_daily_reports];
 
     const params: DailyReport = {

@@ -102,7 +102,7 @@
           <button mat-raised-button
                   ngbTooltip="Create Report"
                   [disabled]="!newDescription || !initDate || !newHours || descriptionHasError || hoursHasErrors"
-                  (click)="createReport()">
+                  (click)="createReport(step)">
             <i class="fa fa-check"></i>
           </button>
         </div>

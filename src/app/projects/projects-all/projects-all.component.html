@@ -12,7 +12,13 @@
   <p>{{warning_text}}</p>
 </p-dialog>
 
-<section #projectDetails>
+<div *ngIf="!projects" class="ui-g">
+  <div class="ui-g-12 text-center">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</div>
+
+<section *ngIf="projects" #projectDetails>
   <p-dataGrid [value]="projects" [paginator]="false" [rows]="20">
     <p-header>
       List of Projects
