@@ -20,6 +20,7 @@ import { Message              } from 'primeng/primeng';
 import { MessageService       } from 'primeng/components/common/messageservice';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../interfaces/project';
+import {Customer} from '../../interfaces/customer';
 
 @Component({
   selector: 'app-customer-details',
@@ -39,7 +40,7 @@ import { Project } from '../../interfaces/project';
 export class CustomerDetailsComponent implements OnInit {
 
   id:                any;
-  customer:          any;
+  customer:          Customer;
   current_user:      object;
   current_project:   Project;
   current_project_id: number|string;

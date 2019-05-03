@@ -28,6 +28,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { SelectQuestionListComponent } from '../../questions/select-question-list/select-question-list.component';
 import { GroupedMultiselectComponent } from '../../grouped-multiselect/grouped-multiselect.component';
 
+import { Customer } from '../../interfaces/customer';
 import { EmailAddresses } from '../../interfaces/email-addresses';
 import { EmailTemplates } from '../../interfaces/email-templates';
 import { Businesses } from '../../interfaces/businesses';
@@ -35,6 +36,7 @@ import { BusinessDomain } from '../../interfaces/business-domain';
 import { Gender } from '../../interfaces/gender';
 
 import { environment } from '../../../environments/environment';
+
 declare var google: any;
 
 @Component({
@@ -137,7 +139,7 @@ export class CustomerInfoComponent implements OnInit {
   filteredAddresses: Array<object>;
   newAddress: string;
 
-  customers:                 Array<object>;
+  customers:                 Customer[];
   customers_ids:             object;
   selectedCustomer:          string = null;
   next_customer:             number;
@@ -157,8 +159,9 @@ export class CustomerInfoComponent implements OnInit {
   active_inplace:            boolean;
   current_name:              string;
   participantsList:          boolean;
+  editBasicData:             boolean;
 
-  @Input () customer:                object;
+  @Input () customer:                Customer;
   @Input () customer_tenant:         object;
   @Input () google_task_saved:       boolean;
   @Input () states:                  Array<object>;
@@ -203,15 +206,18 @@ export class CustomerInfoComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.top_questions_path = 'project_questions/' + self.customer['id'];
+    self.top_questions_path = 'project_questions/' + self.customer.id;
 
     self.passStateService.currentState.subscribe(st => self.selectedState = st);
 
     self.openSteps.currentState.subscribe(st => self.open_steps = st);
 
     self.genders = self.genderService.get();
+    self.editBasicData = self.current_user['edit_basic_data'];
 
-    if (self.super_admin) {
+    self.initializeSelectedQuestion();
+
+    if (self.super_admin || self.editBasicData) {
 
       self.shareBusinesses.currentBusinesses.subscribe(businesses => self.businesses = businesses);
 
@@ -244,14 +250,14 @@ export class CustomerInfoComponent implements OnInit {
       self.selectedResponsibleGender = self.genders.find(g => g.value === self.customer_tenant['get_responsible_gender']);
       self.selectedAssistantGender = self.genders.find(g => g.value === self.customer_tenant['get_assistant_gender']);
 
-      self.initializeSelectedQuestion();
+      // self.initializeSelectedQuestion();
       self.filteredParticipantsNew = JSON.parse(JSON.stringify(self.customer_tenant['participants']));
 
       self.addresses_data.currentAddresses.subscribe(addresses => self.addresses = addresses);
 
       let head_quarter: string = null;
-      if (self.customer['zip'] && self.customer['city'] && self.customer['head_quarter']) {
-        head_quarter = self.customer['zip'] + ' ' + self.customer['city'] + ' ' + self.customer['head_quarter'];
+      if (self.customer.zip && self.customer.city && self.customer.head_quarter) {
+        head_quarter = self.customer.zip + ' ' + self.customer.city + ' ' + self.customer.head_quarter;
       }
       let comment_address: string = null;
       if (self.customer_tenant['zip_2'] && self.customer_tenant['city_2'] && self.customer_tenant['comment_address']) {
@@ -290,8 +296,8 @@ export class CustomerInfoComponent implements OnInit {
           self.customers = customer_ids['customers'];
           self.customers_ids = {};
           self.customers_ids['ids'] = ids;
-          self.customers_ids['self_id'] = self.customer['id'];
-          self.setPrevNextId(ids, self.customer['id']);
+          self.customers_ids['self_id'] = self.customer.id;
+          self.setPrevNextId(ids, self.customer.id);
         },
         (response) => {
           console.log(response);
@@ -299,7 +305,7 @@ export class CustomerInfoComponent implements OnInit {
       );
     }
 
-    self.phone_1 = self.customer['phone_1'];
+    self.phone_1 = self.customer.phone_1;
 
     const today = new Date();
     self.new_date = {
@@ -351,7 +357,7 @@ export class CustomerInfoComponent implements OnInit {
     if (event.key === 'Escape' && self.active_inplace) {
       self.focusOutInput();
       self.active_inplace = false;
-      self.customer['name'] = JSON.parse(JSON.stringify(self.current_name));
+      self.customer.name = JSON.parse(JSON.stringify(self.current_name));
     }
     if (this.active_input) return;
     if (event.key === 'ArrowLeft') this.goToNextCustomer('prev');
@@ -371,7 +377,7 @@ export class CustomerInfoComponent implements OnInit {
   onTabOpen (event) {
     const self = this;
     if (event.index === 1) {
-      self.getEmailTemplates.get(`c_tenant_email_templates/${self.customer['id']}`, self.current_project_id).subscribe(
+      self.getEmailTemplates.get(`c_tenant_email_templates/${self.customer.id}`, self.current_project_id).subscribe(
         data => {
           if (data['c_tenant_email_templates']) {
             self.email_templates = data['c_tenant_email_templates'];
@@ -386,7 +392,7 @@ export class CustomerInfoComponent implements OnInit {
     }
   }
 
-  initMap(element_id, address, showMap) {
+  initMap(element_id, address, showMap?) {
     const self = this;
 
     setTimeout(() => {
@@ -428,10 +434,6 @@ export class CustomerInfoComponent implements OnInit {
       sub_array: 'customer_tenants'
     };
     this.customerSubArrayChanged.emit(update);
-  }
-
-  sanitize(url: string) {
-    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   save(update) {
@@ -643,7 +645,7 @@ export class CustomerInfoComponent implements OnInit {
     });
   }
 
-  goToNextCustomer (prev) {
+  goToNextCustomer (prev?) {
     const self = this;
     self.initSteps = false;
 
@@ -750,7 +752,7 @@ export class CustomerInfoComponent implements OnInit {
       self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'Participant with that name already exists'});
       return;
     } else {
-      participant['customer_id'] = self.customer['id'];
+      participant['customer_id'] = self.customer.id;
       participant['customer_tenant_id'] = self.customer_tenant['id'];
       self.http.post(environment.serverUrl + '/participants.json', {participant: participant}
       ).subscribe(
@@ -801,7 +803,7 @@ export class CustomerInfoComponent implements OnInit {
     const event = self.customer_tenant['events'].find(ev => ev.id === event_id);
 
     setTimeout(() => {
-      params['google_event'] = self.setGoogleParams.setGoogleEvent(event, self.customer['zip'] + ' - ' + self.customer['name']);
+      params['google_event'] = self.setGoogleParams.setGoogleEvent(event, self.customer.zip + ' - ' + self.customer.name);
       params['participants_ids'] = self.setGoogleParams.setParticipantsIds(event);
       self.http.post(environment.serverUrl + '/events/' + event_id + '/' + method + '_participant.json', params
       ).subscribe(
@@ -827,19 +829,19 @@ export class CustomerInfoComponent implements OnInit {
 
   addBusiness(object) {
     const self = this;
-    const customer_id = self.customer['id'];
+    const customer_id = self.customer.id;
     const business: Businesses = object.business;
     let customer_businesses: Businesses[];  // = [...self.customer['customer_businesses']];
 
     if (object.description) {
-      const params = { description: object.description, business_domain_id: self.selectedDomain.id, customer_id: self.customer['id'] };
+      const params = { description: object.description, business_domain_id: self.selectedDomain.id, customer_id: self.customer.id };
       self.http.post(environment.serverUrl + '/businesses.json', params
       ).subscribe(
         (response) => {
           if (response['customer_businesses']) {
 
             customer_businesses = response['customer_businesses'];
-            self.customer['customer_businesses'] = customer_businesses;
+            self.customer.customer_businesses = customer_businesses;
 
             self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'success-updated');
             self.messageService.add({severity: 'info', summary: 'Success', detail: 'Business-domain successfully created'});
@@ -859,7 +861,7 @@ export class CustomerInfoComponent implements OnInit {
         response => {
           if (response['customer_businesses']) {
             customer_businesses = response['customer_businesses'];
-            self.customer['customer_businesses'] = customer_businesses;
+            self.customer.customer_businesses = customer_businesses;
 
             self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'success-updated');
           } else {
@@ -906,8 +908,8 @@ export class CustomerInfoComponent implements OnInit {
 
   subtractBusiness(object) {
     const self = this;
-    const customer_id = self.customer['id'];
-    let customer_businesses: Businesses[] = [...self.customer['customer_businesses']];
+    const customer_id = self.customer.id;
+    let customer_businesses: Businesses[] = [...self.customer.customer_businesses];
     const business: Businesses = object.business.value;
 
     if (object.business.value.description) {
@@ -916,7 +918,7 @@ export class CustomerInfoComponent implements OnInit {
         response => {
           if (response['customer_businesses']) {
             customer_businesses = response['customer_businesses'];
-            self.customer['customer_businesses'] = customer_businesses;
+            self.customer.customer_businesses = customer_businesses;
             self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'success-updated');
           } else {
             self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'failed-update');
@@ -930,12 +932,13 @@ export class CustomerInfoComponent implements OnInit {
       );
     } else if (object.business.value.business_domain) {
       const business_domain = self.business_domains.find(bd => bd.label === object.business.value.business_domain);
-      self.http.post(environment.serverUrl + '/customers/' + customer_id + '/subtract_business_domain.json', { business_domain_id: business_domain.id }
+      self.http.post(environment.serverUrl + '/customers/' + customer_id + '/subtract_business_domain.json',
+        { business_domain_id: business_domain.id }
       ).subscribe(
         response => {
           if (response['customer_businesses']) {
             customer_businesses = response['customer_businesses'];
-            self.customer['customer_businesses'] = customer_businesses;
+            self.customer.customer_businesses = customer_businesses;
             self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'success-updated');
           } else {
             self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'failed-update');
@@ -950,15 +953,15 @@ export class CustomerInfoComponent implements OnInit {
 
   clearBusinesses () {
     const self = this;
-    const customer_id = self.customer['id'];
-    let customer_businesses: Businesses[] = [...self.customer['customer_businesses']];
+    const customer_id = self.customer.id;
+    let customer_businesses: Businesses[] = [...self.customer.customer_businesses];
 
     self.http.post(environment.serverUrl + '/customers/' + customer_id + '/clear_businesses.json', {  }
     ).subscribe(
       response => {
         if (response['customer_businesses']) {
           customer_businesses = response['customer_businesses'];
-          self.customer['customer_businesses'] = customer_businesses;
+          self.customer.customer_businesses = customer_businesses;
           self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'success-updated');
         } else {
           self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'failed-update');
@@ -1014,8 +1017,9 @@ export class CustomerInfoComponent implements OnInit {
 
   setOriginalQuestions(questions) {
     const self = this;
-    if (!self.original_questions)
+    if (!self.original_questions) {
       self.original_questions = JSON.parse(JSON.stringify(self.questions));
+    }
   }
 
   setPrevQuestions() {
@@ -1141,9 +1145,9 @@ export class CustomerInfoComponent implements OnInit {
   createBusiness (object) {
     const self = this;
 
-    const customer_id: number = self.customer['id'];
+    const customer_id: number = self.customer.id;
     const businesses: Businesses[] = [];
-    let customer_businesses: Businesses[] = [...self.customer['customer_businesses']];
+    let customer_businesses: Businesses[] = [...self.customer.customer_businesses];
     const params: object = { ...object, ...{ customer_id: customer_id } };
 
     self.http.post(environment.serverUrl + '/businesses.json', params
@@ -1163,9 +1167,9 @@ export class CustomerInfoComponent implements OnInit {
 
           self.businesses = businesses;
           customer_businesses = response['customer_businesses'];
-          self.customer['customer_businesses'] = customer_businesses;
+          self.customer.customer_businesses = customer_businesses;
 
-          self.business_multiselect.ngOnInit()
+          self.business_multiselect.ngOnInit();
 
           self.flashHighlights.handler(self, '#business_list_', String(customer_id), 'success-updated');
           self.messageService.add({severity: 'info', summary: 'Success', detail: 'Business-domain successfully created'});

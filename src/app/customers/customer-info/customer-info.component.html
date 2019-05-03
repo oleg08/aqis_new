@@ -146,7 +146,7 @@
           [minY]="70"
           [maximizable]="true"
           [baseZIndex]="10000">
-  <p-header>Participants of company <u>{{customer['name']}}</u></p-header>
+  <p-header>Participants of company <u>{{customer.name}}</u></p-header>
   <div class="ui-g">
     <div *ngIf="!super_admin" class="ui-g-11">
       <app-aqis-participants-list bind-participants="customer_tenant['participants']"
@@ -167,13 +167,13 @@
            (click)="goToNextCustomer('prev')"
            ngbTooltip="Previous Customer"></i>
       </div>
-      <div id="name-{{customer['id']}}" class="ui-g-10">
-        <div *ngIf="super_admin" class="ui-g">
+      <div id="name-{{customer.id}}" class="ui-g-10">
+        <div *ngIf="super_admin || editBasicData" class="ui-g">
           <div class="ui-g-12 text-center">
-            <p-inplace (onActivate)="activateInplace(customer['name'])"
+            <p-inplace (onActivate)="activateInplace(customer.name)"
                        [active]="active_inplace">
                         <span pInplaceDisplay>
-                            <h1>{{customer['name']}}</h1>
+                            <h1>{{customer.name}}</h1>
                         </span>
               <span pInplaceContent>
                             <input #customer_name_input
@@ -181,7 +181,7 @@
                                    size="80"
                                    (focus)="focusInput()"
                                    (blur)="focusOutInput()"
-                                   [(ngModel)]="customer['name']"
+                                   [(ngModel)]="customer.name"
                                    ref-customer_name="ngModel"
                                    (keyup.enter)="saveName(customer_name)">
                         </span>
@@ -189,8 +189,8 @@
           </div>
         </div>
         <h1 class="h1 text-justify font-weight-bold mb-0 text-center">
-                    <span *ngIf="!super_admin">
-                        {{customer['name']}}
+                    <span *ngIf="!super_admin && !editBasicData">
+                        {{customer.name}}
                     </span>
         </h1>
       </div>
@@ -205,7 +205,7 @@
     <div class="row">
       <div class="col-4">
         <button class="btn btn-sm mr-1" type="button" [routerLink]="['/customers']" pTooltip="Return to Customers"><i class="fa fa-arrow-circle-left"></i></button>
-        <u>internal ID: <b>{{customer['id']}}</b></u>
+        <u>internal ID: <b>{{customer.id}}</b></u>
       </div>
       <div class="col-4">
         <p-dropdown *ngIf="customers"
@@ -273,310 +273,312 @@
   <section class="card-body"
            *ngIf="!show_events"
            [@flyDetailsOut]>
-    <div class="customer-super-admin" *ngIf="super_admin">
-      <div class="ui-g">
-        <div id="identifier-{{customer['id']}}" class="ui-g-4 alert-primary">
-          <label><b>UID-Number</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="identifier"
-                            label="UID-Number"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
 
-        <div id="fn-{{customer['id']}}" class="ui-g-2 alert-secondary">
-          <label><b>FN</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="fn"
-                            label="FN"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-
-        <div id="outlets-{{customer['id']}}" class="ui-g-2 alert-secondary">
-          <label><b>Filias</b></label>
-          <app-text-field-component bind-object="customer"
-                                    field_name="outlets"
-                                    pattern_name="number between 1 and 100000"
-                                    pattern="\d{1,5}"
-                                    label="Number of Filias"
-                                    (focusInput)="focusInput()"
-                                    (focusOutInput)="focusOutInput()"
-                                    on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-
-        <div id="num_employees-{{customer['id']}}" class="ui-g-2 alert-secondary">
-          <label><b>Employees</b></label>
-          <app-text-field-component bind-object="customer"
-                                    field_name="num_employees"
-                                    pattern_name="number between 1 and 100000"
-                                    pattern="\d{1,5}"
-                                    label="Employees"
-                                    (focusInput)="focusInput()"
-                                    (focusOutInput)="focusOutInput()"
-                                    on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-
-        <div id="turnover-{{customer['id']}}" class="ui-g-2 alert-secondary">
-          <label><b>Turnover (million eur)</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="turnover"
-                            label="Turnover"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-      </div>
-
-      <div class="ui-g">
-        <div id="zip-{{customer['id']}}" class="ui-g-4 customer-address">
-          <label><b>Zip</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="zip"
-                            pattern_name="Number"
-                            [max_value]="10000"
-                            label="Zip"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-        <div id="comment_firm-{{customer['id']}}" class="ui-g-4 customer-address">
-          <label><b>Comment Firm</b></label>
-          <app-aqis-area-field  bind-object="customer"
-                                    field_name="comment_firm"
-                                rows="4"
-                                    label="Comment Firm"
-                                    (focusInput)="focusInput()"
-                                    (focusOutInput)="focusOutInput()"
-                                    on-valueChanged="save($event)">
-          </app-aqis-area-field >
-        </div>
-        <div id="link-{{customer['id']}}" class="ui-g-4 customer-address">
-          <label><b>Web</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="link"
-                            label="Web"
-                            addon=" "
-                            target="_blank"
-                            image="../../../assets/showcase/images/if_link-go_83876.png"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-      </div>
-
-      <div class="ui-g">
-        <div id="city-{{customer['id']}}" class="ui-g-4 customer-address">
-          <label><b>City</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="city"
-                            label="City"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-
-        <div id="responsible_name-{{customer['id']}}" class="ui-g-4 customer-address">
-          <label><b>Responsible Person</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="responsible_name"
-                            label="Responsible Person"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-
-        <div class="ui-g-4 customer-address">
-          <app-aqis-customer-info-links [customer_name]="customer['name']"></app-aqis-customer-info-links>
-        </div>
-      </div>
-
-      <div class="ui-g">
-        <div id="email-{{customer['id']}}" class="ui-g-4">
-          <label><b>Email 1</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="email"
-                            label="Email"
-                            addon="mailto:"
-                            image="../../../assets/showcase/images/icons8-email-50.png"
-                            on-valueChanged="save($event)"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
-          </app-text-field-component>
-        </div>
-        <div id="phone_1-{{customer['id']}}" class="ui-g-4">
-          <label><b>Phone 1</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="phone_1"
-                            label="Phone 1"
-                            addon="skype:"
-                            image="../../../assets/showcase/images/if_skype_circle_color_107179.png"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-        <div id="head_quarter-{{customer['id']}}" class="ui-g-4 customer-address">
-          <label><b>Address</b></label>
-          <div class="row">
-            <div class="col-10">
-              <app-text-field-component bind-object="customer"
-                                field_name="head_quarter"
-                                label="Address"
-                                (focusInput)="focusInput()"
-                                (focusOutInput)="focusOutInput()"
-                                on-valueChanged="save($event)">
-              </app-text-field-component>
-            </div>
-            <div class="col-2">
-              <button type="button"
-                      class="btn btn-default float-right"
-                      (click)="map1.show($event); initMap('googleMap1', customer['zip'] + ' ' +
-                                                                        customer['city'] + ' ' +
-                                                                        customer['head_quarter'])">
-                <img src="../../../assets/showcase/images/if_map_285662.png" width="30">
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ui-g">
-        <div id="email_2-{{customer['id']}}" class="ui-g-4">
-          <label><b>Email 2</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="email_2"
-                            label="Email-2"
-                            addon="mailto:"
-                            image="../../../assets/showcase/images/icons8-email-50.png"
-                            on-valueChanged="save($event)"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
-          </app-text-field-component>
-        </div>
-        <div id="phone_2-{{customer['id']}}" class="ui-g-4">
-          <label><b>Phone 2</b></label>
-          <app-text-field-component bind-object="customer"
-                            field_name="phone_2"
-                            label="Phone 2"
-                            addon="skype:"
-                            image="../../../assets/showcase/images/if_skype_circle_color_107179.png"
-                            (focusInput)="focusInput()"
-                            (focusOutInput)="focusOutInput()"
-                            on-valueChanged="save($event)">
-          </app-text-field-component>
-        </div>
-        <div id="comment_address-{{customer['id']}}" class="ui-g-4 customer-address">
-          <label><b>Address  2</b></label>
-          <div class="row">
-            <div class="col-10">
-              <app-text-field-component bind-object="customer"
-                                field_name="comment_address"
-                                label="Address 2"
-                                (focusInput)="focusInput()"
-                                (focusOutInput)="focusOutInput()"
-                                on-valueChanged="save($event)">
-              </app-text-field-component>
-            </div>
-            <div class="col-2">
-              <button type="button"
-                      class="btn btn-default float-right"
-                      (click)="map1.show($event); initMap('googleMap1', (customer['zip'] + ' ' + customer['city'] + ' ' + customer['head_quarter']))">
-                <img src="../../../assets/showcase/images/if_map_285662.png" width="30">
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ui-g">
-        <div id="business_list_{{customer.id}}" class="ui-g-12 alert-secondary">
-          <br>
-          <div *ngIf="!businesses || businesses.length < 1">
-            <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
-          </div>
-          <div *ngIf="businesses && businesses.length > 0" class="ui-g">
-            <div class="ui-g-9">
-              <label><b><u>Business list</u></b></label>
-              <app-grouped-multiselect #business_multiselect
-                                       [addTag]="true"
-                                       [businesses]="businesses"
-                                       [selectedBusinesses]="customer.customer_businesses"
-                                       (addBusiness)="addBusiness($event)"
-                                       (subtractBusiness)="subtractBusiness($event)"
-                                       (clearBusinesses)="clearBusinesses()"
-                                       (focusInput)="focusInput()"
-                                       (focusOutInput)="focusOutInput()"
-              >
-              </app-grouped-multiselect>
-            </div>
-            <div class="ui-g-3">
-              <!--[loading]="domainLoading"-->
-              <ng-select *ngIf="domains && domains.length > 0"
-                         [items]="domains"
-                         name="business_domains"
-                         bindLabel="label"
-                         [(ngModel)]="selectedDomain"
-                         (change)="addBusinessDomain(selectedDomain, customer['id'])"
-                         [clearable]="false"
-                         (focus)="focusInput()"
-                         (blur)="focusOutInput()">
-              </ng-select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="ui-g">
-        <div id="conversation-{{customer['id']}}" class="ui-g-8 alert-secondary">
-          <label><b>Conversation - Notes</b></label>
-          <app-aqis-area-field bind-object="customer"
-                               field_name="conversation"
-                               rows="4"
-                               label="Conversation - Notes"
-                               (focusInput)="focusInput()"
-                               (focusOutInput)="focusOutInput()"
-                               on-valueChanged="save($event)">
-          </app-aqis-area-field>
-          <br>
-        </div>
-        <div id="activity-{{customer['id']}}" class="ui-g-4 alert-secondary">
-          <label><b>Activity</b></label>
-          <app-aqis-area-field bind-object="customer"
-                               field_name="activity"
-                               rows="4"
-                               label="Activity"
-                               (focusInput)="focusInput()"
-                               (focusOutInput)="focusOutInput()"
-                               on-valueChanged="save($event)">
-          </app-aqis-area-field>
-          <br>
-        </div>
-      </div>
-    </div>
-
-    <div class="customer-non-super-admin" *ngIf="!super_admin">
+    <div class="customer-non-super-admin">
 
       <p-accordion (onOpen)="onTabOpen($event)">
         <p-accordionTab header="Lead’s basic data">
-          <section class="customer-readonly-data">
+
+          <div *ngIf="super_admin || editBasicData" class="customer-super-admin">
+            <div class="ui-g">
+              <div id="identifier-{{customer.id}}" class="ui-g-4 alert-primary">
+                <label><b>UID-Number</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="identifier"
+                                          label="UID-Number"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+
+              <div id="fn-{{customer.id}}" class="ui-g-2 alert-secondary">
+                <label><b>FN</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="fn"
+                                          label="FN"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+
+              <div id="outlets-{{customer.id}}" class="ui-g-2 alert-secondary">
+                <label><b>Filias</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="outlets"
+                                          pattern_name="number between 1 and 100000"
+                                          pattern="\d{1,5}"
+                                          label="Number of Filias"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+
+              <div id="num_employees-{{customer.id}}" class="ui-g-2 alert-secondary">
+                <label><b>Employees</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="num_employees"
+                                          pattern_name="number between 1 and 100000"
+                                          pattern="\d{1,5}"
+                                          label="Employees"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+
+              <div id="turnover-{{customer.id}}" class="ui-g-2 alert-secondary">
+                <label><b>Turnover (million eur)</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="turnover"
+                                          label="Turnover"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+            </div>
+
+            <div class="ui-g">
+              <div id="zip-{{customer.id}}" class="ui-g-4 customer-address">
+                <label><b>Zip</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="zip"
+                                          pattern_name="Number"
+                                          [max_value]="10000"
+                                          label="Zip"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+              <div id="comment_firm-{{customer.id}}" class="ui-g-4 customer-address">
+                <label><b>Comment Firm</b></label>
+                <app-aqis-area-field  bind-object="customer"
+                                      field_name="comment_firm"
+                                      rows="4"
+                                      label="Comment Firm"
+                                      (focusInput)="focusInput()"
+                                      (focusOutInput)="focusOutInput()"
+                                      on-valueChanged="save($event)">
+                </app-aqis-area-field >
+              </div>
+              <div id="link-{{customer.id}}" class="ui-g-4 customer-address">
+                <label><b>Web</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="link"
+                                          label="Web"
+                                          addon=" "
+                                          target="_blank"
+                                          image="../../../assets/showcase/images/if_link-go_83876.png"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+            </div>
+
+            <div class="ui-g">
+              <div id="city-{{customer.id}}" class="ui-g-4 customer-address">
+                <label><b>City</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="city"
+                                          label="City"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+
+              <div id="responsible_name-{{customer.id}}" class="ui-g-4 customer-address">
+                <label><b>Responsible Person</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="responsible_name"
+                                          label="Responsible Person"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+
+              <div class="ui-g-4 customer-address">
+                <app-aqis-customer-info-links [customer_name]="customer.name"></app-aqis-customer-info-links>
+              </div>
+            </div>
+
+            <div class="ui-g">
+              <div id="email-{{customer.id}}" class="ui-g-4">
+                <label><b>Email 1</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="email"
+                                          label="Email"
+                                          addon="mailto:"
+                                          image="../../../assets/showcase/images/icons8-email-50.png"
+                                          on-valueChanged="save($event)"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
+                </app-text-field-component>
+              </div>
+              <div id="phone_1-{{customer.id}}" class="ui-g-4">
+                <label><b>Phone 1</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="phone_1"
+                                          label="Phone 1"
+                                          addon="skype:"
+                                          image="../../../assets/showcase/images/if_skype_circle_color_107179.png"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+              <div id="head_quarter-{{customer.id}}" class="ui-g-4 customer-address">
+                <label><b>Address</b></label>
+                <div class="row">
+                  <div class="col-10">
+                    <app-text-field-component bind-object="customer"
+                                              field_name="head_quarter"
+                                              label="Address"
+                                              (focusInput)="focusInput()"
+                                              (focusOutInput)="focusOutInput()"
+                                              on-valueChanged="save($event)">
+                    </app-text-field-component>
+                  </div>
+                  <div class="col-2">
+                    <button type="button"
+                            class="btn btn-default float-right"
+                            (click)="map1.show($event); initMap('googleMap1', customer.zip + ' ' +
+                                                                        customer.city + ' ' +
+                                                                        customer.head_quarter)">
+                      <img src="../../../assets/showcase/images/if_map_285662.png" width="30">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-g">
+              <div id="email_2-{{customer.id}}" class="ui-g-4">
+                <label><b>Email 2</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="email_2"
+                                          label="Email-2"
+                                          addon="mailto:"
+                                          image="../../../assets/showcase/images/icons8-email-50.png"
+                                          on-valueChanged="save($event)"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
+                </app-text-field-component>
+              </div>
+              <div id="phone_2-{{customer.id}}" class="ui-g-4">
+                <label><b>Phone 2</b></label>
+                <app-text-field-component bind-object="customer"
+                                          field_name="phone_2"
+                                          label="Phone 2"
+                                          addon="skype:"
+                                          image="../../../assets/showcase/images/if_skype_circle_color_107179.png"
+                                          (focusInput)="focusInput()"
+                                          (focusOutInput)="focusOutInput()"
+                                          on-valueChanged="save($event)">
+                </app-text-field-component>
+              </div>
+              <div id="comment_address-{{customer.id}}" class="ui-g-4 customer-address">
+                <label><b>Address  2</b></label>
+                <div class="row">
+                  <div class="col-10">
+                    <app-text-field-component bind-object="customer"
+                                              field_name="comment_address"
+                                              label="Address 2"
+                                              (focusInput)="focusInput()"
+                                              (focusOutInput)="focusOutInput()"
+                                              on-valueChanged="save($event)">
+                    </app-text-field-component>
+                  </div>
+                  <div class="col-2">
+                    <button type="button"
+                            class="btn btn-default float-right"
+                            (click)="map1.show($event); initMap('googleMap1', (customer.zip + ' ' + customer.city + ' ' + customer.head_quarter))">
+                      <img src="../../../assets/showcase/images/if_map_285662.png" width="30">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-g">
+              <div id="business_list_{{customer.id}}" class="ui-g-12 alert-secondary">
+                <br>
+                <div *ngIf="!businesses || businesses.length < 1">
+                  <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+                </div>
+                <div *ngIf="businesses && businesses.length > 0" class="ui-g">
+                  <div class="ui-g-9">
+                    <label><b><u>Business list</u></b></label>
+                    <app-grouped-multiselect #business_multiselect
+                                             [addTag]="true"
+                                             [businesses]="businesses"
+                                             [selectedBusinesses]="customer.customer_businesses"
+                                             (addBusiness)="addBusiness($event)"
+                                             (subtractBusiness)="subtractBusiness($event)"
+                                             (clearBusinesses)="clearBusinesses()"
+                                             (focusInput)="focusInput()"
+                                             (focusOutInput)="focusOutInput()"
+                    >
+                    </app-grouped-multiselect>
+                  </div>
+                  <div class="ui-g-3">
+                    <!--[loading]="domainLoading"-->
+                    <ng-select *ngIf="domains && domains.length > 0"
+                               [items]="domains"
+                               name="business_domains"
+                               bindLabel="label"
+                               [(ngModel)]="selectedDomain"
+                               (change)="addBusinessDomain(selectedDomain, customer['id'])"
+                               [clearable]="false"
+                               (focus)="focusInput()"
+                               (blur)="focusOutInput()">
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ui-g">
+              <div id="conversation-{{customer['id']}}" class="ui-g-8 alert-secondary">
+                <label><b>Conversation - Notes</b></label>
+                <app-aqis-area-field bind-object="customer"
+                                     field_name="conversation"
+                                     rows="4"
+                                     label="Conversation - Notes"
+                                     (focusInput)="focusInput()"
+                                     (focusOutInput)="focusOutInput()"
+                                     on-valueChanged="save($event)">
+                </app-aqis-area-field>
+                <br>
+              </div>
+              <div id="activity-{{customer['id']}}" class="ui-g-4 alert-secondary">
+                <label><b>Activity</b></label>
+                <app-aqis-area-field bind-object="customer"
+                                     field_name="activity"
+                                     rows="4"
+                                     label="Activity"
+                                     (focusInput)="focusInput()"
+                                     (focusOutInput)="focusOutInput()"
+                                     on-valueChanged="save($event)">
+                </app-aqis-area-field>
+                <br>
+              </div>
+            </div>
+          </div>
+
+          <section *ngIf="!super_admin && !editBasicData" class="customer-readonly-data">
             <div class="ui-g">
               <div class="ui-g-4 alert-primary">
                 <label><b>UID-Number</b></label>
-                <h6>{{customer['identifier'] || 'None'}}</h6>
+                <h6>{{customer.identifier || 'None'}}</h6>
               </div>
 
               <div class="ui-g-2 alert-secondary">
@@ -591,19 +593,19 @@
 
               <div class="ui-g-2 alert-secondary">
                 <label><b>Employees</b></label>
-                <h6>{{customer['num_employees'] || 'None'}}</h6>
+                <h6>{{customer.num_employees || 'None'}}</h6>
               </div>
 
               <div class="ui-g-2 alert-secondary">
                 <label><b>Turnover</b></label>
-                <h6>{{customer['turnover'] || 'None'}}</h6>
+                <h6>{{customer.turnover || 'None'}}</h6>
               </div>
             </div>
 
             <div class="ui-g">
               <div class="ui-g-2 customer-address">
                 <label><b>Zip</b></label>
-                <h6>{{customer['zip'] || 'None'}}</h6>
+                <h6>{{customer.zip || 'None'}}</h6>
               </div>
               <div class="ui-g-2 customer-address">
                 <label><b>City</b></label>
@@ -611,7 +613,7 @@
               </div>
               <div class="ui-g-4 customer-address">
                 <label><b>Comment Firm</b></label>
-                <h6>{{customer['comment_firm'] || 'None'}}</h6>
+                <h6>{{customer.comment_firm || 'None'}}</h6>
               </div>
             </div>
 
@@ -621,7 +623,7 @@
                 <label><b>Address 1</b></label>
                 <div class="row">
                   <div class="col-10">
-                    <h6>{{customer['head_quarter']}}</h6>
+                    <h6>{{customer.head_quarter}}</h6>
                   </div>
                   <div class="col-2">
                     <button type="button"
@@ -685,7 +687,7 @@
             </div>
             <div class="ui-g customer-address">
               <div class="ui-g-4">
-                <app-aqis-customer-info-links [customer_name]="customer['name']"></app-aqis-customer-info-links>
+                <app-aqis-customer-info-links [customer_name]="customer.name"></app-aqis-customer-info-links>
               </div>
               <div class="ui-g-8">
                 <label><b>Conversation - Notes</b></label>
@@ -699,9 +701,9 @@
                 <label>
                   <b>Customer's business-list</b>
                 </label>
-                <h5 *ngIf="customer['customer_businesses'].length < 1">Empty</h5>
+                <h5 *ngIf="customer.customer_businesses.length < 1">Empty</h5>
                 <ul class="list-group">
-                  <li *ngFor="let business of customer['customer_businesses']; let i = index"
+                  <li *ngFor="let business of customer.customer_businesses; let i = index"
                       class="list-group-item">
                     {{business.description}}
                   </li>
@@ -714,7 +716,7 @@
         <p-accordionTab header="Sales">
           <section class="customer-tenant-data">
             <div class="ui-g">
-              <div  id="state_id{{customer_tenant['id']}}" class="ui-g-4 alert-primary">
+              <div  id="state_id{{customer_tenant.id}}" class="ui-g-4 alert-primary">
                 <label><b>State</b></label>
                 <br>
                 <p-dropdown [options]="states"
@@ -740,10 +742,10 @@
                   </div>
                 </div>
                 <div class="ui-g">
-                  <div id="future_connection{{customer_tenant['id']}}" class="ui-g-12">
+                  <div id="future_connection{{customer_tenant.id}}" class="ui-g-12">
                     <app-aqis-connection-popup bind-object="customer_tenant"
                                                field_name="future_connection"
-                                               connection_date="customer['customer_tenants']['future_connection']"
+                                               connection_date="customer.customer_tenants['future_connection']"
                                                (focusInput)="focusInput()"
                                                (focusOutInput)="focusOutInput()"
                                                on-ConnectionChanged="saveSubItem($event, 'customer_tenants')">
