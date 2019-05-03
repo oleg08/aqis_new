@@ -81,8 +81,6 @@ export class CustomerSearchComponent implements OnInit {
     this.keywords          = '';
     this.order             = '';
     this.upload_file       = null;
-    this.upload_customers  = false;
-    this.progressValue     = 0;
     this.short_customers_list = true;
 
     this.customers_options_select = [
@@ -117,8 +115,6 @@ export class CustomerSearchComponent implements OnInit {
   new_email:            string;
   new_identifier:       string;
   upload_file:          any;
-  upload_customers:     boolean;
-  progressValue:        any;
   customers_ids:        string[] = [];
   sort_properties:      SortCustomers[];
   email_templates:      EmailAddresses[];
@@ -158,6 +154,7 @@ export class CustomerSearchComponent implements OnInit {
   alert: boolean;
   alertType: string;
   alertMessage: string;
+  loadCustomersMessage: string;
 
   @ViewChild('customersList') el: ElementRef;
 
@@ -558,34 +555,6 @@ export class CustomerSearchComponent implements OnInit {
     field._parent.form.markAsPristine();
   }
 
-  progressBar(self, response_customers, alert_type, alert_message, alert_timeout) {
-    self.progressValue = 2;
-    function start (i) {
-      if (i < response_customers.length) {
-        setTimeout(() => {
-          const response_customer = response_customers[i];
-          if (!self.lazyCustomers.find(c => c['id'] === response_customer['id'])) {
-            self.lazyCustomers.push(response_customer);
-          }
-          i++;
-
-          self.copy_customers = JSON.parse(JSON.stringify(self.lazyCustomers));
-
-          self.progressValue = ((i * 100) / response_customers.length).toFixed(0);
-          if (self.progressValue > 99.9) {
-            setTimeout(() => {
-              self.callAlert.handler(self, alert_type, alert_message, alert_timeout);
-              self.upload_customers = false;
-            }, alert_timeout);
-          }
-          start(i);
-          self.sortArray.handler(self.lazyCustomers, 'name');
-        });
-      }
-    }
-    start(2);
-  }
-
   fileChange(event) {
     const self = this;
 
@@ -607,8 +576,6 @@ export class CustomerSearchComponent implements OnInit {
       return; }
 
     if (fileList.length > 0) {
-      self.upload_customers = true;
-      self.progressValue = 2;
       const file: File = fileList[0];
       const formData: FormData = new FormData();
       formData.append('uploadFile', file, file.name);
@@ -616,55 +583,20 @@ export class CustomerSearchComponent implements OnInit {
       self.http.post(environment.serverUrl + '/customers/fetch_excel_data.json', formData
       ).subscribe(
         (response) => {
-          if (!response['code']) {
-            let message: string;
-            let type: string;
-            let timeout: number;
-            let num_customers: number;
 
-            if (response['customers'] && response['customers'].length > 0) {
-              num_customers = response['num_new_customers'];
-              self.customers_count += num_customers;
-              if (response['num_errors'] > 0) {
-                message = String(response['num_errors']) + ' customer(s) failed to import: ' +
-                  response['errors'];
-                type = 'warning';
-                timeout = 20000;
-              } else {
-                message = num_customers ?  String(num_customers) + ' customers successfully created' :
-                  'File successfully uploaded';
-                type = 'success';
-                timeout = 2000;
-              }
-
-              console.log('response ', response);
-
-              self.progressBar(
-                self,
-                response['customers'],
-                type,
-                message,
-                timeout
-              );
-            } else if (response['code'] === 500) {
-              self.callAlert.handler(self, 'warning', response['message'], 2000);
-              self.upload_customers = false;
-            } else {
-              console.log('1', response);
-              self.callAlert.handler(self, 'warning', `Can't load data`, 2000);
-              self.upload_customers = false;
-            }
-
-          } else {
-            console.log('2', response);
-            self.callAlert.handler(self, 'warning', `Can't load data`, 2000);
+          if (response['message']) {
+            self.loadCustomersMessage = response['message'];
           }
-          self.upload_file = null;
+
+          console.log(response);
+          setTimeout(() => {
+            self.upload_file = null;
+            self.loadCustomersMessage = null;
+          }, 2000);
         },
         (response) => {
           console.log('3', response);
           self.callAlert.handler(self, 'warning', `Can't load data`, 2000);
-          self.upload_customers = false;
           self.upload_file = null;
         }
       );

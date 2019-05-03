@@ -16,7 +16,7 @@
 <p-growl [(value)]="msgs" [baseZIndex]="50"></p-growl>
 
 <p-panel header="Company Management" [toggleable]="true" [style]="{'margin-bottom':'10px'}" [collapsed]="true">
-  <div class="row" [ngClass]="{'cursor-progress' : upload_customers}" style="height: 350px">
+  <div class="row" style="height: 350px">
     <div class="col-8">
       <div class="ui-g">
 
@@ -132,8 +132,7 @@
 
 
 <p-panel *ngIf="super_admin"  header="Add Companies" [toggleable]="true" [style]="{'margin-bottom':'10px'}" [collapsed]="true">
-  <section class="add-customer alert-secondary p-2"
-           [ngClass]="{'cursor-progress' : upload_customers}">
+  <section class="add-customer alert-secondary p-2">
     <form name="add_customer">
       <div class="row">
         <div class="col-6">
@@ -148,7 +147,6 @@
                        ref-newIdentifier="ngModel"
                        (blur)="setInputToPristine(newIdentifier)"
                        name="new_identifier"
-                       [disabled]="upload_customers"
                        bindon-ngModel="new_identifier"
                        placeholder="New UID-Number"
                        required>
@@ -169,7 +167,6 @@
                        type="text"
                        id="new_name"
                        ref-newName="ngModel"
-                       [disabled]="upload_customers"
                        (blur)="setInputToPristine(newName)"
                        name="new_name"
                        bindon-ngModel="new_name"
@@ -193,7 +190,6 @@
                        type="text"
                        id="new_email"
                        ref-newEmail="ngModel"
-                       [disabled]="upload_customers"
                        name="new_email"
                        (blur)="setInputToPristine(newEmail)"
                        bindon-ngModel="new_email"
@@ -210,7 +206,7 @@
             </div>
             <div class="col-3">
               <button class="btn btn-primary btn-sm pull-right"
-                      [disabled]="newEmail.invalid || newName.invalid || newIdentifier.invalid || upload_customers"
+                      [disabled]="newEmail.invalid || newName.invalid || newIdentifier.invalid"
                       on-click="addCustomer(new_name, new_email, new_identifier)">
                 Add Customer
               </button>
@@ -221,7 +217,6 @@
           <div class="row">
             <div class="col-12">
               <input type="file"
-                     [disabled]="upload_customers"
                      name="upload_file"
                      class="form-control"
                      (change)="fileChange($event)"
@@ -233,16 +228,11 @@
           <hr>
           <div class="row">
             <div class="col-12">
-              <p>
-                <ngb-progressbar
-                  *ngIf="upload_customers"
-                  type="success"
-                  [value]="progressValue"
-                  showValue="true"
-                  [animated]="true"
-                  [striped]="true">
-                </ngb-progressbar>
-              </p>
+              <div *ngIf="loadCustomersMessage"
+                   class="alert alert-info"
+                   role="alert">
+                {{loadCustomersMessage}}
+              </div>
             </div>
           </div>
         </div>
@@ -285,14 +275,12 @@
             <div class="input-group">
               <label for="keywords" class="sr-only">Keywords></label>
               <input type="text" id="keywords" name="keywords"
-                     [disabled]="upload_customers"
                      placeholder="Searching by Name, UID-Number or City"
                      bind-ngModel="keywords"
                      ref-model="ngModel"
                      class="form-control input-lg">
               <span class="input-group-btn">
                             <input type="submit" value="Find Companies"
-                                   [disabled]="upload_customers"
                                    (click)="searchCustomers(model)"
                                    class="btn btn-primary">
                         </span>
@@ -316,7 +304,7 @@
       <cdk-virtual-scroll-viewport  style="height: 800px" itemSize="{{super_admin ? 150 : 200}}" (scrolledIndexChange)="loadCustomersLazy($event)" >
         <ng-container *cdkVirtualFor="let customer of lazyCustomers; let i = index">
           <li class="customers-list-item">
-            <section [ngClass]="{'cursor-progress' : upload_customers}">
+            <section>
 
               <div class="ui-g"
                    [@fadeInOut]
@@ -340,13 +328,11 @@
                 <div class="ui-g-2">
                   <div class="btn-group btn-group-sm float-right">
                     <button class="btn btn-primary"
-                            [disabled]="upload_customers"
                             (click)="viewDetails(customer)"
                             value="view_details_{{customer['id']}}">
                       View Details...
                     </button>
                     <button class="btn btn-danger"
-                            [disabled]="upload_customers"
                             on-click="removeCustomer(i, customer)">
                       Delete
                     </button>
