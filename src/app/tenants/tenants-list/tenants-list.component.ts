@@ -220,7 +220,7 @@ export class TenantsListComponent implements OnInit {
   allowEditData(user: User, val) {
     const self = this;
     const params = { edit_basic_data: val };
-    self.http.patch(`${environment.serverUrl}/users/${user.id}.json`, params).subscribe(
+    self.http.patch(`${environment.serverUrl}/super_admins/${user.id}.json`, params).subscribe(
       res => {
         if (res['user']) {
           self.flashHighlights.handler(self, '#user-', user.id, 'success-updated');
