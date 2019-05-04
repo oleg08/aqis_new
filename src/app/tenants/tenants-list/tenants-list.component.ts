@@ -9,6 +9,7 @@ import { ConfirmationService } from 'primeng/api';
 import { environment } from '../../../environments/environment';
 import {Tenant} from '../../interfaces/tenant';
 import { EditTenantComponent } from '../edit-tenant/edit-tenant.component';
+import {User} from '../../interfaces/user';
 
 @Component({
   selector: 'app-tenants-list',
@@ -54,10 +55,10 @@ export class TenantsListComponent implements OnInit {
           self.tenants = response['tenants'];
 
           self.tenants.forEach(tenant => {
-            tenant['tenant_admins'] = [];
+            tenant.tenant_admins = [];
             tenant['users'].forEach(user => {
               if (user['admin'] === true) {
-                tenant['tenant_admins'].push(user);
+                tenant.tenant_admins.push(user);
               }
             });
           });
@@ -212,6 +213,25 @@ export class TenantsListComponent implements OnInit {
         self.flashHighlights.handler(self, '#tenantRow-', tenant_id,
           'failed-update'
         );
+      }
+    );
+  }
+
+  allowEditData(user: User, val) {
+    const self = this;
+    const params = { edit_basic_data: val };
+    self.http.patch(`${environment.serverUrl}/users/${user.id}.json`, params).subscribe(
+      res => {
+        if (res['user']) {
+          self.flashHighlights.handler(self, '#user-', user.id, 'success-updated');
+        } else {
+          setTimeout(() => { user.edit_basic_data = !val; }, 2000);
+          self.flashHighlights.handler(self, '#user-', user.id, 'failed-update');
+        }
+      },
+      err => {
+        setTimeout(() => { user.edit_basic_data = !val; }, 2000);
+        self.flashHighlights.handler(self, '#user-', user.id, 'failed-update');
       }
     );
   }

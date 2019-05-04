@@ -96,6 +96,34 @@
               </div>
             </li>
           </ul>
+          <mat-expansion-panel class="tenant-assistants-list">
+            <mat-expansion-panel-header>
+              Tenant users
+            </mat-expansion-panel-header>
+
+            <mat-list-item>
+              <mat-list-item class="assistant-item"
+                             *ngFor="let user of tenant.users">
+                <div id="user-{{user.id}}" class="ui-g">
+                  <div class="ui-g-10">
+                    <h6>{{user.name || user.email}}</h6>
+                  </div>
+                  <div class="ui-g-2">
+                    <p-checkbox class="float-right"
+                                [(ngModel)]="user.edit_basic_data"
+                                (onChange)="allowEditData(user, $event)"
+                                binary="true"></p-checkbox>
+                  </div>
+                  <div class="ui-g-12">
+                    <small *ngIf="user.admin" class="user-role p-1 m-1">Admin</small>
+                    <small *ngIf="user.agent" class="user-role p-1 m-1">Agent</small>
+                    <small *ngIf="user.assistant" class="user-role p-1 m-1">Assistant</small>
+                  </div>
+                </div>
+                <mat-divider></mat-divider>
+              </mat-list-item>
+            </mat-list-item>
+          </mat-expansion-panel>
         </div>
       </ng-template>
     </p-column>

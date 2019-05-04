@@ -13,6 +13,8 @@ export interface Tenant {
   address?: string;
   invoice_types?: InvoiceType[];
   users?: User[];
+  tenant_admins?: User[];
+  assistants?: User[];
   projects?: Project[];
   created_at?: string;
   updated_at?: string;

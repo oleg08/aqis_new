@@ -8,6 +8,7 @@ export interface User {
   tenant_id?: number;
   time_zone?: number;
   half_time_zone?: boolean;
+  edit_basic_data?: boolean;
   admin?: boolean;
   super_admin?: boolean;
   agent?: boolean;

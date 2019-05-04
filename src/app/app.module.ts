@@ -12,24 +12,6 @@ import { DragulaModule } from 'ng2-dragula';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-// angular material
-import {
-  MatProgressBarModule,
-  MatExpansionModule,
-  MatFormFieldModule,
-  MatInputModule,
-  MatSelectModule,
-  MatListModule,
-  MatDividerModule,
-  MatGridListModule,
-  MatDialogModule,
-  MatButtonModule,
-  MatBadgeModule,
-  MatCardModule,
-} from '@angular/material';
-
-// import 'materialize-css';
-
 // services
 import { AuthInterceptor } from './api.interceptor';
 import { AuthService } from './services/auth.service';
@@ -91,7 +73,7 @@ import { AdminOrSuperAdminGuard } from './guards/admin-or-super-admin.guard';
 
 // primeng
 import { PrimeNgModule } from './prime-ng-module';
-
+import { AngularMaterialModule } from './angular-material-module';
 // components
 import { AngularTokenModule } from 'angular-token';
 import { environment } from '../environments/environment';
@@ -328,19 +310,8 @@ import { StepReportFilterComponent } from './assistant-steps-hours/step-report-f
     ModalModule.forRoot(),
     NgbModule,
     DragulaModule.forRoot(),
-    MatProgressBarModule,
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatListModule,
-    MatDividerModule,
-    MatGridListModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatBadgeModule,
-    MatCardModule,
-    PrimeNgModule
+    PrimeNgModule,
+    AngularMaterialModule
   ],
   providers: [
     AngularTokenService,
