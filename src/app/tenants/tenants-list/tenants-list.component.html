@@ -111,10 +111,12 @@
                   <div class="ui-g-2">
                     <p-checkbox class="float-right"
                                 [(ngModel)]="user.edit_basic_data"
+                                ngbTooltip="{{user.edit_basic_data ? 'Disallow basic data change' : 'Allow basic data change'}}"
                                 (onChange)="allowEditData(user, $event)"
                                 binary="true"></p-checkbox>
                   </div>
                   <div class="ui-g-12">
+                    <small class="m-1 p-1"><b>Roles</b></small>
                     <small *ngIf="user.admin" class="user-role p-1 m-1">Admin</small>
                     <small *ngIf="user.agent" class="user-role p-1 m-1">Agent</small>
                     <small *ngIf="user.assistant" class="user-role p-1 m-1">Assistant</small>
