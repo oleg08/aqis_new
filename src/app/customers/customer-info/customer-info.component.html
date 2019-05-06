@@ -188,11 +188,11 @@
             </p-inplace>
           </div>
         </div>
-        <h1 class="h1 text-justify font-weight-bold mb-0 text-center">
+        <h2 class="h2 font-weight-bold mb-0 text-center">
                     <span *ngIf="!super_admin && !editBasicData">
                         {{customer.name}}
                     </span>
-        </h1>
+        </h2>
       </div>
       <div class="ui-g-1">
         <i *ngIf="next_customer && prev_customer"
@@ -202,12 +202,12 @@
       </div>
     </div>
     <br>
-    <div class="row">
-      <div class="col-4">
+    <div class="ui-g">
+      <div class="ui-g-4">
         <button class="btn btn-sm mr-1" type="button" [routerLink]="['/customers']" pTooltip="Return to Customers"><i class="fa fa-arrow-circle-left"></i></button>
         <u>internal ID: <b>{{customer.id}}</b></u>
       </div>
-      <div class="col-4">
+      <div class="ui-g-4">
         <p-dropdown *ngIf="customers"
                     [options]="customers"
                     [(ngModel)]="selectedCustomer"
@@ -229,7 +229,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="col-4">
+      <div class="ui-g-4">
         <div *ngIf="!super_admin" class="btn-group float-right" role="group">
           <div type="button"
                (click)="participantsList = true"
@@ -713,8 +713,8 @@
             </div>
           </section>
         </p-accordionTab>
-        <p-accordionTab header="Sales">
-          <section class="customer-tenant-data">
+        <p-accordionTab *ngIf="!super_admin" header="Sales">
+          <section *ngIf="!super_admin" class="customer-tenant-data">
             <div class="ui-g">
               <div  id="state_id{{customer_tenant.id}}" class="ui-g-4 alert-primary">
                 <label><b>State</b></label>
@@ -1053,7 +1053,7 @@
             </div>
           </section>
         </p-accordionTab>
-        <p-accordionTab header="Lead Qualification" [selected]="open_steps">
+        <p-accordionTab *ngIf="!super_admin" header="Lead Qualification" [selected]="open_steps">
           <section class="lead-qualification">
             <p-tabView>
               <p-tabPanel header="Steps">

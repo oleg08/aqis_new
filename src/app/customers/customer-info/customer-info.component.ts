@@ -649,8 +649,6 @@ export class CustomerInfoComponent implements OnInit {
     const self = this;
     self.initSteps = false;
 
-    console.log(self.customer_tenant['participants']);
-
     const ids = self.customers_ids['ids'];
 
     if (prev) {

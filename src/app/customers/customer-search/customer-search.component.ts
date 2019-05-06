@@ -6,7 +6,6 @@ import { FlashHighlightsService } from '../../services/flash-highlights.service'
 import { SortArrayService } from '../../services/sort-array.service';
 import { SortMultipleService } from '../../services/sort-multiple.service';
 import { GetEmailTemplatesService } from '../../services/get-email-templates.service';
-import { transition, animate, style, trigger } from '@angular/animations';
 import { PassCustomersIdsService } from '../../services/pass-customers-ids.service';
 import { CustomersWithTenantsService } from '../../services/customers-with-tenants.service';
 import { TransformStatesService } from '../../services/transform-states.service';
@@ -31,17 +30,6 @@ import { Project } from '../../interfaces/project';
   selector: 'app-aqis-customer-search',
   templateUrl: './customer-search.component.html',
   styleUrls: ['./customer-search.component.scss'],
-  animations: [
-    trigger('fadeInOut', [
-      transition('void => *', [
-        style({opacity: 0}),
-        animate(500, style({opacity: 1}))
-      ]),
-      transition('* => void', [
-        animate(500, style({opacity: 0}))
-      ])
-    ])
-  ],
   providers: [
     CallAlertService,
     FlashHighlightsService,
@@ -149,7 +137,6 @@ export class CustomerSearchComponent implements OnInit {
   redirect_url: string;
   return_to_url: string;
 
-  scrolledArray = [];
   msgs: Message[] = [];
   alert: boolean;
   alertType: string;
