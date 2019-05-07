@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProgressAssistantComponent } from './progress-assistant.component';
+import {AppTestingModule} from '../../app-testing-module';
 
 describe('ProgressAssistantComponent', () => {
   let component: ProgressAssistantComponent;
@@ -8,7 +9,7 @@ describe('ProgressAssistantComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProgressAssistantComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

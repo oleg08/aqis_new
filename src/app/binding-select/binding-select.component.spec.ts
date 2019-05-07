@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { BindingSelectComponent } from './binding-select.component';
+import {AppTestingModule} from '../app-testing-module';
 
 describe('BindingSelectComponent', () => {
   let component: BindingSelectComponent;
@@ -9,8 +9,7 @@ describe('BindingSelectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ BindingSelectComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

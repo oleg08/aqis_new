@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { ConnectionPopupComponent } from './connection-popup.component';
+import {AppTestingModule} from '../../app-testing-module';
 
 describe('ConnectionPopupComponent', () => {
   let component: ConnectionPopupComponent;
@@ -9,8 +9,7 @@ describe('ConnectionPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ ConnectionPopupComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

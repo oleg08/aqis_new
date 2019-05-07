@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { CustomerExportComponent } from './customer-export.component';
+import {AppTestingModule} from '../../app-testing-module';
 
 describe('CustomerExportComponent', () => {
   let component: CustomerExportComponent;
@@ -9,8 +9,7 @@ describe('CustomerExportComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ CustomerExportComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

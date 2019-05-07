@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProgressAssistantFiltersComponent } from './progress-assistant-filters.component';
+import {AppTestingModule} from '../../../app-testing-module';
 
 describe('ProgressAssistantFiltersComponent', () => {
   let component: ProgressAssistantFiltersComponent;
@@ -8,7 +9,7 @@ describe('ProgressAssistantFiltersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProgressAssistantFiltersComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

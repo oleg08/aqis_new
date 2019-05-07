@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TenantsDsvgoComponent } from './tenants-dsvgo.component';
+import {AppTestingModule} from '../../app-testing-module';
 
 describe('TenantsDsvgoComponent', () => {
   let component: TenantsDsvgoComponent;
@@ -9,8 +9,7 @@ describe('TenantsDsvgoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ TenantsDsvgoComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

@@ -3,18 +3,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MockComponent } from 'ng-mocks';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import {AppTestingModule} from './app-testing-module';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent, MockComponent(ToolbarComponent)
-      ],
+      imports: [AppTestingModule]
     }).compileComponents();
   }));
 

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProgressProjectTableComponent } from './progress-project-table.component';
+import {AppTestingModule} from '../../../app-testing-module';
 
 describe('ProgressProjectTableComponent', () => {
   let component: ProgressProjectTableComponent;
@@ -8,7 +9,7 @@ describe('ProgressProjectTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProgressProjectTableComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

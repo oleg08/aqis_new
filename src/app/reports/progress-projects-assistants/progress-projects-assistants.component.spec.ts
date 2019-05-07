@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProgressProjectsAssistantsComponent } from './progress-projects-assistants.component';
+import {AppTestingModule} from '../../app-testing-module';
 
 describe('ProgressProjectsAssistantsComponent', () => {
   let component: ProgressProjectsAssistantsComponent;
@@ -8,7 +9,7 @@ describe('ProgressProjectsAssistantsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProgressProjectsAssistantsComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

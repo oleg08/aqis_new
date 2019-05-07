@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { ConnectionDurationComponent } from './connection-duration.component';
+import {AppTestingModule} from '../../app-testing-module';
 
 describe('ConnectionDurationComponent', () => {
   let component: ConnectionDurationComponent;
@@ -9,8 +9,7 @@ describe('ConnectionDurationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ ConnectionDurationComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));

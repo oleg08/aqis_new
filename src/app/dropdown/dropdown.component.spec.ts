@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { DropdownComponent } from './dropdown.component';
+import {AppTestingModule} from '../app-testing-module';
 
 describe('DropdownComponent', () => {
   let component: DropdownComponent;
@@ -9,8 +9,7 @@ describe('DropdownComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ DropdownComponent ]
+      imports: [AppTestingModule]
     })
     .compileComponents();
   }));
