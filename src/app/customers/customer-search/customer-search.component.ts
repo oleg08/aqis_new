@@ -458,7 +458,7 @@ export class CustomerSearchComponent implements OnInit {
     self.nullifyAndGetCustomers();
   }
 
-  viewDetails (customer) {
+  viewDetails (customer, newTab?: string) {
     const self = this;
     let prop: string;
     prop = self.short_customers_list ? 'customer_ids' : 'total_customer_ids';
@@ -468,7 +468,12 @@ export class CustomerSearchComponent implements OnInit {
     //
     self.openSteps.changeOpenStepsState(false);        // to close Lead Qualification on customer-details
     self.next_customers_ids.changeCustomers({ customers: customers['customers'], ids: customers['customer_ids'], self_id: customer.id });
-    self.router.navigate(['/customers', customer['id']]);
+
+    const url = `${environment.clientUrl}/customers/${customer.id}`;
+
+    newTab ? self.router.navigate(['/customers', customer['id']]) :
+      self.router.navigate([]).then(result => { window.open(url, '_blank'); });
+
   }
 
   searchCustomers (model) {

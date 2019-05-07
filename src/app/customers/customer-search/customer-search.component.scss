@@ -10,3 +10,14 @@
 .customers-list-item {
   border-bottom: solid black 0.2px;
 }
+
+.btn-details-new-tab {
+  background-color: rgba(132, 177, 249, 0.5);
+}
+
+@media only screen
+and (max-width : 520px) {
+  .btn-details-new-tab {
+    display: none;
+  }
+}

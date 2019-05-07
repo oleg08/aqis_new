@@ -1,6 +1,6 @@
 <form #question_values="ngForm" (ngSubmit)="createQuestion(question_values)">
-  <div class="row">
-    <div class="col-12">
+  <div class="ui-g">
+    <div class="ui-g-12">
       <div bind-class="content_model.invalid && content_model.dirty ?
                  'form-group has-warning' : 'form-group'">
         <label>
@@ -23,8 +23,8 @@
       </div>
     </div>
   </div>
-  <div *ngIf="property2" class="row">
-    <div class="col-12">
+  <div *ngIf="property2" class="ui-g">
+    <div class="ui-g-12">
       <div bind-class="value_model.invalid && value_model.dirty ?
                  'form-group has-warning' : 'form-group'">
         <label>
@@ -49,8 +49,8 @@
     </div>
   </div>
   <br>
-  <div class="row">
-    <div class="col-12">
+  <div class="ui-g">
+    <div class="ui-g-12">
       <button pButton
               class="float-right"
               type="submit"

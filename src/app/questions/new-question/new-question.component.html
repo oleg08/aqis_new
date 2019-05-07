@@ -2,11 +2,11 @@
   <form #new_values="ngForm" (ngSubmit)="submit(new_question, new_values)">
     <div class="panel-body">
       <div class="ui-g">
-        <div class="ui-g-3">
+        <div class="ui-g-12 ui-md-3">
           <h4>{{header_label || 'Create new Question'}}</h4>
           <hr/>
         </div>
-        <div class="ui-g-6">
+        <div class="ui-g-12 ui-md-6">
           <div bind-class="new_question.invalid && new_question.dirty ?
                                     'form-group has-warning' : 'form-group'">
                         <textarea [rows]="5" [cols]="50"
@@ -27,7 +27,7 @@
             </aside>
           </div>
         </div>
-        <div class="ui-g-3">
+        <div class="ui-g-12 ui-md-3">
           <div *ngIf="q_prop2" bind-class="new_weight.invalid && new_weight.dirty ?
                                            'form-group has-warning' : 'form-group'">
             <input type="text"

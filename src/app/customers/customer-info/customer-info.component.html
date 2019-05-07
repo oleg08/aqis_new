@@ -21,7 +21,7 @@
 <p-overlayPanel #new_participant [showCloseIcon]="true" [dismissable]="true">
   <form #new_participant_values="ngForm" (ngSubmit)="createParticipant(new_participant_values)">
     <div class="row">
-      <div class="col-12">
+      <div class="ui-g-12">
         <div bind-class="new_name_model.invalid && new_name_model.dirty ?
                  'form-group has-warning' : 'form-group'">
           <label>
@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
+      <div class="ui-g-12">
         <div bind-class="new_email_model.invalid && new_email_model.dirty ?
                  'form-group has-warning' : 'form-group'">
           <label>
@@ -64,7 +64,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
+      <div class="ui-g-12">
         <div bind-class="new_phone_model.invalid && new_phone_model.dirty ?
                  'form-group has-warning' : 'form-group'">
           <label>
@@ -85,7 +85,7 @@
     </div>
     <br>
     <div class="row">
-      <div class="col-12">
+      <div class="ui-g-12">
         <button pButton
                 class="float-right"
                 type="submit"
@@ -148,7 +148,7 @@
           [baseZIndex]="10000">
   <p-header>Participants of company <u>{{customer.name}}</u></p-header>
   <div class="ui-g">
-    <div *ngIf="!super_admin" class="ui-g-11">
+    <div *ngIf="!super_admin" class="ui-g-12 ui-md-11">
       <app-aqis-participants-list bind-participants="customer_tenant['participants']"
                                   (deleteParticipant)="removeParticipant($event)"
                                   (showMessage)="callMessageService($event)">
@@ -161,13 +161,13 @@
   <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
   <header class="card-header customer-info-header">
     <div class="ui-g">
-      <div class="ui-g-1">
+      <div class="ui-g-12 ui-md-1">
         <i *ngIf="next_customer && prev_customer && customers_ids['ids'].length > 2"
            class="fa fa-angle-double-left cursor-pointer customer-double-angle"
            (click)="goToNextCustomer('prev')"
            ngbTooltip="Previous Customer"></i>
       </div>
-      <div id="name-{{customer.id}}" class="ui-g-10">
+      <div id="name-{{customer.id}}" class="ui-g-12 ui-md-10">
         <div *ngIf="super_admin || editBasicData" class="ui-g">
           <div class="ui-g-12 text-center">
             <p-inplace (onActivate)="activateInplace(customer.name)"
@@ -194,7 +194,7 @@
                     </span>
         </h2>
       </div>
-      <div class="ui-g-1">
+      <div class="ui-g-12 ui-md-1">
         <i *ngIf="next_customer && prev_customer"
            class="fa fa-angle-double-right cursor-pointer customer-double-angle"
            (click)="goToNextCustomer()"
@@ -203,11 +203,11 @@
     </div>
     <br>
     <div class="ui-g">
-      <div class="ui-g-4">
+      <div class="ui-g-12 ui-md-4">
         <button class="btn btn-sm mr-1" type="button" [routerLink]="['/customers']" pTooltip="Return to Customers"><i class="fa fa-arrow-circle-left"></i></button>
         <u>internal ID: <b>{{customer.id}}</b></u>
       </div>
-      <div class="ui-g-4">
+      <div class="ui-g-12 ui-md-4">
         <p-dropdown *ngIf="customers"
                     [options]="customers"
                     [(ngModel)]="selectedCustomer"
@@ -229,7 +229,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="ui-g-4">
+      <div class="ui-g-12 ui-md-4">
         <div *ngIf="!super_admin" class="btn-group float-right" role="group">
           <div type="button"
                (click)="participantsList = true"
@@ -281,7 +281,7 @@
 
           <div *ngIf="super_admin || editBasicData" class="customer-super-admin">
             <div class="ui-g">
-              <div id="identifier-{{customer.id}}" class="ui-g-4 alert-primary">
+              <div id="identifier-{{customer.id}}" class="ui-g-12 ui-md-4 alert-primary">
                 <label><b>UID-Number</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="identifier"
@@ -292,7 +292,7 @@
                 </app-text-field-component>
               </div>
 
-              <div id="fn-{{customer.id}}" class="ui-g-2 alert-secondary">
+              <div id="fn-{{customer.id}}" class="ui-g-12 ui-md-2 alert-secondary">
                 <label><b>FN</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="fn"
@@ -303,7 +303,7 @@
                 </app-text-field-component>
               </div>
 
-              <div id="outlets-{{customer.id}}" class="ui-g-2 alert-secondary">
+              <div id="outlets-{{customer.id}}" class="ui-g-12 ui-md-2 alert-secondary">
                 <label><b>Filias</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="outlets"
@@ -316,7 +316,7 @@
                 </app-text-field-component>
               </div>
 
-              <div id="num_employees-{{customer.id}}" class="ui-g-2 alert-secondary">
+              <div id="num_employees-{{customer.id}}" class="ui-g-12 ui-md-2 alert-secondary">
                 <label><b>Employees</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="num_employees"
@@ -329,7 +329,7 @@
                 </app-text-field-component>
               </div>
 
-              <div id="turnover-{{customer.id}}" class="ui-g-2 alert-secondary">
+              <div id="turnover-{{customer.id}}" class="ui-g-12 ui-md-2 alert-secondary">
                 <label><b>Turnover (million eur)</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="turnover"
@@ -342,7 +342,7 @@
             </div>
 
             <div class="ui-g">
-              <div id="zip-{{customer.id}}" class="ui-g-4 customer-address">
+              <div id="zip-{{customer.id}}" class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Zip</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="zip"
@@ -354,7 +354,7 @@
                                           on-valueChanged="save($event)">
                 </app-text-field-component>
               </div>
-              <div id="comment_firm-{{customer.id}}" class="ui-g-4 customer-address">
+              <div id="comment_firm-{{customer.id}}" class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Comment Firm</b></label>
                 <app-aqis-area-field  bind-object="customer"
                                       field_name="comment_firm"
@@ -365,7 +365,7 @@
                                       on-valueChanged="save($event)">
                 </app-aqis-area-field >
               </div>
-              <div id="link-{{customer.id}}" class="ui-g-4 customer-address">
+              <div id="link-{{customer.id}}" class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Web</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="link"
@@ -381,7 +381,7 @@
             </div>
 
             <div class="ui-g">
-              <div id="city-{{customer.id}}" class="ui-g-4 customer-address">
+              <div id="city-{{customer.id}}" class="ui-g-12 ui-md-4 customer-address">
                 <label><b>City</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="city"
@@ -392,7 +392,7 @@
                 </app-text-field-component>
               </div>
 
-              <div id="responsible_name-{{customer.id}}" class="ui-g-4 customer-address">
+              <div id="responsible_name-{{customer.id}}" class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Responsible Person</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="responsible_name"
@@ -403,13 +403,13 @@
                 </app-text-field-component>
               </div>
 
-              <div class="ui-g-4 customer-address">
+              <div class="ui-g-12 ui-md-4 customer-address">
                 <app-aqis-customer-info-links [customer_name]="customer.name"></app-aqis-customer-info-links>
               </div>
             </div>
 
             <div class="ui-g">
-              <div id="email-{{customer.id}}" class="ui-g-4">
+              <div id="email-{{customer.id}}" class="ui-g-12 ui-md-4">
                 <label><b>Email 1</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="email"
@@ -422,7 +422,7 @@
                                           pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
                 </app-text-field-component>
               </div>
-              <div id="phone_1-{{customer.id}}" class="ui-g-4">
+              <div id="phone_1-{{customer.id}}" class="ui-g-12 ui-md-4">
                 <label><b>Phone 1</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="phone_1"
@@ -434,10 +434,10 @@
                                           on-valueChanged="save($event)">
                 </app-text-field-component>
               </div>
-              <div id="head_quarter-{{customer.id}}" class="ui-g-4 customer-address">
+              <div id="head_quarter-{{customer.id}}" class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Address</b></label>
                 <div class="row">
-                  <div class="col-10">
+                  <div class="ui-g-12 ui-md-10">
                     <app-text-field-component bind-object="customer"
                                               field_name="head_quarter"
                                               label="Address"
@@ -446,7 +446,7 @@
                                               on-valueChanged="save($event)">
                     </app-text-field-component>
                   </div>
-                  <div class="col-2">
+                  <div class="ui-g-12 ui-md-2">
                     <button type="button"
                             class="btn btn-default float-right"
                             (click)="map1.show($event); initMap('googleMap1', customer.zip + ' ' +
@@ -460,7 +460,7 @@
             </div>
 
             <div class="ui-g">
-              <div id="email_2-{{customer.id}}" class="ui-g-4">
+              <div id="email_2-{{customer.id}}" class="ui-g-12 ui-md-4">
                 <label><b>Email 2</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="email_2"
@@ -473,7 +473,7 @@
                                           pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
                 </app-text-field-component>
               </div>
-              <div id="phone_2-{{customer.id}}" class="ui-g-4">
+              <div id="phone_2-{{customer.id}}" class="ui-g-12 ui-md-4">
                 <label><b>Phone 2</b></label>
                 <app-text-field-component bind-object="customer"
                                           field_name="phone_2"
@@ -485,10 +485,10 @@
                                           on-valueChanged="save($event)">
                 </app-text-field-component>
               </div>
-              <div id="comment_address-{{customer.id}}" class="ui-g-4 customer-address">
+              <div id="comment_address-{{customer.id}}" class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Address  2</b></label>
                 <div class="row">
-                  <div class="col-10">
+                  <div class="ui-g-12 ui-md-10">
                     <app-text-field-component bind-object="customer"
                                               field_name="comment_address"
                                               label="Address 2"
@@ -497,7 +497,7 @@
                                               on-valueChanged="save($event)">
                     </app-text-field-component>
                   </div>
-                  <div class="col-2">
+                  <div class="ui-g-12 ui-md-2">
                     <button type="button"
                             class="btn btn-default float-right"
                             (click)="map1.show($event); initMap('googleMap1', (customer.zip + ' ' + customer.city + ' ' + customer.head_quarter))">
@@ -515,7 +515,7 @@
                   <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
                 </div>
                 <div *ngIf="businesses && businesses.length > 0" class="ui-g">
-                  <div class="ui-g-9">
+                  <div class="ui-g-12 ui-md-9">
                     <label><b><u>Business list</u></b></label>
                     <app-grouped-multiselect #business_multiselect
                                              [addTag]="true"
@@ -529,7 +529,7 @@
                     >
                     </app-grouped-multiselect>
                   </div>
-                  <div class="ui-g-3">
+                  <div class="ui-g-12 ui-md-3">
                     <!--[loading]="domainLoading"-->
                     <ng-select *ngIf="domains && domains.length > 0"
                                [items]="domains"
@@ -547,7 +547,7 @@
             </div>
 
             <div class="ui-g">
-              <div id="conversation-{{customer['id']}}" class="ui-g-8 alert-secondary">
+              <div id="conversation-{{customer['id']}}" class="ui-g-12 ui-md-8 alert-secondary">
                 <label><b>Conversation - Notes</b></label>
                 <app-aqis-area-field bind-object="customer"
                                      field_name="conversation"
@@ -559,7 +559,7 @@
                 </app-aqis-area-field>
                 <br>
               </div>
-              <div id="activity-{{customer['id']}}" class="ui-g-4 alert-secondary">
+              <div id="activity-{{customer['id']}}" class="ui-g-12 ui-md-4 alert-secondary">
                 <label><b>Activity</b></label>
                 <app-aqis-area-field bind-object="customer"
                                      field_name="activity"
@@ -576,42 +576,42 @@
 
           <section *ngIf="!super_admin && !editBasicData" class="customer-readonly-data">
             <div class="ui-g">
-              <div class="ui-g-4 alert-primary">
+              <div class="ui-g-12 ui-md-4 alert-primary">
                 <label><b>UID-Number</b></label>
                 <h6>{{customer.identifier || 'None'}}</h6>
               </div>
 
-              <div class="ui-g-2 alert-secondary">
+              <div class="ui-g-12 ui-md-2 alert-secondary">
                 <label><b>FN</b></label>
                 <h6>{{customer.fn || 'None'}}</h6>
               </div>
 
-              <div class="ui-g-2 alert-secondary">
+              <div class="ui-g-12 ui-md-2 alert-secondary">
                 <label><b>Filias</b></label>
                 <h6>{{customer.outlets || 'None'}}</h6>
               </div>
 
-              <div class="ui-g-2 alert-secondary">
+              <div class="ui-g-12 ui-md-2 alert-secondary">
                 <label><b>Employees</b></label>
                 <h6>{{customer.num_employees || 'None'}}</h6>
               </div>
 
-              <div class="ui-g-2 alert-secondary">
+              <div class="ui-g-12 ui-md-2 alert-secondary">
                 <label><b>Turnover</b></label>
                 <h6>{{customer.turnover || 'None'}}</h6>
               </div>
             </div>
 
             <div class="ui-g">
-              <div class="ui-g-2 customer-address">
+              <div class="ui-g-12 ui-md-2 customer-address">
                 <label><b>Zip</b></label>
                 <h6>{{customer.zip || 'None'}}</h6>
               </div>
-              <div class="ui-g-2 customer-address">
+              <div class="ui-g-12 ui-md-2 customer-address">
                 <label><b>City</b></label>
                 <h6>{{customer['city'] || 'None'}}</h6>
               </div>
-              <div class="ui-g-4 customer-address">
+              <div class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Comment Firm</b></label>
                 <h6>{{customer.comment_firm || 'None'}}</h6>
               </div>
@@ -619,13 +619,13 @@
 
 
             <div class="ui-g">
-              <div class="ui-g-4 customer-address">
+              <div class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Address 1</b></label>
                 <div class="row">
-                  <div class="col-10">
+                  <div class="ui-g-12 ui-md-10">
                     <h6>{{customer.head_quarter}}</h6>
                   </div>
-                  <div class="col-2">
+                  <div class="ui-g-12 ui-md-2">
                     <button type="button"
                             class="btn btn-default float-right"
                             (click)="map1.show($event); initMap('googleMap1', (customer['zip'] + ' ' + customer['city'] + ' ' + customer['head_quarter']))">
@@ -634,7 +634,7 @@
                   </div>
                 </div>
               </div>
-              <div class="ui-g-4">
+              <div class="ui-g-12 ui-md-4">
                 <label><b>Phone 1</b></label>
                 <app-text-field-component bind-object="customer"
                                   field_name="phone_1"
@@ -647,7 +647,7 @@
                                   on-valueChanged="save($event)">
                 </app-text-field-component>
               </div>
-              <div class="ui-g-4">
+              <div class="ui-g-12 ui-md-4">
                 <label><b>Email 1</b></label>
                 <app-text-field-component bind-object="customer"
                                   field_name="email"
@@ -664,7 +664,7 @@
             </div>
 
             <div class="ui-g">
-              <div class="ui-g-4 customer-address">
+              <div class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Web</b></label>
                 <app-text-field-component bind-object="customer"
                                   field_name="link"
@@ -678,7 +678,7 @@
                                   on-valueChanged="save($event)">
                 </app-text-field-component>
               </div>
-              <div class="ui-g-8 customer-address">
+              <div class="ui-g-12 ui-md-8 customer-address">
                 <label><b>Activity</b></label>
                 <p>
                   {{customer['activity']}}
@@ -686,10 +686,10 @@
               </div>
             </div>
             <div class="ui-g customer-address">
-              <div class="ui-g-4">
+              <div class="ui-g-12 ui-md-4">
                 <app-aqis-customer-info-links [customer_name]="customer.name"></app-aqis-customer-info-links>
               </div>
-              <div class="ui-g-8">
+              <div class="ui-g-12 ui-md-8">
                 <label><b>Conversation - Notes</b></label>
                 <p>{{customer['conversation']}}</p>
               </div>
@@ -716,7 +716,7 @@
         <p-accordionTab *ngIf="!super_admin" header="Sales">
           <section *ngIf="!super_admin" class="customer-tenant-data">
             <div class="ui-g">
-              <div  id="state_id{{customer_tenant.id}}" class="ui-g-4 alert-primary">
+              <div  id="state_id{{customer_tenant.id}}" class="ui-g-12 ui-md-4 alert-primary">
                 <label><b>State</b></label>
                 <br>
                 <p-dropdown [options]="states"
@@ -727,7 +727,7 @@
                 </p-dropdown>
               </div>
 
-              <div class="ui-g-4 alert-primary">
+              <div class="ui-g-12 ui-md-4 alert-primary">
                 <div class="ui-g">
                   <div class="ui-g-12">
                     <small><b>Resubmission</b></small>
@@ -754,7 +754,7 @@
                 </div>
               </div>
 
-              <div id="zip_2{{customer_tenant['id']}}" class="ui-g-2 alert-info">
+              <div id="zip_2{{customer_tenant['id']}}" class="ui-g-12 ui-md-2 alert-info">
                 <label><b>Zip</b></label>
                 <app-text-field-component bind-object="customer_tenant"
                                   field_name="zip_2"
@@ -764,7 +764,7 @@
                                   on-valueChanged="saveSubItem($event, 'customer_tenants')">
                 </app-text-field-component>
               </div>
-              <div id="city_2{{customer_tenant['id']}}" class="ui-g-2 alert-info">
+              <div id="city_2{{customer_tenant['id']}}" class="ui-g-12 ui-md-2 alert-info">
                 <label><b>City</b></label>
                 <app-text-field-component bind-object="customer_tenant"
                                   field_name="city_2"
@@ -777,7 +777,7 @@
             </div>
 
             <div class="ui-g">
-              <div id="responsible_name{{customer_tenant['id']}}" class="ui-g-4 alert-dark">
+              <div id="responsible_name{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 alert-dark">
                 <div id="responsible_gender{{customer_tenant['id']}}" class="ui-g">
                   <div class="ui-g-12">
                     <label><b>Responsible Person</b></label>
@@ -802,7 +802,7 @@
                 </app-text-field-component>
               </div>
 
-              <div id="office_name{{customer_tenant['id']}}" class="ui-g-4 alert-dark">
+              <div id="office_name{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 alert-dark">
                 <div id="assistant_gender{{customer_tenant['id']}}" class="ui-g">
                   <div class="ui-g-12">
                     <label pTooltip="To this person emails will be sent automatically"><b>Project Person</b></label>
@@ -825,10 +825,10 @@
                 </app-text-field-component>
               </div>
 
-              <div id="comment_address{{customer_tenant['id']}}" class="ui-g-4 alert-info">
+              <div id="comment_address{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 alert-info">
                 <label><b>Address 2</b></label>
                 <div class="row">
-                  <div class="col-10">
+                  <div class="ui-g-12 ui-md-10">
                     <app-text-field-component bind-object="customer_tenant"
                                       field_name="comment_address"
                                       label="Address 2"
@@ -837,7 +837,7 @@
                                       on-valueChanged="saveSubItem($event, 'customer_tenants')">
                     </app-text-field-component>
                   </div>
-                  <div class="col-2">
+                  <div class="ui-g-12 ui-md-2">
                     <button type="button"
                             class="btn btn-default float-right"
                             (click)="map2.show($event); initMap('googleMap2', customer_tenant['zip_2'] + ' ' +
@@ -852,9 +852,9 @@
             </div>
 
             <div class="ui-g">
-              <div *ngIf="email_templates && email_templates.length > 0" class="ui-g-8 alert-secondary">
+              <div *ngIf="email_templates && email_templates.length > 0" class="ui-g-12 ui-md-8 alert-secondary">
                 <div class="ui-g">
-                  <div class="ui-g-2">
+                  <div class="ui-g-12 ui-md-2">
                     <button class="btn btn-sm cursor-pointer"
                             type="button"
                             [disabled]="!selectedTemplate || customer_tenant['email_2'].length < 1"
@@ -862,7 +862,7 @@
                       Send Email
                     </button>
                   </div>
-                  <div class="ui-g-offset-1 ui-g-7">
+                  <div class="ui-g-offset-1 ui-g-12 ui-md-7">
                     <p-dropdown [options]="email_templates"
                                 [(ngModel)]="selectedTemplate"
                                 placeholder="Select a Template"
@@ -871,7 +871,7 @@
                                 [showClear]="true">
                     </p-dropdown>
                   </div>
-                  <div class="ui-g-2">
+                  <div class="ui-g-12 ui-md-2">
                     <button class="btn btn-sm cursor-pointer"
                             type="button"
                             [disabled]="!selectedTemplate || !customer_tenant['assistant_email'] || customer_tenant['assistant_email'].length < 1"
@@ -884,7 +884,7 @@
             </div>
 
             <div class="ui-g">
-              <div id="email_2{{customer_tenant['id']}}" class="ui-g-4 alert-secondary">
+              <div id="email_2{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 alert-secondary">
                 <label class="sr-only"><b>Email</b></label>
                 <app-text-field-component bind-object="customer_tenant"
                                   field_name="email_2"
@@ -897,7 +897,7 @@
                                   pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
                 </app-text-field-component>
               </div>
-              <div id="assistant_email{{customer_tenant['id']}}" class="ui-g-4 alert-secondary">
+              <div id="assistant_email{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 alert-secondary">
                 <label class="sr-only"><b>Email</b></label>
                 <app-text-field-component bind-object="customer_tenant"
                                   field_name="assistant_email"
@@ -911,12 +911,12 @@
                                   pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$">
                 </app-text-field-component>
               </div>
-              <div *ngIf="customer_tenant['events'].length > 0 && customer_tenant['events'][0].address" class="ui-g-4 alert-light">
-                <div class="ui-g-10">
+              <div *ngIf="customer_tenant['events'].length > 0 && customer_tenant['events'][0].address" class="ui-g-12 ui-md-4 alert-light">
+                <div class="ui-g-12 ui-md-10">
                   <label><b>Event's address</b></label>
                   <p><b>{{customer_tenant['events'][0].address.city_address}}</b></p>
                 </div>
-                <div class="ui-g-2">
+                <div class="ui-g-12 ui-md-2">
                   <button type="button"
                           class="btn btn-default float-right"
                           (click)="map3.show($event); initMap('googleMap3', customer_tenant['events'][0].address.city_address)">
@@ -927,7 +927,7 @@
             </div>
 
             <div class="ui-g">
-              <div id="phone_2{{customer_tenant['id']}}" class="ui-g-4 alert-secondary">
+              <div id="phone_2{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 alert-secondary">
                 <label class="sr-only"><b>Phone</b></label>
                 <app-text-field-component bind-object="customer_tenant"
                                   field_name="phone_2"
@@ -939,7 +939,7 @@
                                   on-valueChanged="saveSubItem($event, 'customer_tenants')">
                 </app-text-field-component>
               </div>
-              <div id="assistant_phone{{customer_tenant['id']}}" class="ui-g-4 alert-secondary">
+              <div id="assistant_phone{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 alert-secondary">
                 <label class="sr-only"><b>Phone</b></label>
                 <app-text-field-component bind-object="customer_tenant"
                                   field_name="assistant_phone"
@@ -951,7 +951,7 @@
                                   on-valueChanged="saveSubItem($event, 'customer_tenants')">
                 </app-text-field-component>
               </div>
-              <div id="sent_by{{customer_tenant['id']}}" class="ui-g-4 alert-primary">
+              <div id="sent_by{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 alert-primary">
                 <small><b>Contacted by Agent</b></small>
                 <p *ngIf="contacted_user">
                   {{contacted_user['email']}}
@@ -961,7 +961,7 @@
             </div>
 
             <div class="ui-g">
-              <div id="comment_firm{{customer_tenant['id']}}" class="ui-g-4 customer-address">
+              <div id="comment_firm{{customer_tenant['id']}}" class="ui-g-12 ui-md-4 customer-address">
                 <label><b>Comment Firm</b></label>
                 <app-aqis-area-field  bind-object="customer_tenant"
                                   field_name="comment_firm"
@@ -972,7 +972,7 @@
                                   on-valueChanged="saveSubItem($event, 'customer_tenants')">
                 </app-aqis-area-field >
               </div>
-              <div class="ui-g-4 alert-info">
+              <div class="ui-g-12 ui-md-4 alert-info">
                 <small><b>Available</b></small>
                 <div class="ui-g">
                   <div id="available_on{{customer_tenant['id']}}" class="ui-g-12">
@@ -996,7 +996,7 @@
                   </div>
                 </div>
               </div>
-              <div class="ui-g-4 alert-info">
+              <div class="ui-g-12 ui-md-4 alert-info">
                 <small><b>Last contact</b></small>
                 <div class="ui-g">
                   <div id="last_connection{{customer_tenant['id']}}" class="ui-g-12">
@@ -1101,15 +1101,15 @@
                     <div class="ui-g">
                       <div class="ui-g-12">
                         <div class="ui-g">
-                          <div class="ui-g-9">
+                          <div class="ui-g-12 ui-md-9">
                             <h4>{{question.content}}</h4>
                           </div>
-                          <!--<div class="ui-g-1">-->
+                          <!--<div class="ui-g-12 ui-md-1">-->
                           <!--<h5 class="float-right">-->
                           <!--{{question.weight}}-->
                           <!--</h5>-->
                           <!--</div>-->
-                          <div class="ui-g-2 text-top-right">
+                          <div class="ui-g-12 ui-md-2 text-top-right">
                             <small *ngIf="question.new_label"
                                    [@newLabel]="label_state"
                                    class="new-label">
@@ -1143,15 +1143,15 @@
       <tr>
         <th class="align-text-top">
           <div class="ui-g">
-            <div class="ui-g-3">
+            <div class="ui-g-12 ui-md-3">
               <label>Event starts</label>
             </div>
-            <div class="ui-g-3">
+            <div class="ui-g-12 ui-md-3">
               <label>Event's Address</label>
             </div>
           </div>
           <div class="ui-g">
-            <div class="ui-g-3 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3 ui-g-nopad">
               <div class="ui-g-12">
                 <div class="input-group">
                   <input class="form-control"
@@ -1167,10 +1167,10 @@
                 </div>
               </div>
               <div class="ui-g-12 ui-g-nopad">
-                <div class="ui-g-2">
+                <div class="ui-g-12 ui-md-2">
                   <label><b>at</b></label>
                 </div>
-                <div class="ui-g-10">
+                <div class="ui-g-12 ui-md-10">
                   <ngb-timepicker [(ngModel)]="new_time"
                                   class="events-timepicker"
                                   [spinners]="false">
@@ -1178,10 +1178,10 @@
                 </div>
               </div>
               <div class="ui-g-12 ui-g-nopad">
-                <div class="ui-g-4">
+                <div class="ui-g-12 ui-md-4">
                   <label><b>Duration</b></label>
                 </div>
-                <div class="ui-g-offset-2 ui-g-6">
+                <div class="ui-g-offset-2 ui-g-12 ui-md-6">
                   <p-inputMask [(ngModel)]="new_duration"
                                styleClass="{{!new_duration_valid ? 'mask-invalid' : ''}}"
                                size="5"
@@ -1194,7 +1194,7 @@
                 </div>
               </div>
             </div>
-            <div class="ui-g-3 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3 ui-g-nopad">
               <div class="ui-g-12">
                 <p-autoComplete [(ngModel)]="newAddress"
                                 [suggestions]="filteredAddresses"
@@ -1229,7 +1229,7 @@
               </div>
               <span>Selected Address: {{newAddress ||'none'}}</span>
             </div>
-            <div class="ui-g-6">
+            <div class="ui-g-12 ui-md-6">
               <div class="textarea-container">
                                 <textarea class="form-control"
                                           rows="6"
@@ -1275,7 +1275,7 @@
           [@fadeInOut]>
         <td>
           <div class="ui-g">
-            <div class="ui-g-3 ui-g-nopad">
+            <div class="ui-g-12 ui-md-3 ui-g-nopad">
               <div id="date{{event['id']}}" class="ui-g-12">
                 <label>
                   <b>Event starts</b>
@@ -1289,12 +1289,12 @@
                 </app-aqis-connection-popup>
               </div>
               <div id="start_time{{event['id']}}" class="ui-g-12 ui-g-nopad">
-                <div class="ui-g-2">
+                <div class="ui-g-12 ui-md-2">
                   <label>
                     <b>at</b>
                   </label>
                 </div>
-                <div class="ui-g-10">
+                <div class="ui-g-12 ui-md-10">
                   <app-aqis-connection-time bind-customer="event"
                                     field_name="start_event_time"
                                     field_name_hour="start_time_hours"
@@ -1306,12 +1306,12 @@
                 </div>
               </div>
               <div id="duration{{event['id']}}" class="ui-g-12 ui-g-nopad">
-                <div class="ui-g-4">
+                <div class="ui-g-12 ui-md-4">
                   <label>
                     <b>Duration</b>
                   </label>
                 </div>
-                <div class="ui-g-offset-2 ui-g-6">
+                <div class="ui-g-offset-2 ui-g-12 ui-md-6">
                   <app-aqis-connection-duration bind-object="event"
                                   field_name="duration"
                                   (focusInput)="focusInput()"
@@ -1321,7 +1321,7 @@
                 </div>
               </div>
             </div>
-            <div id="city_address{{event['id']}}" class="ui-g-3 ui-g-nopad">
+            <div id="city_address{{event['id']}}" class="ui-g-12 ui-md-3 ui-g-nopad">
               <div id="address_id{{event['id']}}" class="ui-g-12 text-right">
                 <app-aqis-select-auto-complete label="Event's Address"
                                                field_name_1="address_id"
@@ -1334,7 +1334,7 @@
                 </app-aqis-select-auto-complete>
               </div>
             </div>
-            <div class="ui-g-6 ui-g-nopad">
+            <div class="ui-g-12 ui-md-6 ui-g-nopad">
               <div class="ui-g">
                 <div id="description{{event['id']}}" class="ui-g-12">
                   <div class="textarea-container">
@@ -1356,12 +1356,12 @@
                 </div>
               </div>
               <div class="ui-g">
-                <div class="ui-g-9">
+                <div class="ui-g-12 ui-md-9">
                   <label class="float-right">
                     <b>Saved to Google - </b>
                   </label>
                 </div>
-                <div class="ui-g-3">
+                <div class="ui-g-12 ui-md-3">
                   <i *ngIf="event.saved_to_google" class="fa fa-check check-ok"></i>
                   <i *ngIf="!event.saved_to_google" class="fa fa-remove check-remove"></i>
                 </div>

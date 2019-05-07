@@ -76,6 +76,13 @@
   border-left-color: #fff;
 }
 
+@media only screen
+and (max-width : 520px) {
+  #logo-container {
+    width: 48%;
+  }
+}
+
 //li span, .dropbtn {
 //  display: inline-block;
 //  color: #C0C0C0;
