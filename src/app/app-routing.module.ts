@@ -95,7 +95,7 @@ const routes: Routes = [
   {
     path: 'questions',
     component: QuestionListComponent,
-    canActivate: [ForceSslGuard, SuperAdminGuard]   // super-admin-guard
+    canActivate: [ForceSslGuard, AdminOrSuperAdminGuard]   // admin-or-super-admin-guard
   },
   {
     path: 'businesses',

@@ -15,12 +15,12 @@
 
 <p-growl [(value)]="msgs" [baseZIndex]="50"></p-growl>
 
-<p-panel header="Company Management" [toggleable]="true" [style]="{'margin-bottom':'10px'}" [collapsed]="true">
-  <div class="row" style="height: 350px">
-    <div class="col-8">
+<p-panel header="Company Management" [toggleable]="true" [collapsed]="true">
+  <div class="ui-g">
+    <div class="ui-g-8">
       <div class="ui-g">
 
-        <div class="ui-g-8 send-email">
+        <div class="ui-g-12 ui-md-8 send-email">
           <div class="ui-g">
             <div  *ngIf="email_templates && email_templates.length > 0" class="ui-g-12 customers-select-template">
               <p-dropdown [options]="email_templates"
@@ -37,14 +37,14 @@
             <div class="ui-g-12 text-center" [ngClass]="{'text-center':!super_admin}">
               <p-dropdown [options]="customers_options_select" [(ngModel)]="selectedOption" (onChange)="selectCustomers()"></p-dropdown>
             </div>
-            <div class="ui-g-4">
+            <div class="ui-g-12 ui-md-4">
               <button type="button"
                       class="btn btn-primary cursor-pointer"
                       [routerLink]="['export_customers']">
                 Export to Excel
               </button>
             </div>
-            <div *ngIf="!super_admin" class="ui-g-8">
+            <div *ngIf="!super_admin" class="ui-g-12 ui-md-8">
               <button type="button"
                       class="btn btn-primary cursor-pointer float-right"
                       (click)="loadSteps()">
@@ -54,7 +54,7 @@
           </div>
         </div>
 
-        <div class="ui-g-4">
+        <div class="ui-g-12 ui-md-4">
           <div *ngIf="!super_admin && filter_states" class="ui-g">
             <div class="ui-g-12">
               <ng-select
@@ -82,7 +82,7 @@
         </div>
       </div>
     </div>
-    <div class="ui-g-4">
+    <div class="ui-g-12 ui-md-4">
       <div *ngIf="!super_admin" class="ui-g">
         <div class="ui-g-12">
           <p-multiSelect [options]="filter_roles"
@@ -95,7 +95,7 @@
         </div>
       </div>
       <div *ngIf="!super_admin" class="ui-g">
-        <div class="ui-g-10 pr-0">
+        <div class="ui-g-12 ui-md-10 pr-0">
           <p-autoComplete pTooltip="Select User to which belongs Company"
                           [(ngModel)]="tenant_user"
                           [suggestions]="filteredUsers"
@@ -111,7 +111,7 @@
           </p-autoComplete>
           <p-button *ngIf="tenant_user" (click)="clearTenantUsers()" icon="fa fa-close"></p-button>
         </div>
-        <div class="ui-g-2 pl-0">
+        <div class="ui-g-12 ui-md-2 pl-0">
           <button *ngIf="!super_admin" type="button"
                   class="btn btn-primary btn-sm float-right cursor-pointer"
                   (click)="getMyLeads()">
@@ -134,10 +134,10 @@
 <p-panel *ngIf="super_admin"  header="Add Companies" [toggleable]="true" [style]="{'margin-bottom':'10px'}" [collapsed]="true">
   <section class="add-customer alert-secondary p-2">
     <form name="add_customer">
-      <div class="row">
-        <div class="col-6">
-          <div class="row">
-            <div class="col-6">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-6">
               <div bind-class="( newIdentifier.invalid && newIdentifier.dirty ) ?
                                            'form-group has-warning' : 'form-group'">
                 <label class="sr-only" for="new_identifier"></label>
@@ -159,7 +159,7 @@
                 </aside>
               </div>
             </div>
-            <div class="col-6">
+            <div class="ui-g-12 ui-md-6">
               <div bind-class="( newName.invalid && newName.dirty ) ?
                                    'form-group has-warning' : 'form-group'">
                 <label class="sr-only" for="new_name">New Name</label>
@@ -181,8 +181,8 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-9">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-9">
               <div bind-class="( newEmail.invalid && newEmail.dirty ) ?
                                    'form-group has-warning' : 'form-group'">
                 <label class="sr-only" for="new_email">New Email</label>
@@ -204,7 +204,7 @@
                 </aside>
               </div>
             </div>
-            <div class="col-3">
+            <div class="ui-g-12 ui-md-3">
               <button class="btn btn-primary btn-sm pull-right"
                       [disabled]="newEmail.invalid || newName.invalid || newIdentifier.invalid"
                       on-click="addCustomer(new_name, new_email, new_identifier)">
@@ -213,9 +213,9 @@
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="row">
-            <div class="col-12">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g">
+            <div class="ui-g-12">
               <input type="file"
                      name="upload_file"
                      class="form-control"
@@ -226,8 +226,8 @@
             </div>
           </div>
           <hr>
-          <div class="row">
-            <div class="col-12">
+          <div class="ui-g">
+            <div class="ui-g-12">
               <div *ngIf="loadCustomersMessage"
                    class="alert alert-info"
                    role="alert">
@@ -251,7 +251,7 @@
   <p-panel>
     <p-header>
       <div class="ui-g">
-        <div class="ui-g-2 text-left">
+        <div class="ui-g-12 ui-md-2 text-left">
           <div class="ui-g">
             <div class="ui-g-12">
               <b>Companies</b>
@@ -259,43 +259,45 @@
                     <small *ngIf="lazyCustomers">: {{customers_count || 0}}</small>
                 </span>
             </div>
-            <div class="ui-g-8 text-right">
+            <div class="ui-g-12 ui-md-8 text-right">
               <h6 *ngIf="short_customers_list">Short List</h6>
               <h6 *ngIf="!short_customers_list">Long List</h6>
             </div>
-            <div class="ui-g-4">
+            <div class="ui-g-12 ui-md-4">
               <p-inputSwitch class="float-right"
                              [(ngModel)]="short_customers_list">
               </p-inputSwitch>
             </div>
           </div>
         </div>
-        <div class="ui-g-6 mr-2">
+        <div class="ui-g-12 ui-md-6 mr-2">
           <form>
             <div class="input-group">
               <label for="keywords" class="sr-only">Keywords></label>
               <input type="text" id="keywords" name="keywords"
-                     placeholder="Searching by Name, UID-Number or City"
+                     placeholder="Search by Name, UID-Number or City"
                      bind-ngModel="keywords"
                      ref-model="ngModel"
                      class="form-control input-lg">
               <span class="input-group-btn">
-                            <input type="submit" value="Find Companies"
+                            <input type="submit" value="Find"
                                    (click)="searchCustomers(model)"
                                    class="btn btn-primary">
-                        </span>
+              </span>
             </div>
           </form>
         </div>
-        <div class="ui-2">
-          <label class="float-right"><small><b>Sorted by</b></small></label>
-        </div>
-        <div class="ui-g-2">
-          <p-dropdown styleClass="pr-2 float-left"
-                      [options]="sort_properties"
-                      [style]="{'width':'70%'}"
-                      (onChange)="sortCustomersBy($event)">
-          </p-dropdown>
+        <div class="ui-g-12 ui-md-3">
+          <div class="ui-g">
+            <div class="ui-g-12">
+              <label><small><b>Sorted by</b></small></label>
+              <p-dropdown styleClass="pr-2 float-right"
+                          [options]="sort_properties"
+                          [style]="{'width':'70%'}"
+                          (onChange)="sortCustomersBy($event)">
+              </p-dropdown>
+            </div>
+          </div>
         </div>
       </div>
     </p-header>
@@ -308,7 +310,7 @@
 
               <div class="ui-g"
                    id="customer_row_{{customer['id']}}">
-                <div class="ui-g-1">
+                <div class="ui-g-12 ui-md-1">
                   <p-checkbox name="group1"
                               pTooltip="Check for importing to Excel"
                               tooltipPosition="top"
@@ -318,28 +320,32 @@
                               (onChange)="selectCustomer(customers_ids)">
                   </p-checkbox>
                 </div>
-                <div class="ui-g-9">
+                <div class="ui-g-12 ui-md-9">
                   <h4>
                     <span class="h6">{{customer['zip']}}</span>
                     {{customer['name']}}
                   </h4>
                 </div>
-                <div class="ui-g-2">
-                  <div class="btn-group btn-group-sm float-right">
+                <div class="ui-g-12 ui-md-2">
+                  <div class="btn-group-vertical btn-group-sm float-right">
                     <button class="btn btn-primary"
-                            (click)="viewDetails(customer)"
+                            (click)="viewDetails(customer, 'newTab')"
                             value="view_details_{{customer['id']}}">
-                      View Details...
+                      <small>View Details...</small>
+                    </button>
+                    <button class="btn btn-default btn-details-new-tab"
+                       (click)="viewDetails(customer)">
+                      <small>View Details in new Tab</small>
                     </button>
                     <button class="btn btn-danger"
                             on-click="removeCustomer(i, customer)">
-                      Delete
+                      <small>Delete</small>
                     </button>
                   </div>
                 </div>
               </div>
               <div class="ui-g">
-                <div class="ui-g-10">
+                <div class="ui-g-12 ui-md-10">
                   <div *ngIf="super_admin" [ngClass]="{'empty-car-item-text' : !customer['email']}">{{customer['email']}}</div>
                   <small>
                     <p-selectButton *ngIf="!super_admin && customer['email_addresses'].length > 0"
@@ -351,7 +357,7 @@
                     </p-selectButton>
                   </small>
                 </div>
-                <div class="ui-g-2">
+                <div class="ui-g-12 ui-md-2">
                   <div class="ui-g-12 p-0">
                     <small class="float-right" *ngIf="!super_admin && customer['state']">
                       <b>state</b>{{customer['state']}}
@@ -363,7 +369,7 @@
                 </div>
               </div>
               <div *ngIf="!super_admin" id="customer_assign_{{customer['id']}}" class="ui-g customers-select-template">
-                <div class="ui-g-1">
+                <div class="ui-g-12 ui-md-1">
                   <label class="sr-only" for="assign_to_me">Assign to me</label>
                   <input type="checkbox"
                          [disabled]="!is_agent"
@@ -374,7 +380,7 @@
                          [(ngModel)]="customer['assigned_as_agent']"
                          (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_agent', 'agent_user')"/>
                 </div>
-                <div class="ui-g-5">
+                <div class="ui-g-12 ui-md-5">
                   <p-autoComplete
                     pTooltip="Select sales Agent to which belongs Company"
                     [suggestions]="filteredAgentUsers"
@@ -391,7 +397,7 @@
                     </ng-template>
                   </p-autoComplete>
                 </div>
-                <div class="ui-g-1">
+                <div class="ui-g-12 ui-md-1">
                   <label class="sr-only" for="assign_as_assistant">Assign as assistant</label>
                   <input type="checkbox"
                          id="assign_as_assistant"
@@ -402,7 +408,7 @@
                          [(ngModel)]="customer['assigned_as_assistant']"
                          (ngModelChange)="assignCustomerToMe(customer, 'assigned_as_assistant', 'assistant_user')"/>
                 </div>
-                <div class="ui-g-5">
+                <div class="ui-g-12 ui-md-5">
                   <p-autoComplete
                     pTooltip="Select sales Assistant to which belongs Company"
                     [suggestions]="filteredAssistantUsers"
