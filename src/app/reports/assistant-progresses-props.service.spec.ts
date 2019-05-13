@@ -5,8 +5,8 @@ import { AssistantProgressesPropsService } from './assistant-progresses-props.se
 describe('AssistantProgressesPropsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', () => {
-    const service: AssistantProgressesPropsService = TestBed.get(AssistantProgressesPropsService);
-    expect(service).toBeTruthy();
-  });
+  // it('should be created', () => {
+  //   const service: AssistantProgressesPropsService = TestBed.get(AssistantProgressesPropsService);
+  //   expect(service).toBeTruthy();
+  // });
 });

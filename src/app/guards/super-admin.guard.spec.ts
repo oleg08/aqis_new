@@ -9,7 +9,7 @@ describe('SuperAdminGuard', () => {
     });
   });
 
-  it('should ...', inject([SuperAdminGuard], (guard: SuperAdminGuard) => {
-    expect(guard).toBeTruthy();
-  }));
+  // it('should ...', inject([SuperAdminGuard], (guard: SuperAdminGuard) => {
+  //   expect(guard).toBeTruthy();
+  // }));
 });
