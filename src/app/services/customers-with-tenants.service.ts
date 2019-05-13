@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Customer} from '../interfaces/customer';
 
 @Injectable({
   providedIn: 'root'
@@ -8,28 +9,28 @@ export class CustomersWithTenantsService {
   constructor() { }
 
   assignTenants (customers, project_id, user_id, agent_users, assistant_users) {
-    customers.forEach(customer => {
+    customers.forEach((customer: Customer) => {
 
-      if (customer['agent_id']) {
-        customer['agent_user'] = JSON.parse(JSON.stringify(agent_users.find(u => u['id'] === customer['agent_id'])));
+      if (customer.agent_id) {
+        customer.agent_user = JSON.parse(JSON.stringify(agent_users.find(u => u['id'] === customer['agent_id'])));
       } else {
-        customer['agent_user'] = {};
-        customer['agent_user']['email'] = null;
+        customer.agent_user = {};
+        customer.agent_user.email = null;
       }
-      if (customer['assistant_id']) {
-        customer['assistant_user'] = JSON.parse(JSON.stringify(assistant_users.find(u => u['id'] === customer['assistant_id'])));
+      if (customer.assistant_id) {
+        customer.assistant_user = JSON.parse(JSON.stringify(assistant_users.find(u => u['id'] === customer.assistant_id)));
       } else {
-        customer['assistant_user'] = {};
-        customer['assistant_user']['email'] = null;
+        customer.assistant_user = {};
+        customer.assistant_user.email = null;
       }
 
-      customer['assigned_as_agent'] = customer['agent_id'] === user_id;
-      customer['assigned_as_assistant'] = customer['assistant_id'] === user_id;
+      customer.assigned_as_agent = customer.agent_id === user_id;
+      customer.assigned_as_assistant = customer.assistant_id === user_id;
 
-      customer['email_addresses'] = [];
+      customer.email_addresses = [];
 
       if (customer.email) {
-        customer['email_addresses'].push({
+        customer.email_addresses.push({
           id: customer.customer_tenant_id,
           name: null,
           email: customer.email,
@@ -37,24 +38,24 @@ export class CustomersWithTenantsService {
         });
       }
 
-      if (customer['email_2'] && customer['email_2'] !== customer.email) {
-        customer['email_addresses'].push({
+      if (customer.email_2 && customer.email_2 !== customer.email) {
+        customer.email_addresses.push({
           id: customer.customer_tenant_id,
-          name: customer['responsible_name'],
-          email: customer['email_2'],
+          name: customer.responsible_name,
+          email: customer.email_2,
           assistant_id: customer.assistant_id
         });
       } else {
-        if (customer['email_addresses'][0]) {
-          customer['email_addresses'][0]['name'] = customer['responsible_name'];
+        if (customer.email_addresses[0]) {
+          customer.email_addresses[0].name = customer.responsible_name;
         }
       }
 
-      if (customer['assistant_email']) {
-        customer['email_addresses'].push({
+      if (customer.assistant_email) {
+        customer.email_addresses.push({
           id: customer.customer_tenant_id,
-          name: customer['office_name'],
-          email: customer['assistant_email'],
+          name: customer.office_name,
+          email: customer.assistant_email,
           assistant_id: customer.assistant_id
         });
       }

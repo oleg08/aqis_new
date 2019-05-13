@@ -20,4 +20,24 @@ and (max-width : 520px) {
   .btn-details-new-tab {
     display: none;
   }
+
+  .clear-assignment {
+    display: none;
+  }
+
+  .btn-group-sm-device {
+    float: left !important;
+  }
+
+  .customer-header {
+    font-size: 15px;
+  }
+}
+
+.clear-assignment {
+  border: 0.1px solid lightgray;
+}
+
+.btn-actions-group {
+  float: right;
 }
