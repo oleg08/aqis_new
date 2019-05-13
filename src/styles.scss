@@ -311,6 +311,13 @@ div.ui-radiobutton-box.ui-state-active {
   align-content: center;
 }
 
+@media only screen
+and (max-width : 520px) {
+  .auto-complete-sm-device.ui-autocomplete-input {
+    width: 60%;
+  }
+}
+
 section.lead-qualification {
   border: 0.5px solid grey;
   padding: 5px;

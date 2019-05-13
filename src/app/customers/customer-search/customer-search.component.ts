@@ -25,6 +25,7 @@ import { States } from '../../interfaces/states';
 import { EmailAddresses } from '../../interfaces/email-addresses';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../interfaces/project';
+import {Customer} from '../../interfaces/customer';
 
 @Component({
   selector: 'app-aqis-customer-search',
@@ -113,7 +114,7 @@ export class CustomerSearchComponent implements OnInit {
   customers_options_select: object[];
   selectedOption: number;
 
-  lazyCustomers:      object[] = [];
+  lazyCustomers:      Customer[] = [];
   used_pages:         number[] = [];
 
   copy_customers:     Array<object>;
@@ -675,7 +676,6 @@ export class CustomerSearchComponent implements OnInit {
         self.flashHighlights.handler(self, '#customer_assign_', String(id),
           'failed-update'
         );
-        console.log(response);
       }
     );
   }
@@ -683,29 +683,31 @@ export class CustomerSearchComponent implements OnInit {
   assignCustomerToMe(customer, prop1, prop2) {
     const self = this;
     if (self.super_admin) { return; }
-    self.assigningRequest(customer['id'], { [prop1]: customer[prop1] });
+    self.assigningRequest(customer.id, { [prop1]: customer[prop1] });
     const email =  JSON.parse(JSON.stringify(self.current_user['email']));
     customer[prop2]['email'] = customer[prop1] ? email : null;
   }
 
-  assignSelectedCustomer (customer_id, email, prop) {
+  assignSelectedCustomer (customer_id, email, prop, clear?) {
     const self = this;
 
     if (self.super_admin) { return; }
     const prop1 = 'assigned_as_' + prop;
     const prop2 = prop + '_id';
     const user = self[prop + '_users'].find(u => u['email'] === email);
-    if (user) { self.assigningRequest(customer_id, { [prop2]: user['id'] }); }
-    const customer = self.lazyCustomers.find(c => c['id'] === customer_id);
-    customer[prop1] = user['id'] === self.user_id ? !customer[prop1] : false;
-  }
+    const params = { [prop2]: user['id'] };
+    if (clear) { params['clear'] = true; }
+    if (user) {
+      self.assigningRequest(customer_id, params);
 
-  assignAsAssistant (customer_id, email) {
-    const self = this;
-
-    if (self.super_admin) { return; }
-    const user = self.assistant_users.find(u => u['email'] === email);
-    if (user) { self.assigningRequest(customer_id, { assistant_id: user['id'] }); }
+      const customer = self.lazyCustomers.find(c => c.id === customer_id);
+      if (clear) {
+        customer[prop + '_user']['email'] = null;
+        customer[prop1] = false;
+      } else {
+        customer[prop1] = user['id'] === self.user_id ? !customer[prop1] : false;
+      }
+    }
   }
 
   selectCustomer (ids) {
