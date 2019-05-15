@@ -13,6 +13,7 @@ export interface User {
   super_admin?: boolean;
   agent?: boolean;
   assistant?: boolean;
+  password?: string;
   created_at?: string;
   updated_at?: string;
 }
