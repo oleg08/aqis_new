@@ -1,7 +1,7 @@
 <p-growl styleClass="message-growl" [baseZIndex]="1050" [(value)]="msgs"></p-growl>
 
-<p-dialog header="Confirmation" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [style]="{width: '400px', minWidth: '200px'}" [minY]="70"
-          [baseZIndex]="10000">
+<p-dialog header="Confirmation" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [style]="{width: '400px', minWidth: '200px'}"
+          [baseZIndex]="10000" [maximizable]="true">
   <span *ngIf="!update_running && !reload_button" class="text-center"><p>The report was updated <b><u>{{last_update | date:'medium' }}</u></b>. Would you like to update it now ?</p></span>
   <span *ngIf="update_running && !reload_button" class="text-center">
     <p>Data update is ongoing. It will take a few minutes. Please wait...</p>

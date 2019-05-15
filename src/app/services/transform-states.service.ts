@@ -25,7 +25,7 @@ export class TransformStatesService {
 
   handler(states: States[], all) {
     const array = [];
-    array.push({ value: 0, label: 'Without states', stated: 'Without States' });
+    array.push({ value: null, label: 'Without states', stated: 'Without States' });
     states.forEach(state => {
       const obj = {
         value: state.id,

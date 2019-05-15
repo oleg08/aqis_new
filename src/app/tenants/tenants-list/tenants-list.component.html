@@ -4,7 +4,7 @@
   <app-aqis-add-user-to-tenant (submitForm)="createTenantAdmin($event)"></app-aqis-add-user-to-tenant>
 </p-overlayPanel>
 
-<p-dialog header="Edit Tenant" [(visible)]="displayEdit" (onHide)="hideEditDialog()" [style]="{'width':'60%'}">
+<p-dialog header="Edit Tenant" [(visible)]="displayEdit" (onHide)="hideEditDialog()" [style]="{'width':'60%'}" [maximizable]="true">
   <app-aqis-edit-tenant #edit_tenant *ngIf="current_tenant" [tenant]="current_tenant" (saveTenant)="editTenant($event)"></app-aqis-edit-tenant>
 </p-dialog>
 

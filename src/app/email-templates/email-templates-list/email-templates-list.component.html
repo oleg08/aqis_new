@@ -3,12 +3,10 @@
 <p-dialog *ngIf="template"
           header="Editing {{template.name}}"
           [(visible)]="displayEdit"
-          [style]="{'margin-top':'3%'}"
+          [style]="{'width':'500px', 'min-width':'200px'}"
           [modal]="true"
-          [responsive]="true"
-          [width]="500"
-          [minWidth]="200"
-          [minY]="70">
+          [maximizable]="true"
+          [responsive]="true">
   <form #edit_template_values="ngForm">
     <div bind-class="edited_subject.invalid && edited_subject.touched ?
                      'form-group has-warning' : 'form-group'">
@@ -97,12 +95,10 @@
 
 <p-dialog header="Create new Template"
           [(visible)]="displayNew"
-          [style]="{'margin-top':'3%'}"
+          [style]="{'width':'500px', 'min-width':'200px'}"
           [modal]="true"
-          [responsive]="true"
-          [width]="500"
-          [minWidth]="200"
-          [minY]="70">
+          [maximizable]="true"
+          [responsive]="true">
   <app-aqis-new-email-template (submitForm)="create($event)" [super_admin]="super_admin" (closeDialog)="closeNewDialog()"></app-aqis-new-email-template>
 </p-dialog>
 

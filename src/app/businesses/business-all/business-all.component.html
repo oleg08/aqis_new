@@ -15,7 +15,7 @@
   <h5><i>The name is repeated</i></h5>
 </p-dialog>
 
-<p-dialog header="Edit" [(visible)]="edit_business_domain" [width]="500" (onHide)="cancelEditBDomain()">
+<p-dialog header="Edit" [(visible)]="edit_business_domain" [width]="500" (onHide)="cancelEditBDomain()" [maximizable]="true">
   <app-aqis-edit-business [item]="selectedItem" [field]="selectedField" (saveItem)="save($event)"></app-aqis-edit-business>
 </p-dialog>
 

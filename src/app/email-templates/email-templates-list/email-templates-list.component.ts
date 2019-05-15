@@ -157,7 +157,7 @@ export class EmailTemplatesListComponent implements OnInit {
     }
   }
 
-  addKeyword(event, template, type, subtract) {
+  addKeyword(event, template, type, subtract?) {
     const self = this;
     const object = { event: event, template: template, subtract: subtract, type: type };
     self.addToAutoComplete.emit(object);

@@ -528,6 +528,10 @@ button.c-inline-editor {
   padding: 20px 20px 5px;
 }
 
+body .ui-widget-content p.email-template-paragraph {
+  margin-bottom: 1.3em !important;
+}
+
 ::-webkit-input-placeholder { /* WebKit browsers */
   opacity: 0.25 !important;
 }

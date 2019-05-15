@@ -1,5 +1,11 @@
-<p-dialog [(visible)]="displayWarningAuthFailed" [header]="'Failed Authenication'" [modal]="true" [responsive]="true" [style]="{width: '200px', minWidth: '150px'}" [minY]="70"
-          [baseZIndex]="15000" [closable]="true">
+<p-dialog [(visible)]="displayWarningAuthFailed"
+          [header]="'Failed Authenication'"
+          [modal]="true"
+          [responsive]="true"
+          [style]="{width: '200px', minWidth: '150px'}"
+          [baseZIndex]="15000"
+          [closable]="true"
+          [maximizable]="true">
   <div class="ui-g alert-danger">
 
     <div class="ui-g-12">
@@ -9,8 +15,13 @@
   </div>
 </p-dialog>
 
-<p-dialog [(visible)]="displayLoginForm" [modal]="true" [responsive]="true" [style]="{width: '400px', minWidth: '300px'}" [minY]="70"
-          [baseZIndex]="10000" [closable]="true">
+<p-dialog [(visible)]="displayLoginForm"
+          [modal]="true"
+          [responsive]="true"
+          [style]="{width: '400px', minWidth: '300px'}"
+          [baseZIndex]="10000"
+          [maximizable]="true"
+          [closable]="true">
   <div class="ui-g">
 
     <div class="ui-g-12">

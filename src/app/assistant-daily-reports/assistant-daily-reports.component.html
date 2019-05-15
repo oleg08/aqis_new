@@ -3,6 +3,7 @@
 <p-dialog header="Edit Report Data"
           [(visible)]="displayDialog"
           [transitionOptions]="'500ms'"
+          [maximizable]="true"
           (onHide)="closeDialog()">
   <div *ngIf="current_report">
     <app-aqis-daily-report-edit #dailyReport

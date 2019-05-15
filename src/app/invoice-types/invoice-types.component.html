@@ -16,6 +16,7 @@
           [style]="{'width':'70%'}"
           [(visible)]="showInvoices"
           [transitionOptions]="'500ms'"
+          [maximizable]="true"
           (onHide)="invoicesOfInvoiceType = null">
   <section *ngIf="invoicesOfInvoiceType">
     <app-aqis-invoice-type-invoices #invoiceTypeInvoices

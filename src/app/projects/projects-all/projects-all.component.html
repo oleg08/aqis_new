@@ -84,8 +84,9 @@
             (onHide)="hideDetails()"
             [responsive]="true"
             showEffect="fade"
-            [style]="{'margin-top':'2%', 'max-width': '800px'}"
+            [style]="{'max-width': '800px'}"
             [modal]="true"
+            [maximizable]="true"
             (onAfterHide)="onDialogHide()">
     <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedProject" style="font-size:16px;text-align:center;padding:20px">
       <div class="ui-grid-row">

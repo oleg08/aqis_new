@@ -7,6 +7,7 @@ export class ToHtmlService {
 
   constructor() { }
   handler (text) {
-    return '<small><p>' +  text.replace(/\n/gi,  ' <br/> ') + '</small></p>';
+    text = text.replace(/<p/gi, '<p class="email-template-paragraph"');
+    return '<small>' +  text.replace(/\n/gi,  ' <br/> ') + '</small>';
   }
 }

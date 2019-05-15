@@ -1,11 +1,9 @@
 <p-dialog header="Create new Template"
           [(visible)]="displayNew"
-          [style]="{'margin-top':'3%'}"
+          [style]="{'width':'500px', 'min-width':'200px'}"
           [modal]="true"
-          [responsive]="true"
-          [width]="500"
-          [minWidth]="200"
-          [minY]="70">
+          [maximizable]="true"
+          [responsive]="true">
   <app-aqis-new-email-template (submitForm)="createOne($event)" (closeDialog)="closeNewDialog()"></app-aqis-new-email-template>
 </p-dialog>
 
