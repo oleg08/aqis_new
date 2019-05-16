@@ -41,6 +41,7 @@ export interface Customer {
   google_task_id?: number;
   fn?: string;
   google_saved_connection?: any;
+  state?: string;
   customer_businesses?: Businesses[];
   customer_tenants?: object[];
   agent_id?: number;

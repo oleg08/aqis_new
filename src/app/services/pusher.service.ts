@@ -17,6 +17,6 @@ export class PusherService {
       forceTLS: true
     });
 
-    this.channel = this.pusher.subscribe('my-channel');
+    this.channel = this.pusher.subscribe('aqis-channel');
   }
 }

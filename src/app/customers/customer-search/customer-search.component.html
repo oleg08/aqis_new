@@ -307,10 +307,9 @@
                                     itemSize="{{super_admin ? 150 : 200}}"
                                     (scrolledIndexChange)="loadCustomersLazy($event)" >
         <ng-container *cdkVirtualFor="let customer of lazyCustomers; let i = index" class="list">
-          <li class="customers-list-item">
+          <li id="customer_row_{{customer.id}}" class="customers-list-item">
             <section>
-              <div class="ui-g"
-                   id="customer_row_{{customer.id}}">
+              <div class="ui-g">
                 <div class="ui-g-12 ui-md-1">
                   <p-checkbox name="group1"
                               pTooltip="Check for importing to Excel"
@@ -347,10 +346,10 @@
               </div>
               <div class="ui-g">
                 <div class="ui-g-12 ui-md-10">
-                  <div *ngIf="super_admin" [ngClass]="{'empty-car-item-text' : !customer['email']}">{{customer['email']}}</div>
+                  <div *ngIf="super_admin" [ngClass]="{'empty-car-item-text' : !customer.email}">{{customer.email}}</div>
                   <small>
-                    <p-selectButton *ngIf="!super_admin && customer['email_addresses'].length > 0"
-                                    [options]="customer['email_addresses']"
+                    <p-selectButton *ngIf="!super_admin && customer.email_addresses.length > 0"
+                                    [options]="customer.email_addresses"
                                     [(ngModel)]="email_addresses"
                                     ngbTooltip="Select to send email to Company"
                                     optionLabel="email"
@@ -360,8 +359,8 @@
                 </div>
                 <div class="ui-g-12 ui-md-2 clear-assignment">
                   <div class="ui-g-12 p-0">
-                    <small class="float-right" *ngIf="!super_admin && customer['state']">
-                      <b>state</b>{{customer['state']}}
+                    <small class="float-right" *ngIf="!super_admin && customer.state">
+                      <b>state</b>{{customer.state}}
                     </small>
                   </div>
                   <div class="ui-g-12 p-0">
@@ -369,7 +368,7 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="!super_admin" id="customer_assign_{{customer['id']}}" class="ui-g customers-select-template">
+              <div *ngIf="!super_admin" id="customer_assign_{{customer.id}}" class="ui-g customers-select-template">
                 <div class="ui-g-12 ui-md-5">
                   <span class="float-left mr-1">
                     <label class="sr-only" for="assign_to_me">Assign to me</label>
