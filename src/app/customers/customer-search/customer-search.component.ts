@@ -25,7 +25,9 @@ import { States } from '../../interfaces/states';
 import { EmailAddresses } from '../../interfaces/email-addresses';
 import { environment } from '../../../environments/environment';
 import { Project } from '../../interfaces/project';
-import {Customer} from '../../interfaces/customer';
+import {Customer, CustomerEmailAddresses} from '../../interfaces/customer';
+
+import { PusherService } from '../../services/pusher.service';
 
 @Component({
   selector: 'app-aqis-customer-search',
@@ -64,7 +66,9 @@ export class CustomerSearchComponent implements OnInit {
               private flashHighlights: FlashHighlightsService,
               private passProjectId: PassProjectIdService,
               private switchProject: SwitchProjectService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService,
+              private pusherService: PusherService
+  ) {
     this.copy_customers    = null;
     this.projects          = null;
     this.keywords          = '';
@@ -158,6 +162,31 @@ export class CustomerSearchComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
+
+    self.pusherService.channel.bind('update-customer', data => {
+
+      const updated_customer: Customer = data.customer ? data.customer : data.customer_tenant.customer;
+      let customer: Customer;
+
+      customer = self.lazyCustomers.find(c => c.id === updated_customer.id);
+
+      if (data.customer && customer) {
+        customer.name = updated_customer.name;
+        customer.email = updated_customer.email;
+        customer.zip = updated_customer.zip;
+
+      } else if (data.customer_tenant && customer) {
+        const customer_tenant = data.customer_tenant;
+
+        self.customersWithTenants.emailAddresses(customer, customer_tenant);
+        customer.state = customer_tenant.state ? customer_tenant.state.label : 'Without states';
+      }
+
+      if (updated_customer) {
+        self.flashHighlights.handler(self, '#customer_row_', String(updated_customer.id), 'success-updated');
+      }
+
+    });
 
     this.switchProject.currentValue.subscribe(val => {
       if (val) {

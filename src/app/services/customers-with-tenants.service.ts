@@ -27,38 +27,7 @@ export class CustomersWithTenantsService {
       customer.assigned_as_agent = customer.agent_id === user_id;
       customer.assigned_as_assistant = customer.assistant_id === user_id;
 
-      customer.email_addresses = [];
-
-      if (customer.email) {
-        customer.email_addresses.push({
-          id: customer.customer_tenant_id,
-          name: null,
-          email: customer.email,
-          assistant_id: customer.assistant_id
-        });
-      }
-
-      if (customer.email_2 && customer.email_2 !== customer.email) {
-        customer.email_addresses.push({
-          id: customer.customer_tenant_id,
-          name: customer.responsible_name,
-          email: customer.email_2,
-          assistant_id: customer.assistant_id
-        });
-      } else {
-        if (customer.email_addresses[0]) {
-          customer.email_addresses[0].name = customer.responsible_name;
-        }
-      }
-
-      if (customer.assistant_email) {
-        customer.email_addresses.push({
-          id: customer.customer_tenant_id,
-          name: customer.office_name,
-          email: customer.assistant_email,
-          assistant_id: customer.assistant_id
-        });
-      }
+      this.emailAddresses(customer);
 
       // if (project_id && customer.project_tenant) {
       //
@@ -79,5 +48,44 @@ export class CustomersWithTenantsService {
       // }
     });
     return customers;
+  }
+
+  emailAddresses(customer: Customer, customer_tenant?) {
+    const email_addresses = [];
+
+    if (!customer_tenant) { customer_tenant = customer; }
+
+    if (customer.email) {
+      email_addresses.push({
+        id: customer.customer_tenant_id,
+        name: null,
+        email: customer.email,
+        assistant_id: customer.assistant_id
+      });
+    }
+
+    if (customer.email_2 && customer_tenant.email_2 !== customer.email) {
+      email_addresses.push({
+        id: customer.customer_tenant_id,
+        name: customer_tenant.responsible_name,
+        email: customer_tenant.email_2,
+        assistant_id: customer_tenant.assistant_id
+      });
+    } else {
+      if (email_addresses[0]) {
+        email_addresses[0].name = customer_tenant.responsible_name;
+      }
+    }
+
+    if (customer_tenant.assistant_email) {
+      email_addresses.push({
+        id: customer.customer_tenant_id,
+        name: customer_tenant.office_name,
+        email: customer_tenant.assistant_email,
+        assistant_id: customer_tenant.assistant_id
+      });
+    }
+
+    customer.email_addresses = [...email_addresses];
   }
 }
