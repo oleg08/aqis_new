@@ -47,13 +47,13 @@
         </div>
       </li>
 
-      <li *ngIf="(authService.userSignedIn$ | async) && ((authService.userAdmin$ | async) || (authService.userSuperAdmin$ | async))" class="nav-item dropdown toolbar-dropdown-item">
+      <li *ngIf="(authService.userSignedIn$ | async)" class="nav-item dropdown toolbar-dropdown-item">
         <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuCommunications" data-toggle="dropdown">
           <b>Communications</b>
         </a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" [routerLink]="['/pre_customers']">First Contacts</a>
-          <a *ngIf="(authService.userAdmin$ | async)" class="dropdown-item" [routerLink]="['/to_send_emails']">Received Emails</a>
+          <a *ngIf="(authService.userAdmin$ | async) || (authService.userSuperAdmin$ | async)" class="dropdown-item" [routerLink]="['/pre_customers']">First Contacts</a>
+          <a class="dropdown-item" [routerLink]="['/to_send_emails']">Received Emails</a>
         </div>
       </li>
 
