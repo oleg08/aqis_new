@@ -27,6 +27,8 @@ import { environment } from '../../../environments/environment';
 import { Project } from '../../interfaces/project';
 import {Customer} from '../../interfaces/customer';
 
+import { PusherService } from '../../services/pusher.service';
+
 @Component({
   selector: 'app-aqis-customer-search',
   templateUrl: './customer-search.component.html',
@@ -64,7 +66,9 @@ export class CustomerSearchComponent implements OnInit {
               private flashHighlights: FlashHighlightsService,
               private passProjectId: PassProjectIdService,
               private switchProject: SwitchProjectService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService,
+              private pusherService: PusherService
+  ) {
     this.copy_customers    = null;
     this.projects          = null;
     this.keywords          = '';
@@ -158,6 +162,15 @@ export class CustomerSearchComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
+
+    self.pusherService.channel.bind('my-event', data => {
+      const customer: Customer = self.lazyCustomers.find(c => c.id === 4087);
+      console.log('customer - ', customer);
+      customer.name = 'New Name';
+      self.flashHighlights.handler(self, '#customer_row_', '4087',
+        'success-updated');
+      console.log('data - ', data);
+    });
 
     this.switchProject.currentValue.subscribe(val => {
       if (val) {

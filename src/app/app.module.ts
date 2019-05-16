@@ -63,6 +63,7 @@ import { GetReportDataService } from './assistant-steps-hours/get-report-data.se
 import { SetRangeDateService } from './services/set-range-date.service';
 import { AssistantInvoicesDataService } from './assistant-invoices/assistant-invoices-data.service';
 import { GoogleAuthenticationMessagesService } from './services/google-authentication-messages.service';
+import { PusherService } from './services/pusher.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -366,6 +367,7 @@ import { StepReportFilterComponent } from './assistant-steps-hours/step-report-f
     SetRangeDateService,
     AssistantInvoicesDataService,
     GoogleAuthenticationMessagesService,
+    PusherService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,
