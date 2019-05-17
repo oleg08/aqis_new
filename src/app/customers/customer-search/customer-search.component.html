@@ -359,12 +359,12 @@
                 </div>
                 <div class="ui-g-12 ui-md-2 clear-assignment">
                   <div class="ui-g-12 p-0">
-                    <small class="float-right" *ngIf="!super_admin && customer.state">
-                      <b>state</b>{{customer.state}}
+                    <small class="float-right" *ngIf="!super_admin">
+                      <b class="mr-1">state</b>{{customer.state || 'Without State'}}
                     </small>
                   </div>
                   <div class="ui-g-12 p-0">
-                    <small class="float-right"><b>Joined</b> {{customer.created_at | date}}</small>
+                    <small class="float-right"><b class="mr-1">Joined</b> {{customer.created_at | date}}</small>
                   </div>
                 </div>
               </div>

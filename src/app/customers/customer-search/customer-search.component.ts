@@ -175,15 +175,21 @@ export class CustomerSearchComponent implements OnInit {
         customer.email = updated_customer.email;
         customer.zip = updated_customer.zip;
 
+        if (updated_customer && data.customer) {
+          console.log('updated_customer - ', updated_customer);
+          self.flashHighlights.handler(self, '#customer_row_', String(updated_customer.id), 'success-updated');
+        }
+
       } else if (data.customer_tenant && customer) {
         const customer_tenant = data.customer_tenant;
 
         self.customersWithTenants.emailAddresses(customer, customer_tenant);
         customer.state = customer_tenant.state ? customer_tenant.state.label : 'Without states';
-      }
 
-      if (updated_customer) {
-        self.flashHighlights.handler(self, '#customer_row_', String(updated_customer.id), 'success-updated');
+        if (updated_customer && data.customer_tenant) {
+          console.log('updated_customer - ', updated_customer);
+          self.flashHighlights.handler(self, '#customer_row_', String(updated_customer.id), 'success-updated');
+        }
       }
 
     });
@@ -364,18 +370,18 @@ export class CustomerSearchComponent implements OnInit {
     setTimeout(() => {
       let states = [...self.selectedStates];
       if (event.stated === 'Without States') {
-        states = [0];
+        states = [null];
         self.selectedStates = states;
       } else {
 
-        if (states.indexOf(0) !== -1) {
-          const index1 = states.indexOf(0);
+        if (states.indexOf(null) !== -1) {
+          const index1 = states.indexOf(null);
           if (index1 !== -1) { states.splice(index1, 1); }
         }
         if (states.length === 1 && states[0] === 'With States') {
           const states_with_value = [];
           self.filter_states.forEach(st => {
-            if (st['value'] !== 0) { states_with_value.push(st['value']); }
+            if (st['value'] !== null) { states_with_value.push(st['value']); }
           });
           states = states_with_value;
         }
@@ -390,6 +396,9 @@ export class CustomerSearchComponent implements OnInit {
     const self = this;
     if (self.selectedStates && self.selectedStates.length > 0) {
       self.status_search = self.selectedStates;
+
+      const null_index: number = self.status_search.indexOf(null);
+      if (null_index !== -1) { self.status_search[null_index] = '0'; }
 
     } else {
       self.status_search = null;
