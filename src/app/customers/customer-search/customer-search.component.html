@@ -388,8 +388,7 @@
                                   (completeMethod)="filterAgentUsers($event)"
                                   (onSelect)="assignSelectedCustomer(customer.id, customer.agent_user.email, 'agent')"
                                   placeholder="Select sales Agent"
-                                  [dropdown]="true"
-                                  [disabled]="!is_admin">
+                                  [dropdown]="true">
                     <ng-template let-agent_user pTemplate="item">
                       <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
                         <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{agent_user}}</div>
@@ -422,8 +421,7 @@
                                   (completeMethod)="filterAssistantUsers($event)"
                                   (onSelect)="assignSelectedCustomer(customer.id, customer.assistant_user.email, 'assistant')"
                                   placeholder="Select sales Assistant"
-                                  [dropdown]="true"
-                                  [disabled]="!is_admin">
+                                  [dropdown]="true">
                     <ng-template let-assistant_user pTemplate="item">
                       <div class="ui-helper-clearfix" style="border-bottom:1px solid #D5D5D5">
                         <div style="float:right;margin:10px 10px 0 0">{{assistant_user}}</div>
