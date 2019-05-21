@@ -23,6 +23,12 @@
   </app-aqis-daily-reports-filters>
 </section>
 
+<div class="ui-g">
+  <div class="ui-g-12 text-center">
+    <p-progressSpinner *ngIf="!steps"></p-progressSpinner>
+  </div>
+</div>
+
 <section *ngIf="steps" style="background-color: white">
   <mat-accordion>
     <mat-expansion-panel *ngFor="let step of steps"
