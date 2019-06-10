@@ -1,0 +1,29 @@
+.load-standardized-businesses {
+  border: solid 0.5px lightgray;
+  background-color: #a9acad;
+}
+
+.standardized-businesses-list {
+  height: 500px;
+}
+
+.standardized-businesses-item, .standardized-businesses-item-header  {
+  border-bottom: 1px solid grey;
+}
+
+.standardized-businesses-item {
+  background-color: whitesmoke;
+}
+
+.standardized-businesses-item-header {
+  background-color: #c5d7dd;
+}
+
+.standardized-businesses-header {
+  background-color: #a9acad;
+}
+
+.standardized-business-shadowed {
+  background-color: #d1ecf1;
+  box-shadow: 10px 10px 10px 5px #888888;
+}

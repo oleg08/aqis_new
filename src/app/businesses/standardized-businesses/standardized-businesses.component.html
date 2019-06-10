@@ -1,0 +1,100 @@
+<app-alert-closeable *ngIf="alert "
+                     on-alertFalse="alert = false"
+                     bind-type="alertType"
+                     bind-message="alertMessage">
+</app-alert-closeable>
+
+<section class="load-standardized-businesses p-2">
+  <label for="load_businesses">Load Businesses</label>
+  <input type="file"
+         id="load_businesses"
+         name="upload_file"
+         class="form-control"
+         (change)="fileChange($event)"
+         [(ngModel)]="upload_file"
+         placeholder="Upload file"
+         accept=".csv,.xlsx,.ods">
+</section>
+
+<div class="ui-g">
+  <div class="ui-g-6">
+    <section class="standardized-businesses">
+      <div class="mt-4 mb-2 pr-2 pt-2 pl-2 border-bottom standardized-businesses-header">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <h4>Standardized Businesses</h4>
+          </div>
+          <div class="ui-g-12">
+            <input class="form-control" type="text"
+                   (input)="searchStBusinesses($event.target.value)"
+                   placeholder="Search...">
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g standardized-businesses-item-header">
+        <div class="ui-g-2">
+          <span><label>Code</label></span>
+        </div>
+        <div class="ui-g-8">
+          <span><label>Name</label></span>
+        </div>
+        <div class="ui-g-2">
+          <span class="float-right"><label>IAF</label></span>
+        </div>
+      </div>
+
+      <cdk-virtual-scroll-viewport itemSize="10" class="standardized-businesses-list">
+        <div *cdkVirtualFor="let business of searched_st_businesses"
+             appHighlight="standardized-business-shadowed"
+             class="standardized-businesses-item mb-2">
+          <div class="ui-g">
+            <div class="ui-g-2">
+              <span>{{business.code}}</span>
+            </div>
+            <div class="ui-g-8">
+              <span>{{business.name}}</span>
+            </div>
+            <div class="ui-g-2">
+              <span class="float-right">{{business.iaf}}</span>
+            </div>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </section>
+  </div>
+  <div class="ui-g-6">
+    <section class="businesses">
+
+      <div class="mt-4 mb-2 pr-2 pt-2 pl-2 border-bottom standardized-businesses-header">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <h4>Businesses</h4>
+          </div>
+          <div class="ui-g-12">
+            <input class="form-control" type="text"
+                   (input)="searchBusinesses($event.target.value)"
+                   placeholder="Search...">
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g standardized-businesses-item-header">
+        <div class="ui-g-8">
+          <span><label>Name</label></span>
+        </div>
+      </div>
+
+      <cdk-virtual-scroll-viewport itemSize="10" class="standardized-businesses-list">
+        <div *cdkVirtualFor="let business of searched_businesses"
+             appHighlight="standardized-business-shadowed"
+             class="standardized-businesses-item mb-2">
+          <div class="ui-g">
+            <div class="ui-g-12">{{business.description}}</div>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </section>
+  </div>
+</div>
+

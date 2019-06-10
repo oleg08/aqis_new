@@ -17,8 +17,14 @@
           <a class="dropdown-item" [routerLink]="['/main_email_templates']">Email Templates</a>
         </div>
       </li>
-      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
-        <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/businesses']"><b>Businesses</b></a>
+      <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="nav-item dropdown toolbar-dropdown-item">
+        <a class="nav-link dropdown-toggle toolbar-dropdown" href="#" id="navbarDropdownMenuBusinesses" data-toggle="dropdown">
+          <b>Businesses</b>
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" [routerLink]="['/businesses']"><b>Businesses</b></a>
+          <a class="dropdown-item" [routerLink]="['/standardized_businesses']"><b>Standardized Businesses</b></a>
+        </div>
       </li>
       <li *ngIf="(authService.userSignedIn$ | async) && (authService.userSuperAdmin$ | async)" class="toolbar-item toolbar-dropdown-item">
         <a class="nav-item m-2 profile-link cursor-pointer" [routerLink]="['/tenants']"><b>Tenants</b></a>

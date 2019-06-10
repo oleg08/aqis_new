@@ -64,6 +64,8 @@ import { SetRangeDateService } from './services/set-range-date.service';
 import { AssistantInvoicesDataService } from './assistant-invoices/assistant-invoices-data.service';
 import { GoogleAuthenticationMessagesService } from './services/google-authentication-messages.service';
 import { PusherService } from './services/pusher.service';
+import { StandardizedBusinessesService } from './businesses/standardized-businesses/standardized-businesses.service';
+import { BusinessService } from './businesses/business.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -187,6 +189,8 @@ import { AssistantInvoicesSearchComponent } from
     './assistant-invoices/assistant-invoices-search/assistant-invoices-search/assistant-invoices-search.component';
 import { DailyReportsFiltersComponent } from './assistant-daily-reports/daily-reports-filters/daily-reports-filters.component';
 import { StepReportFilterComponent } from './assistant-steps-hours/step-report-filter/step-report-filter.component';
+import { StandardizedBusinessesComponent } from './businesses/standardized-businesses/standardized-businesses.component';
+import { HighlightDirective } from './directives/highlight.directive';
 
 @NgModule({
   declarations: [
@@ -293,7 +297,9 @@ import { StepReportFilterComponent } from './assistant-steps-hours/step-report-f
     AssistantInvoicesComponent,
     AssistantInvoicesSearchComponent,
     DailyReportsFiltersComponent,
-    StepReportFilterComponent
+    StepReportFilterComponent,
+    StandardizedBusinessesComponent,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,
@@ -368,6 +374,8 @@ import { StepReportFilterComponent } from './assistant-steps-hours/step-report-f
     AssistantInvoicesDataService,
     GoogleAuthenticationMessagesService,
     PusherService,
+    StandardizedBusinessesService,
+    BusinessService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,
