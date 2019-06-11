@@ -18,7 +18,7 @@
 
 <div class="ui-g">
   <div class="ui-g-6">
-    <section class="standardized-businesses">
+    <section #standardizedBusinessesList class="standardized-businesses">
       <div class="mt-4 mb-2 pr-2 pt-2 pl-2 border-bottom standardized-businesses-header">
         <div class="ui-g">
           <div class="ui-g-12">
@@ -48,7 +48,7 @@
         <div *cdkVirtualFor="let business of searched_st_businesses"
              appHighlight="standardized-business-shadowed"
              class="standardized-businesses-item mb-2">
-          <div class="ui-g">
+          <div id="st-bsn-{{business.id}}" class="ui-g">
             <div class="ui-g-2">
               <span>{{business.code}}</span>
             </div>
@@ -57,6 +57,20 @@
             </div>
             <div class="ui-g-2">
               <span class="float-right">{{business.iaf}}</span>
+            </div>
+            <div class="ui-g-12">
+              <p-chips [(ngModel)]="business.stringify_keys"
+                       (onAdd)="addKey($event, business)"
+                       (onRemove)="removeKey($event, business)"
+                       placeholder="Add Key to Business"
+                       [allowDuplicate]="false">
+              </p-chips>
+            </div>
+            <div *ngIf="selected.length > 0" class="ui-g-offset-7 ui-g-5">
+              <button mat-button
+                      class="float-right"
+                      [color]="'success'"
+                      (click)="assignBusinesses()">Assign Selected</button>
             </div>
           </div>
         </div>
@@ -90,7 +104,13 @@
              appHighlight="standardized-business-shadowed"
              class="standardized-businesses-item mb-2">
           <div class="ui-g">
-            <div class="ui-g-12">{{business.description}}</div>
+            <div class="ui-g-11">{{business.description}}</div>
+            <div class="ui-g-1">
+              <mat-checkbox [checked]="business.selected"
+                            (change)="checkBusiness($event, business)"
+                            [disableRipple]="false"
+              ></mat-checkbox>
+            </div>
           </div>
         </div>
       </cdk-virtual-scroll-viewport>

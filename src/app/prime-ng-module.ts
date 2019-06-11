@@ -50,6 +50,7 @@ import { RadioButtonModule      } from 'primeng/radiobutton';
 import { VirtualScrollerModule  } from 'primeng/virtualscroller';
 import { ToggleButtonModule     } from 'primeng/togglebutton';
 import { TreeTableModule        } from 'primeng/primeng';
+import { ChipsModule            } from 'primeng/primeng';
 
 @NgModule({
   exports: [
@@ -97,7 +98,8 @@ import { TreeTableModule        } from 'primeng/primeng';
     RadioButtonModule,
     VirtualScrollerModule,
     ToggleButtonModule,
-    TreeTableModule
+    TreeTableModule,
+    ChipsModule
   ],
   providers: [
     MessageService,

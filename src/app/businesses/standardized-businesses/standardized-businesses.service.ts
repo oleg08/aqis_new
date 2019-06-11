@@ -17,4 +17,20 @@ export class StandardizedBusinessesService {
       .then(res => <StandardizedBusiness[]>res['standardized_businesses'])
       .then(data => { return data; } );
   }
+
+  addKeyword (id, params) {
+    const self = this;
+    return self.http.post<any>(`${environment.serverUrl}/st_businesses_add_key/${id}.json`, params)
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
+
+  removeKeyword (id, params) {
+    const self = this;
+    return self.http.post<any>(`${environment.serverUrl}/st_businesses_remove_key/${id}.json`, params)
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
 }

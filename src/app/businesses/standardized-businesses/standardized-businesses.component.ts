@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CallAlertService } from '../../services/call-alert.service';
 import { HttpClient } from '@angular/common/http';
 import { StandardizedBusinessesService } from './standardized-businesses.service';
@@ -8,27 +9,34 @@ import {environment} from '../../../environments/environment';
 import { StandardizedBusiness } from '../../interfaces/standardized-businesses';
 import { Message               } from 'primeng/primeng';
 import { MessageService        } from 'primeng/components/common/messageservice';
+import { FlashHighlightsService } from '../../services/flash-highlights.service';
 
 @Component({
   selector: 'app-standardized-businesses',
   templateUrl: './standardized-businesses.component.html',
   styleUrls: ['./standardized-businesses.component.scss'],
   providers: [
-    CallAlertService
+    CallAlertService,
+    FlashHighlightsService
   ]
 })
 export class StandardizedBusinessesComponent implements OnInit {
 
+  @ViewChild('standardizedBusinessesList') el: ElementRef;
+
   constructor(private callAlert: CallAlertService,
+              private flashHighlights: FlashHighlightsService,
               private standBusinessSrv: StandardizedBusinessesService,
               private businessSrv: BusinessService,
               private messageService: MessageService,
+              private rd: Renderer2,
               private http: HttpClient) { }
 
   upload_file: any;
   standardized_businesses: StandardizedBusiness[];
   searched_st_businesses: StandardizedBusiness[];
   businesses: Businesses[];
+  selected: Businesses[] = [];
   searched_businesses: Businesses[];
   msgs: Message[] = [];
   alert: boolean;
@@ -48,12 +56,19 @@ export class StandardizedBusinessesComponent implements OnInit {
   ngOnInit() {
     const self = this;
     self.standBusinessSrv.get().then(bsns => {
+      bsns.forEach(b => {
+        b.stringify_keys = [];
+        b.standardized_business_keys.forEach(key => {
+          b.stringify_keys.push(key.label);
+        });
+      });
       self.standardized_businesses = bsns;
       self.searched_st_businesses = JSON.parse(JSON.stringify(bsns));
     });
 
     self.businessSrv.get().then(bsns => {
       self.businesses = bsns;
+      self.businesses.forEach(b => b.selected = false);
       self.searched_businesses = JSON.parse(JSON.stringify(bsns));
     });
   }
@@ -69,6 +84,61 @@ export class StandardizedBusinessesComponent implements OnInit {
     self.searched_businesses = self.businesses.filter(
       (bsn) => StandardizedBusinessesComponent.ifFindBusinesses(value, bsn)
     );
+  }
+
+  addKey(event, business: StandardizedBusiness) {
+    const self = this;
+    const bsn = self.standardized_businesses.find((b) => b.id === business.id);
+    const copy_keys = JSON.parse(JSON.stringify(business.stringify_keys));
+    self.standBusinessSrv.addKeyword(business.id, { label: event.value }).then(
+      (data) => {
+        if (data['standardized_business']) {
+          bsn.standardized_business_keys = data['standardized_business']['standardized_business_keys'];
+          self.flashHighlights.handler(self, '#st-bsn-', business.id, 'success-updated');
+        } else {
+          business.stringify_keys = copy_keys;
+          self.flashHighlights.handler(self, '#st-bsn-', business.id, 'failed-update');
+        }
+      }
+    );
+  }
+
+  removeKey(event, business: StandardizedBusiness) {
+    const self = this;
+    const bsn = self.standardized_businesses.find((b) => b.id === business.id);
+    const copy_keys = JSON.parse(JSON.stringify(business.stringify_keys));
+
+    self.standBusinessSrv.removeKeyword(business.id, { label: event.value }).then(
+      data => {
+        if (data['standardized_business']) {
+          bsn.standardized_business_keys = data['standardized_business']['standardized_business_keys'];
+          self.flashHighlights.handler(self, '#st-bsn-', business.id, 'success-updated');
+        } else {
+          business.stringify_keys = copy_keys;
+          self.flashHighlights.handler(self, '#st-bsn-', business.id, 'failed-update');
+        }
+      }
+    );
+  }
+
+  checkBusiness($event, business: Businesses) {
+    const self = this;
+    const bsn: Businesses = self.businesses.filter(b => b.id === business.id)[0];
+    bsn.selected = !bsn.selected;
+    if (bsn.selected) {
+      self.selected.push(bsn);
+    } else {
+      if (self.selected.includes(bsn)) {
+        self.selected.splice(self.selected.indexOf(bsn), 1);
+      }
+    }
+    console.log(self.selected);
+  }
+
+  assignBusinesses() {
+    const self = this;
+    // self.selected = self.businesses.filter(b => b.selected);
+    console.log(self.selected);
   }
 
   fileChange(event) {
