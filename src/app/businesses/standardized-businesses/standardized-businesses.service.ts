@@ -33,4 +33,37 @@ export class StandardizedBusinessesService {
       .then(res => <any>res)
       .then(data => data);
   }
+
+  assignByKeywords(id) {
+    const self = this;
+    return self.http.post<any>(`${environment.serverUrl}/assign_by_keywords/${id}.json`, {})
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
+
+  assignSelected(id, business_ids: number[]) {
+    const self = this;
+    return self.http.post<any>(`${environment.serverUrl}/assign_selected_businesses/${id}.json`,
+      { business_ids: business_ids })
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
+
+  ownBusinesses(id) {
+    const self = this;
+    return self.http.get<any>(`${environment.serverUrl}/get_own_businesses/${id}.json`, {})
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
+
+  removeOwnBusiness(id, business_id) {
+    const self = this;
+    return self.http.post<any>(`${environment.serverUrl}/remove_own_business/${id}.json`, { business_id: business_id })
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
 }

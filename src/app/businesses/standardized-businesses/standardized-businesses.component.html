@@ -1,8 +1,20 @@
-<app-alert-closeable *ngIf="alert "
-                     on-alertFalse="alert = false"
-                     bind-type="alertType"
-                     bind-message="alertMessage">
-</app-alert-closeable>
+<p-dialog *ngIf="detailedBusiness"
+          (onHide)="hideOwnBusinesses()"
+          [(visible)]="showBusinessesList">
+  <p-header>
+    <small>Businesses belong to</small> {{detailedBusiness.name}}
+  </p-header>
+  <mat-list [@listAnimation]="own_businesses.length">
+    <mat-list-item *ngFor="let bsn of own_businesses; let i = index">
+      <h4 matLine>{{bsn.description}}</h4>
+        <mat-icon>
+          <span class="cursor-pointer" (click)="removeFromStBusiness(bsn, i)">
+            <img width="70%" src="../../../assets/showcase/images/remove1206.png">
+          </span>
+        </mat-icon>
+    </mat-list-item>
+  </mat-list>
+</p-dialog>
 
 <section class="load-standardized-businesses p-2">
   <label for="load_businesses">Load Businesses</label>
@@ -15,6 +27,12 @@
          placeholder="Upload file"
          accept=".csv,.xlsx,.ods">
 </section>
+
+<app-alert-closeable *ngIf="alert "
+                     on-alertFalse="alert = false"
+                     bind-type="alertType"
+                     bind-message="alertMessage">
+</app-alert-closeable>
 
 <div class="ui-g">
   <div class="ui-g-6">
@@ -44,7 +62,15 @@
         </div>
       </div>
 
-      <cdk-virtual-scroll-viewport itemSize="10" class="standardized-businesses-list">
+      <div *ngIf="!searched_st_businesses" class="ui-g">
+        <div class="ui-g-12 text-center">
+          <p-progressSpinner></p-progressSpinner>
+        </div>
+      </div>
+
+      <cdk-virtual-scroll-viewport *ngIf="searched_st_businesses"
+                                   [@listAnimation]="searched_st_businesses.length"
+                                   itemSize="10" class="standardized-businesses-list">
         <div *cdkVirtualFor="let business of searched_st_businesses"
              appHighlight="standardized-business-shadowed"
              class="standardized-businesses-item mb-2">
@@ -53,7 +79,13 @@
               <span>{{business.code}}</span>
             </div>
             <div class="ui-g-8">
-              <span>{{business.name}}</span>
+              <span>
+                {{business.name}}
+                <i class="fa fa-angle-double-right float-right cursor-pointer"
+                   (click)="openBusinesses(business)"
+                   title="View Businesses"
+                ></i>
+              </span>
             </div>
             <div class="ui-g-2">
               <span class="float-right">{{business.iaf}}</span>
@@ -66,11 +98,19 @@
                        [allowDuplicate]="false">
               </p-chips>
             </div>
-            <div *ngIf="selected.length > 0" class="ui-g-offset-7 ui-g-5">
+            <div class="ui-g-4">
+              <button *ngIf="business.stringify_keys.length > 0"
+                      mat-button
+                      [color]="'keyword-assign'"
+                      (click)="assignByKeyword(business)">
+                Assign by keywords
+              </button>
+            </div>
+            <div *ngIf="businesses_selected.length > 0" class="ui-g-offset-4 ui-g-4">
               <button mat-button
                       class="float-right"
                       [color]="'success'"
-                      (click)="assignBusinesses()">Assign Selected</button>
+                      (click)="assignBusinesses(business)">Assign Selected</button>
             </div>
           </div>
         </div>
@@ -87,6 +127,7 @@
           </div>
           <div class="ui-g-12">
             <input class="form-control" type="text"
+                   [(ngModel)]="searchBusinessClause"
                    (input)="searchBusinesses($event.target.value)"
                    placeholder="Search...">
           </div>
@@ -99,7 +140,14 @@
         </div>
       </div>
 
-      <cdk-virtual-scroll-viewport itemSize="10" class="standardized-businesses-list">
+      <div *ngIf="!searched_businesses" class="ui-g">
+        <div class="ui-g-12 text-center">
+          <p-progressSpinner></p-progressSpinner>
+        </div>
+      </div>
+
+      <cdk-virtual-scroll-viewport *ngIf="searched_businesses"
+                                   itemSize="10" class="standardized-businesses-list">
         <div *cdkVirtualFor="let business of searched_businesses"
              appHighlight="standardized-business-shadowed"
              class="standardized-businesses-item mb-2">
@@ -108,8 +156,8 @@
             <div class="ui-g-1">
               <mat-checkbox [checked]="business.selected"
                             (change)="checkBusiness($event, business)"
-                            [disableRipple]="false"
-              ></mat-checkbox>
+                            [disableRipple]="false">
+              </mat-checkbox>
             </div>
           </div>
         </div>

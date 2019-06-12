@@ -11,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { DragulaModule } from 'ng2-dragula';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatNativeDateModule } from '@angular/material';
 
 // services
 import { AuthInterceptor } from './api.interceptor';
@@ -318,7 +319,8 @@ import { HighlightDirective } from './directives/highlight.directive';
     NgbModule,
     DragulaModule.forRoot(),
     PrimeNgModule,
-    AngularMaterialModule
+    AngularMaterialModule,
+    MatNativeDateModule
   ],
   providers: [
     AngularTokenService,

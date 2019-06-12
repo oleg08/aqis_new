@@ -17,4 +17,12 @@ export class BusinessService {
       .then(res => <Businesses[]>res['businesses'])
       .then(data => data);
   }
+
+  getNotAssigned () {
+    const self = this;
+    return self.http.get<any>(`${environment.serverUrl}/businesses_not_assigned.json`)
+      .toPromise()
+      .then(res => <Businesses[]>res['businesses'])
+      .then(data => data);
+  }
 }

@@ -1,5 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import {Component, ElementRef, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
 import { CallAlertService } from '../../services/call-alert.service';
 import { HttpClient } from '@angular/common/http';
 import { StandardizedBusinessesService } from './standardized-businesses.service';
@@ -10,6 +9,7 @@ import { StandardizedBusiness } from '../../interfaces/standardized-businesses';
 import { Message               } from 'primeng/primeng';
 import { MessageService        } from 'primeng/components/common/messageservice';
 import { FlashHighlightsService } from '../../services/flash-highlights.service';
+import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-standardized-businesses',
@@ -18,6 +18,23 @@ import { FlashHighlightsService } from '../../services/flash-highlights.service'
   providers: [
     CallAlertService,
     FlashHighlightsService
+  ],
+  animations: [
+    trigger('listAnimation', [
+      transition('* => *', [ // each time the binding value changes
+        query(':leave', [
+          stagger(100, [
+            animate('0.5s', style({ opacity: 0 }))
+          ])
+        ], { optional: true }),
+        query(':enter', [
+          style({ opacity: 0 }),
+          stagger(100, [
+            animate('0.5s', style({ opacity: 1 }))
+          ])
+        ], { optional: true })
+      ])
+    ])
   ]
 })
 export class StandardizedBusinessesComponent implements OnInit {
@@ -36,12 +53,16 @@ export class StandardizedBusinessesComponent implements OnInit {
   standardized_businesses: StandardizedBusiness[];
   searched_st_businesses: StandardizedBusiness[];
   businesses: Businesses[];
-  selected: Businesses[] = [];
+  own_businesses: Businesses[];
+  businesses_selected: Businesses[] = [];
   searched_businesses: Businesses[];
   msgs: Message[] = [];
   alert: boolean;
   alertType: string;
   alertMessage: string;
+  showBusinessesList = false;
+  detailedBusiness: StandardizedBusiness;
+  searchBusinessClause: string;
 
   static ifFindStBusinesses (search_val, st_bsn: StandardizedBusiness) {
     return st_bsn.name.toLowerCase().includes(search_val.toLowerCase())
@@ -66,7 +87,7 @@ export class StandardizedBusinessesComponent implements OnInit {
       self.searched_st_businesses = JSON.parse(JSON.stringify(bsns));
     });
 
-    self.businessSrv.get().then(bsns => {
+    self.businessSrv.getNotAssigned().then(bsns => {
       self.businesses = bsns;
       self.businesses.forEach(b => b.selected = false);
       self.searched_businesses = JSON.parse(JSON.stringify(bsns));
@@ -121,24 +142,104 @@ export class StandardizedBusinessesComponent implements OnInit {
     );
   }
 
+  assignByKeyword(st_business: StandardizedBusiness) {
+    const self = this;
+    self.standBusinessSrv.assignByKeywords(st_business.id)
+      .then(data => {
+        if (data['standardized_business']) {
+          const added_business_ids: number[] = data['added_business_ids'];
+          self.businesses = self.businesses.filter(b => !added_business_ids.includes(b.id));
+
+          self.searchBusinessClause ? self.searchBusinesses(self.searchBusinessClause) :
+            self.searched_businesses = JSON.parse(JSON.stringify(self.businesses));
+          self.callAlert.handler(self,
+            'success',
+            `${added_business_ids.length} businesses were added`,
+            2000);
+        } else {
+          self.callAlert.handler(self, 'warning', `Can't add businesses`, 2000);
+        }
+      });
+  }
+
   checkBusiness($event, business: Businesses) {
     const self = this;
     const bsn: Businesses = self.businesses.filter(b => b.id === business.id)[0];
     bsn.selected = !bsn.selected;
     if (bsn.selected) {
-      self.selected.push(bsn);
+      self.businesses_selected.push(bsn);
     } else {
-      if (self.selected.includes(bsn)) {
-        self.selected.splice(self.selected.indexOf(bsn), 1);
+      if (self.businesses_selected.includes(bsn)) {
+        self.businesses_selected.splice(self.businesses_selected.indexOf(bsn), 1);
       }
     }
-    console.log(self.selected);
   }
 
-  assignBusinesses() {
+  assignBusinesses(business: StandardizedBusiness) {
     const self = this;
-    // self.selected = self.businesses.filter(b => b.selected);
-    console.log(self.selected);
+
+    const business_ids: number[] = [];
+    self.businesses_selected.forEach(bs => {
+      business_ids.push(bs.id);
+    });
+
+    self.standBusinessSrv.assignSelected(business.id, business_ids).then(
+      data => {
+        if (data['added_business_ids']) {
+          const added_business_ids: number[] = data['added_business_ids'];
+          self.businesses = self.businesses.filter(b => !added_business_ids.includes(b.id));
+
+          self.searchBusinessClause ? self.searchBusinesses(self.searchBusinessClause) :
+            self.searched_businesses = JSON.parse(JSON.stringify(self.businesses));
+
+          self.callAlert.handler(self,
+            'success',
+            `${added_business_ids.length} businesses were added`,
+            2000);
+
+          self.businesses_selected = [];
+        } else {
+          self.callAlert.handler(self, 'warning', `Can't add businesses`, 2000);
+        }
+      }
+    );
+  }
+
+  openBusinesses(business: StandardizedBusiness) {
+    const self = this;
+    self.standBusinessSrv.ownBusinesses(business.id)
+      .then(data => {
+        if (data['businesses']) {
+          self.detailedBusiness = business;
+          self.own_businesses = data['businesses'];
+          self.showBusinessesList = true;
+        } else {
+          self.callAlert.handler(self, 'warning', `Can't load data`, 2000);
+        }
+      });
+  }
+
+  hideOwnBusinesses() {
+    const self = this;
+    self.own_businesses = undefined;
+    self.detailedBusiness = undefined;
+  }
+
+  removeFromStBusiness(business: Businesses, index: number) {
+    const self = this;
+
+    self.standBusinessSrv.removeOwnBusiness(self.detailedBusiness.id, business.id)
+      .then(data => {
+        if (data['business']) {
+          self.own_businesses.splice(index, 1);
+
+          self.businesses.unshift(business);
+          self.searchBusinessClause ? self.searchBusinesses(self.searchBusinessClause) :
+            self.searched_businesses = JSON.parse(JSON.stringify(self.businesses));
+        } else {
+          self.callAlert.handler(self, 'warning', `Can't remove business`, 2000);
+        }
+      });
   }
 
   fileChange(event) {
@@ -173,14 +274,11 @@ export class StandardizedBusinessesComponent implements OnInit {
           if (response['standardized_businesses']) {
             self.standardized_businesses = self.standardized_businesses.concat(response['standardized_businesses']);
           } else {
-            if (response['message']) {
-              // self.loadCustomersMessage = response['message'];
-            }
+            if (response['message']) {}
 
             console.log(response);
             setTimeout(() => {
               self.upload_file = null;
-              // self.loadCustomersMessage = null;
             }, 2000);
           }
         },
@@ -192,5 +290,4 @@ export class StandardizedBusinessesComponent implements OnInit {
       );
     }
   }
-
 }
