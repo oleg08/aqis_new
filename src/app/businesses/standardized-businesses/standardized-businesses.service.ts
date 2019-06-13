@@ -66,4 +66,13 @@ export class StandardizedBusinessesService {
       .then(res => <any>res)
       .then(data => data);
   }
+
+  assignKeysToStBusinesses(business_ids: number[], keyword: string) {
+    const self = this;
+    return self.http.post<any>(`${environment.serverUrl}/assign_keys_st_businesses.json`,
+      { business_ids: business_ids, keyword: keyword })
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
 }

@@ -3,6 +3,7 @@ export interface StandardizedBusiness {
   name?: string;
   code?: string;
   iaf?: string;
+  selected?: boolean;
   standardized_business_keys: StandardizedBusinessKey[];
   stringify_keys: string[];
 }

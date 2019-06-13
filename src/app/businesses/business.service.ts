@@ -25,4 +25,12 @@ export class BusinessService {
       .then(res => <Businesses[]>res['businesses'])
       .then(data => data);
   }
+
+  getIsAssigned () {
+    const self = this;
+    return self.http.get<any>(`${environment.serverUrl}/businesses_is_assigned.json`)
+      .toPromise()
+      .then(res => <Businesses[]>res['businesses'])
+      .then(data => data);
+  }
 }

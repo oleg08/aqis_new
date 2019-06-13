@@ -1,6 +1,8 @@
 <p-dialog *ngIf="detailedBusiness"
           (onHide)="hideOwnBusinesses()"
-          [(visible)]="showBusinessesList">
+          [(visible)]="showBusinessesList"
+          [modal]="true"
+>
   <p-header>
     <small>Businesses belong to</small> {{detailedBusiness.name}}
   </p-header>
@@ -14,6 +16,28 @@
         </mat-icon>
     </mat-list-item>
   </mat-list>
+</p-dialog>
+
+<p-dialog [(visible)]="showKeywordDialog"
+          (onHide)="keyToAssign = null"
+          [modal]="true">
+  <p-header>
+    Add Keyword to Selected Businesses
+  </p-header>
+  <p *ngIf="selected_st_businesses.length < 1"
+     class="text-center"
+     style="color: red">
+    You didn't select any Business
+  </p>
+  <h3 *ngIf="selected_st_businesses.length > 0" class="text-center">
+    {{keyToAssign}}
+  </h3>
+  <p-footer>
+    <button mat-raised-button
+            [disabled]="selected_st_businesses.length < 1"
+            (click)="addKeyToBusinesses()"
+            color="yellow">Assign</button>
+  </p-footer>
 </p-dialog>
 
 <section class="load-standardized-businesses p-2">
@@ -47,14 +71,28 @@
                    (input)="searchStBusinesses($event.target.value)"
                    placeholder="Search...">
           </div>
+
+          <div class="ui-g-12">
+            <div class="ui-inputgroup">
+              <input type="text" pInputText
+                     [minLength]="2"
+                     [maxLength]="25"
+                     [(ngModel)]="keyToAssign"
+                     placeholder="Assign Keyword to Businesses">
+              <button pButton type="button" label="Assign"
+                      [disabled]="!keyToAssign || keyToAssign.length < 3"
+                      (click)="openKeywordDialog()"
+              ></button>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="ui-g standardized-businesses-item-header">
-        <div class="ui-g-2">
+        <div class="ui-g-offset-1 ui-g-2">
           <span><label>Code</label></span>
         </div>
-        <div class="ui-g-8">
+        <div class="ui-g-7">
           <span><label>Name</label></span>
         </div>
         <div class="ui-g-2">
@@ -75,10 +113,16 @@
              appHighlight="standardized-business-shadowed"
              class="standardized-businesses-item mb-2">
           <div id="st-bsn-{{business.id}}" class="ui-g">
+            <div class="ui-g-1">
+              <p-checkbox *ngIf="keyToAssign && keyToAssign.length > 2"
+                          [(ngModel)]="business.selected"
+                          [binary]="true"
+              ></p-checkbox>
+            </div>
             <div class="ui-g-2">
               <span>{{business.code}}</span>
             </div>
-            <div class="ui-g-8">
+            <div class="ui-g-7">
               <span>
                 {{business.name}}
                 <i class="fa fa-angle-double-right float-right cursor-pointer"
@@ -126,6 +170,12 @@
             <h4>Businesses</h4>
           </div>
           <div class="ui-g-12">
+            <p-selectButton [options]="is_assigned_values"
+                            [(ngModel)]="showNotAssigned"
+                            (onChange)="toggleAssigned()"
+            ></p-selectButton>
+          </div>
+          <div class="ui-g-12">
             <input class="form-control" type="text"
                    [(ngModel)]="searchBusinessClause"
                    (input)="searchBusinesses($event.target.value)"
@@ -154,10 +204,9 @@
           <div class="ui-g">
             <div class="ui-g-11">{{business.description}}</div>
             <div class="ui-g-1">
-              <mat-checkbox [checked]="business.selected"
-                            (change)="checkBusiness($event, business)"
-                            [disableRipple]="false">
-              </mat-checkbox>
+              <p-checkbox [(ngModel)]="business.selected"
+                          (onChange)="checkBusiness($event, business)"
+                          binary="true"></p-checkbox>
             </div>
           </div>
         </div>

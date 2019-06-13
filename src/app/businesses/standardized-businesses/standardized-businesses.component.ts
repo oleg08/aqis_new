@@ -56,6 +56,7 @@ export class StandardizedBusinessesComponent implements OnInit {
   own_businesses: Businesses[];
   businesses_selected: Businesses[] = [];
   searched_businesses: Businesses[];
+  selected_st_businesses: StandardizedBusiness[] = [];
   msgs: Message[] = [];
   alert: boolean;
   alertType: string;
@@ -63,6 +64,13 @@ export class StandardizedBusinessesComponent implements OnInit {
   showBusinessesList = false;
   detailedBusiness: StandardizedBusiness;
   searchBusinessClause: string;
+  is_assigned_values: object[] = [
+    { label: 'Not Assigned', value: true },
+    { label: 'All', value: false }
+  ];
+  showNotAssigned = true;
+  keyToAssign: string;
+  showKeywordDialog = false;
 
   static ifFindStBusinesses (search_val, st_bsn: StandardizedBusiness) {
     return st_bsn.name.toLowerCase().includes(search_val.toLowerCase())
@@ -83,28 +91,44 @@ export class StandardizedBusinessesComponent implements OnInit {
           b.stringify_keys.push(key.label);
         });
       });
+      bsns.forEach(b => b.selected = false);
       self.standardized_businesses = bsns;
       self.searched_st_businesses = JSON.parse(JSON.stringify(bsns));
     });
 
-    self.businessSrv.getNotAssigned().then(bsns => {
+    self.businessSrv.getIsAssigned().then(bsns => {
       self.businesses = bsns;
       self.businesses.forEach(b => b.selected = false);
       self.searched_businesses = JSON.parse(JSON.stringify(bsns));
+      self.searched_businesses = self.searched_businesses.filter(b => !b.assigned);
     });
   }
 
-  searchStBusinesses(value) {
+  searchStBusinesses(value?: string) {
     const self = this;
-    self.searched_st_businesses = self.standardized_businesses.filter(
-      (st_bsn) => StandardizedBusinessesComponent.ifFindStBusinesses(value, st_bsn));
+    if (value) {
+      self.searched_st_businesses = self.standardized_businesses.filter(
+        (st_bsn) => StandardizedBusinessesComponent.ifFindStBusinesses(value, st_bsn));
+    } else {
+      self.searched_st_businesses = JSON.parse(JSON.stringify(self.standardized_businesses));
+    }
   }
 
-  searchBusinesses(value) {
+  searchBusinesses(value?: string) {
     const self = this;
-    self.searched_businesses = self.businesses.filter(
-      (bsn) => StandardizedBusinessesComponent.ifFindBusinesses(value, bsn)
+    const search_clause: string = value ? value : self.searchBusinessClause;
+    const businesses = self.businesses.filter(
+      bsn =>
+        (search_clause ? StandardizedBusinessesComponent.ifFindBusinesses(search_clause, bsn) : true)
+        && (self.showNotAssigned ? !bsn.assigned : true)
     );
+
+    self.searched_businesses = JSON.parse(JSON.stringify(businesses));
+  }
+
+  toggleAssigned() {
+    const self = this;
+    self.searchBusinesses();
   }
 
   addKey(event, business: StandardizedBusiness) {
@@ -147,14 +171,14 @@ export class StandardizedBusinessesComponent implements OnInit {
     self.standBusinessSrv.assignByKeywords(st_business.id)
       .then(data => {
         if (data['standardized_business']) {
-          const added_business_ids: number[] = data['added_business_ids'];
-          self.businesses = self.businesses.filter(b => !added_business_ids.includes(b.id));
+          const added_businesses: Businesses[] = data['added_businesses'];
 
-          self.searchBusinessClause ? self.searchBusinesses(self.searchBusinessClause) :
-            self.searched_businesses = JSON.parse(JSON.stringify(self.businesses));
+          self.deselectBusinesses(added_businesses);
+          self.searchBusinesses();
+
           self.callAlert.handler(self,
             'success',
-            `${added_business_ids.length} businesses were added`,
+            `${added_businesses.length} businesses were added`,
             2000);
         } else {
           self.callAlert.handler(self, 'warning', `Can't add businesses`, 2000);
@@ -164,7 +188,7 @@ export class StandardizedBusinessesComponent implements OnInit {
 
   checkBusiness($event, business: Businesses) {
     const self = this;
-    const bsn: Businesses = self.businesses.filter(b => b.id === business.id)[0];
+    const bsn: Businesses = self.businesses.find(b => b.id === business.id);
     bsn.selected = !bsn.selected;
     if (bsn.selected) {
       self.businesses_selected.push(bsn);
@@ -173,6 +197,15 @@ export class StandardizedBusinessesComponent implements OnInit {
         self.businesses_selected.splice(self.businesses_selected.indexOf(bsn), 1);
       }
     }
+  }
+
+  deselectBusinesses(businesses: Businesses[]) {
+    const self = this;
+    businesses.forEach(bsn => {
+      const added_bsn: Businesses = self.businesses.find(b => b.id === bsn.id);
+      added_bsn.assigned = bsn.assigned;
+      added_bsn.selected = false;
+    });
   }
 
   assignBusinesses(business: StandardizedBusiness) {
@@ -185,18 +218,17 @@ export class StandardizedBusinessesComponent implements OnInit {
 
     self.standBusinessSrv.assignSelected(business.id, business_ids).then(
       data => {
-        if (data['added_business_ids']) {
-          const added_business_ids: number[] = data['added_business_ids'];
-          self.businesses = self.businesses.filter(b => !added_business_ids.includes(b.id));
+        if (data['added_businesses']) {
+          const added_businesses: Businesses[] = data['added_businesses'];
 
-          self.searchBusinessClause ? self.searchBusinesses(self.searchBusinessClause) :
-            self.searched_businesses = JSON.parse(JSON.stringify(self.businesses));
+          self.deselectBusinesses(added_businesses);
+          self.searchBusinesses();
 
           self.callAlert.handler(self,
             'success',
-            `${added_business_ids.length} businesses were added`,
+            `${added_businesses.length} businesses were added`,
             2000);
-
+          self.searched_businesses.filter(b => b.selected).forEach(bsn => bsn.selected = false);
           self.businesses_selected = [];
         } else {
           self.callAlert.handler(self, 'warning', `Can't add businesses`, 2000);
@@ -233,13 +265,44 @@ export class StandardizedBusinessesComponent implements OnInit {
         if (data['business']) {
           self.own_businesses.splice(index, 1);
 
-          self.businesses.unshift(business);
-          self.searchBusinessClause ? self.searchBusinesses(self.searchBusinessClause) :
-            self.searched_businesses = JSON.parse(JSON.stringify(self.businesses));
+          const added_business: Businesses = self.businesses.find(b => b.id === data['business']['id']);
+          added_business.assigned = data['business']['assigned'];
+          self.searchBusinesses();
         } else {
           self.callAlert.handler(self, 'warning', `Can't remove business`, 2000);
         }
       });
+  }
+
+  openKeywordDialog() {
+    const self = this;
+    self.selected_st_businesses = self.searched_st_businesses.filter(b => b.selected);
+    self.showKeywordDialog = true;
+  }
+
+  addKeyToBusinesses() {
+    const self = this;
+    self.showKeywordDialog = false;
+    const business_ids: number[] = [];
+    self.selected_st_businesses.forEach(b => business_ids.push(b.id));
+    self.standBusinessSrv.assignKeysToStBusinesses(business_ids, self.keyToAssign).then(
+      data => {
+        if (data['st_business_ids']) {
+          const b_ids: number[] = data['st_business_ids'];
+          b_ids.forEach(obj => {
+            const st_business: StandardizedBusiness = self.standardized_businesses.find(b => b.id === obj['id']);
+            if (st_business) {
+              st_business.stringify_keys.push(obj['keyword']['label']);
+              st_business.standardized_business_keys.push(obj['keyword']);
+              st_business.selected = false;
+            }
+          });
+          self.searchStBusinesses();
+        } else {
+          self.callAlert.handler(self, 'warning', `Can't assign keyword`, 2000);
+        }
+      }
+    );
   }
 
   fileChange(event) {
