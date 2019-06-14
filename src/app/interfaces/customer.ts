@@ -1,4 +1,5 @@
 import {Businesses} from './businesses';
+import {StandardizedBusiness} from './standardized-businesses';
 
 export interface CustomerEmailAddresses {
   id?: number;
@@ -43,6 +44,7 @@ export interface Customer {
   google_saved_connection?: any;
   state?: string;
   customer_businesses?: Businesses[];
+  standardized_businesses?: StandardizedBusiness[];
   customer_tenants?: object[];
   agent_id?: number;
   assistant_id?: number;

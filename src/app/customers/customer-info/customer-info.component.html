@@ -541,6 +541,24 @@
                                (blur)="focusOutInput()">
                     </ng-select>
                   </div>
+                  <div *ngIf="standardized_businesses"
+                       id="st_business_list_{{customer.id}}"
+                       class="ui-g-12">
+                    <label><b><u>Standardized Business list</u></b></label>
+                    <ng-select
+                      [items]="standardized_businesses"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      [clearOnBackspace]="false"
+                      bindLabel="name"
+                      placeholder="Select Standardized Businesses"
+                      [(ngModel)]="customer.standardized_businesses"
+                      (change)="addStBusinesses(customer.standardized_businesses, customer.id)"
+                      (focus)="focusInput()"
+                      (blur)="focusOutInput()"
+                    >
+                    </ng-select>
+                  </div>
                 </div>
               </div>
             </div>

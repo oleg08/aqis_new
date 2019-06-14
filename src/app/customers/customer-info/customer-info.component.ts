@@ -21,6 +21,7 @@ import { PassCustomersIdsService } from '../../services/pass-customers-ids.servi
 import { GendersService } from '../../services/genders.service';
 import { IterateCustomersService } from '../../services/iterate-customers.service';
 import { PassStateService } from '../../services/pass-state.service';
+import { StandardizedBusinessesService } from '../../businesses/standardized-businesses/standardized-businesses.service';
 
 import { Message, OverlayPanel } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -34,6 +35,7 @@ import { EmailTemplates } from '../../interfaces/email-templates';
 import { Businesses } from '../../interfaces/businesses';
 import { BusinessDomain } from '../../interfaces/business-domain';
 import { Gender } from '../../interfaces/gender';
+import { StandardizedBusiness } from '../../interfaces/standardized-businesses';
 
 import { environment } from '../../../environments/environment';
 
@@ -160,6 +162,8 @@ export class CustomerInfoComponent implements OnInit {
   current_name:              string;
   participantsList:          boolean;
   editBasicData:             boolean;
+  standardized_businesses:   StandardizedBusiness[];
+  copy_st_businesses:        StandardizedBusiness[];
 
   @Input () customer:                Customer;
   @Input () customer_tenant:         object;
@@ -201,6 +205,7 @@ export class CustomerInfoComponent implements OnInit {
               private passStateService:       PassStateService,
               private openSteps:              OpenStepsService,
               private iterateCustomers:       IterateCustomersService,
+              private stBusinessService:      StandardizedBusinessesService,
               public rd:                      Renderer2,
               private addresses_data:         ShareAddressService) { }
 
@@ -216,6 +221,8 @@ export class CustomerInfoComponent implements OnInit {
     self.editBasicData = self.current_user['edit_basic_data'];
 
     self.initializeSelectedQuestion();
+
+    self.copy_st_businesses = JSON.parse(JSON.stringify(self.customer.standardized_businesses));
 
     if (self.super_admin || self.editBasicData) {
 
@@ -244,6 +251,8 @@ export class CustomerInfoComponent implements OnInit {
           self.callAlert.handler(self, 'warning', `Can't load data`, 2000);
         }
       );
+
+      self.stBusinessService.get().then(data => self.standardized_businesses = data);
 
     } else {
 
@@ -875,6 +884,24 @@ export class CustomerInfoComponent implements OnInit {
     } else if (object.business_domain) {
       self.addBDomainRequest(object.business_domain, customer_id);
     }
+  }
+
+  addStBusinesses(businesses: StandardizedBusiness[], customer_id) {
+    const self = this;
+    const ids: number[] = [];
+    businesses.forEach(b => ids.push(b.id));
+    self.stBusinessService.addToCustomer(ids, customer_id).then(
+      data => {
+        if (data['customer']) {
+          self.copy_st_businesses = data['customer']['standardized_businesses'];
+          self.flashHighlights.handler(self, '#st_business_list_', String(customer_id), 'success-updated');
+        } else {
+          self.customer.standardized_businesses = self.copy_st_businesses;
+          self.flashHighlights.handler(self, '#st_business_list_', String(customer_id), 'failed-update');
+        }
+      }
+    );
+    console.log(businesses);
   }
 
   addBusinessDomain (b_domain, customer_id) {

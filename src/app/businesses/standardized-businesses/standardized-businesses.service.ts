@@ -75,4 +75,13 @@ export class StandardizedBusinessesService {
       .then(res => <any>res)
       .then(data => data);
   }
+
+  addToCustomer(business_ids: number[], customer_id: number) {
+    const self = this;
+    return self.http.post<any>(`${environment.serverUrl}/st_bsns_assign_to_customer/${customer_id}.json`,
+      { business_ids: business_ids })
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
 }
