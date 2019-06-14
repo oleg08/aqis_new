@@ -1,3 +1,5 @@
+import {StandardizedBusiness} from './standardized-businesses';
+
 export interface Project {
   id?: number;
   name?: string;
@@ -12,4 +14,5 @@ export interface Project {
   zip_to?: string|number;
   businesses?: Array<object>;
   project_businesses?: Array<object>;
+  standardized_businesses?: StandardizedBusiness[];
 }

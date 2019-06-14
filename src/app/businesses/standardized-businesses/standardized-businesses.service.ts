@@ -84,4 +84,13 @@ export class StandardizedBusinessesService {
       .then(res => <any>res)
       .then(data => data);
   }
+
+  addToProject(business_ids: number[], project_id: number) {
+    const self = this;
+    return self.http.post<any>(`${environment.serverUrl}/st_bsns_assign_to_project/${project_id}.json`,
+      { business_ids: business_ids })
+      .toPromise()
+      .then(res => <any>res)
+      .then(data => data);
+  }
 }

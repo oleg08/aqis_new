@@ -5,10 +5,12 @@ import { CallAlertService } from '../../services/call-alert.service';
 import { IsEmptyStringService } from '../../services/is-empty-string.service';
 import { FlashHighlightsService } from '../../services/flash-highlights.service';
 import { ShareBusinessesService } from '../../services/share-businesses.service';
+import { StandardizedBusinessesService } from '../../businesses/standardized-businesses/standardized-businesses.service';
 
 import { Project } from '../../interfaces/project';
 import { Businesses } from '../../interfaces/businesses';
 import { BusinessDomain } from '../../interfaces/business-domain';
+import { StandardizedBusiness } from '../../interfaces/standardized-businesses';
 
 import { environment } from '../../../environments/environment';
 
@@ -34,6 +36,8 @@ export class ProjectsAllComponent implements OnInit {
   warning_text:        string;
   businesses:          Businesses[] = [];
   business_domains:    BusinessDomain[];
+  standardized_businesses: StandardizedBusiness[];
+  copy_st_businesses:      StandardizedBusiness[];
 
   accounts: object[];
   alert: boolean;
@@ -47,6 +51,7 @@ export class ProjectsAllComponent implements OnInit {
               public rd: Renderer2,
               public isEmptyString: IsEmptyStringService,
               private flashHighlights: FlashHighlightsService,
+              private stBusinessService: StandardizedBusinessesService,
               private callAlert: CallAlertService) { }
 
   ngOnInit() {
@@ -86,12 +91,16 @@ export class ProjectsAllComponent implements OnInit {
         self.callAlert.handler(self, 'warning', `Can't load data`, 2000);
       }
     );
+
+    self.stBusinessService.get().then(data => self.standardized_businesses = data);
   }
 
   selectProject(project: Project) {
-    this.selectedProject = project;
-    this.copySelectedProject = Object.assign({}, project);
-    this.displayDialog = true;
+    const self = this;
+    self.selectedProject = project;
+    self.copySelectedProject = Object.assign({}, project);
+    self.copy_st_businesses = JSON.parse(JSON.stringify(self.selectedProject.standardized_businesses));
+    self.displayDialog = true;
   }
 
   goToSteps(project) {
@@ -386,6 +395,23 @@ export class ProjectsAllComponent implements OnInit {
       },
       response => {
         self.flashHighlights.handler(self, '#business_list_', String(project_id), 'failed-update');
+      }
+    );
+  }
+
+  addStBusinesses(businesses: StandardizedBusiness[], project_id) {
+    const self = this;
+    const ids: number[] = [];
+    businesses.forEach(b => ids.push(b.id));
+    self.stBusinessService.addToProject(ids, project_id).then(
+      data => {
+        if (data['project']) {
+          self.copy_st_businesses = data['project']['standardized_businesses'];
+          self.flashHighlights.handler(self, '#st_business_list_', String(project_id), 'success-updated');
+        } else {
+          self.selectedProject.standardized_businesses = self.copy_st_businesses;
+          self.flashHighlights.handler(self, '#st_business_list_', String(project_id), 'failed-update');
+        }
       }
     );
   }

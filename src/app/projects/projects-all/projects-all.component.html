@@ -292,6 +292,19 @@
                                    (clearBusinesses)="clearBusinesses(selectedProject)">
           </app-grouped-multiselect>
         </div>
+        <div id="st_business_list_{{selectedProject.id}}" class="ui-g-12">
+          <label><b><u>Standardized Business list</u></b></label>
+          <ng-select
+            [items]="standardized_businesses"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            [clearOnBackspace]="false"
+            bindLabel="name"
+            placeholder="Select Standardized Businesses"
+            [(ngModel)]="selectedProject.standardized_businesses"
+            (change)="addStBusinesses(selectedProject.standardized_businesses, selectedProject.id)">
+          </ng-select>
+        </div>
       </div>
     </div>
   </p-dialog>

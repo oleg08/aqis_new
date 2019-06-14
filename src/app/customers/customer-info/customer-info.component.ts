@@ -901,7 +901,6 @@ export class CustomerInfoComponent implements OnInit {
         }
       }
     );
-    console.log(businesses);
   }
 
   addBusinessDomain (b_domain, customer_id) {
