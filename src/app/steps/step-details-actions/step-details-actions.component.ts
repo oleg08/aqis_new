@@ -1,7 +1,8 @@
 import { Component, OnInit, ElementRef, Renderer2, ViewChild, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FlashHighlightsService } from '../../services/flash-highlights.service';
+import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 
 import { SelectQuestionListComponent } from '../../questions/select-question-list/select-question-list.component';
@@ -49,10 +50,12 @@ export class StepDetailsActionsComponent implements OnInit {
   @ViewChild('templates_order_list') templates_order_list: EmailTemplatesOrderListComponent;
 
   constructor(private activatedRoute: ActivatedRoute,
+              private router: Router,
               private rd: Renderer2,
               private http: HttpClient,
               private flashHighlights: FlashHighlightsService,
               private getEmailTemplates: GetEmailTemplatesService,
+              private sanitizer: DomSanitizer,
               private messageService: MessageService) { }
 
   ngOnInit() {
@@ -60,7 +63,6 @@ export class StepDetailsActionsComponent implements OnInit {
 
     self.email_templates_key = self.templates_path.split('/')[0];
     self.questions_key = self.questions_path.split('/')[0];
-
 
     const observableFailed = function (response) {
       self.flashHighlights.handler(self, '#step-', String(self.step.id), 'failed-update');
@@ -101,7 +103,10 @@ export class StepDetailsActionsComponent implements OnInit {
     };
 
     const routeSuccess =  (params) => {
-      self.http.get(environment.serverUrl + '/' + self.path + '/' + params['id'] + '.json'
+
+      const params_id: string = decodeURIComponent(self.router.url).split('/')[2].split(';')[0];
+
+      self.http.get(environment.serverUrl + '/' + self.path + '/' + params_id + '.json'
       ).subscribe(
         stepGetSuccess,
         observableFailed
@@ -133,6 +138,10 @@ export class StepDetailsActionsComponent implements OnInit {
 
   editStep(data) {
     const self = this;
+
+    if (self.path === 'project_steps') {     // update c_tenant_steps that belongs to this project-step
+      console.log(self.path);
+    }
 
     self.http.patch(environment.serverUrl + '/' + self.path + '/' + self.step.id + '.json', data
     ).subscribe(

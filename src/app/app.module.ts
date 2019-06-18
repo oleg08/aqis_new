@@ -67,6 +67,7 @@ import { GoogleAuthenticationMessagesService } from './services/google-authentic
 import { PusherService } from './services/pusher.service';
 import { StandardizedBusinessesService } from './businesses/standardized-businesses/standardized-businesses.service';
 import { BusinessService } from './businesses/business.service';
+import { DecodeStepsUrlService } from './services/decode-steps-url.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -378,6 +379,7 @@ import { HighlightDirective } from './directives/highlight.directive';
     PusherService,
     StandardizedBusinessesService,
     BusinessService,
+    DecodeStepsUrlService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DecodeStepsUrlService } from '../../services/decode-steps-url.service';
 
 @Component({
   selector: 'app-aqis-project-step-details',
@@ -19,10 +20,15 @@ export class ProjectStepDetailsComponent implements OnInit {
   ngOnInit() {
     const self = this;
     const values = this.activatedRoute.url['_value'];
-    self.templates_path = 'email_templates/' + values[1].path;
 
-    self.questions_path = 'project_questions/' + values[1].parameters.parent_path;
-    self.back_to_parent_path = 'projects/' + values[1].parameters.parent_path;
+    const decoded_values = DecodeStepsUrlService.handler(values[1]);
+    const main_path: string = decoded_values.main_path;
+    const parent_path: string = decoded_values.parent_path;
+
+    self.templates_path = 'email_templates/' + main_path;
+
+    self.questions_path = 'project_questions/' + parent_path;
+    self.back_to_parent_path = 'projects/' + parent_path;
   }
 
 }
