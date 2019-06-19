@@ -75,6 +75,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { SuperAdminGuard } from './guards/super-admin.guard';
 import { ForceSslGuard } from './guards/force-ssl.guard';
 import { AdminOrSuperAdminGuard } from './guards/admin-or-super-admin.guard';
+import { AdminOrEditBasicDataGuard } from './guards/admin-or-edit-basic-data.guard';
 
 // primeng
 import { PrimeNgModule } from './prime-ng-module';
@@ -384,6 +385,7 @@ import { HighlightDirective } from './directives/highlight.directive';
     AdminGuard,
     SuperAdminGuard,
     AdminOrSuperAdminGuard,
+    AdminOrEditBasicDataGuard,
     ForceSslGuard
   ],
   bootstrap: [AppComponent]

@@ -45,6 +45,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { SuperAdminGuard } from './guards/super-admin.guard';
 import { AdminOrSuperAdminGuard } from './guards/admin-or-super-admin.guard';
+import { AdminOrEditBasicDataGuard } from './guards/admin-or-edit-basic-data.guard';
 import { ForceSslGuard } from './guards/force-ssl.guard';
 import {SuperAdminAccountInfoComponent} from './super-admin-account-info/super-admin-account-info.component';
 
@@ -161,17 +162,17 @@ const routes: Routes = [
   {
     path: 'projects',
     component: ProjectsAllComponent,
-    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminOrEditBasicDataGuard]    // admin-or-edit-basic-data-guard
   },
   {
     path: 'projects/:id',
     component: ProjectStepComponent,
-    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminOrEditBasicDataGuard]    // admin-or-edit-basic-data-guard
   },
   {
     path: 'project_steps/:id',
     component: ProjectStepDetailsComponent,
-    canActivate: [ForceSslGuard, AdminGuard]    // admin-guard
+    canActivate: [ForceSslGuard, AdminOrEditBasicDataGuard]    // admin-or-edit-basic-data-guard
   },
   {
     path: 'project_questions/:id',

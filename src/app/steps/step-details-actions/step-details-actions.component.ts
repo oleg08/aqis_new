@@ -38,6 +38,7 @@ export class StepDetailsActionsComponent implements OnInit {
   g_templates: EmailTemplates[];
   email_templates_key: any;
   questions_key: string;
+  edit_basic_data: boolean;
 
   @Input() path:           string;
   @Input() templates_path: string;
@@ -71,6 +72,10 @@ export class StepDetailsActionsComponent implements OnInit {
 
     const stepGetSuccess = function (response) {
       if (response[self.path.slice(0, -1)]) {
+
+        if (self.path === 'project_steps') {
+          self.edit_basic_data = response['edit_basic_data'];
+        }
 
         self.model_roles = response['roles'];
 
@@ -138,10 +143,6 @@ export class StepDetailsActionsComponent implements OnInit {
 
   editStep(data) {
     const self = this;
-
-    if (self.path === 'project_steps') {     // update c_tenant_steps that belongs to this project-step
-      console.log(self.path);
-    }
 
     self.http.patch(environment.serverUrl + '/' + self.path + '/' + self.step.id + '.json', data
     ).subscribe(

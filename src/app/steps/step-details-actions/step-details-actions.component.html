@@ -8,13 +8,16 @@
                     [step]="step"
                     [model_roles]="model_roles"
                     [back_to_parent_path]="back_to_parent_path"
+                    [edit_basic_data]="edit_basic_data"
                     (onBlur)="editStep($event)">
     </app-aqis-step-new>
   </section>
 
   <br>
 
-  <section *ngIf="step && (step.step_role === 'Agent' || step.step_role === 'Assistant' || step.step_role === 'Assistance')" class="step-questions">
+  <section *ngIf="step &&
+  (step.step_role === 'Agent' || step.step_role === 'Assistant' || step.step_role === 'Assistance')"
+           class="step-questions">
 
     <p-overlayPanel #question_list styleClass="questions-list-panel" [showCloseIcon]="true">
       <app-aqis-select-question-list #q_list

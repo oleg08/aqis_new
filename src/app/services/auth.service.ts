@@ -14,6 +14,7 @@ export class AuthService {
   userSuperAdmin$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   userAdmin$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   userAssistant$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  userEditBasicData$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   redirectUrl: string;
 
@@ -30,6 +31,7 @@ export class AuthService {
         this.userSuperAdmin$.next(res.data.super_admin);
         this.userAdmin$.next(res.data.admin);
         this.userAssistant$.next(res.data.assistant);
+        this.userEditBasicData$.next(res.data.edit_basic_data);
 
         if (this.redirectUrl) {
           this.router.navigate([this.redirectUrl]);
@@ -39,6 +41,7 @@ export class AuthService {
         this.userAdmin$.next(false);
         this.userSuperAdmin$.next(false);
         this.userAssistant$.next(false);
+        this.userEditBasicData$.next(false);
       }
     });
   }
@@ -52,6 +55,7 @@ export class AuthService {
         this.userSuperAdmin$.next(false);
         this.userSignedIn$.next(false);
         this.userAssistant$.next(false);
+        this.userEditBasicData$.next(false);
         return res;
       })
     );
@@ -82,6 +86,10 @@ export class AuthService {
           }
           if (res.body.data.assistant) {
             this.userAssistant$.next(true);
+            this.userSuperAdmin$.next(false);
+          }
+          if (res.body.data.edit_basic_data) {
+            this.userEditBasicData$.next(true);
             this.userSuperAdmin$.next(false);
           }
         });

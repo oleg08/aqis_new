@@ -7,7 +7,6 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { OpenStepsService } from '../../services/open-steps.service';
 import { Step } from '../../interfaces/step';
 import { DropdownItem } from '../../interfaces/dropdown-item';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-aqis-step-new',
@@ -27,12 +26,14 @@ export class StepNewComponent implements OnInit {
   roles: DropdownItem[] = [];
   msgs: Message[] = [];
   prev_time: number;
+  updateChildren = false;
 
   @Input() step: Step;
   @Input() header: string;
   @Input() submit_button: string;
   @Input() model_roles: object;
   @Input() back_to_parent_path: string;
+  @Input() edit_basic_data: boolean;
   @Output() submitForm:  EventEmitter<object> = new EventEmitter<object>();
   @Output() onBlur:  EventEmitter<object> = new EventEmitter<object>();
 
@@ -140,6 +141,7 @@ export class StepNewComponent implements OnInit {
 
     if (self.createForm.controls[prop] && self.createForm.controls[prop].errors) return;
     self.prev_time = JSON.parse(JSON.stringify(self.createForm.get('time').value));
+    obj['update_c_tenant_steps'] = self.updateChildren;
     self.onBlur.emit( obj );
   }
 

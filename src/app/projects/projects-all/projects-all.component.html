@@ -22,7 +22,7 @@
   <p-dataView #dv [value]="projects" [paginator]="true" [rows]="20" [layout]="'grid'">
     <p-header>
       List of Projects
-      <div class="ui-g">
+      <div *ngIf="admin" class="ui-g">
         <div class="ui-g-12">
           <div class="ui-inputgroup">
             <input type="text"
@@ -56,30 +56,35 @@
                     pTooltip="Project's steps"
                     (click)="goToSteps(project)"
                     icon="fa fa-list-ol"></button>
-            <button pButton type="button"
+            <button *ngIf="admin"
+                    pButton type="button"
                     pTooltip="Project's questions"
                     (click)="goToQuestions(project)"
                     icon="fa fa-question"></button>
-            <button pButton type="button"
+            <button *ngIf="admin"
+                    pButton type="button"
                     pTooltip="Project's email-templates"
                     (click)="goToEmailTemplates(project)"
                     icon="fa fa-envelope-open"></button>
           </div>
 
           <hr class="ui-widget-content" style="border-top:0">
-          <i class="fa fa-search cursor-pointer"
-             pTooltip="Project's details"
-             (click)="selectProject(project)"></i> |
-          <i class="fa fa-close cursor-pointer"
-             pTooltip="Remove Project"
-             (click)="deleteProject(project)">
-          </i>
+          <div *ngIf="admin">
+            <i class="fa fa-search cursor-pointer"
+               pTooltip="Project's details"
+               (click)="selectProject(project)"></i> |
+            <i class="fa fa-close cursor-pointer"
+               pTooltip="Remove Project"
+               (click)="deleteProject(project)">
+            </i>
+          </div>
         </p-panel>
       </div>
     </ng-template>
   </p-dataView>
 
-  <p-dialog header="Project Details"
+  <p-dialog *ngIf="admin"
+            header="Project Details"
             [(visible)]="displayDialog"
             (onHide)="hideDetails()"
             [responsive]="true"

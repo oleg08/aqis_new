@@ -8,10 +8,26 @@
     </small>
   </p-header>
 
+  <div *ngIf="edit_basic_data" class="ui-g">
+    <div class="ui-g-12 text-right">
+      <mat-card class="result">
+        <mat-card-content>
+          <h5>Update companies' steps</h5>
+
+          <section class="toggle-update-section">
+            <p-toggleButton [(ngModel)]="updateChildren"></p-toggleButton>
+          </section>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+
   <form [formGroup]="createForm" (ngSubmit)="onSubmit(createForm.value)">
     <section style="margin: 10px 0px">
 
       <div id="step-name-{{step.id}}" class="ui-g">
+
         <div class="ui-g-12 ui-md-2">
           <u><b>Name *:</b></u>
         </div>

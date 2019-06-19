@@ -38,6 +38,7 @@ export class ProjectsAllComponent implements OnInit {
   business_domains:    BusinessDomain[];
   standardized_businesses: StandardizedBusiness[];
   copy_st_businesses:      StandardizedBusiness[];
+  admin:                   boolean;
 
   accounts: object[];
   alert: boolean;
