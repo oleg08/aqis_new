@@ -54,4 +54,5 @@ export interface Customer {
   assistant_user?: AssignedUser;
   customer_tenant_id?: number;
   email_addresses?: CustomerEmailAddresses[];
+  checked?: boolean;
 }

@@ -77,11 +77,12 @@ export class CustomerSearchComponent implements OnInit {
     this.short_customers_list = true;
 
     this.customers_options_select = [
+      { label: 'Choose Selection Mode',     value: 0 },
       { label: 'Deselect All Companies',    value: 1 },
       { label: 'Select All Companies',      value: 2 },
       { label: 'Select Filtered Companies', value: 3 },
     ];
-    this.selectedOption = 1;
+    this.selectedOption = 0;
   }
 
   customers:            Array<object> = [];
@@ -351,6 +352,7 @@ export class CustomerSearchComponent implements OnInit {
           customers.push(...next_customers);
           self.lazyCustomers = JSON.parse(JSON.stringify(customers));
           self.copy_customers = JSON.parse(JSON.stringify(self.lazyCustomers));
+          self.checkCustomers();
 
           self.sort_properties = self.customersSortData.get(self.super_admin);
         } else {
@@ -748,10 +750,17 @@ export class CustomerSearchComponent implements OnInit {
     }
   }
 
-  selectCustomer (ids) {
+  selectCustomer (customer_id, checked) {
     const self = this;
-    self.customers_ids = ids;
-    self.shareCustomersIds.changeCustomersIds(ids);
+    if (checked) {
+      if (!self.customers_ids.includes(String(customer_id))) { self.customers_ids.push(String(customer_id)); }
+    } else {
+      if (self.customers_ids.includes(String(customer_id))) {
+        self.customers_ids.splice(self.customers_ids.indexOf(String(customer_id)), 1);
+      }
+    }
+    self.selectedOption = 0;
+    self.shareCustomersIds.changeCustomersIds([...self.customers_ids]);
   }
 
   selectCustomers() {
@@ -759,6 +768,8 @@ export class CustomerSearchComponent implements OnInit {
 
     const selected_customers: string[] = [];
     switch (self.selectedOption) {
+      case 0:
+            break;
       case 1:
         self.customers_ids = [];
         break;
@@ -777,21 +788,27 @@ export class CustomerSearchComponent implements OnInit {
       default:
         self.customers_ids = [];
     }
+    self.checkCustomers();
+  }
+
+  checkCustomers() {
+    const self = this;
+    self.lazyCustomers.forEach(c => { c.checked = self.customers_ids.includes(String(c.id)); });
+    self.shareCustomersIds.changeCustomersIds([...self.customers_ids]);
   }
 
   loadSteps() {
     const self = this;
     if (self.super_admin) { return; }
 
+
     if (self.customers_ids.length < 1) {
       self.messageService.add({severity: 'warn', summary: 'Warning', detail: 'You should select at least one company'});
       return;
     }
 
-    const ids: string[] = [];
-    self.customers_ids.forEach(id => { ids.push(id); });
-
-    self.http.post(environment.serverUrl + '/load_projects_steps/' + self.current_project['id'] + '.json', { customer_ids: ids }
+    self.http.post(environment.serverUrl + '/load_projects_steps/' + self.current_project['id'] + '.json',
+      { customer_ids: self.customers_ids }
     ).subscribe(
       response => {
         if (response['message'] === 'All requested steps are loaded.') {

@@ -311,13 +311,12 @@
             <section>
               <div class="ui-g">
                 <div class="ui-g-12 ui-md-1">
-                  <p-checkbox name="group1"
+                  <p-checkbox binary="true"
                               pTooltip="Check for importing to Excel"
                               tooltipPosition="top"
-                              value="{{customer.id}}"
-                              [(ngModel)]="customers_ids"
+                              [(ngModel)]="customer.checked"
                               inputId="{{customer.id}}"
-                              (onChange)="selectCustomer(customers_ids)">
+                              (onChange)="selectCustomer(customer.id, customer.checked)">
                   </p-checkbox>
                 </div>
                 <div class="ui-g-12 ui-md-9">
