@@ -1,8 +1,9 @@
 <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
 
 <p-dialog [visible]="showBelongedSteps"
-          [style]="{'width': '60%'}"
+          [style]="{'width': 'auto'}"
           [closable]="false"
+          [maximizable]="true"
           [modal]="true">
   <p-header>
     Header content here
