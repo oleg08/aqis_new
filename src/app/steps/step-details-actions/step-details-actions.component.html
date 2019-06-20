@@ -2,14 +2,14 @@
 
 <section #stepDetails *ngIf="step">
   <section class="step-details">
-    <app-aqis-step-new
-                    header="Edit Step"
-                    submit_button="Save"
-                    [step]="step"
-                    [model_roles]="model_roles"
-                    [back_to_parent_path]="back_to_parent_path"
-                    [edit_basic_data]="edit_basic_data"
-                    (onBlur)="editStep($event)">
+    <app-aqis-step-new #step_new
+                       header="Edit Step"
+                       submit_button="Save"
+                       [step]="step"
+                       [model_roles]="model_roles"
+                       [back_to_parent_path]="back_to_parent_path"
+                       [edit_basic_data]="edit_basic_data"
+                       (onBlur)="editStep($event)">
     </app-aqis-step-new>
   </section>
 

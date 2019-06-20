@@ -1,5 +1,60 @@
 <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
 
+<p-dialog [visible]="showBelongedSteps"
+          [style]="{'width': '60%'}"
+          [closable]="false"
+          [modal]="true">
+  <p-header>
+    Header content here
+  </p-header>
+  <section class="m-1 belonged-steps">
+    <mat-selection-list #customerTenantSteps
+                        [(ngModel)]="selectedSteps">
+      <div class="ui-g">
+        <div class="ui-g-4">
+          <b>Step</b>
+        </div>
+        <div class="ui-g-8">
+          <b>Company</b>
+        </div>
+        <div class="ui-g-12 text-right">
+          <button
+            mat-raised-button
+            class="mat-primary fill text-sm"
+            color="select-all"
+            (click)="selectAllSteps(customerTenantSteps)">
+            Select All
+          </button>
+          <button
+            mat-raised-button
+            class="mat-accent fill text-sm"
+            color="deselect-all"
+            (click)="deselectAllSteps(customerTenantSteps)">
+            Deselect All
+          </button>
+        </div>
+      </div>
+      <mat-list-option *ngFor="let step of step.c_tenant_steps" [value]="step">
+        <div class="ui-g">
+          <div class="ui-g-4">
+            <h6>{{step.name}}</h6>
+          </div>
+          <div class="ui-g-8">
+            <h5>{{step.customer_name}}</h5>
+          </div>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </section>
+  <p-footer>
+    <button mat-raised-button
+            (click)="showBelongedSteps=false"
+            color="close-dialog">
+      Close
+    </button>
+  </p-footer>
+</p-dialog>
+
 <p-fieldset [toggleable]="true" [collapsed]="true">
   <p-header>
     {{header}}
@@ -9,13 +64,29 @@
   </p-header>
 
   <div *ngIf="edit_basic_data" class="ui-g">
-    <div class="ui-g-12 text-right">
+    <div class="ui-g-6">
+      <app-alert-closeable on-alertFalse="alert = false"
+                           bind-type="alertType"
+                           bind-message="alertMessage"
+                           *ngIf="alert">
+      </app-alert-closeable>
+    </div>
+    <div class="ui-g-6 text-right">
       <mat-card class="result">
         <mat-card-content>
           <h5>Update companies' steps</h5>
 
           <section class="toggle-update-section">
-            <p-toggleButton [(ngModel)]="updateChildren"></p-toggleButton>
+            <button *ngIf="updateChildren"
+                    mat-raised-button
+                    class="mr-2"
+                    (click)="displayBelongedSteps()"
+                    [color]="'show-belong-steps'">
+              Show belonged Steps
+            </button>
+            <p-toggleButton [(ngModel)]="updateChildren"
+                            (onChange)="toggleUpdateAll(customerTenantSteps)"
+            ></p-toggleButton>
           </section>
         </mat-card-content>
       </mat-card>

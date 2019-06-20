@@ -17,6 +17,7 @@ import { Question } from '../../interfaces/question';
 import { Answer } from '../../interfaces/answer';
 import { EmailTemplates } from '../../interfaces/email-templates';
 import { OverlayPanel } from 'primeng/primeng';
+import {StepNewComponent} from '../step-new/step-new.component';
 
 
 @Component({
@@ -48,6 +49,7 @@ export class StepDetailsActionsComponent implements OnInit {
 
   @ViewChild('stepDetails') el: ElementRef;
   @ViewChild('q_list') question_list_component: SelectQuestionListComponent;
+  @ViewChild('step_new') step_new_component: StepNewComponent;
   @ViewChild('templates_order_list') templates_order_list: EmailTemplatesOrderListComponent;
 
   constructor(private activatedRoute: ActivatedRoute,
@@ -148,6 +150,9 @@ export class StepDetailsActionsComponent implements OnInit {
     ).subscribe(
       response => {
         if (response[self.path.slice(0, -1)]) {
+          if (self.path === 'project_steps' && response['updated_steps_count']) {
+            self.step_new_component.updateAlert(response['updated_steps_count']);
+          }
           self.flashHighlights.handler(self, '#step-' + Object.keys(data)[0] + '-', String(self.step.id), 'success-updated');
           self.originalStep = JSON.parse(JSON.stringify(response[self.path.slice(0, -1)]));
         } else {

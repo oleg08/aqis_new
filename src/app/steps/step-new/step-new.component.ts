@@ -1,12 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Message        } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { OpenStepsService } from '../../services/open-steps.service';
-import { Step } from '../../interfaces/step';
+import {CTenantStep, Step} from '../../interfaces/step';
 import { DropdownItem } from '../../interfaces/dropdown-item';
+import {MatSelectionList} from '@angular/material';
+import { CallAlertService } from '../../services/call-alert.service';
 
 @Component({
   selector: 'app-aqis-step-new',
@@ -27,6 +29,11 @@ export class StepNewComponent implements OnInit {
   msgs: Message[] = [];
   prev_time: number;
   updateChildren = false;
+  showBelongedSteps = false;
+  selectedSteps: CTenantStep[];
+  alert = false;
+  alertType: string;
+  alertMessage: string;
 
   @Input() step: Step;
   @Input() header: string;
@@ -42,7 +49,8 @@ export class StepNewComponent implements OnInit {
               private http: HttpClient,
               private fb: FormBuilder,
               private openSteps: OpenStepsService,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private callAlert: CallAlertService) {
     this.activatedRoute = activatedRoute;
     this.router = router;
   }
@@ -141,7 +149,14 @@ export class StepNewComponent implements OnInit {
 
     if (self.createForm.controls[prop] && self.createForm.controls[prop].errors) return;
     self.prev_time = JSON.parse(JSON.stringify(self.createForm.get('time').value));
-    obj['update_c_tenant_steps'] = self.updateChildren;
+    if (self.selectedSteps) {
+      obj['update_c_tenant_steps'] = self.updateChildren;
+      const c_tenant_step_ids: number[] = [];
+      self.selectedSteps.forEach(s => {
+        c_tenant_step_ids.push(s.id);
+      });
+      obj['c_tenant_step_ids'] = c_tenant_step_ids;
+    }
     self.onBlur.emit( obj );
   }
 
@@ -188,6 +203,34 @@ export class StepNewComponent implements OnInit {
     else url = '/steps';
     self.openSteps.changeOpenStepsState(true);               // to open Lead Qualification on customer-details
     setTimeout(() => self.router.navigate([url]));
+  }
+
+  toggleUpdateAll (selected: MatSelectionList) {
+    const self = this;
+    if (self.updateChildren) {
+      selected.selectAll();
+    } else {
+      self.selectedSteps = null;
+    }
+  }
+
+  displayBelongedSteps () {
+    this.showBelongedSteps = true;
+  }
+
+  selectAllSteps(selected: MatSelectionList) {
+    selected.selectAll();
+  }
+
+  deselectAllSteps (selected: MatSelectionList) {
+    selected.deselectAll();
+  }
+
+  updateAlert(updated_steps_count) {
+    this.callAlert.handler(this,
+      'success',
+      `${updated_steps_count} companies' steps were updated`,
+      2000);
   }
 
 }
