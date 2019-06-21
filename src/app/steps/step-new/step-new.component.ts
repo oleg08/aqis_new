@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { OpenStepsService } from '../../services/open-steps.service';
 import {CTenantStep, Step} from '../../interfaces/step';
 import { DropdownItem } from '../../interfaces/dropdown-item';
-import {MatSelectionList} from '@angular/material';
+import { MatSelectionList } from '@angular/material/list';
 import { CallAlertService } from '../../services/call-alert.service';
 
 @Component({
