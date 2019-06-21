@@ -48,7 +48,7 @@ export class PreCustomersListComponent implements OnInit {
   label_state             = 'active';
   super_admin:            boolean;
 
-  @ViewChild('preCustomersList') el: ElementRef;
+  @ViewChild('preCustomersList', { static: true }) el: ElementRef;
 
   constructor(private http:                HttpClient,
               private router:              Router,

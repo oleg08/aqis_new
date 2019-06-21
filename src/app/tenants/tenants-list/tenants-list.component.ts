@@ -31,8 +31,8 @@ export class TenantsListComponent implements OnInit {
   current_tenant: Tenant;
   displayEdit = false;
 
-  @ViewChild('tenantsList') el: ElementRef;
-  @ViewChild('edit_tenant') edit_tenant: EditTenantComponent;
+  @ViewChild('tenantsList', { static: false }) el: ElementRef;
+  @ViewChild('edit_tenant', { static: false }) edit_tenant: EditTenantComponent;
 
   constructor(private http: HttpClient,
               private router: Router,

@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
 
   current_user_id: string;
   url: string;
-  @ViewChild('hidden_form') el: ElementRef;
+  @ViewChild('hidden_form', { static: false }) el: ElementRef;
 
   constructor(private elementRef: ElementRef,
               public rd: Renderer2,

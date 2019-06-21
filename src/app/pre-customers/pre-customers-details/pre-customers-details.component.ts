@@ -29,7 +29,7 @@ export class PreCustomersDetailsComponent implements OnInit {
   selectedStatus: any;
   project_name: string;
 
-  @ViewChild('PreCustomersDetails') el: ElementRef;
+  @ViewChild('PreCustomersDetails', { static: false }) el: ElementRef;
 
   constructor(private http: HttpClient,
               private router: Router,

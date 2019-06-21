@@ -46,7 +46,7 @@ export class EmailTemplatesActionsComponent implements OnInit {
   @Input() top_email_templates_path: string;
   @Input() super_admin: boolean;
 
-  @ViewChild('EmailTemplatesList') el: ElementRef;
+  @ViewChild('EmailTemplatesList', { static: false }) el: ElementRef;
 
   constructor(private http: HttpClient,
               private getEmailTemplates: GetEmailTemplatesService,

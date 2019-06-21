@@ -47,10 +47,10 @@ export class StepDetailsActionsComponent implements OnInit {
   @Input() q_prop1:        string;
   @Input() back_to_parent_path: string;
 
-  @ViewChild('stepDetails') el: ElementRef;
-  @ViewChild('q_list') question_list_component: SelectQuestionListComponent;
-  @ViewChild('step_new') step_new_component: StepNewComponent;
-  @ViewChild('templates_order_list') templates_order_list: EmailTemplatesOrderListComponent;
+  @ViewChild('stepDetails', { static: false }) el: ElementRef;
+  @ViewChild('q_list', { static: false }) question_list_component: SelectQuestionListComponent;
+  @ViewChild('step_new', { static: false }) step_new_component: StepNewComponent;
+  @ViewChild('templates_order_list', { static: false }) templates_order_list: EmailTemplatesOrderListComponent;
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,

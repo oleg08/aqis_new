@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit {
   current_project_info: string;
   is_project_and_google_emails_equal: string;
 
-  @ViewChild('userProfile') el: ElementRef;
+  @ViewChild('userProfile', { static: false }) el: ElementRef;
 
   constructor(public authService: AuthService,
               private router: Router,

@@ -55,8 +55,8 @@ export class AssistantStepsHoursComponent implements OnInit {
 
   steps: StepDailyReport[];
   original_steps: StepDailyReport[];
-  @ViewChild('dailyReport') dailyReportEdit: DailyReportEditComponent;
-  @ViewChild('reportFilter') reportFilter: StepReportFilterComponent;
+  @ViewChild('dailyReport', { static: false }) dailyReportEdit: DailyReportEditComponent;
+  @ViewChild('reportFilter', { static: false }) reportFilter: StepReportFilterComponent;
 
   initDate: Date = new Date();
   newDescription: string;

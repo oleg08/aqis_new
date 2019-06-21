@@ -33,8 +33,8 @@ export class QuestionListComponent implements OnInit {
 
   super_admin = false;
 
-  @ViewChild('QuestionsList') el: ElementRef;
-  @ViewChild('q_list') question_list_component: SelectQuestionListComponent;
+  @ViewChild('QuestionsList', { static: true }) el: ElementRef;
+  @ViewChild('q_list', { static: true }) question_list_component: SelectQuestionListComponent;
 
   constructor(private http: HttpClient,
               private flashHighlights: FlashHighlightsService,

@@ -34,6 +34,7 @@ export class StepNewComponent implements OnInit {
   alert = false;
   alertType: string;
   alertMessage: string;
+  prev_val: string;
 
   @Input() step: Step;
   @Input() header: string;
@@ -120,9 +121,15 @@ export class StepNewComponent implements OnInit {
     self.createForm.get('budget').setValue(null);
   }
 
-  blur(prop) {
+  focus(prop) {
     const self = this;
     if (self.step.id < 1) return;
+    self.prev_val = JSON.parse(JSON.stringify(self.createForm.get(prop).value));
+  }
+
+  blur(prop) {
+    const self = this;
+    if (self.step.id < 1 || self.prev_val === self.createForm.get(prop).value) return;
 
     const obj: object = {};
     if (prop === 'time') {
@@ -157,6 +164,7 @@ export class StepNewComponent implements OnInit {
       });
       obj['c_tenant_step_ids'] = c_tenant_step_ids;
     }
+    self.prev_val = null;
     self.onBlur.emit( obj );
   }
 
@@ -164,7 +172,7 @@ export class StepNewComponent implements OnInit {
     const self = this;
     this.createForm.controls[prop].markAsPristine();
     if (self.createForm.get(prop).value.length <  1) return;
-    self.blur(prop);
+    self.blur( prop);
   }
 
   changeDaysInt() {

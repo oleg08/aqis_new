@@ -59,7 +59,7 @@ export class ProgressAssistantComponent implements OnInit {
   msgs: Message[] = [];
   loading = true;
 
-  @ViewChild('updateAssistantReports') updateAssistantReports: UpdateAssistantReportsComponent;
+  @ViewChild('updateAssistantReports', { static: true }) updateAssistantReports: UpdateAssistantReportsComponent;
 
   constructor(private http: HttpClient,
               private messageService: MessageService,

@@ -107,6 +107,7 @@
           <input pInputText type="text"
                  class="width100"
                  formControlName="name"
+                 (focus)="focus('name')"
                  (blur)="blurRequired('name')"
                  placeholder="Required"/>
         </div>
@@ -127,6 +128,7 @@
                               class="width100"
                               [autoResize]="true"
                               [rows]="3"
+                              (focus)="focus('goal')"
                               (blur)="blur('goal')"
                               formControlName="goal">
                     </textarea>
@@ -143,6 +145,7 @@
                               class="width100"
                               [autoResize]="true"
                               [rows]="10"
+                              (focus)="focus('description')"
                               (blur)="blur('description')"
                               formControlName="description">
                     </textarea>
@@ -157,6 +160,7 @@
         <div class="ui-g-12 ui-md-9">
           <p-dropdown [options]="roles"
                       class="width100"
+                      (focus)="focus('step_role')"
                       (onChange)="blurRequired('step_role')"
                       formControlName="step_role">
           </p-dropdown>
@@ -179,6 +183,7 @@
           <input pInputText type="text"
                  class="width100"
                  formControlName="time"
+                 (focus)="focus('time')"
                  (blur)="blur('time')"
                  placeholder="Set interval or working time in days">
         </div>
@@ -207,6 +212,7 @@
           <input pInputText
                  class="width100"
                  type="text"
+                 (focus)="focus('budget')"
                  (blur)="blur('budget')"
                  formControlName="budget"
                  pattern="^\d{1,6}$"/>

@@ -41,7 +41,7 @@ export class StepsListComponent implements OnInit {
   @Input() steps_path:     string;
   @Input() top_steps_path: string;
   @Input() active:         boolean;
-  @ViewChild('StepsList') el: ElementRef;
+  @ViewChild('StepsList', { static: true }) el: ElementRef;
 
   constructor(router: Router,
               activatedRoute:          ActivatedRoute,

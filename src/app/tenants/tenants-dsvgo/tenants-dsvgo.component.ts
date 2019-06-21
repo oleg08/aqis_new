@@ -24,7 +24,7 @@ export class TenantsDsvgoComponent implements OnInit {
   loadPerson = false;
   savedPerson = false;
 
-  @ViewChild('tenantsDsvgoList') el: ElementRef;
+  @ViewChild('tenantsDsvgoList', { static: false }) el: ElementRef;
 
   constructor(private activatedRoute: ActivatedRoute,
               private http: HttpClient,

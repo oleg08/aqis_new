@@ -14,7 +14,7 @@ export class SuperAdminBillingInfoComponent implements OnInit {
 
   @Input() billing_info: BillingInfo;
   @Output() onBlur:  EventEmitter<object> = new EventEmitter<object>();
-  @ViewChild(TextFieldComponentComponent) inputText: TextFieldComponentComponent;
+  @ViewChild(TextFieldComponentComponent, { static: true }) inputText: TextFieldComponentComponent;
 
   constructor() { }
 

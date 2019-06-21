@@ -29,7 +29,7 @@ export class ToSendTemplateComponent implements OnInit {
   cols: object[];
   states: object[];
 
-  @ViewChild('toSendEmailsList') el: ElementRef;
+  @ViewChild('toSendEmailsList', { static: true }) el: ElementRef;
 
   constructor(private http: HttpClient,
               private callAlert: CallAlertService,

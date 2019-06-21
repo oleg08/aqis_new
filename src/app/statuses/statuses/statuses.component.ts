@@ -26,7 +26,7 @@ export class StatusesComponent implements OnInit {
   displayDialog: boolean;
   checkbox = false;
 
-  @ViewChild('statesList') el: ElementRef;
+  @ViewChild('statesList', { static: true }) el: ElementRef;
 
   constructor(private http: HttpClient,
               private router: Router,

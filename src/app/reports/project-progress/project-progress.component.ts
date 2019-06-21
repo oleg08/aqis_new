@@ -52,7 +52,7 @@ export class ProjectProgressComponent implements OnInit {
   msgs: Message[] = [];
   displayDialog = false;
 
-  @ViewChild('updateAssistantReports') updateAssistantReports: UpdateAssistantReportsComponent;
+  @ViewChild('updateAssistantReports', { static: true }) updateAssistantReports: UpdateAssistantReportsComponent;
 
   constructor(private messageService: MessageService, private cookieService: CookieService, private http: HttpClient) { }
 

@@ -30,7 +30,7 @@ export class ToolbarComponent implements OnInit {
   alertType: string;
   alertMessage: string;
 
-  @ViewChild('authDialog') authDialog: AuthDialogComponent;
+  @ViewChild('authDialog', { static: true }) authDialog: AuthDialogComponent;
 
   constructor(public authService: AuthService,
               private http: HttpClient,

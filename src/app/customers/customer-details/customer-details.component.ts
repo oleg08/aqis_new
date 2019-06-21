@@ -60,8 +60,8 @@ export class CustomerDetailsComponent implements OnInit {
   redirect_url: string;
   return_to_url: string;
 
-  @ViewChild('detailsForm') el: ElementRef;
-  @ViewChild('customerInfo') customerInfo: CustomerInfoComponent;
+  @ViewChild('detailsForm', { static: false }) el: ElementRef;
+  @ViewChild('customerInfo', { static: false }) customerInfo: CustomerInfoComponent;
 
   constructor(private activatedRoute:              ActivatedRoute,
               private http:                        HttpClient,

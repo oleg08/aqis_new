@@ -149,7 +149,7 @@ export class CustomerSearchComponent implements OnInit {
   alertMessage: string;
   loadCustomersMessage: string;
 
-  @ViewChild('customersList') el: ElementRef;
+  @ViewChild('customersList', { static: true }) el: ElementRef;
 
   static generalFilterUsers(event, users, filtered_array) {
 

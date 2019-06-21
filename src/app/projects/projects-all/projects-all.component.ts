@@ -45,7 +45,7 @@ export class ProjectsAllComponent implements OnInit {
   alertType: string;
   alertMessage: string;
 
-  @ViewChild('projectDetails') el: ElementRef;
+  @ViewChild('projectDetails', { static: false }) el: ElementRef;
 
   constructor(private http: HttpClient,
               private router: Router,

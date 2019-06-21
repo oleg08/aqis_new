@@ -39,7 +39,7 @@ import {animate, query, stagger, style, transition, trigger} from '@angular/anim
 })
 export class StandardizedBusinessesComponent implements OnInit {
 
-  @ViewChild('standardizedBusinessesList') el: ElementRef;
+  @ViewChild('standardizedBusinessesList', { static: true }) el: ElementRef;
 
   constructor(private callAlert: CallAlertService,
               private flashHighlights: FlashHighlightsService,
