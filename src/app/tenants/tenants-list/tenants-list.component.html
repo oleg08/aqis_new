@@ -28,124 +28,113 @@
       </div>
     </div>
   </section>
-<!--  <p-dataTable [value]="tenants"-->
-<!--               (onEditComplete)="editTenant($event)">-->
-<!--    <p-column field="name" header="Name" [style]="{'border':'none', 'border-bottom':'solid grey .7px'}">-->
-<!--      <ng-template let-col let-tenant="rowData" pTemplate="body">-->
-<!--        <div id="tenantRow-{{tenant.id}}" class="ui-g tenant-row">-->
-<!--          <div class="ui-g-11">-->
-<!--            <div class="ui-g">-->
-<!--              <div class="ui-g-12 tenant-prop-name">-->
-<!--                {{tenant[col.field]}}-->
-<!--              </div>-->
-<!--              <div class="ui-g-12 tenant-prop">-->
-<!--                <b>Email:</b>-->
-<!--                {{tenant.email || '-'}}-->
-<!--              </div>-->
-<!--              <div class="ui-g-6 tenant-prop">-->
-<!--                <b>UID:</b>-->
-<!--                {{tenant.uid || '-'}}-->
-<!--              </div>-->
-<!--              <div class="ui-g-6 tenant-prop">-->
-<!--                <b>Phone:</b>-->
-<!--                {{tenant.phone || '-'}}-->
-<!--              </div>-->
-<!--              <div class="ui-g-4 tenant-prop-city">-->
-<!--                <b>Zip:</b>-->
-<!--                {{tenant.zip || '-'}}-->
-<!--              </div>-->
-<!--              <div class="ui-g-8 tenant-prop-city">-->
-<!--                <b>City:</b>-->
-<!--                {{tenant.city || '-'}}-->
-<!--              </div>-->
-<!--              <div class="ui-g-12 tenant-prop-address">-->
-<!--                <b>Address:</b>-->
-<!--                {{tenant.address || '-'}}-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="ui-g-1">-->
-<!--            <div class="ui-g">-->
-<!--              <div class="ui-g-12">-->
-<!--                <button type="button" ngbTooltip="Edit Tenant" class="btn btn-sm btn-info" (click)="showEditDialog(tenant)">-->
-<!--                  <i class="fa fa-edit"></i>-->
-<!--                </button>-->
-<!--              </div>-->
-<!--              <div class="ui-g-12">-->
-<!--                <button type="button" ngbTooltip="Go to invoices" class="btn btn-sm btn-info" [routerLink]="['/invoices_list/', tenant.id]">-->
-<!--                  <i class="fa fa-list"></i>-->
-<!--                </button>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--    </p-column>-->
-<!--    <p-column field="tenant_admins" header="Tenant-Admin" [style]="{'border':'none', 'border-bottom':'solid grey .7px'}">-->
-<!--      <ng-template let-col let-tenant="rowData" pTemplate="body">-->
-<!--        <div id="tenant-admin-{{tenant.id}}" class="tenant-row">-->
-<!--          <ul class="list-group" *ngFor="let user of tenant[col.field]; let i = index" [attr.data-index]="i">-->
-<!--            <li class="list-group-item">-->
-<!--              <i class="fa fa-remove float-right cursor-pointer"-->
-<!--                 (click)="deleteTenantAdmin(tenant, user.id, i)">-->
-<!--                <small>Remove admin's rights</small>-->
-<!--              </i>-->
-<!--              <div class="ui-g">-->
-<!--                <div *ngIf="user.name" class="ui-g-12"><b>{{user.name}}</b></div>-->
-<!--                <div class="ui-g-12"><b>{{user.email}}</b></div>-->
-<!--              </div>-->
-<!--            </li>-->
-<!--          </ul>-->
-<!--          <mat-expansion-panel class="tenant-assistants-list">-->
-<!--            <mat-expansion-panel-header>-->
-<!--              Tenant users-->
-<!--            </mat-expansion-panel-header>-->
 
-<!--            <mat-list-item>-->
-<!--              <mat-list-item class="assistant-item"-->
-<!--                             *ngFor="let user of tenant.users">-->
-<!--                <div id="user-{{user.id}}" class="ui-g">-->
-<!--                  <div class="ui-g-10">-->
-<!--                    <h6>{{user.name || user.email}}</h6>-->
-<!--                  </div>-->
-<!--                  <div class="ui-g-2">-->
-<!--                    <p-checkbox class="float-right"-->
-<!--                                [(ngModel)]="user.edit_basic_data"-->
-<!--                                ngbTooltip="{{user.edit_basic_data ? 'Disallow basic data change' : 'Allow basic data change'}}"-->
-<!--                                (onChange)="allowEditData(user, $event)"-->
-<!--                                binary="true"></p-checkbox>-->
-<!--                  </div>-->
-<!--                  <div class="ui-g-12">-->
-<!--                    <small class="m-1 p-1"><b>Roles</b></small>-->
-<!--                    <small *ngIf="user.admin" class="user-role p-1 m-1">Admin</small>-->
-<!--                    <small *ngIf="user.agent" class="user-role p-1 m-1">Agent</small>-->
-<!--                    <small *ngIf="user.assistant" class="user-role p-1 m-1">Assistant</small>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <mat-divider></mat-divider>-->
-<!--              </mat-list-item>-->
-<!--            </mat-list-item>-->
-<!--          </mat-expansion-panel>-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--    </p-column>-->
-<!--    <p-column field="name" header="" [style]="{'width':'10%','text-align':'center', 'border':'none', 'border-bottom':'solid grey .7px'}">-->
-<!--      <ng-template let-col let-tenant="rowData" pTemplate="body">-->
-<!--        <div class="btn-group btn-group-sm" role="group" aria-label="Show Delete">-->
-<!--          <button type="button"-->
-<!--                  ngbTooltip="Create Tenant-Admin"-->
-<!--                  class="btn btn-sm btn-info cursor-pointer"-->
-<!--                  (click)="add_tenant_admin.show($event); passTenantId(tenant.id)">-->
-<!--            <i class="fa fa-plus-circle"></i>-->
-<!--          </button>-->
-<!--          <button type="button"-->
-<!--                  ngbTooltip="Delete tenant"-->
-<!--                  class="btn btn-sm btn-danger cursor-pointer"-->
-<!--                  (click)="removeTenant($event, tenant)">-->
-<!--            <i class="fa fa-remove"></i>-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--    </p-column>-->
-<!--  </p-dataTable>-->
+  <p-table [value]="tenants"
+           (onEditComplete)="editTenant($event)">
+    <ng-template pTemplate="header" let-rowData>
+      <tr>
+        <td class="tenant-cell text-center">Name</td>
+        <td class="tenant-cell text-center">Tenant-Admin</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tenant>
+      <tr>
+        <td class="tenant-cell">
+          <div id="tenantRow-{{tenant.id}}" class="ui-g tenant-row">
+            <div class="ui-g-11">
+              <div class="ui-g">
+                <div class="ui-g-12 tenant-prop-name">
+                  {{tenant.name}}
+                </div>
+                <div class="ui-g-12 tenant-prop">
+                  <b>Email:</b>
+                  {{tenant.email || '-'}}
+                </div>
+                <div class="ui-g-6 tenant-prop">
+                  <b>UID:</b>
+                  {{tenant.uid || '-'}}
+                </div>
+                <div class="ui-g-6 tenant-prop">
+                  <b>Phone:</b>
+                  {{tenant.phone || '-'}}
+                </div>
+                <div class="ui-g-4 tenant-prop-city">
+                  <b>Zip:</b>
+                  {{tenant.zip || '-'}}
+                </div>
+                <div class="ui-g-8 tenant-prop-city">
+                  <b>City:</b>
+                  {{tenant.city || '-'}}
+                </div>
+                <div class="ui-g-12 tenant-prop-address">
+                  <b>Address:</b>
+                  {{tenant.address || '-'}}
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-1">
+              <div class="ui-g">
+                <div class="ui-g-12">
+                  <button type="button" ngbTooltip="Edit Tenant" class="btn btn-sm btn-info" (click)="showEditDialog(tenant)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                </div>
+                <div class="ui-g-12">
+                  <button type="button" ngbTooltip="Go to invoices" class="btn btn-sm btn-info" [routerLink]="['/invoices_list/', tenant.id]">
+                    <i class="fa fa-list"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td class="tenant-cell">
+          <div id="tenant-admin-{{tenant.id}}" class="tenant-row">
+            <ul class="list-group" *ngFor="let user of tenant.tenant_admins; let i = index" [attr.data-index]="i">
+              <li class="list-group-item">
+                <i class="fa fa-remove float-right cursor-pointer"
+                   (click)="deleteTenantAdmin(tenant, user.id, i)">
+                  <small>Remove admin's rights</small>
+                </i>
+                <div class="ui-g">
+                  <div *ngIf="user.name" class="ui-g-12"><b>{{user.name}}</b></div>
+                  <div class="ui-g-12"><b>{{user.email}}</b></div>
+                </div>
+              </li>
+            </ul>
+            <mat-expansion-panel class="tenant-assistants-list">
+              <mat-expansion-panel-header>
+                Tenant users
+              </mat-expansion-panel-header>
+
+              <mat-list-item>
+                <mat-list-item class="assistant-item"
+                               *ngFor="let user of tenant.users">
+                  <div id="user-{{user.id}}" class="ui-g">
+                    <div class="ui-g-10">
+                      <h6>{{user.name || user.email}}</h6>
+                    </div>
+                    <div class="ui-g-2">
+                      <p-checkbox class="float-right"
+                                  [(ngModel)]="user.edit_basic_data"
+                                  ngbTooltip="{{user.edit_basic_data ? 'Disallow basic data change' : 'Allow basic data change'}}"
+                                  (onChange)="allowEditData(user, $event)"
+                                  binary="true"></p-checkbox>
+                    </div>
+                    <div class="ui-g-12">
+                      <small class="m-1 p-1"><b>Roles</b></small>
+                      <small *ngIf="user.admin" class="user-role p-1 m-1">Admin</small>
+                      <small *ngIf="user.agent" class="user-role p-1 m-1">Agent</small>
+                      <small *ngIf="user.assistant" class="user-role p-1 m-1">Assistant</small>
+                    </div>
+                  </div>
+                  <mat-divider></mat-divider>
+                </mat-list-item>
+              </mat-list-item>
+            </mat-expansion-panel>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </section>
