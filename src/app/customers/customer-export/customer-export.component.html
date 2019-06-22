@@ -4,55 +4,55 @@
                      *ngIf="alert">
 </app-alert-closeable>
 
-<p-dataTable #dt [value]="events"
-             *ngIf="events"
-             exportFilename="events"
-             [(selection)]="selectedEvents"
-             selectionMode="multiple"
-             [metaKeySelection]="false">
-  <p-header>
-    <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-      <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
-    </div>
-  </p-header>
-  <p-column field="uid" [style]="{'width': '13%', 'text-align': 'center'}" header="UID"></p-column>
-  <p-column field="customer_name" [style]="{'width': '20%', 'text-align': 'center'}" header="Customer"></p-column>
-  <p-column field="date" [style]="{'width': '12%', 'text-align': 'center'}" header="Date"></p-column>
-  <p-column field="time" [style]="{'width': '6%', 'text-align': 'center'}" header="Time"></p-column>
-  <p-column field="duration" [style]="{'width': '7%', 'text-align': 'center'}" header="Duration"></p-column>
-  <p-column field="status" [style]="{'width': '7%', 'text-align': 'center'}" header="Status"></p-column>
-  <p-column field="description" [style]="{'width': '35%', 'text-align': 'center'}" header="Description"></p-column>
-</p-dataTable>
+<!--<p-dataTable #dt [value]="events"-->
+<!--             *ngIf="events"-->
+<!--             exportFilename="events"-->
+<!--             [(selection)]="selectedEvents"-->
+<!--             selectionMode="multiple"-->
+<!--             [metaKeySelection]="false">-->
+<!--  <p-header>-->
+<!--    <div class="ui-helper-clearfix">-->
+<!--      <button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>-->
+<!--      <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
+<!--    </div>-->
+<!--  </p-header>-->
+<!--  <p-column field="uid" [style]="{'width': '13%', 'text-align': 'center'}" header="UID"></p-column>-->
+<!--  <p-column field="customer_name" [style]="{'width': '20%', 'text-align': 'center'}" header="Customer"></p-column>-->
+<!--  <p-column field="date" [style]="{'width': '12%', 'text-align': 'center'}" header="Date"></p-column>-->
+<!--  <p-column field="time" [style]="{'width': '6%', 'text-align': 'center'}" header="Time"></p-column>-->
+<!--  <p-column field="duration" [style]="{'width': '7%', 'text-align': 'center'}" header="Duration"></p-column>-->
+<!--  <p-column field="status" [style]="{'width': '7%', 'text-align': 'center'}" header="Status"></p-column>-->
+<!--  <p-column field="description" [style]="{'width': '35%', 'text-align': 'center'}" header="Description"></p-column>-->
+<!--</p-dataTable>-->
 
-<p-dataTable #dt [value]="customers"
-             *ngIf="customers"
-             exportFilename="customers"
-             [(selection)]="selectedCustomers"
-             selectionMode="multiple"
-             [metaKeySelection]="false">
-  <p-header>
-    <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
-      <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
-    </div>
-  </p-header>
-  <p-column field="identifier" [style]="{'width': '30%', 'text-align': 'center'}" header="UID"></p-column>
-  <p-column field="name" [style]="{'width': '70%', 'text-align': 'center'}" header="Customer"></p-column>
-  <p-column [hidden]="true" field="zip" [style]="{'text-align': 'center'}" header="Zip"></p-column>
-  <p-column [hidden]="true" field="city" [style]="{'text-align': 'center'}" header="City"></p-column>
-  <p-column [hidden]="true" field="head_quarter" [style]="{'text-align': 'center'}" header="Head Quarter"></p-column>
-  <p-column [hidden]="true" field="phone_1" [style]="{'text-align': 'center'}" header="Phone 1"></p-column>
-  <p-column [hidden]="true" field="phone_2" [style]="{'text-align': 'center'}" header="Phone 2"></p-column>
-  <p-column [hidden]="true" field="num_employees" [style]="{'text-align': 'center'}" header="Num Employees"></p-column>
-  <p-column [hidden]="true" field="business" [style]="{'text-align': 'center'}" header="Business"></p-column>
-  <p-column [hidden]="true" field="turnover" [style]="{'text-align': 'center'}" header="Turnover"></p-column>
-  <p-column [hidden]="true" field="responsible_name" [style]="{'text-align': 'center'}" header="Responsible Person"></p-column>
-  <p-column [hidden]="true" field="activity" [style]="{'text-align': 'center'}" header="Activity"></p-column>
-  <p-column [hidden]="true" field="email" [style]="{'text-align': 'center'}" header="Email 1"></p-column>
-  <p-column [hidden]="true" field="email_2" [style]="{'text-align': 'center'}" header="Email 2"></p-column>
-  <p-column [hidden]="true" field="outlets" [style]="{'text-align': 'center'}" header="Fillas"></p-column>
-  <p-column [hidden]="true" field="conversation" [style]="{'text-align': 'center'}" header="Conversation Notes"></p-column>
-  <p-column [hidden]="true" field="link" [style]="{'text-align': 'center'}" header="Website"></p-column>
-  <p-column [hidden]="true" field="state" [style]="{'text-align': 'center'}" header="Characteristic value"></p-column>
-</p-dataTable>
+<!--<p-dataTable #dt [value]="customers"-->
+<!--             *ngIf="customers"-->
+<!--             exportFilename="customers"-->
+<!--             [(selection)]="selectedCustomers"-->
+<!--             selectionMode="multiple"-->
+<!--             [metaKeySelection]="false">-->
+<!--  <p-header>-->
+<!--    <div class="ui-helper-clearfix">-->
+<!--      <button type="button" pButton icon="fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>-->
+<!--      <button type="button" pButton icon="fa-file" iconPos="left" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>-->
+<!--    </div>-->
+<!--  </p-header>-->
+<!--  <p-column field="identifier" [style]="{'width': '30%', 'text-align': 'center'}" header="UID"></p-column>-->
+<!--  <p-column field="name" [style]="{'width': '70%', 'text-align': 'center'}" header="Customer"></p-column>-->
+<!--  <p-column [hidden]="true" field="zip" [style]="{'text-align': 'center'}" header="Zip"></p-column>-->
+<!--  <p-column [hidden]="true" field="city" [style]="{'text-align': 'center'}" header="City"></p-column>-->
+<!--  <p-column [hidden]="true" field="head_quarter" [style]="{'text-align': 'center'}" header="Head Quarter"></p-column>-->
+<!--  <p-column [hidden]="true" field="phone_1" [style]="{'text-align': 'center'}" header="Phone 1"></p-column>-->
+<!--  <p-column [hidden]="true" field="phone_2" [style]="{'text-align': 'center'}" header="Phone 2"></p-column>-->
+<!--  <p-column [hidden]="true" field="num_employees" [style]="{'text-align': 'center'}" header="Num Employees"></p-column>-->
+<!--  <p-column [hidden]="true" field="business" [style]="{'text-align': 'center'}" header="Business"></p-column>-->
+<!--  <p-column [hidden]="true" field="turnover" [style]="{'text-align': 'center'}" header="Turnover"></p-column>-->
+<!--  <p-column [hidden]="true" field="responsible_name" [style]="{'text-align': 'center'}" header="Responsible Person"></p-column>-->
+<!--  <p-column [hidden]="true" field="activity" [style]="{'text-align': 'center'}" header="Activity"></p-column>-->
+<!--  <p-column [hidden]="true" field="email" [style]="{'text-align': 'center'}" header="Email 1"></p-column>-->
+<!--  <p-column [hidden]="true" field="email_2" [style]="{'text-align': 'center'}" header="Email 2"></p-column>-->
+<!--  <p-column [hidden]="true" field="outlets" [style]="{'text-align': 'center'}" header="Fillas"></p-column>-->
+<!--  <p-column [hidden]="true" field="conversation" [style]="{'text-align': 'center'}" header="Conversation Notes"></p-column>-->
+<!--  <p-column [hidden]="true" field="link" [style]="{'text-align': 'center'}" header="Website"></p-column>-->
+<!--  <p-column [hidden]="true" field="state" [style]="{'text-align': 'center'}" header="Characteristic value"></p-column>-->
+<!--</p-dataTable>-->

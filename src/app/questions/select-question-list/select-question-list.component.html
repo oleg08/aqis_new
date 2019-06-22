@@ -5,26 +5,26 @@
   <input #questions_table type="text" pInputText size="50" placeholder="Global Filter">
 </div>
 
-<p-dataTable *ngIf="questions"
-             [globalFilter]="questions_table" #data_table_questions
-             styleClass="select-questions-list"
-             [value]="questions"
-             [(selection)]="selectedQuestions"
-             dataKey="{{q_prop1}}">
-  <p-header>
-    <h6>Select Questions to add</h6>
-  </p-header>
-  <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
-  <p-column field="{{q_prop1}}" header="Content"></p-column>
-  <p-footer>
-    <button pButton
-            type="button"
-            label="Add selected Questions"
-            (click)="addSelected($event)"
-            [disabled]="!selectedQuestions || selectedQuestions.length < 1"
-    >
-    </button>
-  </p-footer>
-</p-dataTable>
+<!--<p-dataTable *ngIf="questions"-->
+<!--             [globalFilter]="questions_table" #data_table_questions-->
+<!--             styleClass="select-questions-list"-->
+<!--             [value]="questions"-->
+<!--             [(selection)]="selectedQuestions"-->
+<!--             dataKey="{{q_prop1}}">-->
+<!--  <p-header>-->
+<!--    <h6>Select Questions to add</h6>-->
+<!--  </p-header>-->
+<!--  <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>-->
+<!--  <p-column field="{{q_prop1}}" header="Content"></p-column>-->
+<!--  <p-footer>-->
+<!--    <button pButton-->
+<!--            type="button"-->
+<!--            label="Add selected Questions"-->
+<!--            (click)="addSelected($event)"-->
+<!--            [disabled]="!selectedQuestions || selectedQuestions.length < 1"-->
+<!--    >-->
+<!--    </button>-->
+<!--  </p-footer>-->
+<!--</p-dataTable>-->
 
 <br>

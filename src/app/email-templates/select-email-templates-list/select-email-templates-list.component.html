@@ -1,23 +1,23 @@
-<p-dataTable styleClass="select-questions-list"
-             [value]="email_templates"
-             [(selection)]="selectedEmailTemplates"
-             dataKey="name">
-  <p-header>
-    <h6>Select Email Templates to add to Step</h6>
-  </p-header>
-  <p-column [style]="{'width': '5%', 'text-align': 'center'}" selectionMode="multiple"></p-column>
-  <p-column field="name" [style]="{'width': '20%', 'text-align': 'center'}" header="Name"></p-column>
-  <p-column field="body" [style]="{'width': '75%', 'text-align': 'left'}" header="Body">
-    <ng-template let-col let-email_template="rowData" let-ri="rowIndex" pTemplate="body">
-      <div [innerHTML]="email_template.body"></div>
-    </ng-template>
-  </p-column>
-  <p-footer>
-    <button pButton
-            type="button"
-            label="Add selected Email Templates"
-            (click)="click(selectedEmailTemplates)"
-            [disabled]="!selectedEmailTemplates || selectedEmailTemplates.length < 1">
-    </button>
-  </p-footer>
-</p-dataTable>
+<!--<p-dataTable styleClass="select-questions-list"-->
+<!--             [value]="email_templates"-->
+<!--             [(selection)]="selectedEmailTemplates"-->
+<!--             dataKey="name">-->
+<!--  <p-header>-->
+<!--    <h6>Select Email Templates to add to Step</h6>-->
+<!--  </p-header>-->
+<!--  <p-column [style]="{'width': '5%', 'text-align': 'center'}" selectionMode="multiple"></p-column>-->
+<!--  <p-column field="name" [style]="{'width': '20%', 'text-align': 'center'}" header="Name"></p-column>-->
+<!--  <p-column field="body" [style]="{'width': '75%', 'text-align': 'left'}" header="Body">-->
+<!--    <ng-template let-col let-email_template="rowData" let-ri="rowIndex" pTemplate="body">-->
+<!--      <div [innerHTML]="email_template.body"></div>-->
+<!--    </ng-template>-->
+<!--  </p-column>-->
+<!--  <p-footer>-->
+<!--    <button pButton-->
+<!--            type="button"-->
+<!--            label="Add selected Email Templates"-->
+<!--            (click)="click(selectedEmailTemplates)"-->
+<!--            [disabled]="!selectedEmailTemplates || selectedEmailTemplates.length < 1">-->
+<!--    </button>-->
+<!--  </p-footer>-->
+<!--</p-dataTable>-->
