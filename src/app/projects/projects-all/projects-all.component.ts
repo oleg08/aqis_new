@@ -61,8 +61,9 @@ export class ProjectsAllComponent implements OnInit {
       environment.serverUrl + '/projects.json'
     ).subscribe(
       (response) => {
-        if (response['code'] !== 500) {
+        if (response['projects']) {
           self.projects = response['projects'];
+          self.admin = response['admin'];
         } else {
           self.callAlert.handler(self, 'warning', response['message'], 2000);
         }
