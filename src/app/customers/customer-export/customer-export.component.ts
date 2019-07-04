@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CallAlertService } from '../../services/call-alert.service';
 import { ShareCustomersIdsService } from '../../services/share-customers-ids.service';
 import { Event } from '../../interfaces/event';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-customer-export',
@@ -32,11 +33,13 @@ export class CustomerExportComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    let customers_ids: any;
+    let customers_ids: string[];
 
-    self.shareCustomersIds.currentCustomersIds.subscribe(cus_ids => customers_ids = cus_ids);
+    self.shareCustomersIds.currentCustomersIds.subscribe((cus_ids: string[]) => {
+      customers_ids = cus_ids;
+    });
 
-    self.http.post('/events_export.json', { customers_ids: customers_ids }
+    self.http.post(`${environment.serverUrl}/events_export.json`, { customers_ids: customers_ids }
     ).subscribe(
       (response) => {
         if (response['events']) {
@@ -89,5 +92,4 @@ export class CustomerExportComponent implements OnInit {
       }
     );
   }
-
 }

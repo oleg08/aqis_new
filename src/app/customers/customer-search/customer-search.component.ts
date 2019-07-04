@@ -763,6 +763,12 @@ export class CustomerSearchComponent implements OnInit {
     self.shareCustomersIds.changeCustomersIds([...self.customers_ids]);
   }
 
+  goToExportCustomers() {
+    const self = this;
+    self.shareCustomersIds.changeCustomersIds([...self.customers_ids]);
+    self.router.navigate(['/export_customers']);
+  }
+
   selectCustomers() {
     const self = this;
 
