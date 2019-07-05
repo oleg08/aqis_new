@@ -27,8 +27,8 @@ export class ProjectQuestionComponent implements OnInit {
   return_path = '/projects';
   return_label = 'Return to Steps';
 
-  @ViewChild('ProjectQuestionList') el: ElementRef;
-  @ViewChild('q_list') question_list_component: SelectQuestionListComponent;
+  @ViewChild('ProjectQuestionList', { static: true }) el: ElementRef;
+  @ViewChild('q_list', { static: true }) question_list_component: SelectQuestionListComponent;
 
   constructor(private http: HttpClient,
               private flashHighlights: FlashHighlightsService,

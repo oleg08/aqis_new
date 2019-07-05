@@ -11,7 +11,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { DragulaModule } from 'ng2-dragula';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { MatNativeDateModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material/core';
 
 // services
 import { AuthInterceptor } from './api.interceptor';

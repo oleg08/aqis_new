@@ -46,8 +46,8 @@ export class InvoiceTypesComponent implements OnInit {
   showInvoices = false;
   invoicesOfInvoiceType: InvoiceType;
 
-  @ViewChild('invoiceTypeInvoices') invoice_type_invoices: InvoiceTypeInvoicesComponent;
-  @ViewChild('assistantInvoice') assistant_invoice: TenantInvoiceComponent;
+  @ViewChild('invoiceTypeInvoices', { static: false }) invoice_type_invoices: InvoiceTypeInvoicesComponent;
+  @ViewChild('assistantInvoice', { static: false }) assistant_invoice: TenantInvoiceComponent;
 
   constructor(private http: HttpClient,
               private activatedRoute: ActivatedRoute,

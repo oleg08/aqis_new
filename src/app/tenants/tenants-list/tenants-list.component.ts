@@ -31,8 +31,8 @@ export class TenantsListComponent implements OnInit {
   current_tenant: Tenant;
   displayEdit = false;
 
-  @ViewChild('tenantsList') el: ElementRef;
-  @ViewChild('edit_tenant') edit_tenant: EditTenantComponent;
+  @ViewChild('tenantsList', { static: false }) el: ElementRef;
+  @ViewChild('edit_tenant', { static: false }) edit_tenant: EditTenantComponent;
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -100,11 +100,11 @@ export class TenantsListComponent implements OnInit {
     ).subscribe(
       response => {
         if (response['user']) {
-          const tenant = self.tenants.find(item => item.id === self.current_tenantId);
-          const t_admin = tenant['tenant_admins']
+          const tenant: Tenant = self.tenants.find(item => item.id === self.current_tenantId);
+          const t_admin = tenant.tenant_admins
             .find(user => user.id === response['user']['id'] && user['admin'] === false);
           if (!t_admin) {
-            tenant['tenant_admins'].push(response['user']);
+            tenant.tenant_admins.push(response['user']);
           }
           self.messageService.add({severity: 'success', summary: 'Success', detail: `Tenant-Admin successfully created`});
         } else if (response['confirm_super_admin']) {
@@ -148,8 +148,8 @@ export class TenantsListComponent implements OnInit {
       (response) => {
         if (response['tenant']) {
 
-          const new_tenant = response['tenant'];
-          new_tenant['tenant_admins'] = [];
+          const new_tenant: Tenant = response['tenant'];
+          new_tenant.tenant_admins = [];
 
           const array = JSON.parse(JSON.stringify(self.tenants));
           array.unshift(response['tenant']);

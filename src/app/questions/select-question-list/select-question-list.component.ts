@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment';
 export class SelectQuestionListComponent implements OnInit {
   questions: Question[];
   selectedQuestions: Question[];
+  cols: object[];
 
   @Input() questions_path: string;
   @Input() q_prop1: string;
@@ -23,6 +24,9 @@ export class SelectQuestionListComponent implements OnInit {
   ngOnInit() {
     const self = this;
     if (!self.q_prop1) self.q_prop1 = 'content';
+    self.cols = [
+      { field: self.q_prop1 }
+    ];
   }
 
   getQuestions () {

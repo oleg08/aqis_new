@@ -17,6 +17,7 @@ export class AddressListComponent implements OnInit {
   init_value: string;
 
   addresses: Array<object>;
+  cols: object[];
 
   @Output () updateAddress: EventEmitter<object> = new EventEmitter<object>();
   @Output () deleteAddress: EventEmitter<object> = new EventEmitter<object>();
@@ -27,6 +28,9 @@ export class AddressListComponent implements OnInit {
   ngOnInit() {
     const self = this;
     self.addresses_data.currentAddresses.subscribe(addresses => self.addresses = addresses);
+    self.cols = [
+      { field: 'city_address', header: 'Address' }
+    ];
   }
 
   initEdit(event) {

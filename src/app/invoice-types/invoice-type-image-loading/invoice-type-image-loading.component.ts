@@ -23,7 +23,7 @@ export class InvoiceTypeImageLoadingComponent implements OnInit {
   @Output() loadImage:  EventEmitter<object> = new EventEmitter<object>();
   @Output() clearImage:  EventEmitter<object> = new EventEmitter<object>();
 
-  @ViewChild('inputFile') inputFile: ElementRef;
+  @ViewChild('inputFile', { static: true }) inputFile: ElementRef;
 
   constructor(private messageService: MessageService,
               private capitalizeService: CapitalizeService) { }

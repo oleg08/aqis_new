@@ -53,8 +53,8 @@ export class InvoiceTypeDetailsComponent implements OnInit {
   loadEmblem: number;
   loadingEmblem = false;
 
-  @ViewChild('inputFile') inputFile: ElementRef;
-  @ViewChild('invoiceTypeEdit') el: ElementRef;
+  @ViewChild('inputFile', { static: false }) inputFile: ElementRef;
+  @ViewChild('invoiceTypeEdit', { static: false }) el: ElementRef;
 
   constructor(private http: HttpClient,
               private activatedRoute: ActivatedRoute,

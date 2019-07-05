@@ -1,10 +1,5 @@
 <p-growl styleClass="message-growl" [baseZIndex]="50" [(value)]="msgs"></p-growl>
 
-<div class="ui-widget-header datatable-filter">
-  <!--<i class="fa fa-search datatable-filter-icon"></i>-->
-  <input #gb type="text" pInputText size="50" placeholder="Search persons by name, email or phone">
-</div>
-
 <div *ngIf="loadPerson" class="text-center">
   <p-progressSpinner [style]="{width: '50px', height: '50px'}"
                      strokeWidth="8"
@@ -13,52 +8,67 @@
   </p-progressSpinner>
 </div>
 
-<p-dataTable #dt [value]="persons"
+<p-table #dt [value]="persons"
+         [columns]="cols"
              exportFilename="persons"
-             [globalFilter]="gb"
              [(selection)]="selectedPersons"
              selectionMode="multiple"
              [style]="{'background-color':'white'}"
              [rows]="30"
              [paginator]="true"
              [metaKeySelection]="false">
-  <p-header>
+  <ng-template pTemplate="caption">
+    <div style="text-align: right">
+      <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+      <input type="text" pInputText size="50" placeholder="Global Filter"
+             (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+    </div>
+    <br>
     <div class="ui-helper-clearfix">
       <button type="button" pButton icon="fa fa-file-o" iconPos="right" label="All Data" (click)="dt.exportCSV()" style="float:left"></button>
       <button type="button" pButton icon="fa fa-file" iconPos="right" label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})" style="float:right"></button>
     </div>
-  </p-header>
-  <p-column field="name" header="Name" [style]="{'width':'14%', 'text-align':'center'}">
-    <ng-template let-person="rowData"
-                 pTemplate="body">
-      <b ngbTooltip="Role - {{person.role}}">{{person.name}}</b>
-    </ng-template>
-  </p-column>
-  <p-column field="email" header="Email" [style]="{'width':'29%', 'text-align':'center'}"></p-column>
-  <p-column field="phone" header="Phone" [style]="{'width':'20%', 'text-align':'center'}"></p-column>
-  <p-column field="customer_name" header="Customer" [style]="{'width':'19%', 'text-align':'center'}"></p-column>
-  <p-column field="project_name" header="Project" [style]="{'width':'10%', 'text-align':'center'}"></p-column>
-  <p-column header="" [style]="{'width':'8%', 'text-align':'center'}">
-    <ng-template let-person="rowData"
-                 pTemplate="body">
-      <div class="btn-group">
-        <button type="button"
-                ngbTooltip="Edit Person"
-                pButton
-                (click)="selectPerson($event,person,edit_person)"
-                icon="fa fa-edit">
-        </button>
-        <button *ngIf="person.project_id"
-                type="button"
-                ngbTooltip="Go to person"
-                pButton
-                (click)="goToPerson(person.customer_id, person.project_id)"
-                icon="fa fa-toggle-right">
-        </button>
-      </div>
-    </ng-template>
-  </p-column>
-</p-dataTable>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 14%" class="text-center">Name</th>
+      <th style="width: 29%" class="text-center">Email</th>
+      <th style="width: 20%" class="text-center">Phone</th>
+      <th style="width: 19%" class="text-center">Customer</th>
+      <th style="width: 10%" class="text-center">Project</th>
+      <th style="width: 8%"></th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData">
+      <td class="text-center">
+        <b ngbTooltip="Role - {{rowData['role']}}">{{rowData['name']}}</b>
+      </td>
+      <td class="text-center">{{rowData['email']}}</td>
+      <td class="text-center">{{rowData['phone']}}</td>
+      <td class="text-center">{{rowData['customer_name']}}</td>
+      <td class="text-center">{{rowData['project_name']}}</td>
+      <td class="text-center">
+        <div class="btn-group">
+          <button type="button"
+                  ngbTooltip="Edit Person"
+                  pButton
+                  (click)="selectPerson($event,rowData,edit_person)"
+                  icon="fa fa-edit">
+          </button>
+          <button *ngIf="rowData['project_id']"
+                  type="button"
+                  ngbTooltip="Go to person"
+                  pButton
+                  (click)="goToPerson(rowData['customer_id'], rowData['project_id'])"
+                  icon="fa fa-toggle-right">
+          </button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
 
 <p-overlayPanel #edit_person
                 [showCloseIcon]="true"

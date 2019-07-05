@@ -23,7 +23,7 @@ export class UserDetailsComponent implements OnInit {
   draggedProject: Project;
   draggedUserProject: Project;
 
-  @ViewChild('projectsForm') el: ElementRef;
+  @ViewChild('projectsForm', { static: true }) el: ElementRef;
 
   constructor(private activatedRoute:  ActivatedRoute,
               private http:            HttpClient,

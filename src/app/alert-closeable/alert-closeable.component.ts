@@ -16,7 +16,7 @@ export class AlertCloseableComponent implements OnInit {
 
   @Output() alertFalse: EventEmitter<boolean> = new EventEmitter();
 
-  @ViewChild('hidden_form') el: ElementRef;
+  @ViewChild('hidden_form', { static: false }) el: ElementRef;
 
   constructor() { }
 

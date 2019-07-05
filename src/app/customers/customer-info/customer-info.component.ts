@@ -179,11 +179,11 @@ export class CustomerInfoComponent implements OnInit {
   @Output() eventInfoChanged:        EventEmitter<object> = new EventEmitter<object>();
   @Output() modalDialog:             EventEmitter<object> = new EventEmitter<object>();
 
-  @ViewChild('q_list') question_list_component: SelectQuestionListComponent;
-  @ViewChild('business_multiselect') business_multiselect: GroupedMultiselectComponent;
-  @ViewChild('customer_name_input') customer_name_input: ElementRef;
+  @ViewChild('q_list', { static: true }) question_list_component: SelectQuestionListComponent;
+  @ViewChild('business_multiselect', { static: false }) business_multiselect: GroupedMultiselectComponent;
+  @ViewChild('customer_name_input', { static: false }) customer_name_input: ElementRef;
 
-  @ViewChild('customersDetails') el: ElementRef;
+  @ViewChild('customersDetails', { static: false }) el: ElementRef;
 
   constructor(private http:                   HttpClient,
               private callAlert:              CallAlertService,

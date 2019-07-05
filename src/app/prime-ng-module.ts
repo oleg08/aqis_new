@@ -17,7 +17,6 @@ import {
 import { MessageService      } from 'primeng/primeng';
 import { ConfirmationService } from 'primeng/primeng';
 import { TooltipModule       } from 'primeng/tooltip';
-import { DataTableModule     } from 'primeng/datatable';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule      } from 'primeng/dropdown';
 import { FieldsetModule      } from 'primeng/fieldset';
@@ -66,7 +65,6 @@ import { ChipsModule            } from 'primeng/primeng';
     DataListModule,
     DragDropModule,
     TooltipModule,
-    DataTableModule,
     InputTextareaModule,
     DropdownModule,
     FieldsetModule,

@@ -69,8 +69,8 @@ export class AssistantDailyReportsComponent implements OnInit {
     { label: 'Select Project', value: null }
   ];
 
-  @ViewChild('dailyReport') dailyReportEdit: DailyReportEditComponent;
-  @ViewChild('reportFilter') reportFilter: StepReportFilterComponent;
+  @ViewChild('dailyReport', { static: false }) dailyReportEdit: DailyReportEditComponent;
+  @ViewChild('reportFilter', { static: false }) reportFilter: StepReportFilterComponent;
 
   constructor(private getReportData: GetReportDataService,
               private messageService: MessageService) { }

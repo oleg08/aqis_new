@@ -36,7 +36,7 @@ export class TenantDetailsComponent implements OnInit {
   roles_array: Array<string> = ['admin', 'agent', 'assistant'];
   original_users: Array<object>;
 
-  @ViewChild('tenantsUserList') el: ElementRef;
+  @ViewChild('tenantsUserList', { static: false }) el: ElementRef;
 
   constructor(private activatedRoute: ActivatedRoute,
               private http: HttpClient,

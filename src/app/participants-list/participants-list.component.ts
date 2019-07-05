@@ -17,6 +17,7 @@ export class ParticipantsListComponent implements OnInit {
 
   participants_before_edit: Array<object>;
   msgs: Message[] = [];
+  cols: object[];
 
   @Input() participants: Array<object>;
   @Output() showMessage: EventEmitter<object> = new EventEmitter<object>();
@@ -26,6 +27,12 @@ export class ParticipantsListComponent implements OnInit {
               private messageService: MessageService) { }
 
   ngOnInit() {
+    const self = this;
+    self.cols = [
+      { field: 'name', header: 'Name' },
+      { field: 'email', header: 'Email' },
+      { field: 'phone', header: 'Phone' },
+    ];
   }
 
   initEdit () {
@@ -125,6 +132,11 @@ export class ParticipantsListComponent implements OnInit {
         self.validationFailed(`Can't delete Participant`);
       }
     );
+  }
+
+  esc() {
+    const self = this;
+    self.participants = JSON.parse(JSON.stringify(self.participants_before_edit));
   }
 
 }

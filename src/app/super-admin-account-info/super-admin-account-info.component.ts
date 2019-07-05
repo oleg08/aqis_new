@@ -34,8 +34,8 @@ export class SuperAdminAccountInfoComponent implements OnInit {
   billing_info: BillingInfo;
   user: User;
 
-  @ViewChild(SuperAdminBillingInfoComponent) billingInfo: SuperAdminBillingInfoComponent;
-  @ViewChild(SuperAdminInformationComponent) userInfo: SuperAdminInformationComponent;
+  @ViewChild(SuperAdminBillingInfoComponent, { static: false }) billingInfo: SuperAdminBillingInfoComponent;
+  @ViewChild(SuperAdminInformationComponent, { static: false }) userInfo: SuperAdminInformationComponent;
 
   constructor(private http: HttpClient) { }
 

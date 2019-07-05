@@ -23,7 +23,7 @@ export class ProgressProjectsAssistantsComponent implements OnInit {
   loading = true;
   submitted = false;
 
-  @ViewChild('updateAssistantReports') updateAssistantReports: UpdateAssistantReportsComponent;
+  @ViewChild('updateAssistantReports', { static: true }) updateAssistantReports: UpdateAssistantReportsComponent;
 
   constructor(private http: HttpClient,
               private assistantProgressesProps: AssistantProgressesPropsService,

@@ -149,7 +149,7 @@ export class CustomerSearchComponent implements OnInit {
   alertMessage: string;
   loadCustomersMessage: string;
 
-  @ViewChild('customersList') el: ElementRef;
+  @ViewChild('customersList', { static: true }) el: ElementRef;
 
   static generalFilterUsers(event, users, filtered_array) {
 
@@ -760,7 +760,14 @@ export class CustomerSearchComponent implements OnInit {
       }
     }
     self.selectedOption = 0;
-    self.shareCustomersIds.changeCustomersIds([...self.customers_ids]);
+    self.shareCustomersIds.changeCustomersIds(self.customers_ids);
+  }
+
+  goToExportCustomers() {
+    const self = this;
+    self.shareCustomersIds.changeCustomersIds(self.customers_ids);
+
+    self.router.navigate(['/export_customers']);
   }
 
   selectCustomers() {
@@ -794,7 +801,7 @@ export class CustomerSearchComponent implements OnInit {
   checkCustomers() {
     const self = this;
     self.lazyCustomers.forEach(c => { c.checked = self.customers_ids.includes(String(c.id)); });
-    self.shareCustomersIds.changeCustomersIds([...self.customers_ids]);
+    self.shareCustomersIds.changeCustomersIds(self.customers_ids);
   }
 
   loadSteps() {

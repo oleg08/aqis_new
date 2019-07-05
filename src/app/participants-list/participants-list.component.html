@@ -1,47 +1,35 @@
 <p-growl styleClass="message-growl" [(value)]="msgs"></p-growl>
-<p-dataTable [value]="participants"
-             (onEditInit)="initEdit()"
-             (onEditComplete)="editParticipant($event)"
-             [editable]="true">
-  <p-column field="name"
-            [style]="{'text-align':'center', 'border':'none', 'border-bottom':'solid lightblue .2px'}"
-            [editable]="true">
-    <ng-template pTemplate="header">
-      <div class="table-participants-header">
-        <h6><b>Name</b></h6>
-      </div>
-    </ng-template>
-    <ng-template let-col let-participant="rowData" pTemplate="body">
-      <div class="table-participants-cell">{{participant[col.field]}}</div>
-    </ng-template>
-  </p-column>
-  <p-column field="email"
-            [style]="{'text-align':'center', 'border':'none', 'border-bottom':'solid lightblue .2px'}"
-            [editable]="true">
-    <ng-template pTemplate="header">
-      <div class="table-participants-header">
-        <h6><b>Email</b></h6>
-      </div>
-    </ng-template>
-    <ng-template let-col let-participant="rowData" pTemplate="body">
-      <div class="table-participants-cell">{{participant[col.field]}}</div>
-    </ng-template>
-  </p-column>
-  <p-column field="phone"
-            [style]="{'text-align':'center', 'border':'none', 'border-bottom':'solid lightblue .2px'}"
-            [editable]="true">
-    <ng-template pTemplate="header">
-      <div class="table-participants-header">
-        <h6><b>Phone</b></h6>
-      </div>
-    </ng-template>
-    <ng-template let-col let-participant="rowData" pTemplate="body">
-      <div class="table-participants-cell">{{participant[col.field]}}</div>
-    </ng-template>
-  </p-column>
-  <p-column [style]="{'width':'10%','text-align':'center', 'border':'none', 'border-bottom':'solid lightblue .2px'}" header="">
-    <ng-template let-participant="rowData" pTemplate="body">
-      <button type="button" pButton (click)="removeParticipant($event, participant);" icon="fa fa-remove"></button>
-    </ng-template>
-  </p-column>
-</p-dataTable>
+
+<p-table [value]="participants"
+         [columns]="cols"
+         (onEditInit)="initEdit()"
+         (onEditComplete)="editParticipant($event)"
+         (keydown.escape)="esc()">
+  <ng-template pTemplate="header" let-columns>
+    <tr class="table-participants-row">
+      <th *ngFor="let col of columns" class="table-participants-header text-center">
+        {{col.header}}
+      </th>
+      <th class="table-participants-header width10"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr class="table-participants-row">
+      <td *ngFor="let col of columns"
+          class="table-participants-cell text-center"
+          [pEditableColumn]="rowData" [pEditableColumnField]="col.field">
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input type="text" [(ngModel)]="rowData[col.field]">
+          </ng-template>
+          <ng-template pTemplate="output">{{rowData[col.field]}}</ng-template>
+        </p-cellEditor>
+      </td>
+      <td class="table-participants-cell text-center">
+        <button type="button" pButton
+                (click)="removeParticipant($event, rowData);"
+                icon="fa fa-remove"></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

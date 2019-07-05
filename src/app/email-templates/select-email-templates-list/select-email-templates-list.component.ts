@@ -8,11 +8,17 @@ import { EmailTemplates } from '../../interfaces/email-templates';
 })
 export class SelectEmailTemplatesListComponent implements OnInit {
   selectedEmailTemplates: EmailTemplates[];
+  cols: object[];
   @Input() email_templates: EmailTemplates[];
   @Output() sendItems: EventEmitter<object> = new EventEmitter<object>();
   constructor() { }
 
   ngOnInit() {
+    const self = this;
+    self.cols = [
+      { field: 'name', header: 'Name' },
+      { field: 'body', header: 'Body' }
+    ];
   }
 
   click (templates: EmailTemplates[]) {

@@ -43,6 +43,7 @@ export class QuestionsCrudComponent implements OnInit {
   originalQuestions: Question[];
   saved = false;
   label_state = 'active';
+  cols: any[];
 
   @Input() questions: Question[];
   @Input() return_button: string;
@@ -67,6 +68,13 @@ export class QuestionsCrudComponent implements OnInit {
               private messageService: MessageService) { }
 
   ngOnInit() {
+    const self = this;
+    self.cols = [
+      { field: self.q_prop1, header: 'Questions' }
+    ];
+    if (self.q_prop2) {
+      self.cols.push({ field: self.q_prop2, header: 'Weight' });
+    }
   }
 
   initEdit (event, questions) {
@@ -75,7 +83,7 @@ export class QuestionsCrudComponent implements OnInit {
     self.originalQuestions = JSON.parse(JSON.stringify(self.questions));
 
     self.saved = false;
-    self.current_field = event.column.field;
+    self.current_field = event.field;
     self.current_obj_id = event.data.id;
   }
 

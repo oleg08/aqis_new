@@ -54,7 +54,7 @@ export class BusinessAllComponent implements OnInit {
   leftDomains: BusinessDomain[] = [];
   rightDomains: BusinessDomain[] = [];
 
-  @ViewChild('BusinessAllList') el: ElementRef;
+  @ViewChild('BusinessAllList', { static: false }) el: ElementRef;
 
   constructor(private http: HttpClient,
               private router: Router,

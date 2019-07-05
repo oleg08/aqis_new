@@ -42,7 +42,7 @@ export class EmailTemplatesOrderListComponent implements OnInit {
   displayNew = false;
   label_state = 'active';
 
-  @ViewChild('select_list') select_list: SelectEmailTemplatesListComponent;
+  @ViewChild('select_list', { static: false }) select_list: SelectEmailTemplatesListComponent;
 
   @Input() email_templates: EmailTemplates[];
   @Input() g_templates: EmailTemplates[];

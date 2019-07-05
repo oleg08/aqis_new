@@ -66,30 +66,52 @@
   </div>
   <div class="ui-g-8 ui-sm-12">
     <section class="pre-customers-customers">
-      <p-dataTable [value]="customers" [(selection)]="selectedCustomer" dataKey="name" styleClass="pre-customers-table">
-        <p-header>
+      <p-table [value]="customers"
+               [(selection)]="selectedCustomer"
+               [columns]="cols"
+               dataKey="name"
+               styleClass="pre-customers-table">
+        <ng-template pTemplate="caption">
           <div class="ui-g">
             <div class="ui-g-12">
               <h4 class="float-left">
-                Select Customer
+                Select Company
               </h4>
               <button pButton class="float-right" label="<< Return to First Contacts List" (click)="returnToList()"></button>
             </div>
           </div>
-        </p-header>
-        <p-footer><div style="text-align: left">Selected Customer: {{selectedCustomer ? selectedCustomer.name : 'none'}}</div></p-footer>
-        <p-column [style]="{'width':'38px'}" selectionMode="single"></p-column>
-        <p-column field="name" [style]="{'text-align':'center'}" header="Name"></p-column>
-        <p-column field="email" [style]="{'text-align':'center'}" header="Email"></p-column>
-        <p-column field="project_id" [style]="{'width':'10%', 'text-align':'center'}" header="Has Tenant">
-          <ng-template let-customer="rowData" pTemplate="body">
-            <div class="customer-cell">
-              <i *ngIf="customer.project_id" class="fa fa-check-square"></i>
-              <i *ngIf="!customer.project_id" class="fa fa-close"></i>
-            </div>
-          </ng-template>
-        </p-column>
-      </p-dataTable>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3em;"></th>
+            <th *ngFor="let col of columns" class="text-center">
+              {{col.header}}
+            </th>
+            <th class="text-center" style="width: 10%">Has Tenant</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td>
+              <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+            </td>
+            <td *ngFor="let col of columns" class="text-center">
+              {{rowData[col.field]}}
+            </td>
+            <td class="text-center">
+              <div class="customer-cell">
+                <i *ngIf="rowData.project_id" class="fa fa-check-square"></i>
+                <i *ngIf="!rowData.project_id" class="fa fa-close"></i>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div style="text-align: left">
+            Selected Company: <span *ngIf="selectedCustomer">{{selectedCustomer.name}}</span>
+          </div>
+        </ng-template>
+      </p-table>
     </section>
   </div>
 </div>

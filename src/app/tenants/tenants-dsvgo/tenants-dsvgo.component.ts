@@ -23,8 +23,9 @@ export class TenantsDsvgoComponent implements OnInit {
 
   loadPerson = false;
   savedPerson = false;
+  cols: any[];
 
-  @ViewChild('tenantsDsvgoList') el: ElementRef;
+  @ViewChild('tenantsDsvgoList', { static: false }) el: ElementRef;
 
   constructor(private activatedRoute: ActivatedRoute,
               private http: HttpClient,
@@ -37,6 +38,14 @@ export class TenantsDsvgoComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
+
+    self.cols = [
+      { field: 'name', header: 'Name' },
+      { field: 'email', header: 'Email' },
+      { field: 'phone', header: 'Phone' },
+      { field: 'customer_name', header: 'Customer' },
+      { field: 'project_name', header: 'Project' },
+    ]
     self.loadPerson = true;
 
     self.http.get(environment.serverUrl + '/customer_tenants/dsvgo_list.json'
