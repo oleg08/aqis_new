@@ -28,6 +28,7 @@ export class PreCustomersDetailsComponent implements OnInit {
   categories: Array<object>;
   selectedStatus: any;
   project_name: string;
+  cols: object[];
 
   @ViewChild('PreCustomersDetails', { static: false }) el: ElementRef;
 
@@ -41,6 +42,11 @@ export class PreCustomersDetailsComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
+
+    self.cols = [
+      { field: 'name', header: 'Name' },
+      { field: 'email', header: 'Email' }
+    ];
 
     const observableFailed = function (response) {
       self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});

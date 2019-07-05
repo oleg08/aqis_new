@@ -1,7 +1,14 @@
 .table-participants-header {
-  background-image: linear-gradient(lightskyblue, white)
+  background-image: linear-gradient(lightskyblue, white);
+  border: none !important;
 }
 
 .table-participants-cell {
-  background-image: linear-gradient(#c2ff59, white)
+  background-image: linear-gradient(#c2ff59, white);
+  border: none !important;
+}
+
+.table-participants-row {
+  text-align: center;
+  border-bottom: solid lightblue .2px !important;
 }

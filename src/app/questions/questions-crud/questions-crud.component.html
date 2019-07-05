@@ -149,41 +149,4 @@
       </tr>
     </ng-template>
   </p-table>
-
-<!--  <p-dataTable [value]="questions"-->
-<!--               [globalFilter]="searchQuestion" #dataQuestions-->
-<!--               (onEditInit)="initEdit($event, questions)"-->
-<!--               (onEditComplete)="save($event, 'blur')"-->
-<!--               (onEditCancel)="quitUpdate($event)"-->
-<!--               (keydown.enter)="save($event)"-->
-<!--               (keydown.esc)="esc()"-->
-<!--               [editable]="editable">-->
-<!--    <p-column field="{{q_prop1}}" header="Questions" [editable]="true">-->
-<!--      <ng-template let-question="rowData" pTemplate="body">-->
-<!--        <div id="contentCell-{{question.id}}" class="question-row">-->
-<!--          <div class="ui-g">-->
-<!--            <div class="ui-g-11"><span>{{question[q_prop1]}}</span></div>-->
-<!--            <div *ngIf="question.new_label" class="ui-g-1 text-top-right">-->
-<!--              <small [@newLabel]="label_state" class="new-label">New</small>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--    </p-column>-->
-<!--    <p-column *ngIf="q_prop2" field="{{q_prop2}}" header="Weight" [style]="{'width':'10%','text-align':'right'}" [editable]="editable">-->
-<!--      <ng-template let-question="rowData" pTemplate="body">-->
-<!--        <div id="weightCell-{{question.id}}" class="question-row">-->
-<!--          {{question[q_prop2]}}-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--    </p-column>-->
-<!--    <p-column [style]="{'width':'8%','text-align':'center'}" header="">-->
-<!--      <ng-template let-question="rowData" pTemplate="body">-->
-<!--        <button type="button" pButton-->
-<!--                (click)="removeItem($event, question);"-->
-<!--                class="ui-button-danger"-->
-<!--                icon="fa fa-remove"></button>-->
-<!--      </ng-template>-->
-<!--    </p-column>-->
-<!--  </p-dataTable>-->
 </section>

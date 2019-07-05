@@ -1,23 +1,42 @@
-<!--<p-dataTable styleClass="select-questions-list"-->
-<!--             [value]="email_templates"-->
-<!--             [(selection)]="selectedEmailTemplates"-->
-<!--             dataKey="name">-->
-<!--  <p-header>-->
-<!--    <h6>Select Email Templates to add to Step</h6>-->
-<!--  </p-header>-->
-<!--  <p-column [style]="{'width': '5%', 'text-align': 'center'}" selectionMode="multiple"></p-column>-->
-<!--  <p-column field="name" [style]="{'width': '20%', 'text-align': 'center'}" header="Name"></p-column>-->
-<!--  <p-column field="body" [style]="{'width': '75%', 'text-align': 'left'}" header="Body">-->
-<!--    <ng-template let-col let-email_template="rowData" let-ri="rowIndex" pTemplate="body">-->
-<!--      <div [innerHTML]="email_template.body"></div>-->
-<!--    </ng-template>-->
-<!--  </p-column>-->
-<!--  <p-footer>-->
-<!--    <button pButton-->
-<!--            type="button"-->
-<!--            label="Add selected Email Templates"-->
-<!--            (click)="click(selectedEmailTemplates)"-->
-<!--            [disabled]="!selectedEmailTemplates || selectedEmailTemplates.length < 1">-->
-<!--    </button>-->
-<!--  </p-footer>-->
-<!--</p-dataTable>-->
+<div class="ui-g">
+  <div class="ui-g-12 text-center">
+    <h6>Select Email Templates to add to Step</h6>
+  </div>
+</div>
+
+<p-table styleClass="select-questions-list"
+         [value]="email_templates"
+         [(selection)]="selectedEmailTemplates"
+         dataKey="name">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 5%">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th class="text-center" style="width: 25%">Name</th>
+      <th class="text-center" style="width: 50%">Body</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td><p-tableCheckbox [value]="rowData"></p-tableCheckbox></td>
+      <td class="text-center">{{rowData.name}}</td>
+      <td>
+        <div [innerHTML]="rowData.body"></div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <button pButton
+                type="button"
+                label="Add selected Email Templates"
+                class="float-right"
+                (click)="click(selectedEmailTemplates)"
+                [disabled]="!selectedEmailTemplates || selectedEmailTemplates.length < 1">
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</p-table>
