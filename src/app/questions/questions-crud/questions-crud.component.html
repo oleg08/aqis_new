@@ -66,7 +66,6 @@
 <section #ProjectQuestionList class="project-question-list project-question">
 
   <div class="ui-widget-header questions-table-header">
-    <input #searchQuestion type="text" pInputText size="50" placeholder="Search...">
     <div class="ui-g">
       <div class="ui-g-12 text-right">
         <p-button *ngIf="return_button"
@@ -87,6 +86,69 @@
     </div>
   </div>
 
+  <p-table #dt [value]="questions" [columns]="cols"
+           (onEditInit)="initEdit($event, questions)"
+           (onEditComplete)="save($event, 'blur')"
+           (onEditCancel)="quitUpdate($event)"
+           (keydown.enter)="save($event)"
+           (keydown.escape)="esc()"
+  >
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="Search..."
+               (input)="dt.filterGlobal($event.target.value, 'contains')"
+               style="width:auto">
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Questions</th>
+        <th *ngIf="q_prop2" style="width: 10%">Weight</th>
+        <th style="width: 8%"></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-question="rowData">
+      <tr>
+        <td [pEditableColumn]="rowData" [pEditableColumnField]="q_prop1">
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="rowData[q_prop1]">
+            </ng-template>
+            <ng-template pTemplate="output">
+              <div id="contentCell-{{rowData.id}}" class="question-row">
+                <div class="ui-g">
+                  <div class="ui-g-11"><span>{{rowData[q_prop1]}}</span></div>
+                  <div *ngIf="rowData.new_label" class="ui-g-1 text-top-right">
+                    <small [@newLabel]="label_state" class="new-label">New</small>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td *ngIf="q_prop2" pEditableColumn>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="rowData[q_prop2]">
+            </ng-template>
+            <ng-template pTemplate="output">
+              <div id="weightCell-{{rowData.id}}" class="question-row">
+                {{rowData[q_prop2]}}
+              </div>
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td class="text-center">
+          <button type="button" pButton
+                  (click)="removeItem($event, rowData);"
+                  class="ui-button-danger"
+                  icon="fa fa-remove"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 
 <!--  <p-dataTable [value]="questions"-->
 <!--               [globalFilter]="searchQuestion" #dataQuestions-->

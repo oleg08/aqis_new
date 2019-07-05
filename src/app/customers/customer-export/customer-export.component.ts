@@ -11,8 +11,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './customer-export.component.html',
   styleUrls: ['./customer-export.component.scss'],
   providers: [
-    CallAlertService,
-    ShareCustomersIdsService
+    CallAlertService
   ]
 })
 export class CustomerExportComponent implements OnInit {
@@ -24,6 +23,7 @@ export class CustomerExportComponent implements OnInit {
   alert = false;
   alertType: string;
   alertMessage: string;
+  cols: any[];
 
   constructor(private http:      HttpClient,
               private router:    Router,
@@ -35,9 +35,17 @@ export class CustomerExportComponent implements OnInit {
     const self = this;
     let customers_ids: string[];
 
-    self.shareCustomersIds.currentCustomersIds.subscribe((cus_ids: string[]) => {
-      customers_ids = cus_ids;
-    });
+    this.cols = [
+      { field: 'uid', header: 'UID' },
+      { field: 'customer_name', header: 'Company' },
+      { field: 'date', header: 'Date' },
+      { field: 'time', header: 'Time' },
+      { field: 'duration', header: 'Duration' },
+      { field: 'status', header: 'Status' },
+      { field: 'description', header: 'Description' },
+    ];
+
+    self.shareCustomersIds.currentCustomersIds.subscribe(cus_ids => { customers_ids = cus_ids; });
 
     self.http.post(`${environment.serverUrl}/events_export.json`, { customers_ids: customers_ids }
     ).subscribe(

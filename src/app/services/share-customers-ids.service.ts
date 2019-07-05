@@ -6,12 +6,12 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ShareCustomersIdsService {
 
-  private customersIdsSource = new BehaviorSubject<Array<string>>(null);
+  private customersIdsSource = new BehaviorSubject<string[]>([]);
   currentCustomersIds = this.customersIdsSource.asObservable();
 
   constructor () {}
 
-  changeCustomersIds(customers_ids: Array<string>) {
+  changeCustomersIds(customers_ids: string[]) {
     this.customersIdsSource.next(customers_ids);
   }
 }
