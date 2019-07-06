@@ -25,8 +25,8 @@
 <section *ngIf="assistants" class="assistants-daily-reports">
   <mat-accordion>
     <mat-expansion-panel *ngFor="let assistant of assistants"
-                          (opened)="openPanel(assistant)"
-                          (closed)="closePanel()">
+                         (opened)="openPanel(assistant)"
+                         (closed)="closePanel()">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <h5 class="assistant-name mr-2" ngbTooltip="Assistant">{{assistant.name || assistant.email}}</h5>

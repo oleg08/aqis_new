@@ -98,17 +98,20 @@ export class AssistantStepsHoursComponent implements OnInit {
 
   openPanel(step: StepDailyReport) {
     const self = this;
-    self.current_step = step;
-    self.original_reports = step.assistant_daily_reports;
+    setTimeout(() => {
+      if (self.reportFilter) { self.closePanel(); }
+      self.current_step = JSON.parse(JSON.stringify(step));
+      self.original_reports = [...step.assistant_daily_reports];
+    }, 200);
   }
 
   closePanel() {
+    if (this.reportFilter) { this.reportFilter.clearDates(); }
     this.current_step = null;
     this.original_reports = null;
     this.newHours = null;
     this.newDescription = null;
     this.initDate = new Date();
-    this.reportFilter.clearDates();
   }
 
   showEdit(report: DailyReport) {

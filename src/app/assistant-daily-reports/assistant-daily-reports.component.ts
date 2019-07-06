@@ -105,14 +105,18 @@ export class AssistantDailyReportsComponent implements OnInit {
 
   openPanel(assistant: AssistantsWithDailyReports) {
     const self = this;
-    self.current_assistant = assistant;
-    self.original_reports = assistant.assistant_daily_reports;
+    setTimeout(() => {
+      if (self.reportFilter) { self.closePanel(); }
+      self.current_assistant = JSON.parse(JSON.stringify(assistant));
+      self.original_reports = [...assistant.assistant_daily_reports];
+    }, 200);
   }
 
   closePanel() {
-    this.current_assistant = null;
-    this.original_reports = null;
-    this.reportFilter.clearDates();
+    const self = this;
+    if (self.reportFilter) { this.reportFilter.clearDates(); }
+    self.current_assistant = null;
+    self.original_reports = null;
   }
 
   showEdit(report: DailyReport) {
