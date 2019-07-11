@@ -31,7 +31,8 @@ export class UpdateAssistantReportsComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.start_updating = self.cookieService.get(self.cookies_key_start_update); // checks whether button 'Yes' on the confirmation was clicked
+    self.start_updating = self.cookieService.get(self.cookies_key_start_update); // checks whether button 'Yes'
+                                                                                 // on the confirmation was clicked
     self.last_update = self.cookieService.get(self.cookies_key_date_update);
   }
 

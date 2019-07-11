@@ -21,7 +21,14 @@ export class AssistantProgressesPropsService {
     return project_props;
   }
   progressProps() {
-    const progress_props: string[] = ['steps_completed', 'steps_completed_time', 'steps_total', 'steps_total_time'];
+    const progress_props: string[] = [
+      'in_progress',
+      'failed',
+      'succeed',
+      'steps_completed',
+      'steps_completed_time',
+      'steps_total',
+      'steps_total_time'];
     return progress_props;
   }
 }
