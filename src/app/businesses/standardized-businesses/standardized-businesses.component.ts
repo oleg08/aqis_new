@@ -10,6 +10,7 @@ import { Message               } from 'primeng/primeng';
 import { MessageService        } from 'primeng/components/common/messageservice';
 import { FlashHighlightsService } from '../../services/flash-highlights.service';
 import {animate, query, stagger, style, transition, trigger} from '@angular/animations';
+import { SortArrayService } from '../../services/sort-array.service';
 
 @Component({
   selector: 'app-standardized-businesses',
@@ -43,6 +44,7 @@ export class StandardizedBusinessesComponent implements OnInit {
 
   constructor(private callAlert: CallAlertService,
               private flashHighlights: FlashHighlightsService,
+              private sortArray: SortArrayService,
               private standBusinessSrv: StandardizedBusinessesService,
               private businessSrv: BusinessService,
               private messageService: MessageService,
@@ -92,6 +94,7 @@ export class StandardizedBusinessesComponent implements OnInit {
         });
       });
       bsns.forEach(b => b.selected = false);
+      self.sortArray.handler(bsns, 'code');
       self.standardized_businesses = bsns;
       self.searched_st_businesses = JSON.parse(JSON.stringify(bsns));
     });
