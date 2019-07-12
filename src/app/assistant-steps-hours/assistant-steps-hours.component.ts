@@ -132,7 +132,7 @@ export class AssistantStepsHoursComponent implements OnInit {
 
   search(data) {
     const self = this;
-    const steps: StepDailyReport[] = data['searched_steps'];
+    const steps: StepDailyReport[] = data['searched_items'];
     self.steps = [...steps];
   }
 
