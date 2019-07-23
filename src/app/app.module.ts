@@ -68,6 +68,7 @@ import { PusherService } from './services/pusher.service';
 import { StandardizedBusinessesService } from './businesses/standardized-businesses/standardized-businesses.service';
 import { BusinessService } from './businesses/business.service';
 import { DecodeStepsUrlService } from './services/decode-steps-url.service';
+import { UsersService } from './services/users.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -381,6 +382,7 @@ import { HighlightDirective } from './directives/highlight.directive';
     StandardizedBusinessesService,
     BusinessService,
     DecodeStepsUrlService,
+    UsersService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

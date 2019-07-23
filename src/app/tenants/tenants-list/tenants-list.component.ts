@@ -2,8 +2,9 @@ import { Component, OnInit, Renderer2, ElementRef, ViewChild } from '@angular/co
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FlashHighlightsService } from '../../services/flash-highlights.service';
+import { UsersService } from '../../services/users.service';
 
-import { Message        } from 'primeng/primeng';
+import {Message, OverlayPanel} from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { ConfirmationService } from 'primeng/api';
 import { environment } from '../../../environments/environment';
@@ -18,7 +19,8 @@ import {User} from '../../interfaces/user';
   providers: [
     FlashHighlightsService,
     MessageService,
-    ConfirmationService
+    ConfirmationService,
+    UsersService
   ]
 })
 export class TenantsListComponent implements OnInit {
@@ -39,6 +41,7 @@ export class TenantsListComponent implements OnInit {
               private flashHighlights: FlashHighlightsService,
               private rd: Renderer2,
               private messageService: MessageService,
+              private usersService: UsersService,
               private confirmationService: ConfirmationService) { }
 
   ngOnInit() {
@@ -94,46 +97,26 @@ export class TenantsListComponent implements OnInit {
   createTenantAdmin (object) {
     const self = this;
     object['admin'] = true;
-    object['tenant_id'] = self.current_tenantId;
+    object['tenant_id'] = self.current_tenant.id;
 
-    self.http.post(environment.serverUrl + '/users/tenant_admin.json', object
-    ).subscribe(
-      response => {
-        if (response['user']) {
-          const tenant: Tenant = self.tenants.find(item => item.id === self.current_tenantId);
-          const t_admin = tenant.tenant_admins
-            .find(user => user.id === response['user']['id'] && user['admin'] === false);
-          if (!t_admin) {
-            tenant.tenant_admins.push(response['user']);
-          }
-          self.messageService.add({severity: 'success', summary: 'Success', detail: `Tenant-Admin successfully created`});
-        } else if (response['confirm_super_admin']) {
-          window.location.href = '/';
-        } else {
-          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
-        }
-      },
-      response => {
-        self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
-      },
-    );
-  }
+    if (!self.current_tenant) { return; }
 
-  deleteTenantAdmin(tenant, user_id, index) {
-    const self = this;
-    self.http.patch(environment.serverUrl + '/users/' + user_id + '.json', { admin: false }
-    ).subscribe(
-      response => {
-        if (response['user']) {
-          tenant['tenant_admins'].splice(index, 1);
-        } else {
-          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't update user`});
+    self.usersService.createToTenant(object).then(data => {
+      if (data['user']) {
+        const tenant: Tenant = self.tenants.find(item => item.id === self.current_tenant.id);
+        const t_admin = tenant.tenant_admins
+          .find(user => user.id === data['user']['id']);
+        if (!t_admin) {
+          tenant.tenant_admins.push(data['user']);
+          tenant.users.push(data['user']);
         }
-      },
-      response => {
-        self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't update user`});
+        self.messageService.add({severity: 'success', summary: 'Success', detail: `Tenant-Admin successfully created`});
+      } else if (data['confirm_super_admin']) {
+        window.location.href = '/';
+      } else {
+        self.messageService.add({severity: 'warn', summary: 'Warning', detail: data['message']});
       }
-    );
+    });
   }
 
   viewDetails (tenant_id) {
@@ -256,4 +239,29 @@ export class TenantsListComponent implements OnInit {
     );
   }
 
+  addTenantAdmin(event, overlaypanel: OverlayPanel, tenant: Tenant) {
+    const self = this;
+    overlaypanel.show(event);
+    self.current_tenant = tenant;
+  }
+
+  toggleProp(tenant: Tenant, user: User, prop: string) {
+    const self = this;
+    const u = tenant.users.find(us => us.id === user.id);
+    const params = { [prop]: !user[prop] };
+    self.usersService.update(user.id, params).then(data => {
+      if (data['user']) {
+        if (prop === 'admin') {
+          if (data['user']['admin']) {
+            tenant.tenant_admins.push(data['user']);
+          } else {
+            tenant.tenant_admins = tenant.tenant_admins.filter(us => us.id !== user.id);
+          }
+        }
+        u[prop] = data['user'][prop];
+      } else {
+        self.messageService.add({severity: 'warn', summary: 'Warning', detail: data['message']});
+      }
+    });
+  }
 }

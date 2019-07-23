@@ -274,7 +274,7 @@ export class TenantDetailsComponent implements OnInit {
     self.updateUser(user_id, field, value);
   }
 
-  editEmail(user_id: string, value, field, model) {
+  editEmail(user_id: string | number, value, field, model) {
     const self = this;
 
     if (model.control.status === 'INVALID') {

@@ -90,12 +90,12 @@
         </td>
         <td class="tenant-cell">
           <div id="tenant-admin-{{tenant.id}}" class="tenant-row">
+            <span class="fa fa-plus float-right cursor-pointer"
+                  ngbTooltip="Create Admin"
+                  (click)="addTenantAdmin($event, add_tenant_admin, tenant)"></span>
+            <br/>
             <ul class="list-group" *ngFor="let user of tenant.tenant_admins; let i = index" [attr.data-index]="i">
               <li class="list-group-item">
-                <i class="fa fa-remove float-right cursor-pointer"
-                   (click)="deleteTenantAdmin(tenant, user.id, i)">
-                  <small>Remove admin's rights</small>
-                </i>
                 <div class="ui-g">
                   <div *ngIf="user.name" class="ui-g-12"><b>{{user.name}}</b></div>
                   <div class="ui-g-12"><b>{{user.email}}</b></div>
@@ -123,9 +123,21 @@
                     </div>
                     <div class="ui-g-12">
                       <small class="m-1 p-1"><b>Roles</b></small>
-                      <small *ngIf="user.admin" class="user-role p-1 m-1">Admin</small>
-                      <small *ngIf="user.agent" class="user-role p-1 m-1">Agent</small>
-                      <small *ngIf="user.assistant" class="user-role p-1 m-1">Assistant</small>
+                      <small class="user-role p-1 m-1 cursor-pointer"
+                             (click)="toggleProp(tenant, user, 'admin')"
+                             [ngClass]="{'user-role-active': user.admin, 'user-role-inactive': !user.admin}">
+                        Admin
+                      </small>
+                      <small class="user-role p-1 m-1 cursor-pointer"
+                             (click)="toggleProp(tenant, user, 'agent')"
+                             [ngClass]="{'user-role-active': user.agent, 'user-role-inactive': !user.agent}">
+                        Agent
+                      </small>
+                      <small class="user-role p-1 m-1 cursor-pointer"
+                             (click)="toggleProp(tenant, user, 'assistant')"
+                             [ngClass]="{'user-role-active': user.assistant, 'user-role-inactive': !user.assistant}">
+                        Assistant
+                      </small>
                     </div>
                   </div>
                   <mat-divider></mat-divider>

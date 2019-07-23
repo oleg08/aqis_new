@@ -29,7 +29,14 @@
 .user-role {
   border: #99ccff solid 0.1px;
   border-radius: 20px;
+}
+
+.user-role-active {
   background-color: rgba(112, 111, 226, 0.8);
+}
+
+.user-role-inactive {
+  background-color: rgba(235, 231, 221, 0.8);
 }
 
 .tenant-cell {
