@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
 
   logInWithGoogle() {
     console.log('login with Google');
-    this.http.get(`${environment.serverUrl}/auth/google_oauth2/callback`).subscribe(
+    this.http.get(`${environment.serverUrl}/login`).subscribe(
       res => { console.log('res - ', res); },
       err => { console.log('err - ', err); }
     );
