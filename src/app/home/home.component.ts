@@ -13,7 +13,9 @@ export class HomeComponent implements OnInit {
 
   current_user_id: string;
   url: string;
+  social_login_url: string;
   @ViewChild('hidden_form', { static: false }) el: ElementRef;
+  @ViewChild('social_login', { static: false }) social_login: ElementRef;
 
   constructor(private elementRef: ElementRef,
               public rd: Renderer2,
@@ -23,6 +25,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.url = `${environment.serverUrl}/request_to_google`;
+    this.social_login_url = `${environment.serverUrl}/social_registrations`;
     this.currentUser.user.subscribe(user_id => this.current_user_id = user_id);
   }
 
@@ -31,10 +34,6 @@ export class HomeComponent implements OnInit {
   }
 
   logInWithGoogle() {
-    console.log('login with Google');
-    this.http.get(`${environment.serverUrl}/login`).subscribe(
-      res => { console.log('res - ', res); },
-      err => { console.log('err - ', err); }
-    );
+    this.social_login.nativeElement.submit();
   }
 }
