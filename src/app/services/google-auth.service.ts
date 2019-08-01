@@ -21,7 +21,7 @@ export class GoogleAuthService {
   ) { }
 
   GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
+    // return this.AuthLogin(new auth.GoogleAuthProvider());
   }
 
   AuthLogin(provider) {
