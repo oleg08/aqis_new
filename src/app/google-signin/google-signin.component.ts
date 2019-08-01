@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { GoogleAuthService } from '../services/google-auth.service';
+import { GoogleAuthService } from '../services/google-auth.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 export class GoogleSigninComponent implements OnInit {
 
   constructor(
-    // public googleAuthService: GoogleAuthService, public authService: AuthService
+    public googleAuthService: GoogleAuthService, public authService: AuthService
   ) { }
 
   ngOnInit() {}
