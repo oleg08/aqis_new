@@ -21,23 +21,23 @@ export class GoogleAuthService {
   ) { }
 
   GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
+    // return this.AuthLogin(new auth.GoogleAuthProvider());
   }
 
   AuthLogin(provider) {
     const self = this;
-    // return this.afAuth.auth.signInWithPopup(provider)
-    //   .then((result) => {
-    //     if (result.additionalUserInfo) {
-    //       const email: string = result.additionalUserInfo.profile['email'];
-    //       let psw: string;
-    //       self.getKeywordSrv.get(email).then(keyword => psw = keyword).then(res => {
-    //         self.freeLogin({ login: email, password: psw });
-    //       });
-    //     }
-    //   }).catch((error) => {
-    //     console.log(error);
-    //   });
+    return this.afAuth.auth.signInWithPopup(provider)
+      .then((result) => {
+        if (result.additionalUserInfo) {
+          const email: string = result.additionalUserInfo.profile['email'];
+          let psw: string;
+          self.getKeywordSrv.get(email).then(keyword => psw = keyword).then(res => {
+            self.freeLogin({ login: email, password: psw });
+          });
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
   }
 
   freeLogin(data: LoginData) {
