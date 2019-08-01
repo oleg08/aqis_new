@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { auth } from 'firebase/app';
+// import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
 import { GetKeywordService } from '../google-signin/get-keyword.service';
@@ -20,9 +20,9 @@ export class GoogleAuthService {
               private getKeywordSrv: GetKeywordService,
               public authService: AuthService) { }
 
-  GoogleAuth() {
-    return this.AuthLogin(new auth.GoogleAuthProvider());
-  }
+  // GoogleAuth() {
+  //   return this.AuthLogin(new auth.GoogleAuthProvider());
+  // }
 
   AuthLogin(provider) {
     const self = this;
