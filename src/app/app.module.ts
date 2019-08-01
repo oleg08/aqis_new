@@ -12,6 +12,8 @@ import { DragulaModule } from 'ng2-dragula';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireModule } from '@angular/fire';
 
 // services
 import { AuthInterceptor } from './api.interceptor';
@@ -69,6 +71,9 @@ import { StandardizedBusinessesService } from './businesses/standardized-busines
 import { BusinessService } from './businesses/business.service';
 import { DecodeStepsUrlService } from './services/decode-steps-url.service';
 import { UsersService } from './services/users.service';
+import { GoogleAuthService } from './services/google-auth.service';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { GetKeywordService } from './google-signin/get-keyword.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -195,6 +200,7 @@ import { DailyReportsFiltersComponent } from './assistant-daily-reports/daily-re
 import { StepReportFilterComponent } from './assistant-steps-hours/step-report-filter/step-report-filter.component';
 import { StandardizedBusinessesComponent } from './businesses/standardized-businesses/standardized-businesses.component';
 import { HighlightDirective } from './directives/highlight.directive';
+import { GoogleSigninComponent } from './google-signin/google-signin.component';
 
 @NgModule({
   declarations: [
@@ -303,7 +309,8 @@ import { HighlightDirective } from './directives/highlight.directive';
     DailyReportsFiltersComponent,
     StepReportFilterComponent,
     StandardizedBusinessesComponent,
-    HighlightDirective
+    HighlightDirective,
+    GoogleSigninComponent
   ],
   imports: [
     BrowserModule,
@@ -323,7 +330,9 @@ import { HighlightDirective } from './directives/highlight.directive';
     DragulaModule.forRoot(),
     PrimeNgModule,
     AngularMaterialModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireDatabaseModule,
   ],
   providers: [
     AngularTokenService,
@@ -383,6 +392,9 @@ import { HighlightDirective } from './directives/highlight.directive';
     BusinessService,
     DecodeStepsUrlService,
     UsersService,
+    GoogleAuthService,
+    AngularFireAuth,
+    GetKeywordService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,

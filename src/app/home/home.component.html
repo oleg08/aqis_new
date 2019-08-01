@@ -18,13 +18,8 @@
   </div>
 </div>
 
-<div class="row">
+<div *ngIf="!(authService.userSignedIn$ | async)" class="row">
   <div class="col-md-12 text-center">
-    <button class="btn btn-primary" (click)="logInWithGoogle()">Log in with Google</button>
-
-    <form #social_login style="display: hidden" action="{{social_login_url}}" method="POST" id="form1">
-      <input type="hidden" id="soc1" name="soc_user" [value]="1"/>
-      <input type="hidden" id="soc2" name="var3" [value]="1"/>
-    </form>
+    <app-aqis-google-signin></app-aqis-google-signin>
   </div>
 </div>

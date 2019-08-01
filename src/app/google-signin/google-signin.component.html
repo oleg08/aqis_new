@@ -1,0 +1,5 @@
+<div *ngIf="!(authService.userSignedIn$ | async)" class="formGroup">
+  <button type="button" (click)="googleAuthService.GoogleAuth()">
+    Login with Google
+  </button>
+</div>
