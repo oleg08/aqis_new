@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { auth } from 'firebase/app';
-// import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
 import { GetKeywordService } from '../google-signin/get-keyword.service';
 
@@ -15,7 +15,7 @@ export interface LoginData {
 export class GoogleAuthService {
 
   constructor(
-    // public afAuth: AngularFireAuth,
+    public afAuth: AngularFireAuth,
     private getKeywordSrv: GetKeywordService,
     public authService: AuthService
   ) { }
