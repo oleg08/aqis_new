@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-// import { auth } from 'firebase/app';
-import { auth } from 'firebase';
+// import firebase from 'firebase';
+import 'firebase/auth';
+import { auth } from 'firebase/app';
+// import { auth } from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './auth.service';
 import { GetKeywordService } from '../google-signin/get-keyword.service';
@@ -31,9 +33,12 @@ export class GoogleAuthService {
       .then((result) => {
         if (result.additionalUserInfo) {
           const email: string = result.additionalUserInfo.profile['email'];
-          let psw: string;
-          self.getKeywordSrv.get(email).then(keyword => psw = keyword).then(res => {
-            self.freeLogin({ login: email, password: psw });
+          self.getKeywordSrv.get(email).then(data => {
+            if (data['keyword']) {
+              self.freeLogin({ login: email, password: data['keyword'] });
+            } else {
+              alert(data['message']);
+            }
           });
         }
       }).catch((error) => {

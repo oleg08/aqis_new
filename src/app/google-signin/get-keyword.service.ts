@@ -13,7 +13,7 @@ export class GetKeywordService {
     const self = this;
     return self.http.post<any>(`${environment.serverUrl}/social_registrations.json`, { email: email })
       .toPromise()
-      .then(res => <string>res['keyword'])
+      .then(res => <any>res)
       .then(data => data );
   }
 }
