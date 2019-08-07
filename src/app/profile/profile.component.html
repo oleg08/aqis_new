@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <p-carousel headerText="PROJECTS" [value]="projects">
+  <p-carousel *ngIf="projects && projects.length > 0" headerText="PROJECTS" [value]="projects">
     <ng-template let-project pTemplate="item">
       <div class="ui-grid ui-grid-responsive">
         <div class="ui-grid-row">
