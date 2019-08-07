@@ -8,7 +8,8 @@ export const environment = {
   serverUrl: 'http://fenix:3000',
   token_auth_config: {
     apiBase: 'http://fenix:3000'
-  }
+  },
+  firebaseConfig: {}
 };
 
 /*
