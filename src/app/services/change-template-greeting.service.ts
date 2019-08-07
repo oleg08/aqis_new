@@ -23,7 +23,7 @@ export class ChangeTemplateGreetingService {
 
     if (!template) return;
 
-    gender = person_gender.value;
+    gender = person_gender ? person_gender.value : null;
     if (customer_tenant[recipient]) {
       name_array = customer_tenant[recipient].split(' ');
       name = customer_tenant[recipient];

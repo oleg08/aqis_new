@@ -150,7 +150,8 @@ export class ProjectsAllComponent implements OnInit {
             self.projects.push({
               id:         response['project']['id'],
               name:       response['project']['name'],
-              project_businesses: []
+              project_businesses:      [],
+              standardized_businesses: []
             });
             self.new_project = null;
           } else {
