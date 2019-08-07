@@ -74,6 +74,7 @@ import { UsersService } from './services/users.service';
 import { GoogleAuthService } from './services/google-auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { GetKeywordService } from './google-signin/get-keyword.service';
+import { FirebaseConfigService } from './services/firebase-config.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -331,7 +332,7 @@ import { GoogleSigninComponent } from './google-signin/google-signin.component';
     PrimeNgModule,
     AngularMaterialModule,
     MatNativeDateModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(FirebaseConfigService.get()),
     AngularFireDatabaseModule,
   ],
   providers: [
@@ -395,6 +396,7 @@ import { GoogleSigninComponent } from './google-signin/google-signin.component';
     GoogleAuthService,
     AngularFireAuth,
     GetKeywordService,
+    FirebaseConfigService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,
