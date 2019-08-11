@@ -22,23 +22,63 @@
   <p-dataView #dv [value]="projects" [paginator]="true" [rows]="20" [layout]="'grid'">
     <p-header>
       List of Projects
-      <div *ngIf="admin" class="ui-g">
-        <div class="ui-g-12">
-          <div class="ui-inputgroup">
+      <form novalidate name="newProject">
+        <div *ngIf="admin" class="ui-g">
+          <div class="ui-g-3">
             <input type="text"
-                   [(ngModel)]="new_project"
+                   name="newName"
+                   #new_project_name="ngModel"
+                   class="form-control"
+                   [(ngModel)]="new_name"
+                   (blur)="markAsPristine(new_project_name)"
+                   required minlength="4"
                    maxlength="30"
-                   pInputText placeholder="Add new Project">
+                   placeholder="Name">
+            <aside *ngIf="new_project_name.invalid && (new_project_name.dirty || new_project_name.touched)"
+                 class="alert alert-danger">
+              <small *ngIf="new_project_name.errors.required">
+                <span>Name is required.</span>
+              </small>
+              <small *ngIf="new_project_name.errors.minlength">
+                <span>Name must be at least 4 characters long.</span>
+              </small>
+              <small *ngIf="new_project_name.errors.maxlength">
+                <span>Name must be maximum 30 characters.</span>
+              </small>
+            </aside>
+          </div>
+          <div class="ui-g-3">
+            <input class="form-control"
+                   name="newEmail" type="text"
+                   [(ngModel)]="new_email"
+                   pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
+                   #new_project_email=ngModel
+                   (blur)="markAsPristine(new_project_email)"
+                   required
+                   placeholder="Email">
+            <aside *ngIf="new_project_email.invalid && (new_project_email.dirty || new_project_email.touched)"
+                 class="alert alert-danger">
+              <small *ngIf="new_project_email.errors.required">
+                <span>Email is required.</span>
+              </small>
+              <small *ngIf="new_project_email.errors.pattern">
+                <span>Must be as email.</span>
+              </small>
+            </aside>
+          </div>
+          <div class="ui-g-3">
             <button pButton
                     type="button"
+                    label="Create New Project"
                     icon="fa fa-check"
-                    (click)="addProject(new_project)"
-                    [disabled]="!new_project || isEmptyString.handler(new_project)"
+                    iconPos="right"
+                    (click)="addProject(new_name, new_email)"
+                    [disabled]="new_project_name.invalid || new_project_email.invalid"
                     class="ui-button-success">
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </p-header>
     <ng-template let-project pTemplate="gridItem">
       <div style="padding:3px" class="ui-g-12 ui-md-3">
@@ -94,8 +134,8 @@
             [maximizable]="true"
             (onAfterHide)="onDialogHide()">
     <div class="ui-grid ui-grid-responsive ui-grid-pad" *ngIf="selectedProject" style="font-size:16px;text-align:center;padding:20px">
-      <div class="ui-grid-row">
-        <div class="ui-grid-col-3">
+      <div class="ui-g">
+        <div class="ui-g-3">
           <div class="ui-g">
             <div class="ui-g-12">
               <img class="pull-left" src="../../../assets/showcase/images/project-icon.png">
@@ -113,19 +153,23 @@
             </div>
           </div>
         </div>
-        <div class="ui-grid-col-9">
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-12">
+        <div class="ui-g-9">
+          <div class="ui-g">
+            <div class="ui-g-12">
               <div class="ui-inputgroup pull-right">
                 <input type="text"
                        id="name_{{selectedProject.id}}"
                        [(ngModel)]="selectedProject.name"
+                       #selected_project_name=ngModel
+                       minlength="4"
                        maxlength="30"
                        pInputText
+                       required
                        placeholder="Project's name">
                 <button pButton
                         type="button"
                         icon="fa fa-check"
+                        [disabled]="selected_project_name.invalid"
                         (click)="editProject(selectedProject, 'name')">
                 </button>
                 <button pButton
@@ -136,20 +180,38 @@
               </div>
             </div>
           </div>
+          <div *ngIf="selected_project_name.invalid && (selected_project_name.dirty || selected_project_name.touched)"
+               class="ui-g">
+            <div class="ui-g-offset-6 ui-g-6 alert alert-danger">
+              <small *ngIf="selected_project_name.errors.required">
+                <span>Name is required.</span>
+              </small>
+              <small *ngIf="selected_project_name.errors.minlength">
+                <span>Name must be at least 4 characters long.</span>
+              </small>
+              <small *ngIf="selected_project_name.errors.maxlength">
+                <span>Name must be maximum 30 characters.</span>
+              </small>
+            </div>
+          </div>
           <br>
-          <div class="ui-grid-row alert-secondary mb-1">
-            <div class="ui-grid-col-12">
+          <div class="ui-g alert-secondary mb-1">
+            <div class="ui-g-12">
               <div class="ui-inputgroup pull-right">
                 <label><b>Email &nbsp;</b></label>
                 <input type="text"
                        id="email_{{selectedProject.id}}"
                        [(ngModel)]="selectedProject.email"
+                       #selected_project_email="ngModel"
                        maxlength="80"
                        pInputText
+                       required
+                       pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
                        placeholder="Project's email">
                 <button pButton
                         type="button"
                         icon="fa fa-check"
+                        [disabled]="selected_project_email.invalid"
                         (click)="editProject(selectedProject, 'email')">
                 </button>
                 <button pButton
@@ -160,8 +222,19 @@
               </div>
             </div>
           </div>
-          <div class="ui-grid-row alert-secondary mb-2">
-            <div class="ui-grid-col-12">
+          <div *ngIf="selected_project_email.invalid && (selected_project_email.dirty || selected_project_email.touched)"
+               class="ui-g">
+            <div class="ui-g-offset-6 ui-g-6 alert alert-danger">
+              <small *ngIf="selected_project_email.errors.required">
+                <span>Email is required.</span>
+              </small>
+              <small *ngIf="selected_project_email.errors.pattern">
+                <span>Must be as email.</span>
+              </small>
+            </div>
+          </div>
+          <div class="ui-g alert-secondary mb-2">
+            <div class="ui-g-12">
               <div class="ui-inputgroup pull-right">
                 <label><b>Password &nbsp;</b></label>
                 <input type="password"
@@ -187,8 +260,8 @@
 
           <br>
 
-          <div class="ui-grid-row alert-secondary mb-1">
-            <div class="ui-grid-col-12">
+          <div class="ui-g alert-secondary mb-1">
+            <div class="ui-g-12">
               <div class="ui-inputgroup pull-right">
                 <label><b>Gmail &nbsp;</b></label>
                 <input type="text"
@@ -196,10 +269,13 @@
                        [(ngModel)]="selectedProject.gmail"
                        maxlength="80"
                        pInputText
+                       #selected_project_gmail="ngModel"
+                       pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
                        placeholder="Project's gmail">
                 <button pButton
                         type="button"
                         icon="fa fa-check"
+                        [disabled]="selected_project_gmail.invalid"
                         (click)="editProject(selectedProject, 'gmail')">
                 </button>
                 <button pButton
@@ -210,20 +286,31 @@
               </div>
             </div>
           </div>
-          <div class="ui-grid-row alert-secondary mb-1">
-            <div class="ui-grid-col-12">
+          <div *ngIf="selected_project_gmail.invalid && (selected_project_gmail.dirty || selected_project_gmail.touched)"
+               class="ui-g">
+            <div class="ui-g-offset-6 ui-g-6 alert alert-danger">
+              <small *ngIf="selected_project_gmail.errors.pattern">
+                <span>Must be as email.</span>
+              </small>
+            </div>
+          </div>
+          <div class="ui-g alert-secondary mb-1">
+            <div class="ui-g-12">
               <div class="ui-inputgroup pull-right">
                 <label><b>Sending Email-Address</b></label>
                 <input type="text"
                        id="email_sending_{{selectedProject.id}}"
                        [(ngModel)]="selectedProject.email_sending"
                        maxlength="80"
+                       #selected_project_email_sending="ngModel"
+                       pattern="^[\w+\-.]+@[a-z\d\-.]+\.[a-z]+$"
                        pInputText
                        pTooltip="This email will be seen as sender's email-address"
                        placeholder="Project's sending email">
                 <button pButton
                         type="button"
                         icon="fa fa-check"
+                        [disabled]="selected_project_email_sending.invalid"
                         (click)="editProject(selectedProject, 'email_sending')">
                 </button>
                 <button pButton
@@ -234,10 +321,18 @@
               </div>
             </div>
           </div>
+          <div *ngIf="selected_project_email_sending.invalid && (selected_project_email_sending.dirty || selected_project_email_sending.touched)"
+               class="ui-g">
+            <div class="ui-g-offset-6 ui-g-6 alert alert-danger">
+              <small *ngIf="selected_project_email_sending.errors.pattern">
+                <span>Must be as email.</span>
+              </small>
+            </div>
+          </div>
 
           <br>
-          <div class="ui-grid-row">
-            <div class="ui-grid-col-12">
+          <div class="ui-g">
+            <div class="ui-g-12">
               <div class="ui-inputgroup pull-right">
                 <label><b>Token &nbsp;</b></label>
                 <input type="text"

@@ -31,7 +31,8 @@ export class ProjectsAllComponent implements OnInit {
   selectedProject:     Project;
   copySelectedProject: Project;
   displayDialog:       boolean;
-  new_project:         string;
+  new_name:            string;
+  new_email:           string;
   warning              = false;
   warning_text:        string;
   businesses:          Businesses[] = [];
@@ -129,10 +130,15 @@ export class ProjectsAllComponent implements OnInit {
     self.selectedProject.name = self.copySelectedProject.name;
   }
 
-  addProject(new_project) {
+  markAsPristine(element) {
+    element.control.markAsUntouched();
+    element.control.markAsPristine();
+  }
+
+  addProject(name, email) {
     const self = this;
     self.projects.forEach((project) => {
-      if (project.name === new_project) {
+      if (project.name === name || project.email === email) {
         self.warning = true;
         self.warning_text = 'You entered the name of existing project';
         return;
@@ -141,7 +147,8 @@ export class ProjectsAllComponent implements OnInit {
     if (!self.warning) {
       const params = {};
       params['project'] = {
-        name: new_project
+        name: name,
+        email: email
       };
       self.http.post(environment.serverUrl + '/projects.json', params
       ).subscribe(
@@ -150,10 +157,11 @@ export class ProjectsAllComponent implements OnInit {
             self.projects.push({
               id:         response['project']['id'],
               name:       response['project']['name'],
+              email:      response['project']['email'],
               project_businesses:      [],
               standardized_businesses: []
             });
-            self.new_project = null;
+            self.new_name = null;
           } else {
             self.callAlert.handler(self, 'warning', response['message'], 2000);
           }
