@@ -7,7 +7,7 @@
                      [current_user_id]="current_user['id']">
 </app-alert-closeable>
 
-<p-overlayPanel [style]="{'width':'20%','margin-top':'20%','margin-left':'5%'}" [showCloseIcon]="true" #selectEmailTemplate>
+<p-overlayPanel [style]="{'width':'50%','margin-top':'20%','margin-left':'5%'}" [showCloseIcon]="true" #selectEmailTemplate>
   <section *ngIf="selectedTemplate">
     <app-aqis-email-template-preview [template]="selectedTemplate"></app-aqis-email-template-preview>
   </section>
