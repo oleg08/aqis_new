@@ -39,6 +39,7 @@ import { AssistantStepsHoursComponent } from './assistant-steps-hours/assistant-
 import { AssistantDailyReportsComponent } from './assistant-daily-reports/assistant-daily-reports.component';
 import { AssistantInvoicesComponent } from './assistant-invoices/assistant-invoices.component';
 import { StandardizedBusinessesComponent } from './businesses/standardized-businesses/standardized-businesses.component';
+import { EmailChartsComponent } from './email-charts/email-charts.component';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -273,6 +274,11 @@ const routes: Routes = [
     path: 'standardized_businesses',
     component: StandardizedBusinessesComponent,
     canActivate: [ForceSslGuard, SuperAdminGuard]            // super-admin-guard
+  },
+  {
+    path: 'email_charts',
+    component: EmailChartsComponent,
+    canActivate: [ForceSslGuard, AdminGuard]   // admin-guard
   }
 ];
 

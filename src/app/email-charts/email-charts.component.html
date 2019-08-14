@@ -1,0 +1,78 @@
+<p-table #dt [columns]="cols" [value]="email_responses" [paginator]="true" [rows]="15" dataKey="sg_message_id">
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 3em"></th>
+      <th [pSortableColumn]="'email'" class="text-center">
+        Recipient
+        <p-sortIcon [field]="'email'"
+                    ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'event'" class="width20 text-center">
+        State
+        <p-sortIcon [field]="'event'"
+                    ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th>
+      <th [pSortableColumn]="'date'" class="width30 text-center">
+        Date
+        <p-sortIcon [field]="'date'"
+                    ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order">
+        </p-sortIcon>
+      </th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>
+        <input pInputText type="text" class="width60"
+               (input)="searchByEmail($event, dt)"
+               placeholder="Search by Email"/>
+      </th>
+      <th>
+        <p-dropdown [options]="states" class="width100"
+                    (onChange)="dt.filter($event.value, 'event', 'equals')">
+        </p-dropdown>
+      </th>
+      <th style="position: absolute !important;" class="width30 text-right">
+        <p-calendar class="width100"
+                    selectionMode="range"
+                    dateFormat="dd-mm-yy"
+                    [(ngModel)]="rangeDates"
+                    (onClose)="selectDates($event, dt)"
+                    [showIcon]="true"
+                    [readonlyInput]="true"
+                    placeholder="Search Date"></p-calendar>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-expanded="expanded" let-columns="columns">
+    <tr>
+      <td>
+        <a href="#" [pRowToggler]="rowData">
+          <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+        </a>
+      </td>
+      <td>{{rowData['email']}}</td>
+      <td class="event-{{rowData['event']}} text-center">
+        {{rowData['event']}}</td>
+      <td class="text-center">{{rowData['date']}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+    <tr>
+      <td [attr.colspan]="columns.length + 1">
+        <div class="ui-g ui-fluid" style="font-size:16px;padding:20px">
+          <div class="ui-g-12 ui-md-9">
+            <div [innerHTML]="rowData.body"></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

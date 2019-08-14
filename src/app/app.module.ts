@@ -74,6 +74,7 @@ import { UsersService } from './services/users.service';
 import { GoogleAuthService } from './services/google-auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { GetKeywordService } from './google-signin/get-keyword.service';
+import { EmailResponsesService } from './email-charts/email-responses.service';
 
 // Guards
 import { AuthGuard } from './guards/auth.guard';
@@ -201,6 +202,7 @@ import { StepReportFilterComponent } from './assistant-steps-hours/step-report-f
 import { StandardizedBusinessesComponent } from './businesses/standardized-businesses/standardized-businesses.component';
 import { HighlightDirective } from './directives/highlight.directive';
 import { GoogleSigninComponent } from './google-signin/google-signin.component';
+import { EmailChartsComponent } from './email-charts/email-charts.component';
 
 @NgModule({
   declarations: [
@@ -310,7 +312,8 @@ import { GoogleSigninComponent } from './google-signin/google-signin.component';
     StepReportFilterComponent,
     StandardizedBusinessesComponent,
     HighlightDirective,
-    GoogleSigninComponent
+    GoogleSigninComponent,
+    EmailChartsComponent
   ],
   imports: [
     BrowserModule,
@@ -395,6 +398,7 @@ import { GoogleSigninComponent } from './google-signin/google-signin.component';
     GoogleAuthService,
     AngularFireAuth,
     GetKeywordService,
+    EmailResponsesService,
     AuthGuard,
     AdminGuard,
     SuperAdminGuard,
