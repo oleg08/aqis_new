@@ -91,7 +91,11 @@ export class EmailChartsComponent implements OnInit {
     self.open_count = 0;
     self.dropped_count = 0;
 
-    self.dataTable.filteredValue.forEach(er => self[`${er.event}_count`] += 1);
+    if (self.dataTable.filteredValue) {
+      self.dataTable.filteredValue.forEach(er => self[`${er.event}_count`] += 1);
+    } else {
+      self.email_responses.forEach(er => self[`${er.event}_count`] += 1);
+    }
     self.setChart();
 
   }
