@@ -31,7 +31,7 @@ export class EmailChartsComponent implements OnInit {
   rangeDates: Date[];
   searchEmail: string;
   chart_data: any;
-  proceed_count   = 0;
+  processed_count   = 0;
   delivered_count = 0;
   open_count      = 0;
   dropped_count   = 0;
@@ -63,7 +63,7 @@ export class EmailChartsComponent implements OnInit {
 
     self.states = [
       { label: 'All States', value: null },
-      { label: 'proceed', value: 'proceed' },
+      { label: 'processed', value: 'processed' },
       { label: 'delivered', value: 'delivered' },
       { label: 'open', value: 'open' },
       { label: 'dropped', value: 'dropped' }
@@ -86,7 +86,7 @@ export class EmailChartsComponent implements OnInit {
 
   changeChartData() {
     const self = this;
-    self.proceed_count = 0;
+    self.processed_count = 0;
     self.delivered_count = 0;
     self.open_count = 0;
     self.dropped_count = 0;
@@ -103,10 +103,10 @@ export class EmailChartsComponent implements OnInit {
   setChart () {
     const self = this;
     self.chart_data = {
-      labels: ['Proceed', 'Delivered', 'Open', 'Dropped'],
+      labels: ['Processed', 'Delivered', 'Open', 'Dropped'],
       datasets: [
         {
-          data: [self.proceed_count, self.delivered_count, self.open_count, self.dropped_count],
+          data: [self.processed_count, self.delivered_count, self.open_count, self.dropped_count],
           backgroundColor: [
             '#f5ec42',
             '#88c5e3',
