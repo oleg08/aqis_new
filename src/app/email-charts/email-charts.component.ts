@@ -34,6 +34,7 @@ export class EmailChartsComponent implements OnInit {
   proceed_count   = 0;
   delivered_count = 0;
   open_count      = 0;
+  dropped_count   = 0;
   selectedEvent: string;
 
   @ViewChild('dt', { static: false }) dataTable: Table;
@@ -88,6 +89,7 @@ export class EmailChartsComponent implements OnInit {
     self.proceed_count = 0;
     self.delivered_count = 0;
     self.open_count = 0;
+    self.dropped_count = 0;
 
     self.dataTable.filteredValue.forEach(er => self[`${er.event}_count`] += 1);
     self.setChart();
@@ -100,7 +102,7 @@ export class EmailChartsComponent implements OnInit {
       labels: ['Proceed', 'Delivered', 'Open', 'Dropped'],
       datasets: [
         {
-          data: [self.proceed_count, self.delivered_count, self.open_count],
+          data: [self.proceed_count, self.delivered_count, self.open_count, self.dropped_count],
           backgroundColor: [
             '#f5ec42',
             '#88c5e3',
