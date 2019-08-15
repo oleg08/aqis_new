@@ -50,6 +50,7 @@ import { VirtualScrollerModule  } from 'primeng/virtualscroller';
 import { ToggleButtonModule     } from 'primeng/togglebutton';
 import { TreeTableModule        } from 'primeng/primeng';
 import { ChipsModule            } from 'primeng/primeng';
+import { ChartModule            } from 'primeng/chart';
 
 @NgModule({
   exports: [
@@ -97,7 +98,8 @@ import { ChipsModule            } from 'primeng/primeng';
     VirtualScrollerModule,
     ToggleButtonModule,
     TreeTableModule,
-    ChipsModule
+    ChipsModule,
+    ChartModule
   ],
   providers: [
     MessageService,

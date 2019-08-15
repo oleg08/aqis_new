@@ -1,4 +1,12 @@
-<p-table #dt [columns]="cols" [value]="email_responses" [paginator]="true" [rows]="15" dataKey="sg_message_id">
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-chart type="pie" [data]="chart_data" height="300"></p-chart>
+  </div>
+</div>
+
+<p-table #dt [columns]="cols" [value]="email_responses"
+         (onFilter)="changeChartData()"
+         [paginator]="true" [rows]="15" dataKey="sg_message_id">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th style="width: 3em"></th>
@@ -31,11 +39,13 @@
       <th></th>
       <th>
         <input pInputText type="text" class="width60"
+               [(ngModel)]="searchEmail"
                (input)="searchByEmail($event, dt)"
                placeholder="Search by Email"/>
       </th>
       <th>
         <p-dropdown [options]="states" class="width100"
+                    [(ngModel)]="selectedEvent"
                     (onChange)="dt.filter($event.value, 'event', 'equals')">
         </p-dropdown>
       </th>

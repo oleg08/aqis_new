@@ -29,10 +29,16 @@ export class EmailChartsComponent implements OnInit {
   cols: any[];
   states: any[];
   rangeDates: Date[];
+  searchEmail: string;
+  chart_data: any;
+  proceed_count   = 0;
+  delivered_count = 0;
+  open_count      = 0;
+  selectedEvent: string;
 
   @ViewChild('dt', { static: false }) dataTable: Table;
 
-  constructor(private email_responses_srv: EmailResponsesService) { }
+  constructor(private email_responses_srv: EmailResponsesService) {}
 
   static isBetween(value: any, filter: any[]) {
     return filter[0] <= value && filter[1] >= value;
@@ -58,7 +64,8 @@ export class EmailChartsComponent implements OnInit {
       { label: 'All States', value: null },
       { label: 'proceed', value: 'proceed' },
       { label: 'delivered', value: 'delivered' },
-      { label: 'open', value: 'open' }
+      { label: 'open', value: 'open' },
+      { label: 'dropped', value: 'dropped' }
     ];
 
     self.email_responses_srv.get()
@@ -66,10 +73,48 @@ export class EmailChartsComponent implements OnInit {
         self.email_responses = data;
         self.email_responses.forEach(er => {
           er.date = er.updated_at.split('T')[0].split('-').reverse().join('-');
+          self[`${er.event}_count`] += 1;
         });
+
+        self.setChart();
+
       })
       .catch(err => console.log(err)
     );
+  }
+
+  changeChartData() {
+    const self = this;
+    self.proceed_count = 0;
+    self.delivered_count = 0;
+    self.open_count = 0;
+
+    self.dataTable.filteredValue.forEach(er => self[`${er.event}_count`] += 1);
+    self.setChart();
+
+  }
+
+  setChart () {
+    const self = this;
+    self.chart_data = {
+      labels: ['Proceed', 'Delivered', 'Open', 'Dropped'],
+      datasets: [
+        {
+          data: [self.proceed_count, self.delivered_count, self.open_count],
+          backgroundColor: [
+            '#f5ec42',
+            '#88c5e3',
+            '#69fa5f',
+            '#fa885f'
+          ],
+          hoverBackgroundColor: [
+            '#f5ec42',
+            '#88c5e3',
+            '#69fa5f',
+            '#fa885f'
+          ]
+        }]
+    };
   }
 
   searchByEmail(event, dt) {
