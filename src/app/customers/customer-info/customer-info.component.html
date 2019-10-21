@@ -510,10 +510,10 @@
             <div class="ui-g">
               <div id="business_list_{{customer.id}}" class="ui-g-12 alert-secondary">
                 <br>
-                <div *ngIf="!businesses || businesses.length < 1">
+                <div *ngIf="!businesses">
                   <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
                 </div>
-                <div *ngIf="businesses && businesses.length > 0" class="ui-g">
+                <div *ngIf="businesses" class="ui-g">
                   <div class="ui-g-12 ui-md-9">
                     <label><b><u>Business list</u></b></label>
                     <app-grouped-multiselect #business_multiselect
@@ -530,7 +530,7 @@
                   </div>
                   <div class="ui-g-12 ui-md-3">
                     <!--[loading]="domainLoading"-->
-                    <ng-select *ngIf="domains && domains.length > 0"
+                    <ng-select *ngIf="domains"
                                [items]="domains"
                                name="business_domains"
                                bindLabel="label"

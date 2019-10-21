@@ -378,11 +378,11 @@
                                on-slideChanged="setRange($event)">
         </app-aqis-select-slide>
       </div>
-      <div *ngIf="!businesses || businesses.length < 1">
+      <div *ngIf="!businesses">
         <br>
         <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
       </div>
-      <div *ngIf="businesses && businesses.length > 0" id="business_list_{{selectedProject.id}}" class="ui-g">
+      <div *ngIf="businesses" id="business_list_{{selectedProject.id}}" class="ui-g">
         <div class="ui-g-12">
           <label><b><u>Business list</u></b></label>
           <app-grouped-multiselect [businesses]="businesses"
