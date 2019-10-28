@@ -893,14 +893,17 @@ export class CustomerInfoComponent implements OnInit {
     self.stBusinessService.addToCustomer(ids, customer_id).then(
       data => {
         if (data['customer']) {
-          if (data['customer']['businesses'] && data['customer']['businesses'].length > 0) {
-            const assigned_businesses: Businesses[] = data['customer']['businesses'];
-            const customer_businesses: Businesses[] = [...self.customer.customer_businesses];
-            assigned_businesses.forEach(bsn => {
-              customer_businesses.push(bsn);
-            });
-            self.customer.customer_businesses = customer_businesses;
-          }
+          // assigning businesses which belongs to standardized business
+          // const assigned_businesses: Businesses[] = data['customer']['businesses'];
+          // if (assigned_businesses && assigned_businesses.length > 0) {
+          //   const customer_businesses: Businesses[] = [...self.customer.customer_businesses];
+          //   assigned_businesses.forEach(bsn => {
+          //     if (!customer_businesses.find(cb => cb.id === bsn.id)) {
+          //       customer_businesses.push(bsn);
+          //     }
+          //   });
+          //   self.customer.customer_businesses = customer_businesses;
+          // }
           self.copy_st_businesses = data['customer']['standardized_businesses'];
           self.flashHighlights.handler(self, '#st_business_list_', String(customer_id), 'success-updated');
         } else {
