@@ -3,11 +3,12 @@
 <p-confirmDialog></p-confirmDialog>
 
 <app-aqis-step-new *ngIf="model_roles"
-                [step]="step"
-                header="Create Step"
-                [model_roles]="model_roles"
-                submit_button="Create"
-                (submitForm)="onSubmit($event)">
+                   [step]="step"
+                   header="Create Step"
+                   [model_roles]="model_roles"
+                   submit_button="Create"
+                   [list_name]="list_name"
+                   (submitForm)="onSubmit($event)">
 </app-aqis-step-new>
 
 <br>

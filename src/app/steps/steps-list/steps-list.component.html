@@ -5,15 +5,16 @@
 <section #StepsList>
 
   <app-aqis-steps-crud [steps]="steps"
-                    (submitForm)="createStep($event)"
-                    (deleteItem)="deleteStep($event)"
-                    (showItem)="showStep($event)"
-                    (reorder)="reorderSteps($event)"
-                    (addGeneralSteps)="showGeneralSteps($event, steps_list)"
-                    [super_admin]="super_admin"
-                    [model_roles]="model_roles"
-                    [active]="active"
-                    (updateStep)="updateStep($event)">
+                       (submitForm)="createStep($event)"
+                       (deleteItem)="deleteStep($event)"
+                       (showItem)="showStep($event)"
+                       (reorder)="reorderSteps($event)"
+                       (addGeneralSteps)="showGeneralSteps($event, steps_list)"
+                       [super_admin]="super_admin"
+                       [model_roles]="model_roles"
+                       [active]="active"
+                       [list_name]="list_name"
+                       (updateStep)="updateStep($event)">
   </app-aqis-steps-crud>
 </section>
 

@@ -2,13 +2,15 @@ import {Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Message        } from 'primeng/primeng';
+import { Message, OverlayPanel } from 'primeng/primeng';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { OpenStepsService } from '../../services/open-steps.service';
 import {CTenantStep, Step} from '../../interfaces/step';
 import { DropdownItem } from '../../interfaces/dropdown-item';
 import { MatSelectionList } from '@angular/material/list';
 import { CallAlertService } from '../../services/call-alert.service';
+import { GetEmailTemplatesService } from '../../services/get-email-templates.service';
+import { EmailTemplates } from '../../interfaces/email-templates';
 
 @Component({
   selector: 'app-aqis-step-new',
@@ -35,6 +37,8 @@ export class StepNewComponent implements OnInit {
   alertType: string;
   alertMessage: string;
   prev_val: string;
+  email_templates: EmailTemplates[];
+  selectedEmailTemplate: EmailTemplates;
 
   @Input() step: Step;
   @Input() header: string;
@@ -42,6 +46,7 @@ export class StepNewComponent implements OnInit {
   @Input() model_roles: object;
   @Input() back_to_parent_path: string;
   @Input() edit_basic_data: boolean;
+  @Input() list_name: object;
   @Output() submitForm:  EventEmitter<object> = new EventEmitter<object>();
   @Output() onBlur:  EventEmitter<object> = new EventEmitter<object>();
 
@@ -51,6 +56,7 @@ export class StepNewComponent implements OnInit {
               private fb: FormBuilder,
               private openSteps: OpenStepsService,
               private messageService: MessageService,
+              private getEmailTemplates: GetEmailTemplatesService,
               private callAlert: CallAlertService) {
     this.activatedRoute = activatedRoute;
     this.router = router;
@@ -93,10 +99,12 @@ export class StepNewComponent implements OnInit {
     Object.keys(self.model_roles).forEach(key => {
       self.roles.push({ label: key, value: key });
     });
+    self.getGeneralEmailTemplates();
   }
 
-  onSubmit(data) {
+  isIntervalValid (data) {
     const self = this;
+    data['step_role'] = self.model_roles[self.createForm.get('step_role').value];
 
     if (self.createForm.get('days_interval').value) {
       if (data.time >= 100) {
@@ -110,15 +118,53 @@ export class StepNewComponent implements OnInit {
       }
       data.time = (data.time / 24).toFixed(5);
     }
+  }
 
-    data['step_role'] = self.model_roles[self.createForm.get('step_role').value];
-    self.submitForm.emit(data);
+  clearForm () {
+    const self = this;
     self.createForm.get('name').setValue('');
     self.createForm.get('goal').setValue('');
     self.createForm.get('description').setValue('');
     self.createForm.get('step_role').setValue(null);
     self.createForm.get('time').setValue(null);
     self.createForm.get('budget').setValue(null);
+  }
+
+  createAndPerform (data) {
+    const self = this;
+    data['email_template_id'] = self.selectedEmailTemplate.id;
+    self.isIntervalValid(data);
+    self.submitForm.emit(data);
+    self.selectedEmailTemplate = null;
+    self.clearForm();
+  }
+
+  onSubmit(data) {
+    const self = this;
+    self.isIntervalValid(data);
+    self.submitForm.emit(data);
+    self.clearForm();
+  }
+
+  getGeneralEmailTemplates() {
+    const self = this;
+    self.getEmailTemplates.get(`project_email_templates/${self.list_name['id']}`).subscribe(
+      data => {
+        if (data['project_email_templates']) {
+          self.email_templates = data['project_email_templates'];
+        } else {
+          self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
+        }
+      },
+      data => {
+        self.messageService.add({severity: 'warn', summary: 'Warning', detail: `Can't load data`});
+      }
+    );
+  }
+
+  addEmailTemplates(event, overlaypanel: OverlayPanel) {
+    console.log(event);
+    overlaypanel.hide();
   }
 
   focus(prop) {

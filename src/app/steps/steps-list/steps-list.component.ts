@@ -36,6 +36,7 @@ export class StepsListComponent implements OnInit {
   data_key: any;
   data_key_sliced: any;
   step_id: any;
+  list_name: object;
 
   @Input() path:           string;
   @Input() steps_path:     string;
@@ -61,6 +62,10 @@ export class StepsListComponent implements OnInit {
 
     self.data_key = self.path.split('/')[0];
     let url = `${environment.serverUrl}/${self.path}.json`;
+    self.list_name = {
+      id: self.path.split('/')[1],
+      name: self.data_key.split('_steps')[0]
+    };
 
     if (self.data_key === 'c_tenant_step') {
       self.data_key_sliced = self.data_key;

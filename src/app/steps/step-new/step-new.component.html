@@ -223,13 +223,31 @@
         </div>
       </div>
 
-      <div *ngIf="step.id < 1" class="ui-g">
-        <div class="ui-g-12 ui-md-11">
-          <button pButton class="float-right" type="submit" label="{{submit_button}}" [disabled]="!createForm.valid"></button>
-        </div>
-        <div class="ui-g-12 ui-md-1"></div>
-      </div>
     </section>
   </form>
+
+  <div *ngIf="step.id < 1" class="ui-g">
+    <div class="ui-g-12 ui-md-11">
+      <section *ngIf="step.id === 0 && list_name.name === 'project_list' && createForm.get('step_role').value === 'Machine'"
+               class="create-and-perform-step">
+        <button type="button"
+                (click)="createAndPerform(createForm.value)"
+                [disabled]="!createForm.valid || !selectedEmailTemplate"
+                class="btn btn-primary">Create and Perform
+        </button>
+        <p-dropdown [options]="email_templates" [(ngModel)]="selectedEmailTemplate"
+                    [style]="{'margin-left': '20px'}"
+                    placeholder="Select Email Template"
+                    optionLabel="name" [showClear]="true">
+        </p-dropdown>
+      </section>
+      <button class="btn btn-primary float-right" type="button"
+              (click)="onSubmit(createForm.value)"
+              [disabled]="!createForm.valid || selectedEmailTemplate">
+        {{submit_button}}
+      </button>
+    </div>
+    <div class="ui-g-12 ui-md-1"></div>
+  </div>
 
 </p-fieldset>
