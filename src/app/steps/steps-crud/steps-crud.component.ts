@@ -49,6 +49,7 @@ export class StepsCrudComponent implements OnInit {
   @Input() active: boolean;
   @Input() back_to_steps_path: string;
   @Input() list_name: object;
+  @Input() current_project_id: number;
   @Output() submitForm:  EventEmitter<object> = new EventEmitter<object>();
   @Output() deleteItem:  EventEmitter<object> = new EventEmitter<object>();
   @Output() showItem:    EventEmitter<object> = new EventEmitter<object>();

@@ -47,6 +47,7 @@ export class StepNewComponent implements OnInit {
   @Input() back_to_parent_path: string;
   @Input() edit_basic_data: boolean;
   @Input() list_name: object;
+  @Input() current_project_id: number;
   @Output() submitForm:  EventEmitter<object> = new EventEmitter<object>();
   @Output() onBlur:  EventEmitter<object> = new EventEmitter<object>();
 
@@ -148,7 +149,7 @@ export class StepNewComponent implements OnInit {
 
   getGeneralEmailTemplates() {
     const self = this;
-    self.getEmailTemplates.get(`project_email_templates/${self.list_name['id']}`).subscribe(
+    self.getEmailTemplates.get(`project_email_templates/${self.current_project_id}`).subscribe(
       data => {
         if (data['project_email_templates']) {
           self.email_templates = data['project_email_templates'];
