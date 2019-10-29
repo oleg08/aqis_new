@@ -149,7 +149,8 @@ export class StepNewComponent implements OnInit {
 
   getGeneralEmailTemplates() {
     const self = this;
-    self.getEmailTemplates.get(`project_email_templates/${self.current_project_id}`).subscribe(
+    const project_id = self.current_project_id ? self.current_project_id : self.list_name['id'];
+    self.getEmailTemplates.get(`project_email_templates/${project_id}`).subscribe(
       data => {
         if (data['project_email_templates']) {
           self.email_templates = data['project_email_templates'];
